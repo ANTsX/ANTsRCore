@@ -5,6 +5,7 @@ src/itks/
 src/itkb/
 src/itki/
 src/antb/
+src/.dummy
 src/*.o
 src/*.so
 src/ants/.git
