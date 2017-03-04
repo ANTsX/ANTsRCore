@@ -1,0 +1,114 @@
+# use containers
+sudo: false
+
+os:
+  - linux
+  - osx
+
+language: r
+r:
+  - release
+  - devel # stringi dependency makes this fail
+
+matrix:
+   allow_failures:
+    - os: osx
+    - r: devel
+
+cran: http://cran.rstudio.com
+
+r_binary_packages:
+  - magrittr
+  - devtools
+  - testthat
+  - Rcpp
+  - dplyr
+  - knitr
+  - rmarkdown
+
+# cache local R libraries directory:
+cache: packages
+
+before_install:
+  - basedir=${PWD}
+  - cd ..
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then cmake --version; wget --no-check-certificate https://cmake.org/files/v3.4/cmake-3.4.0-rc1-Linux-x86_64.sh; sh cmake-3.4.0-rc1-Linux-x86_64.sh --skip-license --prefix=${HOME}; export PATH=$HOME/bin/:$PATH; fi
+  - export PATH=$HOME/bin/:$PATH
+  - cd $basedir
+
+install:
+  - mkdir -p ~/.R
+  - export CC=clang
+  - export CXX=clang++
+  - echo "CC=clang" >  ~/.R/Makevars
+  - echo "CXX=clang++" >> ~/.R/Makevars
+  - echo "CXX1X=clang++" >> ~/.R/Makevars
+  - echo "CXX1XSTD=-std=c++11" >> ~/.R/Makevars
+  - source ~/.R/Makevars
+  - echo 'options(repos = "http://cran.rstudio.com")' > .Rprofile
+  - echo '.travis.yml' > .Rbuildignore
+  - Rscript -e 'if(!"Rcpp" %in% rownames(installed.packages())) { install.packages("Rcpp", dependencies = TRUE) }'
+  - Rscript -e 'if(!"magrittr" %in% rownames(installed.packages())) { install.packages("magrittr", dependencies = TRUE) }'
+  - Rscript -e 'if(!"tools" %in% rownames(installed.packages())) { install.packages("tools", dependencies = TRUE) }'
+  - Rscript -e 'if(!"knitr" %in% rownames(installed.packages())) { install.packages("knitr", dependencies = TRUE) }'
+  - Rscript -e 'if(!"rmarkdown" %in% rownames(installed.packages())) { install.packages("rmarkdown", dependencies = TRUE) }'
+  - cd ~/
+  - itkrrel=0.0.1
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; R CMD INSTALL ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then wget http://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}.tgz; R CMD INSTALL ITKR_${itkrrel}.tgz; fi
+  - cd ${basedir}
+
+
+# Build and check package
+script:
+  - source ~/.R/Makevars
+  - export CXX=clang++
+  - export CC=clang
+  - cd ..
+  - travis_wait 100 R CMD build ANTsRCore --no-build-vignettes --no-manual
+  - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
+  - if [[ ${#TRAVIS_TAG} -eq 0 ]]; then travis_wait 100 R CMD check "${PKG_FILE_NAME}" --no-manual; fi # --as-cran
+  - mydir=${PWD}
+  - if [[ ${#TRAVIS_TAG} -gt 0 ]]; then travis_wait 100  R CMD INSTALL --build ANTsRCore; PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1); if [ "$TRAVIS_OS_NAME" == "osx" ];  then  PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);  fi; fi
+
+
+
+# report coverage rate to coveralls
+after_success:
+  - cd $mydir
+
+after_failure:
+  - cat ~/build/stnava/ANTsRCore.Rcheck/00install.out
+  - cat ~/build/stnava/ANTsRCore.Rcheck/00check.log
+
+# send e-mails if stuff changes
+notifications:
+  email:
+    recipients:
+    - stnava@gmail.com
+    - arman.eshaghi@gmail.com
+    - jeff.duda@gmail.com
+    on_success: change
+    on_failure: always
+
+env:
+  global:
+  - R_BUILD_ARGS=" "
+  - R_CHECK_ARGS=" --timings"
+  - R_CHECK_TIME="TRUE"
+  - R_CHECK_TESTS="TRUE"
+  - _R_CHECK_TIMINGS_="0"
+  - _R_CHECK_FORCE_SUGGESTS_="0"
+  - BOOTSTRAP_LATEX=1
+  - WARNINGS_ARE_ERRORS=0
+
+deploy:
+  provider: releases
+  api_key:
+    secure: VevZHK5WDwd2mFSrF3+b2jTRzImb6juOgewcOvZ8LJ2S70khn64Kx4+JGUvk5miKWVbKnHIhPxOJY50muO9sT15ApP+HFZYpiVpx4l/hEypk9zmJD+f+ERuN7j8elCzUZqet3v77XD+pBcYMxFARew4gGDkG2LO5casij0YNiyQ=
+  file: ${PKG_FILE_NAME}
+  skip_cleanup: true
+  overwrite: true
+  on:
+    tags: true
+    repo: stnava/ANTsRCore

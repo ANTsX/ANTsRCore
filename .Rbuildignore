@@ -1,0 +1,13 @@
+^\.travis\.yml$
+src/Makevars
+src/ants/
+src/itks/
+src/itkb/
+src/itki/
+src/antb/
+src/*.o
+src/*.so
+src/ants/.git
+.gitignore
+^.*\.Rproj$
+^\.Rproj\.user$
