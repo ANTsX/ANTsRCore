@@ -16,6 +16,8 @@ Depends:
 Imports:
     Rcpp,
     tools
+Suggests:
+    knitr
 LinkingTo: Rcpp, ITKR
 SystemRequirements: cmake, git, clang (recommended)
 Remotes: https://github.com/stnava/ITKR
