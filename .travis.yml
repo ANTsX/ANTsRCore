@@ -4,21 +4,13 @@ os:
 - osx
 language: r
 r:
-- release
 - devel
 matrix:
   allow_failures:
   - os: osx
-  - r: devel
 cran: http://cran.rstudio.com
 r_binary_packages:
-- magrittr
-- devtools
-- testthat
 - Rcpp
-- dplyr
-- knitr
-- rmarkdown
 cache: packages
 before_install:
 - basedir=${PWD}
@@ -40,14 +32,6 @@ install:
 - echo 'options(repos = "http://cran.rstudio.com")' > .Rprofile
 - echo '.travis.yml' > .Rbuildignore
 - Rscript -e 'if(!"Rcpp" %in% rownames(installed.packages())) { install.packages("Rcpp",
-  dependencies = TRUE) }'
-- Rscript -e 'if(!"magrittr" %in% rownames(installed.packages())) { install.packages("magrittr",
-  dependencies = TRUE) }'
-- Rscript -e 'if(!"tools" %in% rownames(installed.packages())) { install.packages("tools",
-  dependencies = TRUE) }'
-- Rscript -e 'if(!"knitr" %in% rownames(installed.packages())) { install.packages("knitr",
-  dependencies = TRUE) }'
-- Rscript -e 'if(!"rmarkdown" %in% rownames(installed.packages())) { install.packages("rmarkdown",
   dependencies = TRUE) }'
 - cd ~/
 - itkrrel=0.0.1
@@ -77,8 +61,6 @@ notifications:
   email:
     recipients:
     - stnava@gmail.com
-    - arman.eshaghi@gmail.com
-    - jeff.duda@gmail.com
     on_success: change
     on_failure: always
 env:
