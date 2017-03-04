@@ -80,3 +80,5 @@ deploy:
   file: ${PKG_FILE_NAME}
   on:
     repo: stnava/ANTsRCore
+    tags: true
+    all_branches: true
