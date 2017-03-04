@@ -70,7 +70,7 @@ echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build &&
 
 # get / set up ANTs code
 antsgit=https://github.com/stnava/ANTs.git
-antstag=09b89fe44ad5406c6ce0f9070c3d96aae37025b5 # surface area bug and hans update
+antstag=1c5634faf5ba8afa0a12c71f8b0d8de774fb6e75 # label geom csv output bug
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants
 fi
