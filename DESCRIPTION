@@ -11,11 +11,8 @@ Description: ANTsR interfaces state of the art image processing with R
     the underlying C++ framework on which ANTsR depends.
 License: Apache License (>=2.0)
 LazyLoad: yes
-Depends:
-    methods
 Imports:
-    Rcpp,
-    tools
+    Rcpp
 Suggests:
     knitr
 LinkingTo: Rcpp, ITKR
