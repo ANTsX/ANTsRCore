@@ -12,3 +12,4 @@ src/ants/.git
 .gitignore
 ^.*\.Rproj$
 ^\.Rproj\.user$
+.makeTag

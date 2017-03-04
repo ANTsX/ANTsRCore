@@ -38,6 +38,15 @@ Install the binary, after downloading, via command line:
 R CMD INSTALL ANTsRCore_*.tgz
 ```
 
+## to tag
+
+```
+git tag -d latest
+git push origin :refs/tags/latest
+git tag latest
+git push  --tags origin
+```
+
 ## 0.0.0
 
 First attempt release.

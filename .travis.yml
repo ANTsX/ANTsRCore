@@ -1,89 +1,78 @@
-# use containers
 sudo: false
-
 os:
-  - linux
-  - osx
-
+- linux
+- osx
 language: r
 r:
-  - release
-  - devel # stringi dependency makes this fail
-
+- release
+- devel
 matrix:
-   allow_failures:
-    - os: osx
-    - r: devel
-
+  allow_failures:
+  - os: osx
+  - r: devel
 cran: http://cran.rstudio.com
-
 r_binary_packages:
-  - magrittr
-  - devtools
-  - testthat
-  - Rcpp
-  - dplyr
-  - knitr
-  - rmarkdown
-
-# cache local R libraries directory:
+- magrittr
+- devtools
+- testthat
+- Rcpp
+- dplyr
+- knitr
+- rmarkdown
 cache: packages
-
 before_install:
-  - basedir=${PWD}
-  - cd ..
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then cmake --version; wget --no-check-certificate https://cmake.org/files/v3.4/cmake-3.4.0-rc1-Linux-x86_64.sh; sh cmake-3.4.0-rc1-Linux-x86_64.sh --skip-license --prefix=${HOME}; export PATH=$HOME/bin/:$PATH; fi
-  - export PATH=$HOME/bin/:$PATH
-  - cd $basedir
-
+- basedir=${PWD}
+- cd ..
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then cmake --version; wget --no-check-certificate
+  https://cmake.org/files/v3.4/cmake-3.4.0-rc1-Linux-x86_64.sh; sh cmake-3.4.0-rc1-Linux-x86_64.sh
+  --skip-license --prefix=${HOME}; export PATH=$HOME/bin/:$PATH; fi
+- export PATH=$HOME/bin/:$PATH
+- cd $basedir
 install:
-  - mkdir -p ~/.R
-  - export CC=clang
-  - export CXX=clang++
-  - echo "CC=clang" >  ~/.R/Makevars
-  - echo "CXX=clang++" >> ~/.R/Makevars
-  - echo "CXX1X=clang++" >> ~/.R/Makevars
-  - echo "CXX1XSTD=-std=c++11" >> ~/.R/Makevars
-  - source ~/.R/Makevars
-  - echo 'options(repos = "http://cran.rstudio.com")' > .Rprofile
-  - echo '.travis.yml' > .Rbuildignore
-  - Rscript -e 'if(!"Rcpp" %in% rownames(installed.packages())) { install.packages("Rcpp", dependencies = TRUE) }'
-  - Rscript -e 'if(!"magrittr" %in% rownames(installed.packages())) { install.packages("magrittr", dependencies = TRUE) }'
-  - Rscript -e 'if(!"tools" %in% rownames(installed.packages())) { install.packages("tools", dependencies = TRUE) }'
-  - Rscript -e 'if(!"knitr" %in% rownames(installed.packages())) { install.packages("knitr", dependencies = TRUE) }'
-  - Rscript -e 'if(!"rmarkdown" %in% rownames(installed.packages())) { install.packages("rmarkdown", dependencies = TRUE) }'
-  - cd ~/
-  - itkrrel=0.0.1
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; R CMD INSTALL ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; fi
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then wget http://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}.tgz; R CMD INSTALL ITKR_${itkrrel}.tgz; fi
-  - cd ${basedir}
-
-
-# Build and check package
+- mkdir -p ~/.R
+- export CC=clang
+- export CXX=clang++
+- echo "CC=clang" >  ~/.R/Makevars
+- echo "CXX=clang++" >> ~/.R/Makevars
+- echo "CXX1X=clang++" >> ~/.R/Makevars
+- echo "CXX1XSTD=-std=c++11" >> ~/.R/Makevars
+- source ~/.R/Makevars
+- echo 'options(repos = "http://cran.rstudio.com")' > .Rprofile
+- echo '.travis.yml' > .Rbuildignore
+- Rscript -e 'if(!"Rcpp" %in% rownames(installed.packages())) { install.packages("Rcpp",
+  dependencies = TRUE) }'
+- Rscript -e 'if(!"magrittr" %in% rownames(installed.packages())) { install.packages("magrittr",
+  dependencies = TRUE) }'
+- Rscript -e 'if(!"tools" %in% rownames(installed.packages())) { install.packages("tools",
+  dependencies = TRUE) }'
+- Rscript -e 'if(!"knitr" %in% rownames(installed.packages())) { install.packages("knitr",
+  dependencies = TRUE) }'
+- Rscript -e 'if(!"rmarkdown" %in% rownames(installed.packages())) { install.packages("rmarkdown",
+  dependencies = TRUE) }'
+- cd ~/
+- itkrrel=0.0.1
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz;
+  R CMD INSTALL ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; fi
+- if [ "$TRAVIS_OS_NAME" == "osx" ]; then wget http://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}.tgz;
+  R CMD INSTALL ITKR_${itkrrel}.tgz; fi
+- cd ${basedir}
 script:
-  - source ~/.R/Makevars
-  - export CXX=clang++
-  - export CC=clang
-  - cd ..
-  - travis_wait 100 R CMD build ANTsRCore --no-build-vignettes --no-manual
-  - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-  - travis_wait 100 R CMD check "${PKG_FILE_NAME}" --no-manual
-  - mydir=${PWD}
-  - travis_wait 100 R CMD INSTALL --build ANTsRCore
-  - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-  - if [ "$TRAVIS_OS_NAME" == "osx" ];  then  PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);  fi
-
-
-
-# report coverage rate to coveralls
+- source ~/.R/Makevars
+- export CXX=clang++
+- export CC=clang
+- cd ..
+- travis_wait 100 R CMD build ANTsRCore --no-build-vignettes --no-manual
+- PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
+- travis_wait 100 R CMD check "${PKG_FILE_NAME}" --no-manual
+- mydir=${PWD}
+- travis_wait 100 R CMD INSTALL --build ANTsRCore
+- PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
+- if [ "$TRAVIS_OS_NAME" == "osx" ];  then  PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);  fi
 after_success:
-  - cd $mydir
-
+- cd $mydir
 after_failure:
-  - cat ~/build/stnava/ANTsRCore.Rcheck/00install.out
-  - cat ~/build/stnava/ANTsRCore.Rcheck/00check.log
-
-# send e-mails if stuff changes
+- cat ~/build/stnava/ANTsRCore.Rcheck/00install.out
+- cat ~/build/stnava/ANTsRCore.Rcheck/00check.log
 notifications:
   email:
     recipients:
@@ -92,7 +81,6 @@ notifications:
     - jeff.duda@gmail.com
     on_success: change
     on_failure: always
-
 env:
   global:
   - R_BUILD_ARGS=" "
@@ -103,14 +91,10 @@ env:
   - _R_CHECK_FORCE_SUGGESTS_="0"
   - BOOTSTRAP_LATEX=1
   - WARNINGS_ARE_ERRORS=0
-
 deploy:
   provider: releases
   api_key:
-    secure: VevZHK5WDwd2mFSrF3+b2jTRzImb6juOgewcOvZ8LJ2S70khn64Kx4+JGUvk5miKWVbKnHIhPxOJY50muO9sT15ApP+HFZYpiVpx4l/hEypk9zmJD+f+ERuN7j8elCzUZqet3v77XD+pBcYMxFARew4gGDkG2LO5casij0YNiyQ=
+    secure: Hm3kbkCySSneOe8644MWudbNAphB4+YDpGhWCeeHuSiHoQU6+Qmx/f014iVM5JqZI72EGX21hSygqfD9jB8O78J4imO4xMUnNciA80pV/NlUnzwMiYVfpYAga3QQApvSJZuBA/4+kJXlFZkigWGXuzb8W5Qty0xY1KV9FuaUzo5bRxCPa4f3t3PP/Ikjhla2vH53UHo+YiRIfGlH5Rn3p2kDS5390cfdO5+1kn8p5UMZV7C1B2VAE2OO0QxtVmjZbpAxE/k+QGdeGMXBfu5bCfERO3Wr/sfITaTu9j5Oulv/fDfVe6kuIRhAkX0eUn+CEkEhBgSO6yp1+abcagxIRVYfF3hp5e6+cOeGC/QH0z9kSsCim3SdYvz+rFhtzS+vO4LTO8wgGzyMLalvH2Jopf4OrRbSwbmiLpQzR/fFrmx9IZt0o4lD9+KW9Nhj0o9+V6NHg+Usx1wbTVYDjh53op6AT5c6E4Zej0gLeG9gXXtICtcEE1pCLiK8EX11cCUpgRD0NcG+F/dcPY5kLtf4/Uw/krhwz8OagPk9Mt3aleu0iepkuwQoGNoy2XBzc0zcaGICC3Y23KW/VZRc0xZGjiUmQXyMlbuB/dOYr0V8VGVPanRgDksr+ML0B4nqdfbtqTC1FQl2ORtG7iCDuArAZo7bokisZ2GTSA2F85BpfRY=
   file: ${PKG_FILE_NAME}
-  skip_cleanup: true
-  overwrite: true
   on:
-    tags: true
     repo: stnava/ANTsRCore
