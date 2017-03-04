@@ -45,9 +45,9 @@ script:
 - export CXX=clang++
 - export CC=clang
 - cd ..
-- travis_wait 100 R CMD build ANTsRCore --no-build-vignettes --no-manual
-- PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-- travis_wait 100 R CMD check "${PKG_FILE_NAME}" --no-manual
+# - travis_wait 100 R CMD build ANTsRCore --no-build-vignettes --no-manual
+#  - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
+# - travis_wait 100 R CMD check "${PKG_FILE_NAME}" --no-manual
 - mydir=${PWD}
 - travis_wait 100 R CMD INSTALL --build ANTsRCore
 - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
