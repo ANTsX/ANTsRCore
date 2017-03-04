@@ -67,9 +67,11 @@ script:
   - cd ..
   - travis_wait 100 R CMD build ANTsRCore --no-build-vignettes --no-manual
   - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-  - if [[ ${#TRAVIS_TAG} -eq 0 ]]; then travis_wait 100 R CMD check "${PKG_FILE_NAME}" --no-manual; fi # --as-cran
+  - R CMD check "${PKG_FILE_NAME}" --no-manual
   - mydir=${PWD}
-  - if [[ ${#TRAVIS_TAG} -gt 0 ]]; then travis_wait 100  R CMD INSTALL --build ANTsRCore; PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1); if [ "$TRAVIS_OS_NAME" == "osx" ];  then  PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);  fi; fi
+  - travis_wait 100  R CMD INSTALL --build ANTsRCore
+  - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
+  - if [ "$TRAVIS_OS_NAME" == "osx" ];  then  PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);  fi
 
 
 
