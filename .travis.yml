@@ -35,9 +35,9 @@ install:
   dependencies = TRUE) }'
 - cd ~/
 - itkrrel=0.0.1
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz;
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then travis_wait 100 wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz;
   R CMD INSTALL ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; fi
-- if [ "$TRAVIS_OS_NAME" == "osx" ]; then wget http://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}.tgz;
+- if [ "$TRAVIS_OS_NAME" == "osx" ]; then travis_wait 100 wget http://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}.tgz;
   R CMD INSTALL ITKR_${itkrrel}.tgz; fi
 - cd ${basedir}
 script:
@@ -45,9 +45,6 @@ script:
 - export CXX=clang++
 - export CC=clang
 - cd ..
-# - travis_wait 100 R CMD build ANTsRCore --no-build-vignettes --no-manual
-#  - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-# - travis_wait 100 R CMD check "${PKG_FILE_NAME}" --no-manual
 - mydir=${PWD}
 - travis_wait 100 R CMD INSTALL --build ANTsRCore
 - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
