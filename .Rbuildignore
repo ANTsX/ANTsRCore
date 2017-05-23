@@ -13,3 +13,4 @@ src/ants/.git
 ^.*\.Rproj$
 ^\.Rproj\.user$
 .makeTag
+^appveyor\.yml$

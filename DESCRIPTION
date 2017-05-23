@@ -15,7 +15,6 @@ LinkingTo: ITKR
 SystemRequirements: cmake, git, clang (recommended)
 Remotes: stnava/ITKR
 NeedsCompilation: yes
-OS_type: unix
 Additional_repositories: https://github.com/InsightSoftwareConsortium/ITK.git,
     https://github.com/stnava/ANTs.git
 RoxygenNote: 5.0.1
