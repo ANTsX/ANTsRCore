@@ -4,7 +4,7 @@
 
 # ANTsRCore
 
-[![Travis Build Status](https://travis-ci.org/stnava/ANTsRCor.png?branch=master)](https://travis-ci.org/stnava/ANTsRCore)
+[![Travis Build Status](https://travis-ci.org/stnava/ANTsRCore.png?branch=master)](https://travis-ci.org/stnava/ANTsRCore)
 A package providing core features for [ANTsR](http://stnava.github.io/ANTsR/).
 
 ## Description
