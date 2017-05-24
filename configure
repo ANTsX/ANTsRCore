@@ -6,7 +6,7 @@ compflags=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
 ITKDIR=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkDir(); cat(a)'`
 
 # get a version of cmake
-# cmaker=`which cmake`
+cmaker=`which cmake`
 # if [[ ! -x $cmaker ]] ; then # try r version
 #   cmaker=`${R_HOME}/bin/Rscript -e 'a<-cmaker::cmake()'`
 # fi
