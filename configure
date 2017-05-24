@@ -6,10 +6,10 @@ compflags=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
 ITKDIR=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkDir(); cat(a)'`
 
 # get a version of cmake
-cmaker=`which cmake`
-if [[ ! -x $cmaker ]] ; then # try r version
-  cmaker=`${R_HOME}/bin/Rscript -e 'a<-cmaker::cmake()'`
-fi
+# cmaker=`which cmake`
+# if [[ ! -x $cmaker ]] ; then # try r version
+#   cmaker=`${R_HOME}/bin/Rscript -e 'a<-cmaker::cmake()'`
+# fi
 if [[ `uname` -eq Darwin ]] ; then
   CMAKE_BUILD_TYPE=Release
 fi
@@ -29,7 +29,9 @@ fi
 cd ./src
 # platform-specific Makevars
 echo "myantssource=\${PWD}/ants/" > Makevars
-echo "ITK = \`\$(R_HOME)/bin/Rscript -e 'ITKR:::itkIncludes()'\`" >> Makevars
+# echo "ITK = \`\$(R_HOME)/bin/Rscript -e 'ITKR:::itkIncludes()'\`" >> Makevars
+echo "ITK=${ITKRCMAKE}" >> Makevars
+
 needVCL_CAN_STATIC_CONST_INIT_FLOAT=0
 if [[ ${#CC} -gt 0 ]] ; then # test the requested compiler
   temp=$(${CC} --version | grep clang)
@@ -53,11 +55,12 @@ echo "myantslib=\${PWD}/antb/lib/" >> Makevars
 
 echo "libants=\`find \${myantslib} -name \"lib*.a\"\`" >> Makevars
 
-echo "libitk=\`find \\\`\$(R_HOME)/bin/Rscript -e 'ITKR:::itkLibs()'\\\` -name \"lib*.a\"\` " >> Makevars
+# echo "libitk=\`find \\\`\$(R_HOME)/bin/Rscript -e 'ITKR:::itkLibs()'\\\` -name \"lib*.a\"\` " >> Makevars
+echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\"\`" >> Makevars
 
-echo "PKG_LIBS = \${libitk}  \${libants} \${libitk} \${libants} \${libitk} \
-                 \${libants} \${libitk} \${libants} \${itklib}  \${libants} \
-                 \${libitk} \${libants} \${itklib}   \${libants} \${itklib} \
+echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
+                 \${libants} \${libitk} \${libants} \${itklib} \${libants} \
+                 \${libitk} \${libants} \${itklib} \${libants} \${itklib} \
                  \${libants} \${libitk} \${libants} \${itklib}" >> Makevars
 
 echo ".PHONY: all libs" >> Makevars
