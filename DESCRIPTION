@@ -13,7 +13,7 @@ License: Apache License (>=2.0)
 LazyLoad: yes
 LinkingTo: ITKR
 SystemRequirements: cmake, git, clang (recommended)
-Remotes: stnava/ITKR 
+Remotes: stnava/ITKR
 NeedsCompilation: yes
 Additional_repositories: https://github.com/InsightSoftwareConsortium/ITK.git,
     https://github.com/stnava/ANTs.git
