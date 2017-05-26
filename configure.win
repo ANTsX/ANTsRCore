@@ -52,3 +52,35 @@ echo "all: \$(SHLIB)" >> Makevars
 echo "\$(SHLIB): libs" >> Makevars
 
 echo "libs: ; cd \${PWD}" >> Makevars
+
+
+
+# get / set up ANTs code
+antsgit=https://github.com/stnava/ANTs.git
+antstag=961ac541bc0dfd60289e3fe5b0c10dbe607ee39e # geometric jacobian bug
+git clone $antsbranch $antsgit ants
+mkdir -p ../data
+
+echo "Dependency;GitTag" > ../data/antsVersions.csv
+echo "ANTs;${antstag}" >> ../data/antsVersions.csv
+cd ants
+git checkout master;  git pull;  git checkout $antstag
+cd ../
+mkdir antb
+cp ../inst/include/antscore.h ./ants/Examples/include/ants.h
+cp ants/Examples/include/* ../inst/include/
+cp ants/Utilities/* ../inst/include/
+cp ants/Examples/*  ../inst/include/
+cp ants/Tensor/*  ../inst/include/
+cd ./antb
+cmake -DITK_DIR:PATH=${ITKDIR} \
+    -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} -DNDEBUG  "\
+    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} -DNDEBUG  "\
+    -DBUILD_SHARED_LIBS=OFF \
+    -DBUILD_ALL_ANTS_APPS=OFF \
+    -DUSE_SYSTEM_ITK=OFF \
+    -DBUILD_TESTING=OFF \
+    -DCOPY_SCRIPT_FILES_TO_BIN_DIR=OFF \
+    -DCMAKE_INSTALL_PREFIX:PATH=${R_PACKAGE_DIR}/libs/  \
+    -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}"  ../ants
+cd ../
