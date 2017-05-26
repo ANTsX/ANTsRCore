@@ -20,7 +20,7 @@ echo "ITK=${ITKRCMAKE}" >> Makevars
 needVCL_CAN_STATIC_CONST_INIT_FLOAT=0
 echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
 
-aincludes=`${R_HOME}/bin/Rscript.exe -e 'a<-ANTsRCore:::antsIncludes(); cat(a)'`
+aincludes=`Rscript.exe -e 'a<-ANTsRCore:::antsIncludes(); cat(a)'`
 
 # echo "PKG_CPPFLAGS = -I\${ITK} -I\${PWD}  \
 #   -I`\${R_HOME}/bin/Rscript -e 'ANTsRCore:::antsIncludes()'` \
@@ -31,7 +31,7 @@ echo "PKG_CPPFLAGS = -I\${ITK} -I\${PWD}  \
   
 echo "CXX_STD = CXX11" >> Makevars
 
-myantslib=`${R_HOME}/bin/Rscript.exe -e 'a<-ANTsRCore:::antsLibs(); cat(a)'`
+myantslib=`Rscript.exe -e 'a<-ANTsRCore:::antsLibs(); cat(a)'`
 
 # echo "myantslib=`\${R_HOME}/bin/Rscript -e 'ANTsRCore:::antsLibs()'` " >> Makevars
 echo "myantslib=${myantslib}" >> Makevars
