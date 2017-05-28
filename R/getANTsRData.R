@@ -37,21 +37,21 @@ getANTsRData <- function(fileid, usefixedlocation = FALSE, verbose=FALSE ) {
       antsImageRead( getANTsRData("r64") ) )
     return( ilist )
     }
-
+#
   if ( fileid == "simple" )
-    return( paste(path.package("ANTsRCore"),"/extdata/simple.jpg",sep="") )
+    return( system.file("extdata", "simple.jpg", package="ANTsRCore")  )
   if ( fileid == "r16" )
-    return( paste(path.package("ANTsRCore"),"/extdata/r16slice.jpg",sep="") )
+    return( system.file("extdata", "r16slice.jpg", package="ANTsRCore") )
   if ( fileid == "r27" )
-    return( paste(path.package("ANTsRCore"),"/extdata/r27slice.jpg",sep="") )
+    return( system.file("extdata", "r27slice.jpg", package="ANTsRCore") )
   if ( fileid == "r30" )
-    return( paste(path.package("ANTsRCore"),"/extdata/r30slice.jpg",sep="") )
+    return( system.file("extdata", "r30slice.jpg", package="ANTsRCore") )
   if ( fileid == "r62" )
-    return( paste(path.package("ANTsRCore"),"/extdata/r62slice.jpg",sep="") )
+    return( system.file("extdata", "r62slice.jpg", package="ANTsRCore") )
   if ( fileid == "r64" )
-    return( paste(path.package("ANTsRCore"),"/extdata/r64slice.jpg",sep="") )
+    return( system.file("extdata", "r64slice.jpg", package="ANTsRCore") )
   if ( fileid == "r85" )
-    return( paste(path.package("ANTsRCore"),"/extdata/r85slice.jpg",sep="") )
+    return( system.file("extdata", "r85slice.jpg", package="ANTsRCore") )
 
   # ch2b = brodmann ch2a = aal mnib = brodmann mnia = all mnit = tracts
 

@@ -19,7 +19,10 @@ LinkingTo:
 Imports:
     Rcpp,
     tools,
-    magrittr
+    magrittr,
+    utils
+Suggests:
+    abind
 SystemRequirements: cmake, git, clang (recommended)
 Remotes: stnava/ITKR
 NeedsCompilation: yes
