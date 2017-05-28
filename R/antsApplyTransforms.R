@@ -169,7 +169,7 @@ antsApplyTransforms <- function(
       if ( verbose ) print( myargs )
       .Call("antsApplyTransforms",
         c(myargs, "-z", 1, "-v", myverb, "--float", 1, "-e", imagetype),
-        PACKAGE = "ANTsR")
+        PACKAGE = "ANTsRCore")
       if ( is.na( compose ) ) return(antsImageClone(warpedmovout, inpixeltype))
       if ( !is.na( compose ) ) if ( file.exists( tfn ) ) return( tfn ) else return( NA )
     }
@@ -182,7 +182,7 @@ antsApplyTransforms <- function(
   # mycmd$outimg, as.numeric(mycmd$outdim) ) ) }
   .Call("antsApplyTransforms",
     .int_antsProcessArguments(
-    c( args, "-z", 1, "--float", 1, "-e", imagetype)), PACKAGE = "ANTsR")
+    c( args, "-z", 1, "--float", 1, "-e", imagetype)), PACKAGE = "ANTsRCore")
 }
 
 

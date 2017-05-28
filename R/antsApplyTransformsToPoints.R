@@ -118,7 +118,7 @@ antsApplyTransformsToPoints <- function(
           }
         }
     .Call("antsApplyTransformsToPoints",
-         c(myargs, "-f", 1, "--precision", 0), PACKAGE = "ANTsR" )
+         c(myargs, "-f", 1, "--precision", 0), PACKAGE = "ANTsRCore" )
     if ( class(points)[[1]] == "antsImage" ) return( pointsout )
     pointsout = data.frame( as.matrix( pointsout ) )
     colnames( pointsout ) = colnames( points )

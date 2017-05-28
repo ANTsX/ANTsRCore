@@ -51,7 +51,7 @@ atropos <- function( a, x,
   priorweight = 0.25,
   ...) {
   if ( missing(x)) {
-    .Call("Atropos", .int_antsProcessArguments(c(a)), PACKAGE = "ANTsR")
+    .Call("Atropos", .int_antsProcessArguments(c(a)), PACKAGE = "ANTsRCore")
     return(NULL)
   }
   # define the output temp files
@@ -106,7 +106,7 @@ atropos <- function( a, x,
   }
   if ( length(a) > 6)
     stop(" more than 6 input images not really supported, using first 6 ")
-  .Call("Atropos", .int_antsProcessArguments(c(myargs)), PACKAGE = "ANTsR")
+  .Call("Atropos", .int_antsProcessArguments(c(myargs)), PACKAGE = "ANTsRCore")
   probsout <- list.files(path = tdir,
     pattern = glob2rx(searchpattern), full.names = TRUE,
     recursive = FALSE)
