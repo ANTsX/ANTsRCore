@@ -33,7 +33,11 @@ install:
 - echo '.travis.yml' > .Rbuildignore
 - Rscript -e 'if(!"Rcpp" %in% rownames(installed.packages())) { install.packages("Rcpp",
   dependencies = TRUE) }'
+- Rscript -e 'if(!"RcppEigen" %in% rownames(installed.packages())) { install.packages("RcppEigen",
+  dependencies = TRUE) }'
 - Rscript -e 'if(!"magrittr" %in% rownames(installed.packages())) { install.packages("magrittr",
+  dependencies = TRUE) }'
+- Rscript -e 'if(!"abind" %in% rownames(installed.packages())) { install.packages("abind",
   dependencies = TRUE) }'
 - cd ~/
 - itkrrel=0.0.1

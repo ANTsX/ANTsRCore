@@ -18,6 +18,7 @@ LinkingTo:
     ITKR
 Imports:
     Rcpp,
+    RcppEigen,
     tools,
     magrittr,
     utils
