@@ -33,6 +33,8 @@ install:
 - echo '.travis.yml' > .Rbuildignore
 - Rscript -e 'if(!"Rcpp" %in% rownames(installed.packages())) { install.packages("Rcpp",
   dependencies = TRUE) }'
+- Rscript -e 'if(!"magrittr" %in% rownames(installed.packages())) { install.packages("magrittr",
+  dependencies = TRUE) }'
 - cd ~/
 - itkrrel=0.0.1
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then travis_wait 100 wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz;
