@@ -39,6 +39,10 @@ install:
   dependencies = TRUE) }'
 - Rscript -e 'if(!"abind" %in% rownames(installed.packages())) { install.packages("abind",
   dependencies = TRUE) }'
+- Rscript -e 'if(!"pixmap" %in% rownames(installed.packages())) { install.packages("pixmap",
+  dependencies = TRUE) }'
+- Rscript -e 'if(!"viridis" %in% rownames(installed.packages())) { install.packages("viridis",
+  dependencies = TRUE) }'
 - cd ~/
 - itkrrel=0.0.1
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then travis_wait 100 wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz;

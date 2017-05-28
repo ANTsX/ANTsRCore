@@ -23,7 +23,9 @@ Imports:
     magrittr,
     utils
 Suggests:
-    abind
+    abind,
+    pixmap,
+    viridis
 SystemRequirements: cmake, git, clang (recommended)
 Remotes: stnava/ITKR
 NeedsCompilation: yes
