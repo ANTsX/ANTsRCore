@@ -22,10 +22,11 @@ antsImage such that it may be displayed in its extrinsic dimensionality.
 }
 \examples{
 
-img <- antsImageRead( getANTsRData( "r16" ) )
-msk <- thresholdImage( img, quantile( img[ img > 0 ] )[1], max( img ) )
-ripped <- ripmmarc( img, msk, patchRadius=3, patchSamples=2000, patchVarEx=5)
-bimg = ripmmarcBasisImage( ripped$canonicalFrame, ripped$basisMat[4,] )
+img <- antsImageRead( getANTsRData( "rand" ) )
+img = resampleImage( img, c( 32, 32 ) )
+msk <- thresholdImage( img, quantile( img[ img > 0 ], 0.5 )[1], max( img ) )
+ripped <- ripmmarc( img, msk, patchRadius=1, patchSamples=20, patchVarEx = 2 )
+bimg = ripmmarcBasisImage( ripped$canonicalFrame, ripped$basisMat[1,] )
 
 }
 \author{
