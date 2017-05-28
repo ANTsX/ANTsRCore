@@ -17,4 +17,3 @@ antsDir()
 \author{
 Avants BB
 }
-

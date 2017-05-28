@@ -11,10 +11,14 @@ Description: ANTsR interfaces state of the art image processing with R
     the underlying C++ framework on which ANTsR depends.
 License: Apache License (>=2.0)
 LazyLoad: yes
-LinkingTo: ITKR
+LinkingTo: Rcpp, ITKR
+Imports:
+    Rcpp,
+    tools,
+    magrittr
 SystemRequirements: cmake, git, clang (recommended)
 Remotes: stnava/ITKR
 NeedsCompilation: yes
 Additional_repositories: https://github.com/InsightSoftwareConsortium/ITK.git,
     https://github.com/stnava/ANTs.git
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

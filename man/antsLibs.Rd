@@ -17,4 +17,3 @@ antsLibs()
 \author{
 Avants BB
 }
-
