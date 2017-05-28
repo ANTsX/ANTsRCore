@@ -108,7 +108,7 @@ atropos <- function( a, x,
     stop(" more than 6 input images not really supported, using first 6 ")
   .Call("Atropos", .int_antsProcessArguments(c(myargs)), PACKAGE = "ANTsRCore")
   probsout <- list.files(path = tdir,
-    pattern = glob2rx(searchpattern), full.names = TRUE,
+    pattern = utils::glob2rx(searchpattern), full.names = TRUE,
     recursive = FALSE)
   pimg <- antsImageRead(probsout[1], mydim)
   probimgs <- c(pimg)
