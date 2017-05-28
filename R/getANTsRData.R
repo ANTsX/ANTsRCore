@@ -24,7 +24,7 @@ getANTsRData <- function(fileid, usefixedlocation = FALSE, verbose=FALSE ) {
     "mni","mnia","mnib","mnit","mninat","mnijhu1","mnijhu2","mnidfn","mniyeo",
     "atroposseg","simple","fmrinetworks",
     "rsbold", "rsboldmask", "rsboldseg", "rsboldpts", "decslice", "dtislice",
-    "adfmri", "population", "surf", "blob", "show" )
+    "adfmri", "population", "surf", "blob", "rand", "show" )
   if (  sum( validlist == fileid ) == 0 )
     stop("no data with that id - try show to get list of valid ids")
   if ( fileid == "show" )
@@ -37,21 +37,55 @@ getANTsRData <- function(fileid, usefixedlocation = FALSE, verbose=FALSE ) {
       antsImageRead( getANTsRData("r64") ) )
     return( ilist )
     }
-#
-  if ( fileid == "simple" )
-    return( system.file("extdata", "simple.jpg", package="ANTsRCore")  )
-  if ( fileid == "r16" )
-    return( system.file("extdata", "r16slice.jpg", package="ANTsRCore") )
-  if ( fileid == "r27" )
-    return( system.file("extdata", "r27slice.jpg", package="ANTsRCore") )
-  if ( fileid == "r30" )
-    return( system.file("extdata", "r30slice.jpg", package="ANTsRCore") )
-  if ( fileid == "r62" )
-    return( system.file("extdata", "r62slice.jpg", package="ANTsRCore") )
-  if ( fileid == "r64" )
-    return( system.file("extdata", "r64slice.jpg", package="ANTsRCore") )
-  if ( fileid == "r85" )
-    return( system.file("extdata", "r85slice.jpg", package="ANTsRCore") )
+
+  maketmpimg <- function(  ) {
+    img = makeImage( c(256,256), voxval = rnorm( 256^2, 100, 3 ),
+       pixeltype = "unsigned char" )
+    tfn = tempfile( fileext = ".jpg")
+    antsImageWrite( img,  tfn )
+    return( tfn )
+    }
+
+  if ( fileid == "simple" ) {
+    x = system.file("extdata", "simple.jpg", package="ANTsRCore")
+    if ( nchar( x ) == 0 ) x = maketmpimg()
+    return(  x  )
+    }
+  if ( fileid == "r16" ) {
+    x = system.file("extdata", "r16slice.jpg", package="ANTsRCore")
+    if ( nchar( x ) == 0 ) x = maketmpimg()
+    return(  x )
+    }
+  if ( fileid == "r27" ) {
+    x = system.file("extdata", "r27slice.jpg", package="ANTsRCore")
+    if ( nchar( x ) == 0 ) x = maketmpimg()
+    return(  x )
+    }
+  if ( fileid == "r30" ) {
+    x = system.file("extdata", "r30slice.jpg", package="ANTsRCore")
+    if ( nchar( x ) == 0 ) x = maketmpimg()
+    return(  x )
+    }
+  if ( fileid == "r62" ) {
+    x = system.file("extdata", "r62slice.jpg", package="ANTsRCore")
+    if ( nchar( x ) == 0 ) x = maketmpimg()
+    return(  x )
+    }
+  if ( fileid == "r64" ) {
+    x = system.file("extdata", "r64slice.jpg", package="ANTsRCore")
+    if ( nchar( x ) == 0 ) x = maketmpimg()
+    return(  x )
+    }
+  if ( fileid == "r85" ) {
+    x = system.file("extdata", "r85slice.jpg", package="ANTsRCore")
+    if ( nchar( x ) == 0 ) x = maketmpimg()
+    return(  x )
+    }
+  if ( fileid == "rand" ) {
+    x = system.file("extdata", "rand.jpg", package="ANTsRCore")
+    if ( nchar( x ) == 0 ) x = maketmpimg()
+    return(  x )
+    }
 
   # ch2b = brodmann ch2a = aal mnib = brodmann mnia = all mnit = tracts
 

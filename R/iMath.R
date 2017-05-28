@@ -27,7 +27,7 @@
 #'
 #' @export iMath
 iMath <- function( img, operation, param=NA, ... ) {
-
+  iMathOps <- NULL
   # input is usually an 'antsImage'
   if (is.na(img))
     {
