@@ -7,7 +7,7 @@
 
 #' @author Duda JT
 #' @examples
-#' antsImageHeaderInfo( getANTsRData("r16") )  
+#' antsImageHeaderInfo( getANTsRData("r16") )
 #'
 #' @return outputs a list containing:
 #' \itemize{

@@ -380,7 +380,7 @@ getNeighborhoodAtVoxel <- function(image, center, kernel, physical.coordinates =
   }
 
   return(.Call("antsImage_GetNeighborhood", image, center, kernel, radius,
-               physical.coordinates, PACKAGE = "ANTsRCore"))
+               physical.coordinates, PACKAGE="ANTsRCore"))
 }
 
 
