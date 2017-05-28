@@ -15,6 +15,6 @@
 n3BiasFieldCorrection <- function( img, downsampleFactor ) {
   outimg<-antsImageClone(img)
   args<-list(img@dimension,img,outimg,downsampleFactor)
-  pp<-.Call("N3BiasFieldCorrection", .int_antsProcessArguments(args), PACKAGE = "ANTsR")
+  pp<-.Call("N3BiasFieldCorrection", .int_antsProcessArguments(args), PACKAGE = "ANTsRCore")
   return(outimg)
 }
