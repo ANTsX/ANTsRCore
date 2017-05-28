@@ -13,7 +13,7 @@
 #'
 #' fi <- antsImageRead(getANTsRData("r16"))
 #' cropped <- cropImage(fi)
-#' cropped <- cropImage(fi, fi, 250)
+#' cropped <- cropImage(fi, fi, 100 )
 #'
 #' @export cropImage
 cropImage <- function( image, labelImage, label=1 ) {
