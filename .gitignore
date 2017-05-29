@@ -5,7 +5,6 @@
 
 # things to ignore in directory ANTsR/src
 src/Makevars
-extdata/
 src/*.o
 src/*.so
 src/symbols.rds
