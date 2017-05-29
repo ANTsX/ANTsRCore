@@ -5,7 +5,7 @@
 #'
 #' @slot index indices of the region
 #' @slot size size of the region
-#' @useDynLib ANTsRCore
+#' @useDynLib ANTsRCore, .registration = TRUE
 #' @import Rcpp
 #' @import methods
 #' @import tools
