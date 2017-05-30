@@ -13,9 +13,9 @@ CMAKE_BUILD_TYPE=Release
 # fi
 cd ./src
 # platform-specific Makevars
-echo "myantssource=\${PWD}/ants/" > Makevars
+echo "myantssource=\${PWD}/ants/" > Makevars.win
 # echo "ITK = \`\$(R_HOME)/bin/Rscript -e 'ITKR:::itkIncludes()'\`" >> Makevars
-echo "ITK=${ITKRCMAKE}" >> Makevars
+echo "ITK=${ITKRCMAKE}" >> Makevars.win
 
 needVCL_CAN_STATIC_CONST_INIT_FLOAT=0
 echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
@@ -27,31 +27,31 @@ aincludes=`Rscript.exe -e 'a<-ANTsRCore:::antsIncludes(); cat(a)'`
 #   -I../inst/include/ " >> Makevars
 echo "PKG_CPPFLAGS = -I\${ITK} -I\${PWD}  \
   -I${aincludes} \
-  -I../inst/include/ " >> Makevars
+  -I../inst/include/ " >> Makevars.win
   
-echo "CXX_STD = CXX11" >> Makevars
+echo "CXX_STD = CXX11" >> Makevars.win
 
 myantslib=`Rscript.exe -e 'a<-ANTsRCore:::antsLibs(); cat(a)'`
 
-# echo "myantslib=`\${R_HOME}/bin/Rscript -e 'ANTsRCore:::antsLibs()'` " >> Makevars
-echo "myantslib=${myantslib}" >> Makevars
+# echo "myantslib=`\${R_HOME}/bin/Rscript -e 'ANTsRCore:::antsLibs()'` " >> Makevars.win
+echo "myantslib=${myantslib}" >> Makevars.win
 
-echo "libants=\`find ${myantslib} -name \"lib*.a\"\`" >> Makevars
+echo "libants=\`find ${myantslib} -name \"lib*.a\"\`" >> Makevars.win
 
-echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\"\`" >> Makevars
+echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\"\`" >> Makevars.win
 
 echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
                  \${libants} \${libitk} \${libants} \${itklib} \${libants} \
                  \${libitk} \${libants} \${itklib} \${libants} \${itklib} \
-                 \${libants} \${libitk} \${libants} \${itklib}" >> Makevars
+                 \${libants} \${libitk} \${libants} \${itklib}" >> Makevars.win
 
-echo ".PHONY: all libs" >> Makevars
+echo ".PHONY: all libs" >> Makevars.win
 
-echo "all: \$(SHLIB)" >> Makevars
+echo "all: \$(SHLIB)" >> Makevars.win
 
-echo "\$(SHLIB): libs" >> Makevars
+echo "\$(SHLIB): libs" >> Makevars.win
 
-echo "libs: ; cd \${PWD}" >> Makevars
+echo "libs: ; cd \${PWD}" >> Makevars.win
 
 
 

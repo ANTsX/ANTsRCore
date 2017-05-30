@@ -183,24 +183,44 @@ setMethod("Math", signature(x = "antsImage"),
   function(x, ..., na.rm = FALSE)
     base::all(x, ..., na.rm = na.rm)
 
+#' @rdname antsImageSummary
+#' @export
 setGeneric("max", function(x, ..., na.rm = FALSE)
   standardGeneric("max"),
   useAsDefault = .max_def, group = "Summary")
+
+#' @rdname antsImageSummary
+#' @export
 setGeneric("min", function(x, ..., na.rm = FALSE)
   standardGeneric("min"),
   useAsDefault = .min_def, group = "Summary")
+
+#' @rdname antsImageSummary
+#' @export
 setGeneric("range", function(x, ..., na.rm = FALSE)
   standardGeneric("range"),
   useAsDefault = .range_def, group = "Summary")
+
+#' @rdname antsImageSummary
+#' @export
 setGeneric("prod", function(x, ..., na.rm = FALSE)
   standardGeneric("prod"),
   useAsDefault = .prod_def, group = "Summary")
+
+#' @rdname antsImageSummary
+#' @export
 setGeneric("sum", function(x, ..., na.rm = FALSE)
   standardGeneric("sum"),
   useAsDefault = .sum_def, group = "Summary")
+
+#' @rdname antsImageSummary
+#' @export
 setGeneric("any", function(x, ..., na.rm = FALSE)
   standardGeneric("any"),
   useAsDefault = .any_def, group = "Summary")
+
+#' @rdname antsImageSummary
+#' @export
 setGeneric("all", function(x, ..., na.rm = FALSE)
   standardGeneric("all"),
   useAsDefault = .all_def, group = "Summary") 
@@ -213,10 +233,13 @@ setGeneric("all", function(x, ..., na.rm = FALSE)
 #' @param x is an object of class \code{antsImage}.
 #' @param ... further arguments passed to summary methods
 #' @param na.rm logical: should missing values be removed?
-#' @aliases Summary,antsImage-method
 #' @examples
 #' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
 #' max(img01)
+#' min(img01)
+#' range(img01)
+#' prod(img01) 
+#' @aliases Summary,antsImage-method
 #' @export
 setMethod("Summary", "antsImage",
           function(x, ..., na.rm = FALSE) {
@@ -224,9 +247,15 @@ setMethod("Summary", "antsImage",
             mask = args$mask
             args$mask = NULL
             x = mask_values(x, mask)
+            # I think this makes sense but should ask Avants.
+            # relevant for warnings for all/any in summary
+            if (all(x %in% c(0, 1, NA, NaN))) {
+              x = as.logical(x)
+            }
             args$x = x
             args$na.rm = na.rm
             
+
             res = do.call(callGeneric, args = args)
             # L = list(...)
             # mask = L$mask
