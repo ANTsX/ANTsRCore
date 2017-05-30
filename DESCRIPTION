@@ -1,6 +1,6 @@
 Package: ANTsRCore
 Type: Package
-Title: ANTsRCore: core software infrastructure for ANTsR
+Title: ANTsRCore: Core Software Infrastructure for ANTsR
 Version: 0.1.1
 Date: 2017-05-22
 Author: Brian B. Avants, Benjamin M. Kandel, Jeff T. Duda, Philip A. Cook,
@@ -29,7 +29,4 @@ Suggests:
 SystemRequirements: cmake, git, clang (recommended)
 Remotes: stnava/ITKR
 NeedsCompilation: yes
-Additional_repositories:
-    https://github.com/InsightSoftwareConsortium/ITK.git,
-    https://github.com/stnava/ANTs.git
 RoxygenNote: 6.0.1
