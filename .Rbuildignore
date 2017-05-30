@@ -1,7 +1,6 @@
 ^\.travis\.yml$
 src/Makevars
-src/ants/*
-src/ants/.git/*
+src/ants/
 src/itks/
 src/itkb/
 src/itki/
@@ -9,7 +8,7 @@ src/antb/
 src/.dummy
 src/*.o
 src/*.so
-src/ants/.git
+src/ants/.git/*
 .gitignore
 ^.*\.Rproj$
 ^\.Rproj\.user$
