@@ -1,11 +1,12 @@
 ^\.travis\.yml$
 src/Makevars
-src/ants/
+src/ants/*
 src/itks/
 src/itkb/
 src/itki/
 src/antb/
 src/.dummy
+src/ants/.git/*
 src/*.o
 src/*.so
 src/ants/.git
