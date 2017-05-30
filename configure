@@ -86,6 +86,8 @@ echo "ANTs;${antstag}" >> ../data/antsVersions.csv
 cd ants
 if [[ -d .git ]]; then
     git checkout master;  git pull;  git checkout $antstag
+    # needed for warning
+    rm -rf .git
 fi
 cd ../
 if [[ ! -s antb ]] ; then
