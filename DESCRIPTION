@@ -1,6 +1,6 @@
 Package: ANTsRCore
 Type: Package
-Title: ANTsRCore: Core Software Infrastructure for ANTsR
+Title: Core Software Infrastructure for ANTsR
 Version: 0.1.1
 Date: 2017-05-22
 Author: Brian B. Avants, Benjamin M. Kandel, Jeff T. Duda, Philip A. Cook,
