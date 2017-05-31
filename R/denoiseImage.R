@@ -40,7 +40,6 @@ denoiseImage <- function(
     o = outimg,
     v = 0
     )
-  print( myargs )
   .Call("DenoiseImage", .int_antsProcessArguments( c( myargs ) ), PACKAGE = "ANTsRCore")
   return( outimg )
 }
