@@ -76,6 +76,7 @@ echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build &&
 antsgit=https://github.com/stnava/ANTs.git
 # antstag=`tail -n 1 ../data/antsVersions.csv  | cut -d ';' -f 2`
 antstag=0d964aaa96ffdd4ebc31602f08f50ec417842cce
+antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants
 fi
@@ -84,6 +85,7 @@ if [[ ! -d ../data/ ]] ; then
 fi
 echo "Dependency;GitTag" > ../data/antsVersions.csv
 echo "ANTs;${antstag}" >> ../data/antsVersions.csv
+echo "ANTsRCore;${antsrtag}" >> ../data/antsVersions.csv
 cd ants
 if [[ -d .git ]]; then
     git checkout master
