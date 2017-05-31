@@ -75,6 +75,7 @@ extern SEXP antsrTransform_TransformVector(SEXP, SEXP);
 extern SEXP antsrTransform_Write(SEXP, SEXP);
 extern SEXP Atropos(SEXP);
 extern SEXP cropImage(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP DenoiseImage(SEXP);
 extern SEXP extractSlice(SEXP, SEXP, SEXP);
 extern SEXP iMathInterface(SEXP);
 extern SEXP LabelClustersUniquely(SEXP);
@@ -82,6 +83,7 @@ extern SEXP labelStats(SEXP, SEXP);
 extern SEXP makeImage(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP mergeChannels(SEXP, SEXP);
 extern SEXP N3BiasFieldCorrection(SEXP);
+extern SEXP N4BiasFieldCorrection(SEXP);
 extern SEXP patchAnalysis(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP ResampleImage(SEXP);
 extern SEXP smoothImage(SEXP, SEXP, SEXP, SEXP, SEXP);
@@ -147,6 +149,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsrTransform_Write",                    (DL_FUNC) &antsrTransform_Write,                     2},
     {"Atropos",                                 (DL_FUNC) &Atropos,                                  1},
     {"cropImage",                               (DL_FUNC) &cropImage,                                6},
+    {"DenoiseImage",                            (DL_FUNC) &DenoiseImage,                             1},
     {"extractSlice",                            (DL_FUNC) &extractSlice,                             3},
     {"iMathInterface",                          (DL_FUNC) &iMathInterface,                           1},
     {"LabelClustersUniquely",                   (DL_FUNC) &LabelClustersUniquely,                    1},
@@ -154,6 +157,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"makeImage",                               (DL_FUNC) &makeImage,                                6},
     {"mergeChannels",                           (DL_FUNC) &mergeChannels,                            2},
     {"N3BiasFieldCorrection",                   (DL_FUNC) &N3BiasFieldCorrection,                    1},
+    {"N4BiasFieldCorrection",                   (DL_FUNC) &N4BiasFieldCorrection,                    1},
     {"patchAnalysis",                           (DL_FUNC) &patchAnalysis,                           12},
     {"ResampleImage",                           (DL_FUNC) &ResampleImage,                            1},
     {"smoothImage",                             (DL_FUNC) &smoothImage,                              5},
