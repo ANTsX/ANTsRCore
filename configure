@@ -86,16 +86,18 @@ echo "ANTs;${antstag}" >> ../data/antsVersions.csv
 cd ants
 if [[ -d .git ]]; then
     git checkout master;  git pull;  git checkout $antstag
+    # needed for warning
+    rm -rf .git
 fi
 cd ../
 if [[ ! -s antb ]] ; then
   mkdir antb
 fi
 cp ../inst/include/antscore.h ./ants/Examples/include/ants.h
-cp ants/Examples/include/* ../inst/include/
-cp ants/Utilities/* ../inst/include/
-cp ants/Examples/*  ../inst/include/
-cp ants/Tensor/*  ../inst/include/
+cp -r ants/Examples/include/* ../inst/include/
+cp -r ants/Utilities/* ../inst/include/
+cp -r ants/Examples/*  ../inst/include/
+cp -r ants/Tensor/*  ../inst/include/
 cd ./antb
 ${cmaker} -DITK_DIR:PATH=${ITKDIR} \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} -DNDEBUG  "\

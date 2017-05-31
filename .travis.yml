@@ -1,55 +1,107 @@
+# use containers
 sudo: false
+# cache local R libraries directory:
+cache: packages
 os:
-- linux
-- osx
+  - linux
+  - osx
+
+r_build_args: --no-build-vignettes --no-manual    
+env:
+  global:
+  - R_BUILD_ARGS=" "
+  - R_CHECK_ARGS=" --timings --as-cran"
+  - R_CHECK_TIME="TRUE"
+  - R_CHECK_TESTS="TRUE"
+  - _R_CHECK_TIMINGS_="0"
+  - _R_CHECK_FORCE_SUGGESTS_="0"
+  - BOOTSTRAP_LATEX=1
+  # - WARNINGS_ARE_ERRORS=0
+
+osx_image: xcode8.2
+
 language: r
 r:
-- release
+  - release
+
 matrix:
   allow_failures:
   - os: osx
+
 cran: http://cran.rstudio.com
-r_binary_packages:
-- Rcpp
-cache: packages
+
+# r_binary_packages:
+#   - Rcpp
+  
 before_install:
-- basedir=${PWD}
-- cd ..
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then cmake --version; wget --no-check-certificate
-  https://cmake.org/files/v3.4/cmake-3.4.0-rc1-Linux-x86_64.sh; sh cmake-3.4.0-rc1-Linux-x86_64.sh
-  --skip-license --prefix=${HOME}; export PATH=$HOME/bin/:$PATH; fi
-- export PATH=$HOME/bin/:$PATH
-- cd $basedir
-install:
-- mkdir -p ~/.R
-- export CC=clang
-- export CXX=clang++
-- echo "CC=clang" >  ~/.R/Makevars
-- echo "CXX=clang++" >> ~/.R/Makevars
-- echo "CXX1X=clang++" >> ~/.R/Makevars
-- echo "CXX1XSTD=-std=c++11" >> ~/.R/Makevars
-- source ~/.R/Makevars
-- echo 'options(repos = "http://cran.rstudio.com")' > .Rprofile
-- echo '.travis.yml' > .Rbuildignore
-- Rscript -e 'if(!"Rcpp" %in% rownames(installed.packages())) { install.packages("Rcpp",
-  dependencies = TRUE) }'
-- Rscript -e 'if(!"RcppEigen" %in% rownames(installed.packages())) { install.packages("RcppEigen",
-  dependencies = TRUE) }'
-- Rscript -e 'if(!"magrittr" %in% rownames(installed.packages())) { install.packages("magrittr",
-  dependencies = TRUE) }'
-- Rscript -e 'if(!"abind" %in% rownames(installed.packages())) { install.packages("abind",
-  dependencies = TRUE) }'
-- Rscript -e 'if(!"pixmap" %in% rownames(installed.packages())) { install.packages("pixmap",
-  dependencies = TRUE) }'
-- Rscript -e 'if(!"viridis" %in% rownames(installed.packages())) { install.packages("viridis",
-  dependencies = TRUE) }'
-- cd ~/
-- itkrrel=0.0.1
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then travis_wait 100 wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz;
-  R CMD INSTALL ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; fi
-- if [ "$TRAVIS_OS_NAME" == "osx" ]; then travis_wait 100 wget http://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}.tgz;
-  R CMD INSTALL ITKR_${itkrrel}.tgz; fi
-- cd ${basedir}
+  - basedir=${PWD}
+  - cd ..
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then cmake --version; wget --no-check-certificate https://cmake.org/files/v3.4/cmake-3.4.0-rc1-Linux-x86_64.sh; sh cmake-3.4.0-rc1-Linux-x86_64.sh --skip-license --prefix=${HOME}; export PATH=$HOME/bin/:$PATH; fi
+  - export PATH=$HOME/bin/:$PATH
+  - cd $basedir
+  - mkdir -p ~/.R
+  - export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
+  - export CC=clang
+  - export CXX=clang++
+  - echo "CC=clang" >  ~/.R/Makevars
+  - echo "CXX=clang++" >> ~/.R/Makevars
+  - echo "CXX1X=clang++" >> ~/.R/Makevars
+  - echo "CXX1XSTD=-std=c++11" >> ~/.R/Makevars
+  - source ~/.R/Makevars
+  - cd ~/
+  - Rscript -e 'if (!"Rcpp" %in% rownames(installed.packages())) install.packages("Rcpp", dependencies = TRUE)'
+  - Rscript -e 'if (!"devtools" %in% rownames(installed.packages())) install.packages("devtools", dependencies = TRUE)'
+  - itkrrel=0.0.1
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; 
+    then wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; 
+    R CMD INSTALL ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; 
+    then wget http://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}.tgz; 
+    R CMD INSTALL ITKR_${itkrrel}.tgz; fi
+  - cd $basedir
+  # removing remotes
+  - Rscript -e 'devtools::source_url("https://gist.githubusercontent.com/muschellij2/69c48f469ab34cc05752361645ffa8e0/raw/57e7d3b22907699d260f863a0d337a12567ffc30/rewrite_dcf.R"); rewrite_dcf(drop_remotes = c("ITKR"));'
+
+
+# before_install:
+#   - basedir=${PWD}
+#   - cd ..
+#   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then cmake --version; wget --no-check-certificate
+#     https://cmake.org/files/v3.4/cmake-3.4.0-rc1-Linux-x86_64.sh; sh cmake-3.4.0-rc1-Linux-x86_64.sh
+#     --skip-license --prefix=${HOME}; export PATH=$HOME/bin/:$PATH; fi
+#   - export PATH=$HOME/bin/:$PATH
+#   - cd $basedir
+
+# install:
+# - mkdir -p ~/.R
+# - export CC=clang
+# - export CXX=clang++
+# - echo "CC=clang" >  ~/.R/Makevars
+# - echo "CXX=clang++" >> ~/.R/Makevars
+# - echo "CXX1X=clang++" >> ~/.R/Makevars
+# - echo "CXX1XSTD=-std=c++11" >> ~/.R/Makevars
+# - source ~/.R/Makevars
+# - echo 'options(repos = "http://cran.rstudio.com")' > .Rprofile
+# - echo '.travis.yml' > .Rbuildignore
+# - Rscript -e 'if(!"Rcpp" %in% rownames(installed.packages())) { install.packages("Rcpp",
+#   dependencies = TRUE) }'
+# - Rscript -e 'if(!"RcppEigen" %in% rownames(installed.packages())) { install.packages("RcppEigen",
+#   dependencies = TRUE) }'
+# - Rscript -e 'if(!"magrittr" %in% rownames(installed.packages())) { install.packages("magrittr",
+#   dependencies = TRUE) }'
+# - Rscript -e 'if(!"abind" %in% rownames(installed.packages())) { install.packages("abind",
+#   dependencies = TRUE) }'
+# - Rscript -e 'if(!"pixmap" %in% rownames(installed.packages())) { install.packages("pixmap",
+#   dependencies = TRUE) }'
+# - Rscript -e 'if(!"viridis" %in% rownames(installed.packages())) { install.packages("viridis",
+#   dependencies = TRUE) }'
+# - cd ~/
+# - itkrrel=0.0.1
+# - if [ "$TRAVIS_OS_NAME" == "linux" ]; then travis_wait 100 wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz;
+#   R CMD INSTALL ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; fi
+# - if [ "$TRAVIS_OS_NAME" == "osx" ]; then travis_wait 100 wget http://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}.tgz;
+#   R CMD INSTALL ITKR_${itkrrel}.tgz; fi
+# - cd ${basedir}
 
 script:
   - source ~/.R/Makevars
@@ -66,24 +118,18 @@ script:
 after_success:
 - cd $mydir
 after_failure:
-- cat ~/build/stnava/ANTsRCore.Rcheck/00install.out
-- cat ~/build/stnava/ANTsRCore.Rcheck/00check.log
+  - echo ${TRAVIS_BUILD_DIR}
+  - dn=`dirname ${basedir}`
+  - cat ${dn}/ANTsRCore.Rcheck/00install.out
+  - cat ${dn}/ANTsRCore.Rcheck/00check.log
+
 notifications:
   email:
     recipients:
     - stnava@gmail.com
     on_success: change
     on_failure: always
-env:
-  global:
-  - R_BUILD_ARGS=" "
-  - R_CHECK_ARGS=" --timings"
-  - R_CHECK_TIME="TRUE"
-  - R_CHECK_TESTS="TRUE"
-  - _R_CHECK_TIMINGS_="0"
-  - _R_CHECK_FORCE_SUGGESTS_="0"
-  - BOOTSTRAP_LATEX=1
-  - WARNINGS_ARE_ERRORS=0
+
 deploy:
   provider: releases
   api_key:

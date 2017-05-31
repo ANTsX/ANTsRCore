@@ -5,12 +5,13 @@
 #'
 #' @slot index indices of the region
 #' @slot size size of the region
-#' @useDynLib ANTsRCore, .registration = TRUE
+#' @useDynLib ANTsRCore
 #' @import Rcpp
 #' @import methods
 #' @import tools
 #' @import stats
 setClass(Class = "antsRegion", representation(index = "numeric", size = "numeric"))
+##### @useDynLib ANTsRCore, .registration = TRUE
 
 
 #' An S4 class for an antsImage
