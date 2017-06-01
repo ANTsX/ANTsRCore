@@ -87,6 +87,13 @@ mask <- makeImage(c(4,4),
             0,0,0,0), nrow=4))
 plot(img, list(mask))
 \dontrun{
+
+  img = antsImageRead( getANTsRData( 'r16' ) )
+  betaVals = rnorm( prod( dim( img ) ), 0, 20 )
+  betaImg = makeImage( dim( img ), betaVals )  \%>\% smoothImage( 3.5 )
+  betaImg[ abs( betaImg ) < 1.5 ] = 0
+  plot( img, betaImg, window.img=range(img) ,window.overlay=range(betaImg) )
+
   mnit<-getANTsRData('mni')
   mnit<-antsImageRead(mnit)
   mniafn<-getANTsRData('mnia')

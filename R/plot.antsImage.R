@@ -49,6 +49,13 @@
 #'             0,0,0,0), nrow=4))
 #' plot(img, list(mask))
 #' \dontrun{
+#'
+#'   img = antsImageRead( getANTsRData( 'r16' ) )
+#'   betaVals = rnorm( prod( dim( img ) ), 0, 20 )
+#'   betaImg = makeImage( dim( img ), betaVals )  %>% smoothImage( 3.5 )
+#'   betaImg[ abs( betaImg ) < 1.5 ] = 0
+#'   plot( img, betaImg, window.img=range(img) ,window.overlay=range(betaImg) )
+#'
 #'   mnit<-getANTsRData('mni')
 #'   mnit<-antsImageRead(mnit)
 #'   mniafn<-getANTsRData('mnia')
@@ -67,17 +74,17 @@
 #'
 #' @method plot antsImage
 #' @export
-#' @importFrom grDevices colorRampPalette dev.new dev.off heat.colors hsv 
+#' @importFrom grDevices colorRampPalette dev.new dev.off heat.colors hsv
 #' @importFrom grDevices jpeg png rainbow rgb
-#' @importFrom graphics box hist image layout lcm par plot plot.new 
+#' @importFrom graphics box hist image layout lcm par plot plot.new
 #' @importFrom graphics plot.window points rect title
-#' @importFrom stats ar as.formula coefficients convolve cor cor.test cov dist 
-#' @importFrom stats formula glm lm lm.fit loess median model.frame model.matrix 
-#' @importFrom stats model.response na.omit optimize p.adjust pchisq pf pnorm 
-#' @importFrom stats ppois predict pt qchisq qf qnorm qt quantile residuals rnorm 
+#' @importFrom stats ar as.formula coefficients convolve cor cor.test cov dist
+#' @importFrom stats formula glm lm lm.fit loess median model.frame model.matrix
+#' @importFrom stats model.response na.omit optimize p.adjust pchisq pf pnorm
+#' @importFrom stats ppois predict pt qchisq qf qnorm qt quantile residuals rnorm
 #' @importFrom stats spec.pgram spline stl t.test toeplitz ts
-#' @importFrom utils capture.output data download.file glob2rx install.packages 
-#' @importFrom utils read.csv setTxtProgressBar tail txtProgressBar unzip 
+#' @importFrom utils capture.output data download.file glob2rx install.packages
+#' @importFrom utils read.csv setTxtProgressBar tail txtProgressBar unzip
 #' @importFrom utils write.csv
 plot.antsImage <- function(x, y,
   color.img = "white",
@@ -476,6 +483,8 @@ if ( ! any( is.na( domainImageMap ) ) )
     labimg <- temp
     locthresh <- round((window.overlay[1:2] - mncl) /
                       (mxcl - mncl) * (nlevels - 1))
+    zeroval = round(( 0 - mncl) /
+                      (mxcl - mncl) * (nlevels - 1))
     if ( ( min(locthresh) == max(locthresh) ) | any(is.na(locthresh) ) )
       locthresh=c(0,1)
     labslice = reoSlice( labimg )
@@ -544,7 +553,7 @@ if ( ! any( is.na( domainImageMap ) ) )
       upper <- c((locthresh[2] + 1):nlevels)
       heatvals[upper] <- NA
     }
-    heatvals[1]<-NA # dont overlay the background
+    heatvals[  max( c(zeroval,(zeroval))):(zeroval+1)  ]<-NA # dont overlay the background
     if ( useAbsoluteScale )
       {
       biglab[1]=255
