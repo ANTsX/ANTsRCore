@@ -21,6 +21,7 @@ Imports:
     RcppEigen,
     tools,
     magrittr,
+    stats,
     utils
 Suggests:
     abind,
