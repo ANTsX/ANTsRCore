@@ -365,3 +365,17 @@ var.antsImage = function(x, ...) {
   args$x = x
   do.call(var, args = args)
 }
+
+
+#' @title Median for antsImage Objects
+#' @description Overloaded Median for antsImage objects
+#' @param x is an object of class \code{antsImage}.
+#' @param na.rm a logical value indicating whether NA should be removed 
+#' @param mask binary mask of values to subset
+#' @rdname median
+#' @export
+#' @importFrom stats median
+median.antsImage = function(x, na.rm = FALSE, mask) {
+  x = mask_values(x, mask)
+  median(x = x, na.rm = na.rm)
+}
