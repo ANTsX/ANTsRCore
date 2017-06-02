@@ -44,5 +44,5 @@ img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
 max(img01)
 min(img01)
 range(img01)
-prod(img01) 
+prod(img01)
 }

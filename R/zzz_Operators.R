@@ -24,7 +24,7 @@ setMethod("Ops", signature(e1 = "antsImage", e2 = "antsImage"),
             }
             a1 = as.array(e1)
             a2 = as.array(e2)
-            
+
             res <- callGeneric(a1, a2)
             res = as.antsImage(res, reference = e1)
             return(res)
@@ -36,7 +36,7 @@ setMethod("Ops", signature(e1 = "antsImage", e2 = "numeric"),
           function(e1, e2) {
             ## either use drop_img_dim and validObject or take out both
             a1 = as.array(e1)
-            
+
             res <- callGeneric(a1, e2)
             res = as.antsImage(res, reference = e1)
             return(res)
@@ -49,7 +49,7 @@ setMethod("Ops", signature(e1 = "antsImage", e2 = "missing"),
           function(e1, e2) {
             ## This is for unary operators
             a1 = as.array(e1)
-            
+
             res <- callGeneric(a1)
             res = as.antsImage(res, reference = e1)
             return(res)
@@ -61,7 +61,7 @@ setMethod("Ops", signature(e1 = "numeric", e2 = "antsImage"),
           function(e1, e2) {
             ## either use drop_img_dim and validObject or take out both
             a2 = as.array(e2)
-            
+
             res <- callGeneric(e1, a2)
             res = as.antsImage(res, reference = e2)
             return(res)
@@ -76,7 +76,7 @@ setMethod("Ops", signature(e1 = "antsImage", e2 = "logical"),
           function(e1, e2) {
             ## either use drop_img_dim and validObject or take out both
             a1 = as.array(e1)
-            
+
             res <- callGeneric(a1, e2)
             res = as.antsImage(res, reference = e1)
             return(res)
@@ -88,7 +88,7 @@ setMethod("Ops", signature(e1 = "logical", e2 = "antsImage"),
           function(e1, e2) {
             ## either use drop_img_dim and validObject or take out both
             a2 = as.array(e2)
-            
+
             res <- callGeneric(e1, a2)
             res = as.antsImage(res, reference = e2)
             return(res)
@@ -103,7 +103,7 @@ setMethod("Ops", signature(e1 = "antsImage", e2 = "array"),
           function(e1, e2) {
             ## either use drop_img_dim and validObject or take out both
             a1 = as.array(e1)
-            
+
             res <- callGeneric(a1, e2)
             res = as.antsImage(res, reference = e1)
             return(res)
@@ -115,7 +115,7 @@ setMethod("Ops", signature(e1 = "array", e2 = "antsImage"),
           function(e1, e2) {
             ## either use drop_img_dim and validObject or take out both
             a2 = as.array(e2)
-            
+
             res <- callGeneric(e1, a2)
             res = as.antsImage(res, reference = e2)
             return(res)
@@ -223,7 +223,7 @@ setGeneric("any", function(x, ..., na.rm = FALSE)
 #' @export
 setGeneric("all", function(x, ..., na.rm = FALSE)
   standardGeneric("all"),
-  useAsDefault = .all_def, group = "Summary") 
+  useAsDefault = .all_def, group = "Summary")
 
 
 #' @title Summary for antsImage Objects
@@ -238,7 +238,7 @@ setGeneric("all", function(x, ..., na.rm = FALSE)
 #' max(img01)
 #' min(img01)
 #' range(img01)
-#' prod(img01) 
+#' prod(img01)
 #' @aliases Summary,antsImage-method
 #' @export
 setMethod("Summary", "antsImage",
@@ -254,7 +254,7 @@ setMethod("Summary", "antsImage",
             }
             args$x = x
             args$na.rm = na.rm
-            
+
 
             res = do.call(callGeneric, args = args)
             # L = list(...)
@@ -296,10 +296,24 @@ mean.antsImage = function(x, ..., mask) {
   mean(x, ...)
 }
 
-#' @title Mean for antsImage Objects
-#' @description Overloaded Mean for antsImage objects
+
+#' @title Median for antsImage Objects
+#' @description Overloaded Median for antsImage objects
 #' @param x is an object of class \code{antsImage}.
-#' @param incomparables a vector of values that cannot be compared. 
+#' @param na.rm a logical value indicating whether NA should be removed
+#' @param mask binary mask of values to subset
+#' @rdname median
+#' @export
+#' @importFrom stats median
+median.antsImage = function(x, na.rm = FALSE, mask) {
+  x = mask_values(x, mask)
+  median(x = x, na.rm = na.rm)
+}
+
+#' @title Unique for antsImage Objects
+#' @description Overloaded uniqueness operation for antsImage objects
+#' @param x is an object of class \code{antsImage}.
+#' @param incomparables a vector of values that cannot be compared.
 #' @param ... additional arguments passed to \code{\link{unique}}
 #' @param mask binary mask of values to subset
 #' @rdname unique
