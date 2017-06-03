@@ -184,10 +184,9 @@ if ( ! any( is.na( domainImageMap ) ) )
   imagedim <- length(dim(myantsimage))
   hvpx <- usePkg("pixmap")
   hvmsc <- usePkg("misc3d")
-  hvrgl <- usePkg("rgl")
   if ( !hvmsc | ! hvpx )
     {
-    print(paste("You need rgl, misc3d and pixmap libraries to use this."))
+    print(paste("You need misc3d and pixmap libraries to use this."))
     invisible(return())
     }
   read.img <- function(x, dim = 2) {

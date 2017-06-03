@@ -2,7 +2,7 @@
 % Please edit documentation in R/zzz_Operators.R
 \name{unique.antsImage}
 \alias{unique.antsImage}
-\title{Mean for antsImage Objects}
+\title{Unique for antsImage Objects}
 \usage{
 \method{unique}{antsImage}(x, incomparables = FALSE, ..., mask)
 }
@@ -16,5 +16,5 @@
 \item{mask}{binary mask of values to subset}
 }
 \description{
-Overloaded Mean for antsImage objects
+Overloaded uniqueness operation for antsImage objects
 }
