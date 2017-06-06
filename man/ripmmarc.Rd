@@ -5,7 +5,7 @@
 \title{Rotation Invariant Patch-based Multi-Modality Analysis aRChitecture}
 \usage{
 ripmmarc(img, mask, patchRadius = 3, patchSamples = 1000,
-  patchVarEx = 0.95, meanCenter = FALSE, canonicalFrame = NA,
+  patchVarEx = 0.95, meanCenter = TRUE, canonicalFrame = NA,
   evecBasis = NA, rotationInvariant = TRUE, regressProjections = TRUE,
   verbose = FALSE)
 }
