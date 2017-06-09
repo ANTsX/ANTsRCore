@@ -10,7 +10,8 @@ coerce_mask = function(x, error = TRUE) {
   x = as.array(x)
   ux = unique(x)
   if (all(ux %in% c(0, 1, NaN, NA))) {
-    x = x != 0
+    # x = x != 0
+    class(x) = "logical"
   } else {
     if (error) {
       stop("Mask is not binary!")
