@@ -10,7 +10,8 @@ ripmmarcPop(ilist, mask, patchRadius = 3, patchSamples = 1000,
 \arguments{
 \item{ilist}{list of antsImages from which to learn basis}
 
-\item{mask}{Binary mask defining regions in which to decompose.}
+\item{mask}{Binary mask defining regions in which to decompose or a list
+of masks corresponding to ilist.}
 
 \item{patchRadius}{Scalar radius defining the patch size.}
 
@@ -38,9 +39,7 @@ pop = getANTsRData( "population" ) # list of example images
 popmasks = list( )
 for ( i in 1:length( pop ) )
   popmasks[[ i ]] = getMask( pop[[ i ]] )
-avgmask = antsAverageImages( popmasks )
-avgmask = thresholdImage( avgmask, 1.e-5, Inf )
-rp = ripmmarcPop( pop, avgmask, patchRadius=3,
+rp = ripmmarcPop( pop, popmasks, patchRadius=3,
   meanCenter = TRUE, patchSamples=1000 )
 nv = 15
 rippedTest <- ripmmarc( pop[[3]], popmasks[[3]], patchRadius = 3,

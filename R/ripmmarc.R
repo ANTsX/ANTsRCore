@@ -135,7 +135,8 @@ ripmmarcBasisImage <- function( canonicalFrame,
 #' is similar to patch-based dictionary learning in N-dimensions.  This
 #' implementation is more efficient for building a basis from image populations.
 #' @param ilist list of antsImages from which to learn basis
-#' @param mask Binary mask defining regions in which to decompose.
+#' @param mask Binary mask defining regions in which to decompose or a list
+#' of masks corresponding to ilist.
 #' @param patchRadius Scalar radius defining the patch size.
 #' @param patchSamples Scalar defining the number of random patches to sample.
 #' @param patchVarEx Scalar defining the target variance explained.  If this is
@@ -153,9 +154,7 @@ ripmmarcBasisImage <- function( canonicalFrame,
 #' popmasks = list( )
 #' for ( i in 1:length( pop ) )
 #'   popmasks[[ i ]] = getMask( pop[[ i ]] )
-#' avgmask = antsAverageImages( popmasks )
-#' avgmask = thresholdImage( avgmask, 1.e-5, Inf )
-#' rp = ripmmarcPop( pop, avgmask, patchRadius=3,
+#' rp = ripmmarcPop( pop, popmasks, patchRadius=3,
 #'   meanCenter = TRUE, patchSamples=1000 )
 #' nv = 15
 #' rippedTest <- ripmmarc( pop[[3]], popmasks[[3]], patchRadius = 3,
@@ -173,7 +172,10 @@ ripmmarcPop <- function(
   patchVarEx=0.95,
   meanCenter=TRUE )
   {
-  randMask = randomMask( mask, patchSamples, perLabel = TRUE )
+  maskIsList = class( mask ) == "list"
+  if ( maskIsList ) {
+    randMask = randomMask( mask[[1]], patchSamples, perLabel = TRUE )
+  } else randMask = randomMask( mask, patchSamples, perLabel = TRUE )
   ripped <- ripmmarc( ilist[[1]], randMask, patchRadius = patchRadius,
     patchSamples = patchSamples, patchVarEx = patchVarEx,
     rotationInvariant = FALSE )
@@ -182,10 +184,13 @@ ripmmarcPop <- function(
   # map all population images to neighborhood matrices
   idim = ilist[[1]]@dimension
   myrad = rep( patchRadius + 2, idim )
-  ripmat = getNeighborhoodInMask( pop[[ 1 ]], randMask, radius = myrad,
+  ripmat = getNeighborhoodInMask( ilist[[ 1 ]], randMask, radius = myrad,
     boundary.condition = 'image' )
-  for ( i in 2:length( pop ) ) {
-    locmat = getNeighborhoodInMask( pop[[ i ]], randMask, radius = myrad,
+  for ( i in 2:length( ilist ) ) {
+    if ( maskIsList ) {
+      randMask = randomMask( mask[[i]], patchSamples, perLabel = TRUE )
+    }
+    locmat = getNeighborhoodInMask( ilist[[ i ]], randMask, radius = myrad,
       boundary.condition = 'image' )
     ripmat = cbind( ripmat, locmat )
   }
