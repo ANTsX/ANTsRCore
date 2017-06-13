@@ -17,7 +17,6 @@
 */
 
 /* .Call calls */
-extern SEXP antsImageOperatorsImageNumeric(SEXP,SEXP,SEXP);
 extern SEXP antsApplyTransforms(SEXP);
 extern SEXP antsApplyTransformsToPoints(SEXP);
 extern SEXP antsImage(SEXP, SEXP, SEXP);
@@ -53,8 +52,10 @@ extern SEXP antsImageIterator_Next(SEXP);
 extern SEXP antsImageIterator_Previous(SEXP);
 extern SEXP antsImageIterator_Remaining(SEXP);
 extern SEXP antsImageIterator_Set(SEXP, SEXP);
+extern SEXP antsImage_SetByImage( SEXP, SEXP, SEXP );
 extern SEXP antsImageIterator_SetIndex(SEXP, SEXP);
 extern SEXP antsImageMutualInformation(SEXP, SEXP);
+extern SEXP antsImageOperatorsImageNumeric(SEXP,SEXP,SEXP);
 extern SEXP antsImageRead(SEXP, SEXP, SEXP, SEXP);
 extern SEXP antsImageWrite(SEXP, SEXP);
 extern SEXP antsMatrix(SEXP);
@@ -93,7 +94,6 @@ extern SEXP splitChannels(SEXP, SEXP);
 extern SEXP ThresholdImage(SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"antsImageOperatorsImageNumeric",          (DL_FUNC) &antsImageOperatorsImageNumeric,           3},
     {"antsApplyTransforms",                     (DL_FUNC) &antsApplyTransforms,                      1},
     {"antsApplyTransformsToPoints",             (DL_FUNC) &antsApplyTransformsToPoints,              1},
     {"antsImage",                               (DL_FUNC) &antsImage,                                3},
@@ -108,6 +108,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsImage_GetSpacing",                    (DL_FUNC) &antsImage_GetSpacing,                     1},
     {"antsImage_isna",                          (DL_FUNC) &antsImage_isna,                           1},
     // {"antsImage_RelationalOperators",           (DL_FUNC) &antsImage_RelationalOperators,            4},
+    {"antsImage_SetByImage",                    (DL_FUNC) &antsImage_SetByImage,                     3},
     {"antsImage_SetDirection",                  (DL_FUNC) &antsImage_SetDirection,                   2},
     {"antsImage_SetOrigin",                     (DL_FUNC) &antsImage_SetOrigin,                      2},
     {"antsImage_SetPixels",                     (DL_FUNC) &antsImage_SetPixels,                      3},
@@ -131,6 +132,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsImageIterator_Set",                   (DL_FUNC) &antsImageIterator_Set,                    2},
     {"antsImageIterator_SetIndex",              (DL_FUNC) &antsImageIterator_SetIndex,               2},
     {"antsImageMutualInformation",              (DL_FUNC) &antsImageMutualInformation,               2},
+    {"antsImageOperatorsImageNumeric",          (DL_FUNC) &antsImageOperatorsImageNumeric,           3},
     {"antsImageRead",                           (DL_FUNC) &antsImageRead,                            4},
     {"antsImageWrite",                          (DL_FUNC) &antsImageWrite,                           2},
     {"antsMatrix",                              (DL_FUNC) &antsMatrix,                               1},
