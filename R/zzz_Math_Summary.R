@@ -1,4 +1,3 @@
-
 #' @title Math for antsImage Objects
 #' @description Overloaded math for antsImage objects
 #' @name antsImage-math
