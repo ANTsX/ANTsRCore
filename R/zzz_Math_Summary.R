@@ -1,144 +1,3 @@
-## Overloading binary operators for antsImage Objects
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-#' @title Operations for antsImage Objects
-#' @description Overloaded operators for antsImage objects
-#' @name antsImage-operators
-#' @rdname antsImageops
-#' @param e1 is an object of class \code{antsImage}.
-#' @param e2 is an object of class \code{antsImage}.
-#' @author John Muschellli \email{muschellij2@@gmail.com}
-#' @examples
-#'
-#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
-#' img02 <- as.antsImage(array(64:1, c(4,4,4,1)))
-#' is.antsImage(img01 + img02)
-#' is.antsImage(sqrt(2) * img01)
-#' is.antsImage(img02 / pi)
-#' @aliases Ops,antsImage,antsImage-method
-#' @export
-setMethod("Ops", signature(e1 = "antsImage", e2 = "antsImage"),
-          function(e1, e2) {
-            ## either use drop_img_dim and validObject or take out both
-            if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
-              stop("Images do not occupy the same physical space")
-            }
-            a1 = as.array(e1)
-            a2 = as.array(e2)
-
-            res <- callGeneric(a1, a2)
-            res = as.antsImage(res, reference = e1)
-            return(res)
-          })
-
-#' @rdname antsImageops
-#' @aliases Ops,antsImage,numeric-method
-setMethod("Ops", signature(e1 = "antsImage", e2 = "numeric"),
-          function(e1, e2) {
-            ## either use drop_img_dim and validObject or take out both
-            a1 = as.array(e1)
-
-            res <- callGeneric(a1, e2)
-            res = as.antsImage(res, reference = e1)
-            return(res)
-          })
-
-
-#' @rdname antsImageops
-#' @aliases Ops,antsImage,numeric-method
-setMethod("Ops", signature(e1 = "antsImage", e2 = "missing"),
-          function(e1, e2) {
-            ## This is for unary operators
-            a1 = as.array(e1)
-
-            res <- callGeneric(a1)
-            res = as.antsImage(res, reference = e1)
-            return(res)
-          })
-
-#' @rdname antsImageops
-#' @aliases Ops,numeric,antsImage-method
-setMethod("Ops", signature(e1 = "numeric", e2 = "antsImage"),
-          function(e1, e2) {
-            ## either use drop_img_dim and validObject or take out both
-            a2 = as.array(e2)
-
-            res <- callGeneric(e1, a2)
-            res = as.antsImage(res, reference = e2)
-            return(res)
-          })
-
-############################################
-# Logicals
-############################################
-#' @rdname antsImageops
-#' @aliases Ops,antsImage,logical-method
-setMethod("Ops", signature(e1 = "antsImage", e2 = "logical"),
-          function(e1, e2) {
-            ## either use drop_img_dim and validObject or take out both
-            a1 = as.array(e1)
-
-            res <- callGeneric(a1, e2)
-            res = as.antsImage(res, reference = e1)
-            return(res)
-          })
-
-#' @rdname antsImageops
-#' @aliases Ops,logical,antsImage-method
-setMethod("Ops", signature(e1 = "logical", e2 = "antsImage"),
-          function(e1, e2) {
-            ## either use drop_img_dim and validObject or take out both
-            a2 = as.array(e2)
-
-            res <- callGeneric(e1, a2)
-            res = as.antsImage(res, reference = e2)
-            return(res)
-          })
-
-############################################
-# Arrays
-############################################
-#' @rdname antsImageops
-#' @aliases Ops,antsImage,array-method
-setMethod("Ops", signature(e1 = "antsImage", e2 = "array"),
-          function(e1, e2) {
-            ## either use drop_img_dim and validObject or take out both
-            a1 = as.array(e1)
-
-            res <- callGeneric(a1, e2)
-            res = as.antsImage(res, reference = e1)
-            return(res)
-          })
-
-#' @rdname antsImageops
-#' @aliases Ops,array,antsImage-method
-setMethod("Ops", signature(e1 = "array", e2 = "antsImage"),
-          function(e1, e2) {
-            ## either use drop_img_dim and validObject or take out both
-            a2 = as.array(e2)
-
-            res <- callGeneric(e1, a2)
-            res = as.antsImage(res, reference = e2)
-            return(res)
-          })
-
-#' @rdname antsImageops
-#' @aliases Ops,list,antsImage-method
-setMethod("Ops", signature(e1 = "list", e2 = "antsImage"),
-          function(e1, e2) {
-            ## either use drop_img_dim and validObject or take out both
-            # a2 = as.array(e1)
-            stop("antsRegions not done yet!")
-          })
-
-#' @rdname antsImageops
-#' @aliases Ops,antsImage,list-method
-setMethod("Ops", signature(e1 = "antsImage", e2 = "list"),
-          function(e1, e2) {
-            ## either use drop_img_dim and validObject or take out both
-            # a2 = as.array(e1)
-            stop("antsRegions not done yet!")
-          })
-
 #' @title Math for antsImage Objects
 #' @description Overloaded math for antsImage objects
 #' @name antsImage-math
@@ -254,8 +113,8 @@ setMethod("Summary", "antsImage",
             }
             args$x = x
             args$na.rm = na.rm
-
-
+            
+            
             res = do.call(callGeneric, args = args)
             # L = list(...)
             # mask = L$mask
@@ -301,13 +160,19 @@ mean.antsImage = function(x, ..., mask) {
 #' @description Overloaded Median for antsImage objects
 #' @param x is an object of class \code{antsImage}.
 #' @param na.rm a logical value indicating whether NA should be removed
-#' @param mask binary mask of values to subset
+#' @param ... additional arguments to send to \code{median}
 #' @rdname median
 #' @export
 #' @importFrom stats median
-median.antsImage = function(x, na.rm = FALSE, mask) {
+median.antsImage = function(x, na.rm = FALSE, ...) {
+  args = list(...)
+  mask = args$mask
   x = mask_values(x, mask)
-  median(x = x, na.rm = na.rm)
+  args$mask = NULL
+  args$x = x
+  args$na.rm = na.rm
+  do.call("median", args)
+  # median(x = x, na.rm = na.rm)
 }
 
 #' @title Unique for antsImage Objects
@@ -365,3 +230,5 @@ var.antsImage = function(x, ...) {
   args$x = x
   do.call(var, args = args)
 }
+
+

@@ -1,7 +1,7 @@
 Package: ANTsRCore
 Type: Package
 Title: Core Software Infrastructure for ANTsR
-Version: 0.2
+Version: 0.3.4
 Date: 2017-05-22
 Author: Brian B. Avants, Benjamin M. Kandel, Jeff T. Duda, Philip A. Cook,
     Nicholas J. Tustison
@@ -11,6 +11,7 @@ Description: ANTsR interfaces state of the art image processing with R
     the underlying C++ framework on which ANTsR depends.
 License: Apache License (>=2.0)
 LazyLoad: yes
+LazyData: true
 Depends:
     methods
 LinkingTo:
@@ -26,7 +27,8 @@ Imports:
 Suggests:
     abind,
     pixmap,
-    viridis
+    viridis,
+    testthat
 SystemRequirements: cmake, git, clang (recommended)
 Remotes: stnava/ITKR
 NeedsCompilation: yes

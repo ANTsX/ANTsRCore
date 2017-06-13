@@ -14,3 +14,8 @@ src/ants/.git/*
 ^\.Rproj\.user$
 .makeTag
 ^appveyor\.yml$
+comparison_operator_template\.R
+make_comparison_operator\.R
+
+R/\.Rhistory
+.Rhistory

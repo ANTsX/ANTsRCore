@@ -8,7 +8,7 @@
 #' @param spacing image spatial resolution
 #' @param origin image spatial origin
 #' @param direction direction matrix to convert from index to physical space
-#' @param components components per pixel
+#' @param components whether there are components per pixel or not
 #' @param pixeltype data type of image values
 #' @return antsImage is output
 #' @author Avants BB
@@ -18,50 +18,44 @@
 #' outimg<-makeImage( outimg ,  c(2,10) )
 #'
 #' @export makeImage
-makeImage <- function(imagesize, voxval = 0, spacing=c(NA), origin=c(NA), direction=c(NA), components=1 , pixeltype="float") {
+makeImage <- function(imagesize, voxval = 0, spacing=c(NA), origin=c(NA), 
+                      direction=c(NA), components = FALSE , pixeltype="float") {
 
-  if ( components != 1 )
+  if ( components > 1 )
     {
     stop("Multichannel images not yet supported")
     }
-
+  if (is.antsImage(imagesize)) {
+    img <- antsImageClone(imagesize)
+    sel = as.array(imagesize) > 0
+    if (length(voxval) == sum(sel) || 
+        length(voxval) == 1) {
+      img[sel] <- voxval
+    } else {
+      warning("Number of voxels not the same as the positive values")
+    }
+    return(img)
+  }
+  
   firstparamnumer <- (typeof(imagesize) == "double" | typeof(imagesize) == "integer")
   if (firstparamnumer) {
-    imagedimension <- length(imagesize)
-
-    if ( is.na(spacing[1]))
-      {
-      spacing = rep(1, imagedimension)
-      }
-    if ( is.na(origin[1]))
-      {
-      origin = rep(0, imagedimension)
-      }
-    if ( is.na(direction[1]))
-      {
-      direction = matrix(data=0, nrow=imagedimension, ncol=imagedimension)
-      diag(direction) = rep(1, imagedimension)
-      }
-
-    outimg = .Call( "makeImage", pixeltype, imagesize, spacing, origin, direction, components, PACKAGE="ANTsRCore" )
-
-    if ( length(voxval) == 1)
-      {
-      outimg[outimg == 0] = voxval
-      }
-    else if ( length(voxval) > 1 )
-      {
-      outimg[outimg == 0] <- voxval
-      }
-
+    # imagedimension <- length(imagesize)
+    outimg = array(voxval, dim = imagesize)
+    args = list(
+      object = outimg,
+      pixeltype = pixeltype,
+      components = components)
+    if (!all(is.na(spacing))) {
+      args$spacing = spacing
+    }
+    if (!all(is.na(origin))) {
+      args$origin = origin
+    }    
+    if (!all(is.na(direction))) {
+      args$direction = direction
+    }
+    outimg = do.call("as.antsImage", args = args)
     return(outimg)
   }
 
-  if (class(imagesize)[[1]] == "antsImage") {
-    img <- antsImageClone(imagesize)
-    sel <- (imagesize > 0)
-    if (length(voxval) == sum(sel))
-      img[sel] <- voxval
-    return(img)
-  }
 }

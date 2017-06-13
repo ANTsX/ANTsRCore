@@ -83,13 +83,10 @@ setMethod(
   f = "[<-",
   signature(x = "antsImage", i = "antsImage"),
   definition = function(x, i, j, ..., value) {
-    i = coerce_mask(i)
-    if (typeof(i) != "logical") {
-      stop("'mask' provided is not of type 'logical'")
+    if ( i@pixeltype != "unsigned char") {
+      i = antsImageClone(i, out_pixeltype="unsigned char")
     }
-    region <-
-      new("antsRegion", index = integer(), size = integer())
-    return(.Call("antsImage_SetRegion", x, i, region, value, PACKAGE = "ANTsRCore"))
+    return(.Call("antsImage_SetByImage", x, i, value, PACKAGE = "ANTsRCore"))
   }
 )
 

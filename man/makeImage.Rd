@@ -5,7 +5,7 @@
 \title{Simple makeImage function.}
 \usage{
 makeImage(imagesize, voxval = 0, spacing = c(NA), origin = c(NA),
-  direction = c(NA), components = 1, pixeltype = "float")
+  direction = c(NA), components = FALSE, pixeltype = "float")
 }
 \arguments{
 \item{imagesize}{input image size or mask}
@@ -18,7 +18,7 @@ makeImage(imagesize, voxval = 0, spacing = c(NA), origin = c(NA),
 
 \item{direction}{direction matrix to convert from index to physical space}
 
-\item{components}{components per pixel}
+\item{components}{whether there are components per pixel or not}
 
 \item{pixeltype}{data type of image values}
 }

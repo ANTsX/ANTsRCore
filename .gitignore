@@ -6,6 +6,7 @@
 # things to ignore in directory ANTsR/src
 src/Makevars
 src/*.o
+src/*.o-*
 src/*.so
 src/symbols.rds
 # things to ignore in ANTsR/src/ANTsR
@@ -17,6 +18,8 @@ src/itki/
 inst/doc
 vignettes/*pdf
 vignettes/*html
+
+obsolete/*
 
 .Rhistory
 R/.Rhistory

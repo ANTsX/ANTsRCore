@@ -6,7 +6,7 @@
 \usage{
 n4BiasFieldCorrection(img, mask = NA, shrinkFactor = 4,
   convergence = list(iters = c(50, 50, 50, 50), tol = 1e-07),
-  splineParam = 200, verbose = FALSE)
+  splineParam = 200, verbose = FALSE, weight_mask = NULL)
 }
 \arguments{
 \item{img}{input antsImage}
@@ -24,6 +24,8 @@ Either single value, indicating how many control points, or vector
 with one entry per dimension of image, indicating the spacing in each direction.}
 
 \item{verbose}{enables verbose output.}
+
+\item{weight_mask}{antsImage of weight mask}
 }
 \value{
 outimg Bias-corrected image
@@ -32,8 +34,8 @@ outimg Bias-corrected image
 Perform Bias Field Correction on the given image
 }
 \examples{
-
- img<-makeImage( c(50,50), rnorm(2500) )
+ dims = c(50, 50)
+ img<-makeImage(imagesize = dims, rnorm(prod(dims)) )
  n4img<-n4BiasFieldCorrection(img)
 
 }
