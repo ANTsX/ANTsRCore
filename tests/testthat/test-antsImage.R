@@ -35,7 +35,7 @@ test_that("Comparisons give back antsImages", {
 test_that("Array operations give back antsImages", {
   expect_true(is.antsImage( img1 + arr))
   expect_true(is.antsImage( arr + img ))
-  expect_true(is.antsImage( img1 == arr ))
+  expect_true(is.antsImage( img1 == arr))
 })
 
 test_that("Masks are in summary measures", {
