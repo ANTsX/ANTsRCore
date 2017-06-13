@@ -4,14 +4,14 @@
 \alias{median.antsImage}
 \title{Median for antsImage Objects}
 \usage{
-\method{median}{antsImage}(x, na.rm = FALSE, mask)
+\method{median}{antsImage}(x, na.rm = FALSE, ...)
 }
 \arguments{
 \item{x}{is an object of class \code{antsImage}.}
 
 \item{na.rm}{a logical value indicating whether NA should be removed}
 
-\item{mask}{binary mask of values to subset}
+\item{...}{additional arguments to send to \code{median}}
 }
 \description{
 Overloaded Median for antsImage objects

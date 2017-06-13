@@ -160,13 +160,19 @@ mean.antsImage = function(x, ..., mask) {
 #' @description Overloaded Median for antsImage objects
 #' @param x is an object of class \code{antsImage}.
 #' @param na.rm a logical value indicating whether NA should be removed
-#' @param mask binary mask of values to subset
+#' @param ... additional arguments to send to \code{median}
 #' @rdname median
 #' @export
 #' @importFrom stats median
-median.antsImage = function(x, na.rm = FALSE, mask) {
+median.antsImage = function(x, na.rm = FALSE, ...) {
+  args = list(...)
+  mask = args$mask
   x = mask_values(x, mask)
-  median(x = x, na.rm = na.rm)
+  args$mask = NULL
+  args$x = x
+  args$na.rm = na.rm
+  do.call("median", args)
+  # median(x = x, na.rm = na.rm)
 }
 
 #' @title Unique for antsImage Objects
