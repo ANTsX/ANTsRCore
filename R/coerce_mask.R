@@ -12,6 +12,7 @@ coerce_mask = function(x, error = TRUE) {
   }
   x = as.array(x)
   # checking if zeroes and ones
+  # we can change this when | and || are implemented in C++
   one = x == 1
   check = (x == 0 || one)
   if (check) {

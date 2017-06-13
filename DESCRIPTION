@@ -26,7 +26,8 @@ Imports:
 Suggests:
     abind,
     pixmap,
-    viridis
+    viridis,
+    testthat
 SystemRequirements: cmake, git, clang (recommended)
 Remotes: stnava/ITKR
 NeedsCompilation: yes

@@ -16,26 +16,32 @@
 \alias{Arith,antsImage,list-method}
 \alias{==,antsImage,antsImage-method}
 \alias{==,antsImage,list-method}
+\alias{==,antsImage,array-method}
 \alias{==,antsImage,ANY-method}
 \alias{==,ANY,antsImage-method}
 \alias{>,antsImage,antsImage-method}
 \alias{>,antsImage,list-method}
+\alias{>,antsImage,array-method}
 \alias{>,antsImage,ANY-method}
 \alias{>,ANY,antsImage-method}
 \alias{<,antsImage,antsImage-method}
 \alias{<,antsImage,list-method}
+\alias{<,antsImage,array-method}
 \alias{<,antsImage,ANY-method}
 \alias{<,ANY,antsImage-method}
 \alias{!=,antsImage,antsImage-method}
 \alias{!=,antsImage,list-method}
+\alias{!=,antsImage,array-method}
 \alias{!=,antsImage,ANY-method}
 \alias{!=,ANY,antsImage-method}
 \alias{<=,antsImage,antsImage-method}
 \alias{<=,antsImage,list-method}
+\alias{<=,antsImage,array-method}
 \alias{<=,antsImage,ANY-method}
 \alias{<=,ANY,antsImage-method}
 \alias{>=,antsImage,antsImage-method}
 \alias{>=,antsImage,list-method}
+\alias{>=,antsImage,array-method}
 \alias{>=,antsImage,ANY-method}
 \alias{>=,ANY,antsImage-method}
 \alias{Logic,antsImage,numeric-method}
@@ -74,6 +80,8 @@
 
 \S4method{==}{antsImage,list}(e1, e2)
 
+\S4method{==}{antsImage,array}(e1, e2)
+
 \S4method{==}{antsImage,ANY}(e1, e2)
 
 \S4method{==}{ANY,antsImage}(e1, e2)
@@ -81,6 +89,8 @@
 \S4method{>}{antsImage,antsImage}(e1, e2)
 
 \S4method{>}{antsImage,list}(e1, e2)
+
+\S4method{>}{antsImage,array}(e1, e2)
 
 \S4method{>}{antsImage,ANY}(e1, e2)
 
@@ -90,6 +100,8 @@
 
 \S4method{<}{antsImage,list}(e1, e2)
 
+\S4method{<}{antsImage,array}(e1, e2)
+
 \S4method{<}{antsImage,ANY}(e1, e2)
 
 \S4method{<}{ANY,antsImage}(e1, e2)
@@ -97,6 +109,8 @@
 \S4method{!=}{antsImage,antsImage}(e1, e2)
 
 \S4method{!=}{antsImage,list}(e1, e2)
+
+\S4method{!=}{antsImage,array}(e1, e2)
 
 \S4method{!=}{antsImage,ANY}(e1, e2)
 
@@ -106,6 +120,8 @@
 
 \S4method{<=}{antsImage,list}(e1, e2)
 
+\S4method{<=}{antsImage,array}(e1, e2)
+
 \S4method{<=}{antsImage,ANY}(e1, e2)
 
 \S4method{<=}{ANY,antsImage}(e1, e2)
@@ -113,6 +129,8 @@
 \S4method{>=}{antsImage,antsImage}(e1, e2)
 
 \S4method{>=}{antsImage,list}(e1, e2)
+
+\S4method{>=}{antsImage,array}(e1, e2)
 
 \S4method{>=}{antsImage,ANY}(e1, e2)
 
