@@ -7,12 +7,9 @@ setMethod("OPERATOR", signature(e1 = "antsImage", e2 = "antsImage"),
             if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
               stop("Images do not occupy the same physical space")
             }
-            region <- new("antsRegion", index = integer(), size = integer())
-            res = .Call("antsImage_RelationalOperators", e1, e2, region,
-                        operator, PACKAGE = "ANTsR")
-            res = as.antsImage(
-              array(res, dim = dim(res))
-              , reference = res)            
+            res = .Call("antsImageOperatorsImageNumeric", 
+                        e1, e2, 
+                        operator, PACKAGE = "ANTsRCore")
             return(res)
 
           })
@@ -29,12 +26,9 @@ setMethod("OPERATOR", signature(e1 = "antsImage", e2 = "list"),
 setMethod("OPERATOR", signature(e1 = "antsImage", e2 = "ANY"),
           function(e1, e2) {
             operator = "OPERATOR"
-            region <- new("antsRegion", index = integer(), size = integer())
-            res = .Call("antsImage_RelationalOperators", e1, e2, region,
-                        operator, PACKAGE = "ANTsR")
-            res = as.antsImage(
-              array(res, dim = dim(res))
-              , reference = res)     
+            res = .Call("antsImageOperatorsImageNumeric", 
+                        e1, e2, 
+                        operator, PACKAGE = "ANTsRCore")  
             return(res)
             # return(.Call("antsImage_RelationalOperators", e1, e2, region,
             #              operator, PACKAGE = "ANTsRCore"))
@@ -46,12 +40,9 @@ setMethod("OPERATOR", signature(e1 = "antsImage", e2 = "logical"),
           function(e1, e2) {
             operator = "OPERATOR"
             e2 = as.numeric(e2)
-            region <- new("antsRegion", index = integer(), size = integer())
-            res = .Call("antsImage_RelationalOperators", e1, e2, region,
-                        operator, PACKAGE = "ANTsR")
-            res = as.antsImage(
-              array(res, dim = dim(res))
-              , reference = res)     
+            res = .Call("antsImageOperatorsImageNumeric", 
+                        e1, e2, 
+                        operator, PACKAGE = "ANTsRCore") 
             return(res)            
             # return(.Call("antsImage_RelationalOperators", e1, e2, region,
             #              operator, PACKAGE = "ANTsRCore"))
