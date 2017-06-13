@@ -17,3 +17,5 @@ src/ants/.git/*
 comparison_operator_template\.R
 make_comparison_operator\.R
 
+R/\.Rhistory
+.Rhistory

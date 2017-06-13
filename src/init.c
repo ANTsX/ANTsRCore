@@ -17,6 +17,7 @@
 */
 
 /* .Call calls */
+extern SEXP antsImageOperatorsImageNumeric(SEXP,SEXP,SEXP);
 extern SEXP antsApplyTransforms(SEXP);
 extern SEXP antsApplyTransformsToPoints(SEXP);
 extern SEXP antsImage(SEXP, SEXP, SEXP);
@@ -92,6 +93,7 @@ extern SEXP splitChannels(SEXP, SEXP);
 extern SEXP ThresholdImage(SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
+    {"antsImageOperatorsImageNumeric",          (DL_FUNC) &antsImageOperatorsImageNumeric,           3},
     {"antsApplyTransforms",                     (DL_FUNC) &antsApplyTransforms,                      1},
     {"antsApplyTransformsToPoints",             (DL_FUNC) &antsApplyTransformsToPoints,              1},
     {"antsImage",                               (DL_FUNC) &antsImage,                                3},
