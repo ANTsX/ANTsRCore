@@ -44,6 +44,7 @@
 \alias{>=,antsImage,array-method}
 \alias{>=,antsImage,ANY-method}
 \alias{>=,ANY,antsImage-method}
+\alias{Logic,antsImage,antsImage-method}
 \alias{Logic,antsImage,numeric-method}
 \alias{Logic,antsImage,missing-method}
 \alias{Logic,antsImage,numeric-method}
@@ -135,6 +136,8 @@
 \S4method{>=}{antsImage,ANY}(e1, e2)
 
 \S4method{>=}{ANY,antsImage}(e1, e2)
+
+\S4method{Logic}{antsImage,antsImage}(e1, e2)
 
 \S4method{Logic}{antsImage,numeric}(e1, e2)
 

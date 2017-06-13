@@ -8,3 +8,4 @@ test_that("image can be written with antsImageWrite", {
           img2 <- antsImageRead('output.nii.gz', 2, pixeltype="double")
           expect_equal(sum(abs(as.array(img2))), sum(abs(img1_array)))
 })
+file.remove('output.nii.gz')

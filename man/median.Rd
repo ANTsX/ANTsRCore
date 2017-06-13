@@ -2,11 +2,8 @@
 % Please edit documentation in R/zzz_Math_Summary.R
 \name{median.antsImage}
 \alias{median.antsImage}
-\alias{median.antsImage}
 \title{Median for antsImage Objects}
 \usage{
-\method{median}{antsImage}(x, na.rm = FALSE, mask)
-
 \method{median}{antsImage}(x, na.rm = FALSE, mask)
 }
 \arguments{
@@ -15,15 +12,7 @@
 \item{na.rm}{a logical value indicating whether NA should be removed}
 
 \item{mask}{binary mask of values to subset}
-
-\item{x}{is an object of class \code{antsImage}.}
-
-\item{na.rm}{a logical value indicating whether NA should be removed}
-
-\item{mask}{binary mask of values to subset}
 }
 \description{
-Overloaded Median for antsImage objects
-
 Overloaded Median for antsImage objects
 }

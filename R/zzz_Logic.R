@@ -1,3 +1,4 @@
+#' @rdname antsImageops
 #' @aliases Logic,antsImage,antsImage-method
 #' @export
 setMethod("Logic", signature(e1 = "antsImage", e2 = "antsImage"),
