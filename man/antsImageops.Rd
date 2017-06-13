@@ -17,32 +17,26 @@
 \alias{==,antsImage,antsImage-method}
 \alias{==,antsImage,list-method}
 \alias{==,antsImage,ANY-method}
-\alias{==,antsImage,logical-method}
 \alias{==,ANY,antsImage-method}
 \alias{>,antsImage,antsImage-method}
 \alias{>,antsImage,list-method}
 \alias{>,antsImage,ANY-method}
-\alias{>,antsImage,logical-method}
 \alias{>,ANY,antsImage-method}
 \alias{<,antsImage,antsImage-method}
 \alias{<,antsImage,list-method}
 \alias{<,antsImage,ANY-method}
-\alias{<,antsImage,logical-method}
 \alias{<,ANY,antsImage-method}
 \alias{!=,antsImage,antsImage-method}
 \alias{!=,antsImage,list-method}
 \alias{!=,antsImage,ANY-method}
-\alias{!=,antsImage,logical-method}
 \alias{!=,ANY,antsImage-method}
 \alias{<=,antsImage,antsImage-method}
 \alias{<=,antsImage,list-method}
 \alias{<=,antsImage,ANY-method}
-\alias{<=,antsImage,logical-method}
 \alias{<=,ANY,antsImage-method}
 \alias{>=,antsImage,antsImage-method}
 \alias{>=,antsImage,list-method}
 \alias{>=,antsImage,ANY-method}
-\alias{>=,antsImage,logical-method}
 \alias{>=,ANY,antsImage-method}
 \alias{Logic,antsImage,numeric-method}
 \alias{Logic,antsImage,missing-method}
@@ -82,8 +76,6 @@
 
 \S4method{==}{antsImage,ANY}(e1, e2)
 
-\S4method{==}{antsImage,logical}(e1, e2)
-
 \S4method{==}{ANY,antsImage}(e1, e2)
 
 \S4method{>}{antsImage,antsImage}(e1, e2)
@@ -91,8 +83,6 @@
 \S4method{>}{antsImage,list}(e1, e2)
 
 \S4method{>}{antsImage,ANY}(e1, e2)
-
-\S4method{>}{antsImage,logical}(e1, e2)
 
 \S4method{>}{ANY,antsImage}(e1, e2)
 
@@ -102,8 +92,6 @@
 
 \S4method{<}{antsImage,ANY}(e1, e2)
 
-\S4method{<}{antsImage,logical}(e1, e2)
-
 \S4method{<}{ANY,antsImage}(e1, e2)
 
 \S4method{!=}{antsImage,antsImage}(e1, e2)
@@ -111,8 +99,6 @@
 \S4method{!=}{antsImage,list}(e1, e2)
 
 \S4method{!=}{antsImage,ANY}(e1, e2)
-
-\S4method{!=}{antsImage,logical}(e1, e2)
 
 \S4method{!=}{ANY,antsImage}(e1, e2)
 
@@ -122,8 +108,6 @@
 
 \S4method{<=}{antsImage,ANY}(e1, e2)
 
-\S4method{<=}{antsImage,logical}(e1, e2)
-
 \S4method{<=}{ANY,antsImage}(e1, e2)
 
 \S4method{>=}{antsImage,antsImage}(e1, e2)
@@ -131,8 +115,6 @@
 \S4method{>=}{antsImage,list}(e1, e2)
 
 \S4method{>=}{antsImage,ANY}(e1, e2)
-
-\S4method{>=}{antsImage,logical}(e1, e2)
 
 \S4method{>=}{ANY,antsImage}(e1, e2)
 
