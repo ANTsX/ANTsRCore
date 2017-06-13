@@ -26,24 +26,11 @@ setMethod("OPERATOR", signature(e1 = "antsImage", e2 = "list"),
 setMethod("OPERATOR", signature(e1 = "antsImage", e2 = "ANY"),
           function(e1, e2) {
             operator = "OPERATOR"
+            e2 = as.numeric(e2)
             res = .Call("antsImageOperatorsImageNumeric", 
                         e1, e2, 
                         operator, PACKAGE = "ANTsRCore")  
             return(res)
-            # return(.Call("antsImage_RelationalOperators", e1, e2, region,
-            #              operator, PACKAGE = "ANTsRCore"))
-          })
-
-#' @rdname antsImageops
-#' @aliases OPERATOR,antsImage,logical-method
-setMethod("OPERATOR", signature(e1 = "antsImage", e2 = "logical"),
-          function(e1, e2) {
-            operator = "OPERATOR"
-            e2 = as.numeric(e2)
-            res = .Call("antsImageOperatorsImageNumeric", 
-                        e1, e2, 
-                        operator, PACKAGE = "ANTsRCore") 
-            return(res)            
             # return(.Call("antsImage_RelationalOperators", e1, e2, region,
             #              operator, PACKAGE = "ANTsRCore"))
           })

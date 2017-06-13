@@ -26,24 +26,11 @@ setMethod("==", signature(e1 = "antsImage", e2 = "list"),
 setMethod("==", signature(e1 = "antsImage", e2 = "ANY"),
           function(e1, e2) {
             operator = "=="
+            e2 = as.numeric(e2)
             res = .Call("antsImageOperatorsImageNumeric", 
                         e1, e2, 
                         operator, PACKAGE = "ANTsRCore")  
             return(res)
-            # return(.Call("antsImage_RelationalOperators", e1, e2, region,
-            #              operator, PACKAGE = "ANTsRCore"))
-          })
-
-#' @rdname antsImageops
-#' @aliases ==,antsImage,logical-method
-setMethod("==", signature(e1 = "antsImage", e2 = "logical"),
-          function(e1, e2) {
-            operator = "=="
-            e2 = as.numeric(e2)
-            res = .Call("antsImageOperatorsImageNumeric", 
-                        e1, e2, 
-                        operator, PACKAGE = "ANTsRCore") 
-            return(res)            
             # return(.Call("antsImage_RelationalOperators", e1, e2, region,
             #              operator, PACKAGE = "ANTsRCore"))
           })
@@ -57,11 +44,6 @@ setMethod("==", signature(e1 = "ANY", e2 = "antsImage"),
             # res = as.antsImage(res, reference = e1)
             return(res)
           })
-
-
-
-
-
 
 
 
@@ -96,24 +78,11 @@ setMethod(">", signature(e1 = "antsImage", e2 = "list"),
 setMethod(">", signature(e1 = "antsImage", e2 = "ANY"),
           function(e1, e2) {
             operator = ">"
+            e2 = as.numeric(e2)
             res = .Call("antsImageOperatorsImageNumeric", 
                         e1, e2, 
                         operator, PACKAGE = "ANTsRCore")  
             return(res)
-            # return(.Call("antsImage_RelationalOperators", e1, e2, region,
-            #              operator, PACKAGE = "ANTsRCore"))
-          })
-
-#' @rdname antsImageops
-#' @aliases >,antsImage,logical-method
-setMethod(">", signature(e1 = "antsImage", e2 = "logical"),
-          function(e1, e2) {
-            operator = ">"
-            e2 = as.numeric(e2)
-            res = .Call("antsImageOperatorsImageNumeric", 
-                        e1, e2, 
-                        operator, PACKAGE = "ANTsRCore") 
-            return(res)            
             # return(.Call("antsImage_RelationalOperators", e1, e2, region,
             #              operator, PACKAGE = "ANTsRCore"))
           })
@@ -127,11 +96,6 @@ setMethod(">", signature(e1 = "ANY", e2 = "antsImage"),
             # res = as.antsImage(res, reference = e1)
             return(res)
           })
-
-
-
-
-
 
 
 
@@ -166,24 +130,11 @@ setMethod("<", signature(e1 = "antsImage", e2 = "list"),
 setMethod("<", signature(e1 = "antsImage", e2 = "ANY"),
           function(e1, e2) {
             operator = "<"
+            e2 = as.numeric(e2)
             res = .Call("antsImageOperatorsImageNumeric", 
                         e1, e2, 
                         operator, PACKAGE = "ANTsRCore")  
             return(res)
-            # return(.Call("antsImage_RelationalOperators", e1, e2, region,
-            #              operator, PACKAGE = "ANTsRCore"))
-          })
-
-#' @rdname antsImageops
-#' @aliases <,antsImage,logical-method
-setMethod("<", signature(e1 = "antsImage", e2 = "logical"),
-          function(e1, e2) {
-            operator = "<"
-            e2 = as.numeric(e2)
-            res = .Call("antsImageOperatorsImageNumeric", 
-                        e1, e2, 
-                        operator, PACKAGE = "ANTsRCore") 
-            return(res)            
             # return(.Call("antsImage_RelationalOperators", e1, e2, region,
             #              operator, PACKAGE = "ANTsRCore"))
           })
@@ -197,11 +148,6 @@ setMethod("<", signature(e1 = "ANY", e2 = "antsImage"),
             # res = as.antsImage(res, reference = e1)
             return(res)
           })
-
-
-
-
-
 
 
 
@@ -236,24 +182,11 @@ setMethod("!=", signature(e1 = "antsImage", e2 = "list"),
 setMethod("!=", signature(e1 = "antsImage", e2 = "ANY"),
           function(e1, e2) {
             operator = "!="
+            e2 = as.numeric(e2)
             res = .Call("antsImageOperatorsImageNumeric", 
                         e1, e2, 
                         operator, PACKAGE = "ANTsRCore")  
             return(res)
-            # return(.Call("antsImage_RelationalOperators", e1, e2, region,
-            #              operator, PACKAGE = "ANTsRCore"))
-          })
-
-#' @rdname antsImageops
-#' @aliases !=,antsImage,logical-method
-setMethod("!=", signature(e1 = "antsImage", e2 = "logical"),
-          function(e1, e2) {
-            operator = "!="
-            e2 = as.numeric(e2)
-            res = .Call("antsImageOperatorsImageNumeric", 
-                        e1, e2, 
-                        operator, PACKAGE = "ANTsRCore") 
-            return(res)            
             # return(.Call("antsImage_RelationalOperators", e1, e2, region,
             #              operator, PACKAGE = "ANTsRCore"))
           })
@@ -267,11 +200,6 @@ setMethod("!=", signature(e1 = "ANY", e2 = "antsImage"),
             # res = as.antsImage(res, reference = e1)
             return(res)
           })
-
-
-
-
-
 
 
 
@@ -306,24 +234,11 @@ setMethod("<=", signature(e1 = "antsImage", e2 = "list"),
 setMethod("<=", signature(e1 = "antsImage", e2 = "ANY"),
           function(e1, e2) {
             operator = "<="
+            e2 = as.numeric(e2)
             res = .Call("antsImageOperatorsImageNumeric", 
                         e1, e2, 
                         operator, PACKAGE = "ANTsRCore")  
             return(res)
-            # return(.Call("antsImage_RelationalOperators", e1, e2, region,
-            #              operator, PACKAGE = "ANTsRCore"))
-          })
-
-#' @rdname antsImageops
-#' @aliases <=,antsImage,logical-method
-setMethod("<=", signature(e1 = "antsImage", e2 = "logical"),
-          function(e1, e2) {
-            operator = "<="
-            e2 = as.numeric(e2)
-            res = .Call("antsImageOperatorsImageNumeric", 
-                        e1, e2, 
-                        operator, PACKAGE = "ANTsRCore") 
-            return(res)            
             # return(.Call("antsImage_RelationalOperators", e1, e2, region,
             #              operator, PACKAGE = "ANTsRCore"))
           })
@@ -337,11 +252,6 @@ setMethod("<=", signature(e1 = "ANY", e2 = "antsImage"),
             # res = as.antsImage(res, reference = e1)
             return(res)
           })
-
-
-
-
-
 
 
 
@@ -376,24 +286,11 @@ setMethod(">=", signature(e1 = "antsImage", e2 = "list"),
 setMethod(">=", signature(e1 = "antsImage", e2 = "ANY"),
           function(e1, e2) {
             operator = ">="
+            e2 = as.numeric(e2)
             res = .Call("antsImageOperatorsImageNumeric", 
                         e1, e2, 
                         operator, PACKAGE = "ANTsRCore")  
             return(res)
-            # return(.Call("antsImage_RelationalOperators", e1, e2, region,
-            #              operator, PACKAGE = "ANTsRCore"))
-          })
-
-#' @rdname antsImageops
-#' @aliases >=,antsImage,logical-method
-setMethod(">=", signature(e1 = "antsImage", e2 = "logical"),
-          function(e1, e2) {
-            operator = ">="
-            e2 = as.numeric(e2)
-            res = .Call("antsImageOperatorsImageNumeric", 
-                        e1, e2, 
-                        operator, PACKAGE = "ANTsRCore") 
-            return(res)            
             # return(.Call("antsImage_RelationalOperators", e1, e2, region,
             #              operator, PACKAGE = "ANTsRCore"))
           })
@@ -407,11 +304,6 @@ setMethod(">=", signature(e1 = "ANY", e2 = "antsImage"),
             # res = as.antsImage(res, reference = e1)
             return(res)
           })
-
-
-
-
-
 
 
 
