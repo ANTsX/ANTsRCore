@@ -8,8 +8,13 @@ setMethod("OPERATOR", signature(e1 = "antsImage", e2 = "antsImage"),
               stop("Images do not occupy the same physical space")
             }
             region <- new("antsRegion", index = integer(), size = integer())
-            return(.Call("antsImage_RelationalOperators", e1, e2, region,
-                         operator, PACKAGE = "ANTsR"))
+            res = .Call("antsImage_RelationalOperators", e1, e2, region,
+                        operator, PACKAGE = "ANTsR")
+            res = as.antsImage(
+              array(res, dim = dim(res))
+              , reference = res)            
+            return(res)
+
           })
 
 #' @rdname antsImageops
@@ -25,8 +30,14 @@ setMethod("OPERATOR", signature(e1 = "antsImage", e2 = "ANY"),
           function(e1, e2) {
             operator = "OPERATOR"
             region <- new("antsRegion", index = integer(), size = integer())
-            return(.Call("antsImage_RelationalOperators", e1, e2, region,
-                         operator, PACKAGE = "ANTsRCore"))
+            res = .Call("antsImage_RelationalOperators", e1, e2, region,
+                        operator, PACKAGE = "ANTsR")
+            res = as.antsImage(
+              array(res, dim = dim(res))
+              , reference = res)     
+            return(res)
+            # return(.Call("antsImage_RelationalOperators", e1, e2, region,
+            #              operator, PACKAGE = "ANTsRCore"))
           })
 
 #' @rdname antsImageops
@@ -36,8 +47,14 @@ setMethod("OPERATOR", signature(e1 = "antsImage", e2 = "logical"),
             operator = "OPERATOR"
             e2 = as.numeric(e2)
             region <- new("antsRegion", index = integer(), size = integer())
-            return(.Call("antsImage_RelationalOperators", e1, e2, region,
-                         operator, PACKAGE = "ANTsRCore"))
+            res = .Call("antsImage_RelationalOperators", e1, e2, region,
+                        operator, PACKAGE = "ANTsR")
+            res = as.antsImage(
+              array(res, dim = dim(res))
+              , reference = res)     
+            return(res)            
+            # return(.Call("antsImage_RelationalOperators", e1, e2, region,
+            #              operator, PACKAGE = "ANTsRCore"))
           })
 
 #' @rdname antsImageops
