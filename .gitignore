@@ -18,6 +18,8 @@ inst/doc
 vignettes/*pdf
 vignettes/*html
 
+obsolete/*
+
 .Rhistory
 R/.Rhistory
 
