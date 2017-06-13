@@ -59,13 +59,13 @@ ripmmarc <- function(
   patchRadius = 3,
   patchSamples = 1000,
   patchVarEx   = 0.95,
-  meanCenter   = FALSE,
+  meanCenter   = TRUE,
   canonicalFrame = NA,
   evecBasis    = NA,
   rotationInvariant = TRUE,
   regressProjections = TRUE,
   verbose = FALSE  ) {
-  print("WARNING: WIP, this implementation of ripmmarc is not validated!!")
+#  print("WARNING: WIP, this implementation of ripmmarc is not validated!!")
   inimg.float <- antsImageClone( img, "float" )
   mask.float <- antsImageClone( mask, "float" )
   outimg <- antsImageClone( inimg.float )
@@ -124,3 +124,86 @@ ripmmarcBasisImage <- function( canonicalFrame,
   newimg[ frameMask == 1 ] = patchBasisVector
   return( newimg )
 }
+
+
+
+
+
+
+#' @title RIPMMARC population basis
+#' @description Patch-based and rotation invariant image decomposition.  This
+#' is similar to patch-based dictionary learning in N-dimensions.  This
+#' implementation is more efficient for building a basis from image populations.
+#' @param ilist list of antsImages from which to learn basis
+#' @param mask Binary mask defining regions in which to decompose or a list
+#' of masks corresponding to ilist.
+#' @param patchRadius Scalar radius defining the patch size.
+#' @param patchSamples Scalar defining the number of random patches to sample.
+#' @param patchVarEx Scalar defining the target variance explained.  If this is
+#' greater than one, then it defines the number of eigenvectors.  Otherwise, it
+#' defines the target variance explained.
+#' @param meanCenter boolean whether we mean center the patches.
+#' @return list including the canonical frame, the matrix basis and its
+#' eigenvalues
+#' @author Kandel BM, Avants BB
+#' @seealso \code{\link{ripmmarc}}
+#' @examples
+#'
+#' \dontrun{
+#' pop = getANTsRData( "population" ) # list of example images
+#' popmasks = list( )
+#' for ( i in 1:length( pop ) )
+#'   popmasks[[ i ]] = getMask( pop[[ i ]] )
+#' rp = ripmmarcPop( pop, popmasks, patchRadius=3,
+#'   meanCenter = TRUE, patchSamples=1000 )
+#' nv = 15
+#' rippedTest <- ripmmarc( pop[[3]], popmasks[[3]], patchRadius = 3,
+#'   evecBasis = rp$basisMat[1:nv,], patchVarEx = nv, meanCenter = TRUE,
+#'   canonicalFrame = rp$canonicalFrame, regressProjections = TRUE )
+#' mm = makeImage( popmasks[[3]], rippedTest$evecCoeffs[,1] )
+#' }
+#'
+#' @export
+ripmmarcPop <- function(
+  ilist,
+  mask,
+  patchRadius=3,
+  patchSamples=1000,
+  patchVarEx=0.95,
+  meanCenter=TRUE )
+  {
+  maskIsList = class( mask ) == "list"
+  if ( maskIsList ) {
+    randMask = randomMask( mask[[1]], patchSamples, perLabel = TRUE )
+  } else randMask = randomMask( mask, patchSamples, perLabel = TRUE )
+  ripped <- ripmmarc( ilist[[1]], randMask, patchRadius = patchRadius,
+    patchSamples = patchSamples, patchVarEx = patchVarEx,
+    rotationInvariant = FALSE )
+#  spatialMatrix = imageDomainToSpatialMatrix( randMask,
+#    thresholdImage( randMask, 1, Inf ) )
+  # map all population images to neighborhood matrices
+  idim = ilist[[1]]@dimension
+  myrad = rep( patchRadius + 2, idim )
+  ripmat = getNeighborhoodInMask( ilist[[ 1 ]], randMask, radius = myrad,
+    boundary.condition = 'image' )
+  for ( i in 2:length( ilist ) ) {
+    if ( maskIsList ) {
+      randMask = randomMask( mask[[i]], patchSamples, perLabel = TRUE )
+    }
+    locmat = getNeighborhoodInMask( ilist[[ i ]], randMask, radius = myrad,
+      boundary.condition = 'image' )
+    ripmat = cbind( ripmat, locmat )
+  }
+  ripsvd = svd( scale( ripmat, center=meanCenter, scale=F ) )
+  frameMask = thresholdImage(  abs( ripped$canonicalFrame ), 1.e-8, Inf )
+  sel = as.numeric( frameMask )  > 0
+  coreFrame = ripmmarcBasisImage( ripped$canonicalFrame, ripsvd$u[ sel, 2 ] )
+  if ( meanCenter )
+    coreFrame = ripmmarcBasisImage( ripped$canonicalFrame, ripsvd$u[ sel, 1 ] )
+  list(
+    canonicalFrame = coreFrame,
+    basisMat = t( ripsvd$u[ sel,  ] ),
+    basisEigenvalues = ripsvd$d
+#    spatialMatrix = spatialMatrix
+    )
+  }
