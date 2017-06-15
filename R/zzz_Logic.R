@@ -1,6 +1,48 @@
 #' @rdname antsImageops
 #' @aliases Logic,antsImage,antsImage-method
 #' @export
+setMethod("&", signature(e1 = "antsImage", e2 = "antsImage"),
+          function(e1, e2) {
+            ## either use drop_img_dim and validObject or take out both
+            if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
+              stop("Images do not occupy the same physical space")
+            }
+            res = NA
+
+            if ( (e1@pixeltype=="float") | (e1@pixeltype=="double") |
+                 (e2@pixeltype=="float") | (e2@pixeltype=="double") ) {
+              res = (e1!=0) & (e2!=0)
+                 }
+            else {
+              res = .Call("antsImageLogicImageImage",
+                        e1, e2, "&", PACKAGE = "ANTsRCore")
+                 }
+            return(res)
+          })
+
+
+setMethod("|", signature(e1 = "antsImage", e2 = "antsImage"),
+          function(e1, e2) {
+            ## either use drop_img_dim and validObject or take out both
+            if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
+              stop("Images do not occupy the same physical space")
+            }
+            res = NA
+
+            if ( (e1@pixeltype=="float") | (e1@pixeltype=="double") |
+                 (e2@pixeltype=="float") | (e2@pixeltype=="double") ) {
+              res = (e1!=0) | (e2!=0)
+                 }
+            else {
+              res = .Call("antsImageLogicImageImage",
+                        e1, e2, "|", PACKAGE = "ANTsRCore")
+                 }
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Logic,antsImage,antsImage-method
+#' @export
 setMethod("Logic", signature(e1 = "antsImage", e2 = "antsImage"),
           function(e1, e2) {
             ## either use drop_img_dim and validObject or take out both
@@ -9,9 +51,57 @@ setMethod("Logic", signature(e1 = "antsImage", e2 = "antsImage"),
             }
             a1 = as.array(e1)
             a2 = as.array(e2)
-            
+
             res <- callGeneric(a1, a2)
             res = as.antsImage(res, reference = e1)
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Logic,antsImage,numeric-method
+setMethod("&", signature(e1 = "antsImage", e2 = "numeric"),
+          function(e1, e2) {
+            res = NA
+            if ( (e1@pixeltype=="float") | (e1@pixeltype=="double") |
+                 (typeof(e2)=="double") ) {
+              res = (e1!=0) & (e2!=0)
+              }
+            else {
+              res = .Call("antsImageLogicImageNumeric",
+                        e1, e2, "&", PACKAGE = "ANTsRCore")
+              }
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Logic,antsImage,numeric-method
+setMethod("&", signature(e1 = "numeric", e2 = "antsImage"),
+          function(e1, e2) {
+            res = (e2 & e1)
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Logic,antsImage,numeric-method
+setMethod("|", signature(e1 = "antsImage", e2 = "numeric"),
+          function(e1, e2) {
+            res = NA
+            if ( (e1@pixeltype=="float") | (e1@pixeltype=="double") |
+                 (typeof(e2)=="double") ) {
+              res = (e1!=0) | (e2!=0)
+              }
+            else {
+              res = .Call("antsImageLogicImageNumeric",
+                        e1, e2, "&", PACKAGE = "ANTsRCore")
+              }
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Logic,antsImage,numeric-method
+setMethod("|", signature(e1 = "numeric", e2 = "antsImage"),
+          function(e1, e2) {
+            res = (e2 | e1)
             return(res)
           })
 
@@ -21,12 +111,11 @@ setMethod("Logic", signature(e1 = "antsImage", e2 = "numeric"),
           function(e1, e2) {
             ## either use drop_img_dim and validObject or take out both
             a1 = as.array(e1)
-            
+
             res <- callGeneric(a1, e2)
             res = as.antsImage(res, reference = e1)
             return(res)
           })
-
 
 #' @rdname antsImageops
 #' @aliases Logic,antsImage,numeric-method
@@ -34,7 +123,7 @@ setMethod("Logic", signature(e1 = "antsImage", e2 = "missing"),
           function(e1, e2) {
             ## This is for unary operators
             a1 = as.array(e1)
-            
+
             res <- callGeneric(a1)
             res = as.antsImage(res, reference = e1)
             return(res)
@@ -46,7 +135,7 @@ setMethod("Logic", signature(e1 = "numeric", e2 = "antsImage"),
           function(e1, e2) {
             ## either use drop_img_dim and validObject or take out both
             a2 = as.array(e2)
-            
+
             res <- callGeneric(e1, a2)
             res = as.antsImage(res, reference = e2)
             return(res)
@@ -61,7 +150,7 @@ setMethod("Logic", signature(e1 = "antsImage", e2 = "logical"),
           function(e1, e2) {
             ## either use drop_img_dim and validObject or take out both
             a1 = as.array(e1)
-            
+
             res <- callGeneric(a1, e2)
             res = as.antsImage(res, reference = e1)
             return(res)
@@ -73,7 +162,7 @@ setMethod("Logic", signature(e1 = "logical", e2 = "antsImage"),
           function(e1, e2) {
             ## either use drop_img_dim and validObject or take out both
             a2 = as.array(e2)
-            
+
             res <- callGeneric(e1, a2)
             res = as.antsImage(res, reference = e2)
             return(res)
@@ -88,7 +177,7 @@ setMethod("Logic", signature(e1 = "antsImage", e2 = "array"),
           function(e1, e2) {
             ## either use drop_img_dim and validObject or take out both
             a1 = as.array(e1)
-            
+
             res <- callGeneric(a1, e2)
             res = as.antsImage(res, reference = e1)
             return(res)
@@ -100,7 +189,7 @@ setMethod("Logic", signature(e1 = "array", e2 = "antsImage"),
           function(e1, e2) {
             ## either use drop_img_dim and validObject or take out both
             a2 = as.array(e2)
-            
+
             res <- callGeneric(e1, a2)
             res = as.antsImage(res, reference = e2)
             return(res)
