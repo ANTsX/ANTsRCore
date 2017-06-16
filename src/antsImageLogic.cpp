@@ -11,8 +11,8 @@
 template< class PixelType , unsigned int Dimension >
 SEXP antsImageLogicImageNumeric( typename itk::Image< PixelType , Dimension >::Pointer image, SEXP r_numeric, SEXP r_operator )
 {
-  Rcpp::Rcout << "antsImageLogicImageNumeric " << Rcpp::as< std::string >( r_operator ) << " "
-    <<  Rcpp::as<PixelType>( r_numeric ) << std::endl;
+  //Rcpp::Rcout << "antsImageLogicImageNumeric " << Rcpp::as< std::string >( r_operator ) << " "
+  //  <<  Rcpp::as<PixelType>( r_numeric ) << std::endl;
 
   typedef itk::Image< PixelType , Dimension > ImageType;
 
@@ -163,7 +163,7 @@ SEXP antsImageLogicImageImage( typename itk::Image< PixelType , Dimension >::Poi
                                     typename itk::Image< PixelType , Dimension >::Pointer image2,
                                     SEXP r_operator )
 {
-  Rcpp::Rcout << "antsImageLogicImageImage " << Rcpp::as< std::string >( r_operator ) << std::endl;
+  //Rcpp::Rcout << "antsImageLogicImageImage " << Rcpp::as< std::string >( r_operator ) << std::endl;
 
   typedef itk::Image< PixelType , Dimension > ImageType;
 
