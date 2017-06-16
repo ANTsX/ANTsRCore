@@ -76,7 +76,7 @@ after_success:
 - cd $mydir
 after_failure:
   - echo ${TRAVIS_BUILD_DIR}
-  - dn=`dirname ${basedir}`
+  - dn=`dirname ${TRAVIS_BUILD_DIR}`
   - cat ${dn}/ANTsRCore.Rcheck/00install.out
   - cat ${dn}/ANTsRCore.Rcheck/00check.log
 
