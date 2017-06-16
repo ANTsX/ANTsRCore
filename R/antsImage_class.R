@@ -7,6 +7,7 @@
 #' @slot size size of the region
 #' @useDynLib ANTsRCore
 #' @import Rcpp
+#' @import ITKR
 #' @import methods
 #' @import tools
 #' @import stats

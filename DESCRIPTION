@@ -1,8 +1,8 @@
 Package: ANTsRCore
 Type: Package
 Title: Core Software Infrastructure for ANTsR
-Version: 0.3.5
-Date: 2017-06-15
+Version: 0.3.6
+Date: 2017-06-17
 Author: Brian B. Avants, Benjamin M. Kandel, Jeff T. Duda, Philip A. Cook,
     Nicholas J. Tustison
 Maintainer: Brian B. Avants <stnava@gmail.com>
@@ -19,6 +19,7 @@ LinkingTo:
     ITKR
 Imports:
     Rcpp,
+    ITKR,
     RcppEigen,
     tools,
     magrittr,
