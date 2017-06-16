@@ -49,11 +49,14 @@ before_install:
   - rm travis_helpers.sh
   - echo "ANTSR_TRAVIS VERSION 0.2"
   # cmake may not be needed
+  - export cmake_version="3.9"
+  - export cmake_url=https://cmake.org/files/v${cmake_version}/cmake-${cmake_version}.0-rc1
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; 
     then 
-      wget -O cmake.sh --no-check-certificate https://cmake.org/files/v3.4/cmake-3.4.0-rc1-Linux-x86_64.sh; 
-      sh cmake.sh --skip-license --prefix=${HOME}; 
-      rm cmake.sh; 
+    cmake_url=${cmake_url}-Linux-x86_64.sh ;
+    wget -O cmake.sh --no-check-certificate ${cmake_url} ;
+    sh cmake.sh --skip-license --prefix=${HOME};    
+    rm cmake.sh ;   
     fi
   - export PATH=${HOME}/bin/:$PATH
   - remote_binary_install ITKR
