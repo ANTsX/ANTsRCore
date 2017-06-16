@@ -38,6 +38,8 @@ extern SEXP antsImage_SetRegion(SEXP, SEXP, SEXP, SEXP);
 extern SEXP antsImage_SetSpacing(SEXP, SEXP);
 extern SEXP antsImage_TransformIndexToPhysicalPoint(SEXP, SEXP);
 extern SEXP antsImage_TransformPhysicalPointToIndex(SEXP, SEXP);
+extern SEXP antsImageComparisonImageImage(SEXP,SEXP,SEXP);
+extern SEXP antsImageComparisonImageNumeric(SEXP,SEXP,SEXP);
 extern SEXP antsImageClone(SEXP, SEXP);
 extern SEXP antsImageHeaderInfo(SEXP);
 // extern SEXP antsImageIterator(SEXP);
@@ -54,8 +56,9 @@ extern SEXP antsImageIterator_Remaining(SEXP);
 extern SEXP antsImageIterator_Set(SEXP, SEXP);
 extern SEXP antsImage_SetByImage( SEXP, SEXP, SEXP );
 extern SEXP antsImageIterator_SetIndex(SEXP, SEXP);
+extern SEXP antsImageLogicImageImage(SEXP,SEXP,SEXP);
+extern SEXP antsImageLogicImageNumeric(SEXP,SEXP,SEXP);
 extern SEXP antsImageMutualInformation(SEXP, SEXP);
-extern SEXP antsImageOperatorsImageNumeric(SEXP,SEXP,SEXP);
 extern SEXP antsImageRead(SEXP, SEXP, SEXP, SEXP);
 extern SEXP antsImageWrite(SEXP, SEXP);
 extern SEXP antsMatrix(SEXP);
@@ -116,6 +119,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsImage_SetSpacing",                    (DL_FUNC) &antsImage_SetSpacing,                     2},
     {"antsImage_TransformIndexToPhysicalPoint", (DL_FUNC) &antsImage_TransformIndexToPhysicalPoint,  2},
     {"antsImage_TransformPhysicalPointToIndex", (DL_FUNC) &antsImage_TransformPhysicalPointToIndex,  2},
+    {"antsImageComparisonImageImage",           (DL_FUNC) &antsImageComparisonImageImage,            3},    {"antsImageComparisonImageNumeric",         (DL_FUNC) &antsImageComparisonImageNumeric,          3},
     {"antsImageClone",                          (DL_FUNC) &antsImageClone,                           2},
     {"antsImageHeaderInfo",                     (DL_FUNC) &antsImageHeaderInfo,                      1},
     {"antsImageIterator",                       (DL_FUNC) &antsImageIterator,                        1},
@@ -131,8 +135,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsImageIterator_Remaining",             (DL_FUNC) &antsImageIterator_Remaining,              1},
     {"antsImageIterator_Set",                   (DL_FUNC) &antsImageIterator_Set,                    2},
     {"antsImageIterator_SetIndex",              (DL_FUNC) &antsImageIterator_SetIndex,               2},
+    {"antsImageLogicImageImage",                (DL_FUNC) &antsImageLogicImageImage,                 3},    {"antsImageLogicImageNumeric",              (DL_FUNC) &antsImageLogicImageNumeric,               3},
     {"antsImageMutualInformation",              (DL_FUNC) &antsImageMutualInformation,               2},
-    {"antsImageOperatorsImageNumeric",          (DL_FUNC) &antsImageOperatorsImageNumeric,           3},
     {"antsImageRead",                           (DL_FUNC) &antsImageRead,                            4},
     {"antsImageWrite",                          (DL_FUNC) &antsImageWrite,                           2},
     {"antsMatrix",                              (DL_FUNC) &antsMatrix,                               1},

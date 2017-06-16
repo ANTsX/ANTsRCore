@@ -1,21 +1,20 @@
 Package: ANTsRCore
 Type: Package
 Title: Core Software Infrastructure for ANTsR
-Version: 0.3.6
+Version: 0.3.6.1
 Date: 2017-06-17
 Author: Brian B. Avants, Benjamin M. Kandel, Jeff T. Duda, Philip A. Cook,
     Nicholas J. Tustison
 Maintainer: Brian B. Avants <stnava@gmail.com>
 Description: ANTsR interfaces state of the art image processing with R
-    statistical methods but relies on underlying ANTs C++.  This package provides
-    the underlying C++ framework on which ANTsR depends.
+    statistical methods but relies on underlying ANTs C++. This package provides the
+    underlying C++ framework on which ANTsR depends.
 License: Apache License (>=2.0)
 LazyLoad: yes
 LazyData: true
 Depends:
     methods
-LinkingTo:
-    Rcpp,
+LinkingTo: Rcpp,
     ITKR
 Imports:
     Rcpp,
@@ -33,4 +32,4 @@ Suggests:
 SystemRequirements: cmake, git, clang (recommended)
 Remotes: stnava/ITKR
 NeedsCompilation: yes
-RoxygenNote: 6.0.1
+RoxygenNote: 5.0.1

@@ -40,3 +40,4 @@ randlist <- getNeighborhoodAtVoxel(img,center,kernel)
 \author{
 Duda JT
 }
+

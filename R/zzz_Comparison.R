@@ -7,8 +7,8 @@ setMethod("==", signature(e1 = "antsImage", e2 = "antsImage"),
             if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
               stop("Images do not occupy the same physical space")
             }
-            res = .Call("antsImageOperatorsImageNumeric", 
-                        e1, e2, 
+            res = .Call("antsImageComparisonImageImage",
+                        e1, e2,
                         operator, PACKAGE = "ANTsRCore")
             return(res)
 
@@ -25,10 +25,16 @@ setMethod("==", signature(e1 = "antsImage", e2 = "list"),
 #' @aliases ==,antsImage,array-method
 setMethod("==", signature(e1 = "antsImage", e2 = "array"),
           function(e1, e2) {
-            a1 = as.array(e1)
-            res = callGeneric(a1, e2)
-            res = as.antsImage(res, reference = e1)
-            return(res)
+            i2 = as.antsImage(e2, reference=e1)
+            return(e1==i2)
+          })
+
+#' @rdname antsImageops
+#' @aliases ==,antsImage,array-method
+setMethod("==", signature(e1 = "array", e2 = "antsImage"),
+          function(e1, e2) {
+            i1 = as.antsImage(e1, reference=e2)
+            return(i1==e2)
           })
 
 #' @rdname antsImageops
@@ -38,14 +44,14 @@ setMethod("==", signature(e1 = "antsImage", e2 = "ANY"),
             operator = "=="
             if (length(e2) == 1) {
               e2 = as.numeric(e2)
-              res = .Call("antsImageOperatorsImageNumeric", 
-                          e1, e2, 
-                          operator, PACKAGE = "ANTsRCore")  
+              res = .Call("antsImageComparisonImageNumeric",
+                          e1, e2,
+                          operator, PACKAGE = "ANTsRCore")
               return(res)
             }
             a1 = as.array(e1)
             res = callGeneric(a1, e2)
-            res = as.antsImage(res, reference = e1)            
+            res = as.antsImage(res, reference = e1)
             return(res)
           })
 
@@ -72,8 +78,8 @@ setMethod(">", signature(e1 = "antsImage", e2 = "antsImage"),
             if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
               stop("Images do not occupy the same physical space")
             }
-            res = .Call("antsImageOperatorsImageNumeric", 
-                        e1, e2, 
+            res = .Call("antsImageComparisonImageImage",
+                        e1, e2,
                         operator, PACKAGE = "ANTsRCore")
             return(res)
 
@@ -90,10 +96,16 @@ setMethod(">", signature(e1 = "antsImage", e2 = "list"),
 #' @aliases >,antsImage,array-method
 setMethod(">", signature(e1 = "antsImage", e2 = "array"),
           function(e1, e2) {
-            a1 = as.array(e1)
-            res = callGeneric(a1, e2)
-            res = as.antsImage(res, reference = e1)
-            return(res)
+            i2 = as.antsImage(e2, reference=e1)
+            return(e1>i2)
+          })
+
+#' @rdname antsImageops
+#' @aliases ==,antsImage,array-method
+setMethod(">", signature(e1 = "array", e2 = "antsImage"),
+          function(e1, e2) {
+            i1 = as.antsImage(e1, reference=e2)
+            return(i1>e2)
           })
 
 #' @rdname antsImageops
@@ -103,14 +115,14 @@ setMethod(">", signature(e1 = "antsImage", e2 = "ANY"),
             operator = ">"
             if (length(e2) == 1) {
               e2 = as.numeric(e2)
-              res = .Call("antsImageOperatorsImageNumeric", 
-                          e1, e2, 
-                          operator, PACKAGE = "ANTsRCore")  
+              res = .Call("antsImageComparisonImageNumeric",
+                          e1, e2,
+                          operator, PACKAGE = "ANTsRCore")
               return(res)
             }
             a1 = as.array(e1)
             res = callGeneric(a1, e2)
-            res = as.antsImage(res, reference = e1)            
+            res = as.antsImage(res, reference = e1)
             return(res)
           })
 
@@ -137,8 +149,8 @@ setMethod("<", signature(e1 = "antsImage", e2 = "antsImage"),
             if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
               stop("Images do not occupy the same physical space")
             }
-            res = .Call("antsImageOperatorsImageNumeric", 
-                        e1, e2, 
+            res = .Call("antsImageComparisonImageImage",
+                        e1, e2,
                         operator, PACKAGE = "ANTsRCore")
             return(res)
 
@@ -155,10 +167,16 @@ setMethod("<", signature(e1 = "antsImage", e2 = "list"),
 #' @aliases <,antsImage,array-method
 setMethod("<", signature(e1 = "antsImage", e2 = "array"),
           function(e1, e2) {
-            a1 = as.array(e1)
-            res = callGeneric(a1, e2)
-            res = as.antsImage(res, reference = e1)
-            return(res)
+            i2 = as.antsImage(e2, reference=e1)
+            return(e1<i2)
+          })
+
+#' @rdname antsImageops
+#' @aliases ==,antsImage,array-method
+setMethod("<", signature(e1 = "array", e2 = "antsImage"),
+          function(e1, e2) {
+            i1 = as.antsImage(e1, reference=e2)
+            return(i1<e2)
           })
 
 #' @rdname antsImageops
@@ -168,14 +186,14 @@ setMethod("<", signature(e1 = "antsImage", e2 = "ANY"),
             operator = "<"
             if (length(e2) == 1) {
               e2 = as.numeric(e2)
-              res = .Call("antsImageOperatorsImageNumeric", 
-                          e1, e2, 
-                          operator, PACKAGE = "ANTsRCore")  
+              res = .Call("antsImageComparisonImageNumeric",
+                          e1, e2,
+                          operator, PACKAGE = "ANTsRCore")
               return(res)
             }
             a1 = as.array(e1)
             res = callGeneric(a1, e2)
-            res = as.antsImage(res, reference = e1)            
+            res = as.antsImage(res, reference = e1)
             return(res)
           })
 
@@ -202,8 +220,8 @@ setMethod("!=", signature(e1 = "antsImage", e2 = "antsImage"),
             if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
               stop("Images do not occupy the same physical space")
             }
-            res = .Call("antsImageOperatorsImageNumeric", 
-                        e1, e2, 
+            res = .Call("antsImageComparisonImageImage",
+                        e1, e2,
                         operator, PACKAGE = "ANTsRCore")
             return(res)
 
@@ -227,20 +245,28 @@ setMethod("!=", signature(e1 = "antsImage", e2 = "array"),
           })
 
 #' @rdname antsImageops
+#' @aliases ==,antsImage,array-method
+setMethod("!=", signature(e1 = "array", e2 = "antsImage"),
+          function(e1, e2) {
+            i1 = as.antsImage(e1, reference=e2)
+            return(i1!=e2)
+          })
+
+#' @rdname antsImageops
 #' @aliases !=,antsImage,ANY-method
 setMethod("!=", signature(e1 = "antsImage", e2 = "ANY"),
           function(e1, e2) {
             operator = "!="
             if (length(e2) == 1) {
               e2 = as.numeric(e2)
-              res = .Call("antsImageOperatorsImageNumeric", 
-                          e1, e2, 
-                          operator, PACKAGE = "ANTsRCore")  
+              res = .Call("antsImageComparisonImageNumeric",
+                          e1, e2,
+                          operator, PACKAGE = "ANTsRCore")
               return(res)
             }
             a1 = as.array(e1)
             res = callGeneric(a1, e2)
-            res = as.antsImage(res, reference = e1)            
+            res = as.antsImage(res, reference = e1)
             return(res)
           })
 
@@ -267,8 +293,8 @@ setMethod("<=", signature(e1 = "antsImage", e2 = "antsImage"),
             if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
               stop("Images do not occupy the same physical space")
             }
-            res = .Call("antsImageOperatorsImageNumeric", 
-                        e1, e2, 
+            res = .Call("antsImageComparisonImageImage",
+                        e1, e2,
                         operator, PACKAGE = "ANTsRCore")
             return(res)
 
@@ -285,10 +311,16 @@ setMethod("<=", signature(e1 = "antsImage", e2 = "list"),
 #' @aliases <=,antsImage,array-method
 setMethod("<=", signature(e1 = "antsImage", e2 = "array"),
           function(e1, e2) {
-            a1 = as.array(e1)
-            res = callGeneric(a1, e2)
-            res = as.antsImage(res, reference = e1)
-            return(res)
+            i2 = as.antsImage(e2, reference=e1)
+            return(e1<=i2)
+          })
+
+#' @rdname antsImageops
+#' @aliases ==,antsImage,array-method
+setMethod("<=", signature(e1 = "array", e2 = "antsImage"),
+          function(e1, e2) {
+            i1 = as.antsImage(e1, reference=e2)
+            return(i1<=e2)
           })
 
 #' @rdname antsImageops
@@ -298,14 +330,14 @@ setMethod("<=", signature(e1 = "antsImage", e2 = "ANY"),
             operator = "<="
             if (length(e2) == 1) {
               e2 = as.numeric(e2)
-              res = .Call("antsImageOperatorsImageNumeric", 
-                          e1, e2, 
-                          operator, PACKAGE = "ANTsRCore")  
+              res = .Call("antsImageComparisonImageNumeric",
+                          e1, e2,
+                          operator, PACKAGE = "ANTsRCore")
               return(res)
             }
             a1 = as.array(e1)
             res = callGeneric(a1, e2)
-            res = as.antsImage(res, reference = e1)            
+            res = as.antsImage(res, reference = e1)
             return(res)
           })
 
@@ -332,8 +364,8 @@ setMethod(">=", signature(e1 = "antsImage", e2 = "antsImage"),
             if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
               stop("Images do not occupy the same physical space")
             }
-            res = .Call("antsImageOperatorsImageNumeric", 
-                        e1, e2, 
+            res = .Call("antsImageComparisonImageImage",
+                        e1, e2,
                         operator, PACKAGE = "ANTsRCore")
             return(res)
 
@@ -350,10 +382,16 @@ setMethod(">=", signature(e1 = "antsImage", e2 = "list"),
 #' @aliases >=,antsImage,array-method
 setMethod(">=", signature(e1 = "antsImage", e2 = "array"),
           function(e1, e2) {
-            a1 = as.array(e1)
-            res = callGeneric(a1, e2)
-            res = as.antsImage(res, reference = e1)
-            return(res)
+            i2 = as.antsImage(e2, reference=e1)
+            return(e1>=i2)
+          })
+
+#' @rdname antsImageops
+#' @aliases ==,antsImage,array-method
+setMethod(">=", signature(e1 = "array", e2 = "antsImage"),
+          function(e1, e2) {
+            i1 = as.antsImage(e1, reference=e2)
+            return(i1>=e2)
           })
 
 #' @rdname antsImageops
@@ -363,14 +401,14 @@ setMethod(">=", signature(e1 = "antsImage", e2 = "ANY"),
             operator = ">="
             if (length(e2) == 1) {
               e2 = as.numeric(e2)
-              res = .Call("antsImageOperatorsImageNumeric", 
-                          e1, e2, 
-                          operator, PACKAGE = "ANTsRCore")  
+              res = .Call("antsImageComparisonImageNumeric",
+                          e1, e2,
+                          operator, PACKAGE = "ANTsRCore")
               return(res)
             }
             a1 = as.array(e1)
             res = callGeneric(a1, e2)
-            res = as.antsImage(res, reference = e1)            
+            res = as.antsImage(res, reference = e1)
             return(res)
           })
 
@@ -382,9 +420,3 @@ setMethod(">=", signature(e1 = "ANY", e2 = "antsImage"),
             res = callGeneric(e1, a2)
             return(res) # DOES NOT RETURN ANTsImage
           })
-
-
-
-
-
-

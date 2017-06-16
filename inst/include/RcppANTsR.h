@@ -36,6 +36,28 @@ inline void forward_exception_to_r( const itk::ExceptionObject & ex )
   Rf_eval( expr, R_GlobalEnv ) ;
 }
 
+inline std::string pixeltype_highest_precision( std::string p1, std::string p2 )
+{
+  if ( (p1=="double") || (p2=="double")) {
+    return "double";
+  }
+  else if ( (p1=="float") || (p2=="float")) {
+    return "float";
+  }
+  else if ( (p1=="unsigned int") || (p2=="unsigned int")) {
+    return "double";
+  }
+  else if ( (p1=="unsigned char") || (p2=="unsigned char")) {
+    return "unsigned char";
+  }
+
+  Rcpp::Rcout << "Both pixeltypes are invalid" << std::endl;
+  return "NA";
+
+}
+
+
+
 // itk::Image to antsImage
 #include <RcppANTsR/RcppANTsR_ImageBaseDef.h>
 #include <RcppANTsR/RcppANTsR_ImageDef.h>

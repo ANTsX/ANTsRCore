@@ -33,3 +33,4 @@ filin<-resampleImage(fi,c(1.5,1.5),FALSE,1)
 \author{
 Avants BB
 }
+

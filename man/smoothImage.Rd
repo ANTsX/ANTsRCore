@@ -35,3 +35,4 @@ simg <- smoothImage(img, c(1.2,1.5))
 \author{
 Kandel BM, Avants BB
 }
+

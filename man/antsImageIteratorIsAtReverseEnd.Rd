@@ -22,3 +22,4 @@ it <- antsImageIteratorGoToReverseBegin( it )
 it <- antsImageIteratorPrevious( it )
 flag <- antsImageIteratorIsAtReverseEnd( it )
 }
+

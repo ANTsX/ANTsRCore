@@ -19,3 +19,4 @@ Get image iterator
 img <- makeImage(c(5,5), rnorm(25))
 it <- antsImageIterator( img )
 }
+

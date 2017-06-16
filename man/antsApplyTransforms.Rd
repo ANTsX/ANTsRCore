@@ -80,9 +80,10 @@ mywarpedimage <- antsApplyTransforms( fixed=moving,moving=fixed,
 # full access via listing the inputs in standard ANTs format
 
 }
-\seealso{
-\code{\link{antsRegistration}}
-}
 \author{
 Shrinidhi KL, Avants BB
 }
+\seealso{
+\code{\link{antsRegistration}}
+}
+

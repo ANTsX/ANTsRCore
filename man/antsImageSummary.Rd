@@ -2,15 +2,15 @@
 % Please edit documentation in R/zzz_Math_Summary.R
 \docType{methods}
 \name{max}
-\alias{max}
-\alias{min}
-\alias{range}
-\alias{prod}
-\alias{sum}
-\alias{any}
+\alias{Summary,antsImage-method}
 \alias{all}
 \alias{antsImage-summary}
-\alias{Summary,antsImage-method}
+\alias{any}
+\alias{max}
+\alias{min}
+\alias{prod}
+\alias{range}
+\alias{sum}
 \title{Summary for antsImage Objects}
 \usage{
 max(x, ..., na.rm = FALSE)
@@ -46,3 +46,4 @@ min(img01)
 range(img01)
 prod(img01)
 }
+
