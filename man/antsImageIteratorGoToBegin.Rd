@@ -21,3 +21,4 @@ it <- antsImageIterator( img )
 it <- antsImageIteratorNext( it )
 it <- antsImageIteratorGoToBegin( it )
 }
+

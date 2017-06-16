@@ -3,8 +3,8 @@
 \docType{class}
 \name{antsrTransform-class}
 \alias{antsrTransform-class}
-\alias{show,antsrTransform-method}
 \alias{initialize,antsrTransform-method}
+\alias{show,antsrTransform-method}
 \title{An S4 class for an antsrTransform}
 \usage{
 \S4method{show}{antsrTransform}(object)

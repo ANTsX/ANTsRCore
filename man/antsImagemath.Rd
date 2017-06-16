@@ -2,9 +2,9 @@
 % Please edit documentation in R/zzz_Math_Summary.R
 \docType{methods}
 \name{antsImage-math}
-\alias{antsImage-math}
-\alias{Math,antsImage-method}
 \alias{!,antsImage-method}
+\alias{Math,antsImage-method}
+\alias{antsImage-math}
 \title{Math for antsImage Objects}
 \usage{
 \S4method{Math}{antsImage}(x)
@@ -21,3 +21,4 @@ Overloaded math for antsImage objects
 img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
 abs(img01)
 }
+

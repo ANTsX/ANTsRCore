@@ -64,3 +64,4 @@ segs3 <- atropos( a = feats, m = '[0.2,1x1]',
 \author{
 Shrinidhi KL, B Avants
 }
+

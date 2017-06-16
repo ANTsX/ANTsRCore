@@ -2,59 +2,68 @@
 % Please edit documentation in R/zzz_Arith.R, R/zzz_Comparison.R, R/zzz_Logic.R
 \docType{methods}
 \name{antsImage-operators}
-\alias{antsImage-operators}
+\alias{!=,ANY,antsImage-method}
+\alias{!=,antsImage,ANY-method}
+\alias{!=,antsImage,antsImage-method}
+\alias{!=,antsImage,array-method}
+\alias{!=,antsImage,list-method}
+\alias{!=,array,antsImage-method}
+\alias{&,antsImage,antsImage-method}
+\alias{&,antsImage,numeric-method}
+\alias{&,numeric,antsImage-method}
+\alias{<,ANY,antsImage-method}
+\alias{<,antsImage,ANY-method}
+\alias{<,antsImage,antsImage-method}
+\alias{<,antsImage,array-method}
+\alias{<,antsImage,list-method}
+\alias{<,array,antsImage-method}
+\alias{<=,ANY,antsImage-method}
+\alias{<=,antsImage,ANY-method}
+\alias{<=,antsImage,antsImage-method}
+\alias{<=,antsImage,array-method}
+\alias{<=,antsImage,list-method}
+\alias{<=,array,antsImage-method}
+\alias{==,ANY,antsImage-method}
+\alias{==,antsImage,ANY-method}
+\alias{==,antsImage,antsImage-method}
+\alias{==,antsImage,array-method}
+\alias{==,antsImage,list-method}
+\alias{==,array,antsImage-method}
+\alias{>,ANY,antsImage-method}
+\alias{>,antsImage,ANY-method}
+\alias{>,antsImage,antsImage-method}
+\alias{>,antsImage,array-method}
+\alias{>,antsImage,list-method}
+\alias{>,array,antsImage-method}
+\alias{>=,ANY,antsImage-method}
+\alias{>=,antsImage,ANY-method}
+\alias{>=,antsImage,antsImage-method}
+\alias{>=,antsImage,array-method}
+\alias{>=,antsImage,list-method}
+\alias{>=,array,antsImage-method}
 \alias{Arith,antsImage,antsImage-method}
-\alias{Arith,antsImage,numeric-method}
+\alias{Arith,antsImage,array-method}
+\alias{Arith,antsImage,list-method}
+\alias{Arith,antsImage,logical-method}
 \alias{Arith,antsImage,missing-method}
 \alias{Arith,antsImage,numeric-method}
-\alias{Arith,numeric,antsImage-method}
-\alias{Arith,antsImage,logical-method}
-\alias{Arith,logical,antsImage-method}
-\alias{Arith,antsImage,array-method}
 \alias{Arith,array,antsImage-method}
 \alias{Arith,list,antsImage-method}
-\alias{Arith,antsImage,list-method}
-\alias{==,antsImage,antsImage-method}
-\alias{==,antsImage,list-method}
-\alias{==,antsImage,array-method}
-\alias{==,antsImage,ANY-method}
-\alias{==,ANY,antsImage-method}
-\alias{>,antsImage,antsImage-method}
-\alias{>,antsImage,list-method}
-\alias{>,antsImage,array-method}
-\alias{>,antsImage,ANY-method}
-\alias{>,ANY,antsImage-method}
-\alias{<,antsImage,antsImage-method}
-\alias{<,antsImage,list-method}
-\alias{<,antsImage,array-method}
-\alias{<,antsImage,ANY-method}
-\alias{<,ANY,antsImage-method}
-\alias{!=,antsImage,antsImage-method}
-\alias{!=,antsImage,list-method}
-\alias{!=,antsImage,array-method}
-\alias{!=,antsImage,ANY-method}
-\alias{!=,ANY,antsImage-method}
-\alias{<=,antsImage,antsImage-method}
-\alias{<=,antsImage,list-method}
-\alias{<=,antsImage,array-method}
-\alias{<=,antsImage,ANY-method}
-\alias{<=,ANY,antsImage-method}
-\alias{>=,antsImage,antsImage-method}
-\alias{>=,antsImage,list-method}
-\alias{>=,antsImage,array-method}
-\alias{>=,antsImage,ANY-method}
-\alias{>=,ANY,antsImage-method}
+\alias{Arith,logical,antsImage-method}
+\alias{Arith,numeric,antsImage-method}
 \alias{Logic,antsImage,antsImage-method}
-\alias{Logic,antsImage,numeric-method}
+\alias{Logic,antsImage,array-method}
+\alias{Logic,antsImage,list-method}
+\alias{Logic,antsImage,logical-method}
 \alias{Logic,antsImage,missing-method}
 \alias{Logic,antsImage,numeric-method}
-\alias{Logic,numeric,antsImage-method}
-\alias{Logic,antsImage,logical-method}
-\alias{Logic,logical,antsImage-method}
-\alias{Logic,antsImage,array-method}
 \alias{Logic,array,antsImage-method}
 \alias{Logic,list,antsImage-method}
-\alias{Logic,antsImage,list-method}
+\alias{Logic,logical,antsImage-method}
+\alias{Logic,numeric,antsImage-method}
+\alias{antsImage-operators}
+\alias{|,antsImage,numeric-method}
+\alias{|,numeric,antsImage-method}
 \title{Operations for antsImage Objects}
 \usage{
 \S4method{Arith}{antsImage,antsImage}(e1, e2)
@@ -83,6 +92,8 @@
 
 \S4method{==}{antsImage,array}(e1, e2)
 
+\S4method{==}{array,antsImage}(e1, e2)
+
 \S4method{==}{antsImage,ANY}(e1, e2)
 
 \S4method{==}{ANY,antsImage}(e1, e2)
@@ -92,6 +103,8 @@
 \S4method{>}{antsImage,list}(e1, e2)
 
 \S4method{>}{antsImage,array}(e1, e2)
+
+\S4method{>}{array,antsImage}(e1, e2)
 
 \S4method{>}{antsImage,ANY}(e1, e2)
 
@@ -103,6 +116,8 @@
 
 \S4method{<}{antsImage,array}(e1, e2)
 
+\S4method{<}{array,antsImage}(e1, e2)
+
 \S4method{<}{antsImage,ANY}(e1, e2)
 
 \S4method{<}{ANY,antsImage}(e1, e2)
@@ -112,6 +127,8 @@
 \S4method{!=}{antsImage,list}(e1, e2)
 
 \S4method{!=}{antsImage,array}(e1, e2)
+
+\S4method{!=}{array,antsImage}(e1, e2)
 
 \S4method{!=}{antsImage,ANY}(e1, e2)
 
@@ -123,6 +140,8 @@
 
 \S4method{<=}{antsImage,array}(e1, e2)
 
+\S4method{<=}{array,antsImage}(e1, e2)
+
 \S4method{<=}{antsImage,ANY}(e1, e2)
 
 \S4method{<=}{ANY,antsImage}(e1, e2)
@@ -133,11 +152,23 @@
 
 \S4method{>=}{antsImage,array}(e1, e2)
 
+\S4method{>=}{array,antsImage}(e1, e2)
+
 \S4method{>=}{antsImage,ANY}(e1, e2)
 
 \S4method{>=}{ANY,antsImage}(e1, e2)
 
+\S4method{&}{antsImage,antsImage}(e1, e2)
+
 \S4method{Logic}{antsImage,antsImage}(e1, e2)
+
+\S4method{&}{antsImage,numeric}(e1, e2)
+
+\S4method{&}{numeric,antsImage}(e1, e2)
+
+\S4method{|}{antsImage,numeric}(e1, e2)
+
+\S4method{|}{numeric,antsImage}(e1, e2)
 
 \S4method{Logic}{antsImage,numeric}(e1, e2)
 
@@ -176,3 +207,4 @@ is.antsImage(img02 / pi)
 \author{
 John Muschellli \email{muschellij2@gmail.com}
 }
+

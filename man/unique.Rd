@@ -18,3 +18,4 @@
 \description{
 Overloaded uniqueness operation for antsImage objects
 }
+

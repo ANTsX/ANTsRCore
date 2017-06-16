@@ -22,3 +22,4 @@ tx2 = new("antsrTransform", precision="float", type="AffineTransform", dimension
 setAntsrTransformParameters(tx2, c(0,-1,1,0,0,0) )
 tx3 = composeAntsrTransforms( list(tx, tx2) )
 }
+

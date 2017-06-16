@@ -50,3 +50,4 @@ resampled <- resampleImageToTarget(fi2mm, fi)
 \author{
 Pustina D
 }
+

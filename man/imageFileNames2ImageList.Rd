@@ -29,3 +29,4 @@ images <- imageFileNames2ImageList(imagenames)
 \author{
 Avants BB, Kandel BM
 }
+
