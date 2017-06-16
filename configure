@@ -83,9 +83,9 @@ fi
 if [[ ! -d ../data/ ]] ; then
   mkdir -p ../data
 fi
-echo "Dependency,GitTag" > ../data/antsVersions.csv
-echo "ANTs,${antstag}" >> ../data/antsVersions.csv
-echo "ANTsRCore,${antsrtag}" >> ../data/antsVersions.csv
+echo "Dependency;GitTag" > ../data/antsVersions.csv
+echo "ANTs;${antstag}" >> ../data/antsVersions.csv
+echo "ANTsRCore;${antsrtag}" >> ../data/antsVersions.csv
 cd ants
 if [[ -d .git ]]; then
     git checkout master
