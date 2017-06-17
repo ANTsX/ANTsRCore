@@ -6,7 +6,7 @@ os:
   - linux
   - osx
 
-r_build_args: --no-build-vignettes --no-manual    
+r_build_args: --no-build-vignettes --no-manual
 env:
   global:
   - R_BUILD_ARGS=" "
@@ -32,7 +32,7 @@ cran: http://cran.rstudio.com
 
 # r_binary_packages:
 #   - Rcpp
-  
+
 before_install:
   - mkdir -p ~/.R
   - export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
@@ -43,19 +43,19 @@ before_install:
   - echo "CXX1X=clang++" >> ~/.R/Makevars
   - echo "CXX1XSTD=-std=c++11" >> ~/.R/Makevars
   - source ~/.R/Makevars
-  # wget  
+  # wget
   - wget -O travis_helpers.sh http://bit.ly/travis_helpers
   - source travis_helpers.sh
   - rm travis_helpers.sh
   - echo "ANTSR_TRAVIS VERSION 0.2"
   # cmake may not be needed
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; 
-    then 
+  - if [ "$TRAVIS_OS_NAME" == "linux" ];
+    then
     wget -O cmake.sh --no-check-certificate \
-      https://cmake.org/files/v3.4/cmake-3.4.0-rc1-Linux-x86_64.sh; 
-    sh cmake.sh --skip-license --prefix=${HOME}; 
-    export PATH=${HOME}/bin/:$PATH; 
-    rm cmake.sh; 
+      https://cmake.org/files/v3.4/cmake-3.4.0-rc1-Linux-x86_64.sh;
+    sh cmake.sh --skip-license --prefix=${HOME};
+    export PATH=${HOME}/bin/:$PATH;
+    rm cmake.sh;
     fi
   - export PATH=${HOME}/bin/:$PATH
   - remote_binary_install ITKR
@@ -76,7 +76,7 @@ after_success:
 - cd $mydir
 after_failure:
   - echo ${TRAVIS_BUILD_DIR}
-  - dn=`dirname ${basedir}`
+  - dn=`dirname ${mydir}`
   - cat ${dn}/ANTsRCore.Rcheck/00install.out
   - cat ${dn}/ANTsRCore.Rcheck/00check.log
 
