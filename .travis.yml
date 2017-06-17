@@ -6,7 +6,7 @@ os:
   - linux
   - osx
 
-r_build_args: --no-build-vignettes --no-manual    
+r_build_args: --no-build-vignettes --no-manual
 env:
   global:
   - R_BUILD_ARGS=" "
@@ -32,7 +32,7 @@ cran: http://cran.rstudio.com
 
 # r_binary_packages:
 #   - Rcpp
-  
+
 before_install:
   - mkdir -p ~/.R
   - export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
@@ -43,7 +43,7 @@ before_install:
   - echo "CXX1X=clang++" >> ~/.R/Makevars
   - echo "CXX1XSTD=-std=c++11" >> ~/.R/Makevars
   - source ~/.R/Makevars
-  # wget  
+  # wget
   - wget -O travis_helpers.sh http://bit.ly/travis_helpers
   - source travis_helpers.sh
   - rm travis_helpers.sh
