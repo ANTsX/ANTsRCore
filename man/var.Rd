@@ -2,8 +2,8 @@
 % Please edit documentation in R/zzz_Math_Summary.R
 \name{var}
 \alias{var}
-\alias{var.antsImage}
 \alias{var.default}
+\alias{var.antsImage}
 \title{Variance generic}
 \usage{
 var(x, ...)
@@ -20,4 +20,3 @@ var(x, ...)
 \description{
 Calculates the variance of an image
 }
-

@@ -20,7 +20,9 @@ setMethod("&", signature(e1 = "antsImage", e2 = "antsImage"),
             return(res)
           })
 
-
+#' @rdname antsImageops
+#' @aliases Logic,antsImage,antsImage-method
+#' @export
 setMethod("|", signature(e1 = "antsImage", e2 = "antsImage"),
           function(e1, e2) {
             ## either use drop_img_dim and validObject or take out both

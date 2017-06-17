@@ -30,4 +30,3 @@ setMethod(f = "xor", signature(x = "antsImage",
   !a2
 })
 }
-

@@ -27,4 +27,3 @@ mask = img > 0
 hist(img)
 hist(img, mask = mask)
 }
-

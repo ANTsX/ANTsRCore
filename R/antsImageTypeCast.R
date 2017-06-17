@@ -10,7 +10,7 @@
 #' img2 < antsImageRead( getANTsRData("rand"), pixeltype="double"  ) %>% resampleImage( c(32, 32) )
 #' allDoubles = antsImageTypeCast( list(img, img2) )
 #'
-#' @export antsImageTypeCast
+#' @export
 antsImageTypeCast <- function( imageList, pixeltype=NA ) {
 
   pixTypes = c()

@@ -3,8 +3,8 @@
 \docType{class}
 \name{antsImageIterator-class}
 \alias{antsImageIterator-class}
-\alias{initialize,antsImageIterator-method}
 \alias{show,antsImageIterator-method}
+\alias{initialize,antsImageIterator-method}
 \title{An S4 class for an antsImageIterator}
 \usage{
 \S4method{show}{antsImageIterator}(object)

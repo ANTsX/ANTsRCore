@@ -23,4 +23,3 @@ tx = createAntsrTransform( type="Euler3DTransform", translation=trans )
 txfile = tempfile(fileext = ".mat")
 writeAntsrTransform(tx, txfile)
 }
-

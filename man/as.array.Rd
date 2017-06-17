@@ -2,19 +2,19 @@
 % Please edit documentation in R/antsImage_class.R, R/antsMatrix.R
 \docType{methods}
 \name{as.array}
-\alias{.}
 \alias{as.array}
+\alias{dim,antsImage-method}
+\alias{is.na,antsImage-method}
+\alias{.}
+\alias{as.numeric,antsImage-method}
+\alias{as.matrix,antsImage-method}
+\alias{as.matrix.antsImage}
 \alias{as.array,antsImage-method}
 \alias{as.array.antsImage}
 \alias{as.data.frame,antsMatrix-method}
 \alias{as.data.frame.antsMatrix}
-\alias{as.list,antsMatrix-method}
-\alias{as.matrix,antsImage-method}
 \alias{as.matrix,antsMatrix-method}
-\alias{as.matrix.antsImage}
-\alias{as.numeric,antsImage-method}
-\alias{dim,antsImage-method}
-\alias{is.na,antsImage-method}
+\alias{as.list,antsMatrix-method}
 \title{Coerce antsImage objects to array}
 \usage{
 \S4method{dim}{antsImage}(x)
@@ -62,4 +62,3 @@ data frame.}
 \description{
 Converts antsImage, antsImage object to different data types
 }
-

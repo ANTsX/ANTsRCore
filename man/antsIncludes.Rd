@@ -17,4 +17,3 @@ antsIncludes()
 \author{
 Avants BB
 }
-

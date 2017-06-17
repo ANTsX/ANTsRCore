@@ -32,4 +32,3 @@ bimg = ripmmarcBasisImage( ripped$canonicalFrame, ripped$basisMat[1,] )
 \author{
 Kandel BM, Avants BB
 }
-

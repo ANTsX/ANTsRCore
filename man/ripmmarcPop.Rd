@@ -49,10 +49,9 @@ mm = makeImage( popmasks[[3]], rippedTest$evecCoeffs[,1] )
 }
 
 }
-\author{
-Kandel BM, Avants BB
-}
 \seealso{
 \code{\link{ripmmarc}}
 }
-
+\author{
+Kandel BM, Avants BB
+}

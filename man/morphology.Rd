@@ -67,4 +67,3 @@ type="binary", shape="annulus", thickness=2)
 \author{
 Avants BB
 }
-

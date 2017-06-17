@@ -17,4 +17,3 @@ Array, logical if all values within 0, 1, \code{NA}, and \code{NaN}
 \description{
 Creates a logical array from an antsImage object
 }
-

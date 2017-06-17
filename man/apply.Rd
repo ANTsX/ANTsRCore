@@ -2,8 +2,8 @@
 % Please edit documentation in R/apply.antsImage.R
 \name{apply}
 \alias{apply}
-\alias{apply.antsImage}
 \alias{apply.default}
+\alias{apply.antsImage}
 \title{Extension of apply to allow input of antsImage}
 \usage{
 apply(X, MARGIN, FUN, ...)
@@ -37,4 +37,3 @@ is.antsImage(img2)
 \author{
 Duda JT
 }
-

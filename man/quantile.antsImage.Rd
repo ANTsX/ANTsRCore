@@ -26,4 +26,3 @@ img = makeImage(c(10,10),rnorm(100))
 mask = img > 0
 quantile(img, mask = mask)
 }
-
