@@ -7,9 +7,9 @@
 antsImageTypeCast(imageList, pixeltype = NA)
 }
 \arguments{
-\item{pixeltype}{to cast to}
+\item{imageList}{list of images}
 
-\item{list}{of images}
+\item{pixeltype}{to cast to}
 }
 \value{
 list of antsImages
@@ -20,7 +20,7 @@ Cast images to either a passed pixeltype or the most precise of the inputs
 \examples{
 
 img <- antsImageRead( getANTsRData("rand")  ) \%>\% resampleImage( c(32, 32) )
-img2 < antsImageRead( getANTsRData("rand"), pixeltype="double"  ) \%>\% resampleImage( c(32, 32) )
+img2 <- antsImageRead( getANTsRData("rand"), pixeltype="double"  ) \%>\% resampleImage( c(32, 32) )
 allDoubles = antsImageTypeCast( list(img, img2) )
 
 }
