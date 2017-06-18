@@ -2,6 +2,7 @@
 *~
 *.so
 *.o
+zzz_Comparison2\.R
 
 # things to ignore in directory ANTsR/src
 src/Makevars
