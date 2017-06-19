@@ -97,6 +97,8 @@ jobs:
           repo: stnava/ANTsRCore
           tags: true
           all_branches: true
+  allow_failures:
+    - os: osx
 
 
 after_success:
