@@ -62,6 +62,7 @@ before_install:
   - remote_binary_install ITKR
 
 script:
+  - echo "Overriding travis R script"
 
 jobs:
   include:
