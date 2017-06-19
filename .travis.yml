@@ -81,14 +81,13 @@ jobs:
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)  
-      - if [[ ${#TRAVIS_TAG} -gt 0 ]]; 
-        then
-          # only install and build if tagged
+      - if [ ${#TRAVIS_TAG} -gt 0 ]; 
+        then # only install and build if tagged
           travis_wait 100 R CMD INSTALL --build ANTsRCore; 
           if [ "$TRAVIS_OS_NAME" == "osx" ];  
           then  
             PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);  
-          fi        
+          fi;        
         fi
       deploy:
         provider: releases
