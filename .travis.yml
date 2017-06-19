@@ -61,8 +61,8 @@ before_install:
   - export PATH=${HOME}/bin/:$PATH
   - remote_binary_install ITKR
 
-# script:
-#   - echo "Overriding travis R script"
+script:
+  - echo "Overriding travis R script"
 
 jobs:
   include:
