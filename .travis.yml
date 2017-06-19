@@ -2,9 +2,9 @@
 sudo: false
 # cache local R libraries directory:
 cache: packages
-# os:
-#   - linux
-#   - osx
+os:
+  - linux
+  - osx
 
 r_build_args: --no-build-vignettes --no-manual
 env:
@@ -74,6 +74,16 @@ jobs:
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)        
       - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}" --no-manual; 
+      os: linux
+    - script:
+      - source ~/.R/Makevars
+      - export CXX=clang++
+      - export CC=clang
+      - cd ..
+      - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
+      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)        
+      - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}" --no-manual; 
+      os: osx      
     - stage: "Deployment"
       script: 
       - source ~/.R/Makevars
@@ -102,6 +112,36 @@ jobs:
           repo: stnava/ANTsRCore
           tags: true
           all_branches: true
+      os: linux          
+    - stage: "Deployment"
+      script: 
+      - source ~/.R/Makevars
+      - export CXX=clang++
+      - export CC=clang
+      - cd ..
+      - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
+      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)  
+      - if [[ ${#TRAVIS_TAG} -gt 0 ]]; 
+        then 
+          travis_wait 100 R CMD INSTALL --build ANTsRCore; 
+          PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1); 
+          if [ "$TRAVIS_OS_NAME" == "osx" ];  
+            then  
+              PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);  
+          fi; 
+        fi        
+      deploy:
+        provider: releases
+        api_key:
+          secure: Hm3kbkCySSneOe8644MWudbNAphB4+YDpGhWCeeHuSiHoQU6+Qmx/f014iVM5JqZI72EGX21hSygqfD9jB8O78J4imO4xMUnNciA80pV/NlUnzwMiYVfpYAga3QQApvSJZuBA/4+kJXlFZkigWGXuzb8W5Qty0xY1KV9FuaUzo5bRxCPa4f3t3PP/Ikjhla2vH53UHo+YiRIfGlH5Rn3p2kDS5390cfdO5+1kn8p5UMZV7C1B2VAE2OO0QxtVmjZbpAxE/k+QGdeGMXBfu5bCfERO3Wr/sfITaTu9j5Oulv/fDfVe6kuIRhAkX0eUn+CEkEhBgSO6yp1+abcagxIRVYfF3hp5e6+cOeGC/QH0z9kSsCim3SdYvz+rFhtzS+vO4LTO8wgGzyMLalvH2Jopf4OrRbSwbmiLpQzR/fFrmx9IZt0o4lD9+KW9Nhj0o9+V6NHg+Usx1wbTVYDjh53op6AT5c6E4Zej0gLeG9gXXtICtcEE1pCLiK8EX11cCUpgRD0NcG+F/dcPY5kLtf4/Uw/krhwz8OagPk9Mt3aleu0iepkuwQoGNoy2XBzc0zcaGICC3Y23KW/VZRc0xZGjiUmQXyMlbuB/dOYr0V8VGVPanRgDksr+ML0B4nqdfbtqTC1FQl2ORtG7iCDuArAZo7bokisZ2GTSA2F85BpfRY=
+        file: ${PKG_FILE_NAME}
+        skip_cleanup: true
+        overwrite: true
+        on:
+          repo: stnava/ANTsRCore
+          tags: true
+          all_branches: true          
+      os: osx
   allow_failures:
     - os: osx
 
