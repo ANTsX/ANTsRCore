@@ -137,9 +137,6 @@ setMethod("Arith", signature(e1 = "antsImage", e2 = "numeric"),
 #' @aliases Arith,antsImage,numeric-method
 setMethod("+", signature(e1 = "antsImage", e2 = "numeric"),
           function(e1, e2) {
-            if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
-              stop("Images do not occupy the same physical space")
-            }
             res = .Call("antsImageArithImageNumeric",
                         e1, e2, "+", PACKAGE = "ANTsRCore")
             return(res)
@@ -147,17 +144,120 @@ setMethod("+", signature(e1 = "antsImage", e2 = "numeric"),
 
 #' @rdname antsImageops
 #' @aliases Arith,antsImage,numeric-method
-setMethod("+", signature(e1 = "numeric", e2 = "antsImage"),
+setMethod("-", signature(e1 = "antsImage", e2 = "numeric"),
           function(e1, e2) {
-            if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
-              stop("Images do not occupy the same physical space")
-            }
             res = .Call("antsImageArithImageNumeric",
-                        e2, e1, "+", PACKAGE = "ANTsRCore")
+                        e1, e2, "-", PACKAGE = "ANTsRCore")
             return(res)
           })
 
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("*", signature(e1 = "antsImage", e2 = "numeric"),
+          function(e1, e2) {
+            res = .Call("antsImageArithImageNumeric",
+                        e1, e2, "*", PACKAGE = "ANTsRCore")
+            return(res)
+          })
 
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("/", signature(e1 = "antsImage", e2 = "numeric"),
+          function(e1, e2) {
+            res = .Call("antsImageArithImageNumeric",
+                        e1, e2, "/", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("^", signature(e1 = "antsImage", e2 = "numeric"),
+          function(e1, e2) {
+            res = .Call("antsImageArithImageNumeric",
+                        e1, e2, "^", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("%%", signature(e1 = "antsImage", e2 = "numeric"),
+          function(e1, e2) {
+            res = .Call("antsImageArithImageNumeric",
+                        e1, e2, "%%", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("%/%", signature(e1 = "antsImage", e2 = "numeric"),
+          function(e1, e2) {
+            res = .Call("antsImageArithImageNumeric",
+                        e1, e2, "%/%", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("+", signature(e1 = "numeric", e2 = "antsImage"),
+          function(e1, e2) {
+            res = .Call("antsImageArithNumericImage",
+                        e1, e2, "+", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("-", signature(e1 = "numeric", e2 = "antsImage"),
+          function(e1, e2) {
+            res = .Call("antsImageArithNumericImage",
+                        e1, e2, "-", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("*", signature(e1 = "numeric", e2 = "antsImage"),
+          function(e1, e2) {
+            res = .Call("antsImageArithNumericImage",
+                        e1, e2, "*", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("/", signature(e1 = "numeric", e2 = "antsImage"),
+          function(e1, e2) {
+            res = .Call("antsImageArithNumericImage",
+                        e1, e2, "/", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("^", signature(e1 = "numeric", e2 = "antsImage"),
+          function(e1, e2) {
+            res = .Call("antsImageArithNumericImage",
+                        e1, e2, "^", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("%%", signature(e1 = "numeric", e2 = "antsImage"),
+          function(e1, e2) {
+            res = .Call("antsImageArithNumericImage",
+                        e1, e2, "%%", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("%/%", signature(e1 = "numeric", e2 = "antsImage"),
+          function(e1, e2) {
+            res = .Call("antsImageArithNumericImage",
+                        e1, e2, "%/%", PACKAGE = "ANTsRCore")
+            return(res)
+          })
 
 #' @rdname antsImageops
 #' @aliases Arith,antsImage,numeric-method

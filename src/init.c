@@ -40,6 +40,7 @@ extern SEXP antsImage_TransformIndexToPhysicalPoint(SEXP, SEXP);
 extern SEXP antsImage_TransformPhysicalPointToIndex(SEXP, SEXP);
 extern SEXP antsImageArithImageImage(SEXP,SEXP,SEXP);
 extern SEXP antsImageArithImageNumeric(SEXP,SEXP,SEXP);
+extern SEXP antsImageArithNumericImage(SEXP,SEXP,SEXP);
 extern SEXP antsImageComparisonImageImage(SEXP,SEXP,SEXP);
 extern SEXP antsImageComparisonImageNumeric(SEXP,SEXP,SEXP);
 extern SEXP antsImageClone(SEXP, SEXP);
@@ -123,7 +124,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsImage_TransformPhysicalPointToIndex", (DL_FUNC) &antsImage_TransformPhysicalPointToIndex,  2},
     {"antsImageArithImageImage",                (DL_FUNC) &antsImageArithImageImage,                 3},
     {"antsImageArithImageNumeric",              (DL_FUNC) &antsImageArithImageNumeric,               3},
-    {"antsImageComparisonImageImage",           (DL_FUNC) &antsImageComparisonImageImage,            3},    {"antsImageComparisonImageNumeric",         (DL_FUNC) &antsImageComparisonImageNumeric,          3},
+    {"antsImageArithNumericImage",              (DL_FUNC) &antsImageArithNumericImage,               3},
+    {"antsImageComparisonImageImage",           (DL_FUNC) &antsImageComparisonImageImage,            3},
+    {"antsImageComparisonImageNumeric",         (DL_FUNC) &antsImageComparisonImageNumeric,          3},
     {"antsImageClone",                          (DL_FUNC) &antsImageClone,                           2},
     {"antsImageHeaderInfo",                     (DL_FUNC) &antsImageHeaderInfo,                      1},
     {"antsImageIterator",                       (DL_FUNC) &antsImageIterator,                        1},
