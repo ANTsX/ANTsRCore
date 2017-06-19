@@ -62,18 +62,24 @@ before_install:
   - remote_binary_install ITKR
 
 script:
-  - source ~/.R/Makevars
-  - export CXX=clang++
-  - export CC=clang
-  - cd ..
-  - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
-  - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)  
 
 jobs:
   include:
     - script:
+      - source ~/.R/Makevars
+      - export CXX=clang++
+      - export CC=clang
+      - cd ..
+      - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
+      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)        
       - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}" --no-manual; 
     - script: 
+      - source ~/.R/Makevars
+      - export CXX=clang++
+      - export CC=clang
+      - cd ..
+      - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
+      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)  
       - travis_wait 100 R CMD INSTALL --build ANTsRCore; 
           PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1); 
           if [ "$TRAVIS_OS_NAME" == "osx" ];  
