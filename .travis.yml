@@ -2,9 +2,9 @@
 sudo: false
 # cache local R libraries directory:
 cache: packages
-os:
-  - linux
-  - osx
+# os:
+#   - linux
+#   - osx
 
 r_build_args: --no-build-vignettes --no-manual
 env:
