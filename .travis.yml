@@ -24,9 +24,9 @@ language: r
 r:
   - release
 
-matrix:
-  allow_failures:
-  - os: osx
+# matrix:
+#   allow_failures:
+#   - os: osx
 
 cran: http://cran.rstudio.com
 
