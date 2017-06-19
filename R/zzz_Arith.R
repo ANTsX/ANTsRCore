@@ -32,6 +32,97 @@ setMethod("Arith", signature(e1 = "antsImage", e2 = "antsImage"),
 
 #' @rdname antsImageops
 #' @aliases Arith,antsImage,numeric-method
+setMethod("+", signature(e1 = "antsImage", e2 = "antsImage"),
+          function(e1, e2) {
+            ## either use drop_img_dim and validObject or take out both
+            if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
+              stop("Images do not occupy the same physical space")
+            }
+            res = .Call("antsImageArithImageImage",
+                        e1, e2, "+", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("-", signature(e1 = "antsImage", e2 = "antsImage"),
+          function(e1, e2) {
+            ## either use drop_img_dim and validObject or take out both
+            if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
+              stop("Images do not occupy the same physical space")
+            }
+            res = .Call("antsImageArithImageImage",
+                        e1, e2, "-", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("*", signature(e1 = "antsImage", e2 = "antsImage"),
+          function(e1, e2) {
+            ## either use drop_img_dim and validObject or take out both
+            if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
+              stop("Images do not occupy the same physical space")
+            }
+            res = .Call("antsImageArithImageImage",
+                        e1, e2, "*", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("/", signature(e1 = "antsImage", e2 = "antsImage"),
+          function(e1, e2) {
+            ## either use drop_img_dim and validObject or take out both
+            if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
+              stop("Images do not occupy the same physical space")
+            }
+            res = .Call("antsImageArithImageImage",
+                        e1, e2, "/", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("^", signature(e1 = "antsImage", e2 = "antsImage"),
+          function(e1, e2) {
+            ## either use drop_img_dim and validObject or take out both
+            if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
+              stop("Images do not occupy the same physical space")
+            }
+            res = .Call("antsImageArithImageImage",
+                        e1, e2, "^", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("%%", signature(e1 = "antsImage", e2 = "antsImage"),
+          function(e1, e2) {
+            ## either use drop_img_dim and validObject or take out both
+            if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
+              stop("Images do not occupy the same physical space")
+            }
+            res = .Call("antsImageArithImageImage",
+                        e1, e2, "%%", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("%/%", signature(e1 = "antsImage", e2 = "antsImage"),
+          function(e1, e2) {
+            ## either use drop_img_dim and validObject or take out both
+            if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
+              stop("Images do not occupy the same physical space")
+            }
+            res = .Call("antsImageArithImageImage",
+                        e1, e2, "%/%", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
 setMethod("Arith", signature(e1 = "antsImage", e2 = "numeric"),
           function(e1, e2) {
             ## either use drop_img_dim and validObject or take out both
@@ -41,6 +132,31 @@ setMethod("Arith", signature(e1 = "antsImage", e2 = "numeric"),
             res = as.antsImage(res, reference = e1)
             return(res)
           })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("+", signature(e1 = "antsImage", e2 = "numeric"),
+          function(e1, e2) {
+            if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
+              stop("Images do not occupy the same physical space")
+            }
+            res = .Call("antsImageArithImageNumeric",
+                        e1, e2, "+", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
+#' @rdname antsImageops
+#' @aliases Arith,antsImage,numeric-method
+setMethod("+", signature(e1 = "numeric", e2 = "antsImage"),
+          function(e1, e2) {
+            if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
+              stop("Images do not occupy the same physical space")
+            }
+            res = .Call("antsImageArithImageNumeric",
+                        e2, e1, "+", PACKAGE = "ANTsRCore")
+            return(res)
+          })
+
 
 
 #' @rdname antsImageops
