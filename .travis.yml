@@ -60,6 +60,7 @@ before_install:
     fi
   - export PATH=${HOME}/bin/:$PATH
   - remote_binary_install ITKR
+  - ./cleanup
 
 script:
   - echo "Overriding travis R script"
