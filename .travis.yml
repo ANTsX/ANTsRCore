@@ -63,8 +63,7 @@ before_install:
 
 jobs:
   include:
-    - stage: "R CMD Check and such"
-      script:
+    - script:
         - source ~/.R/Makevars
         - export CXX=clang++
         - export CC=clang
