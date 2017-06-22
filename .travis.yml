@@ -59,7 +59,8 @@ before_install:
     rm cmake.sh ;   
     fi
   - cmake --version
-  - export PATH=${HOME}/bin/:$PATH
+  - export PATH=$PATH:${HOME}/bin/
+  - cmake --version
   - remote_binary_install ITKR
   - ./cleanup
 
