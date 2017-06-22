@@ -49,7 +49,7 @@ before_install:
   - rm travis_helpers.sh
   - echo "ANTSR_TRAVIS VERSION 0.2"
   # cmake may not be needed
-  - export cmake_version="3.9"
+  - export cmake_version="3.4"
   - export cmake_url=https://cmake.org/files/v${cmake_version}/cmake-${cmake_version}.0-rc1
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; 
     then 
