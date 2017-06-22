@@ -58,6 +58,7 @@ before_install:
     sh cmake.sh --skip-license --prefix=${HOME};    
     rm cmake.sh ;   
     fi
+  - cmake --version
   - export PATH=${HOME}/bin/:$PATH
   - remote_binary_install ITKR
   - ./cleanup
