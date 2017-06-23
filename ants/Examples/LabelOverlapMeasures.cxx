@@ -1,0 +1,259 @@
+#include "antsUtilities.h"
+#include <algorithm>
+
+#include "itkCSVArray2DDataObject.h"
+#include "itkCSVArray2DFileReader.h"
+#include "itkCSVNumericObjectFileWriter.h"
+#include "itkHausdorffDistanceImageFilter.h"
+#include "itkImage.h"
+#include "itkImageFileReader.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkLabelOverlapMeasuresImageFilter.h"
+#include "itkSignedMaurerDistanceMapImageFilter.h"
+
+#include <iomanip>
+#include <vector>
+
+namespace ants
+{
+
+template <unsigned int ImageDimension>
+int LabelOverlapMeasures( int argc, char * argv[] )
+{
+  if( argc < 3 )
+    {
+    std::cout << "missing 1st filename" << std::endl;
+    throw;
+    }
+  if( argc < 4 )
+    {
+    std::cout << "missing 2nd filename" << std::endl;
+    throw;
+    }
+
+  bool outputCSVFormat = false;
+  if( argc > 4  )
+    {
+    outputCSVFormat = true;
+    }
+
+  typedef unsigned int                          PixelType;
+  typedef itk::Image<PixelType, ImageDimension> ImageType;
+
+  typedef itk::ImageFileReader<ImageType> ReaderType;
+  typename ReaderType::Pointer reader1 = ReaderType::New();
+  reader1->SetFileName( argv[2] );
+  typename ReaderType::Pointer reader2 = ReaderType::New();
+  reader2->SetFileName( argv[3] );
+
+  typedef itk::LabelOverlapMeasuresImageFilter<ImageType> FilterType;
+  typename FilterType::Pointer filter = FilterType::New();
+  filter->SetSourceImage( reader1->GetOutput() );
+  filter->SetTargetImage( reader2->GetOutput() );
+  filter->Update();
+
+  typename FilterType::MapType labelMap = filter->GetLabelSetMeasures();
+
+  std::vector<int> allLabels;
+  allLabels.clear();
+  for( typename FilterType::MapType::const_iterator it = labelMap.begin();
+       it != labelMap.end(); ++it )
+    {
+    if( (*it).first == 0 )
+      {
+      continue;
+      }
+
+    const int label = (*it).first;
+    allLabels.push_back( label );
+    }
+  std::sort( allLabels.begin(), allLabels.end() );
+
+  if( outputCSVFormat )
+    {
+    std::vector<std::string>   columnHeaders;
+
+    columnHeaders.push_back( std::string( "Label" ) );
+    columnHeaders.push_back( std::string( "Total/Target" ) );
+    columnHeaders.push_back( std::string( "Jaccard" ) );
+    columnHeaders.push_back( std::string( "Dice" ) );
+    columnHeaders.push_back( std::string( "VolumeSimilarity" ) );
+    columnHeaders.push_back( std::string( "FalseNegative" ) );
+    columnHeaders.push_back( std::string( "FalsePositive" ) );
+
+    std::vector<std::string>   rowHeaders;
+    rowHeaders.push_back( std::string( "All" ) );
+
+    std::vector<int>::const_iterator itL = allLabels.begin();
+    while( itL != allLabels.end() )
+      {
+      std::ostringstream convert; // stream used for the conversion
+      convert << *itL;   // insert the textual representation of 'Number' in the characters in the stream
+      rowHeaders.push_back( convert.str() );
+      ++itL;
+      }
+
+    vnl_matrix<double> measures( allLabels.size() + 1, 6 );
+
+    measures( 0, 0 ) = filter->GetTotalOverlap();
+    measures( 0, 1 ) = filter->GetUnionOverlap();
+    measures( 0, 2 ) = filter->GetMeanOverlap();
+    measures( 0, 3 ) = filter->GetVolumeSimilarity();
+    measures( 0, 4 ) = filter->GetFalseNegativeError();
+    measures( 0, 5 ) = filter->GetFalsePositiveError();
+
+    unsigned int rowIndex = 1;
+    for( itL = allLabels.begin(); itL != allLabels.end(); ++itL )
+      {
+      measures( rowIndex, 0 ) = filter->GetTargetOverlap( *itL );
+      measures( rowIndex, 1 ) = filter->GetUnionOverlap( *itL );
+      measures( rowIndex, 2 ) = filter->GetMeanOverlap( *itL );
+      measures( rowIndex, 3 ) = filter->GetVolumeSimilarity( *itL );
+      measures( rowIndex, 4 ) = filter->GetFalseNegativeError( *itL );
+      measures( rowIndex, 5 ) = filter->GetFalsePositiveError( *itL );
+      rowIndex++;
+      }
+
+    typedef itk::CSVNumericObjectFileWriter<double, 1, 1> WriterType;
+    WriterType::Pointer writer = WriterType::New();
+    writer->SetFileName( argv[4] );
+    writer->SetColumnHeaders( columnHeaders );
+    writer->SetRowHeaders( rowHeaders );
+    writer->SetInput( &measures );
+    try
+      {
+      writer->Write();
+      }
+    catch( itk::ExceptionObject& exp )
+      {
+      std::cerr << "Exception caught!" << std::endl;
+      std::cerr << exp << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+  else
+    {
+    std::cout << "                                          "
+              << "************ All Labels *************" << std::endl;
+    std::cout << std::setw( 10 ) << "   "
+              << std::setw( 17 ) << "Total"
+              << std::setw( 17 ) << "Union (jaccard)"
+              << std::setw( 17 ) << "Mean (dice)"
+              << std::setw( 17 ) << "Volume sim."
+              << std::setw( 17 ) << "False negative"
+              << std::setw( 17 ) << "False positive" << std::endl;
+    std::cout << std::setw( 10 ) << "   ";
+    std::cout << std::setw( 17 ) << filter->GetTotalOverlap();
+    std::cout << std::setw( 17 ) << filter->GetUnionOverlap();
+    std::cout << std::setw( 17 ) << filter->GetMeanOverlap();
+    std::cout << std::setw( 17 ) << filter->GetVolumeSimilarity();
+    std::cout << std::setw( 17 ) << filter->GetFalseNegativeError();
+    std::cout << std::setw( 17 ) << filter->GetFalsePositiveError();
+    std::cout << std::endl;
+
+    std::cout << "                                       "
+              << "************ Individual Labels *************" << std::endl;
+    std::cout << std::setw( 10 ) << "Label"
+              << std::setw( 17 ) << "Target"
+              << std::setw( 17 ) << "Union (jaccard)"
+              << std::setw( 17 ) << "Mean (dice)"
+              << std::setw( 17 ) << "Volume sim."
+              << std::setw( 17 ) << "False negative"
+              << std::setw( 17 ) << "False positive"
+              << std::endl;
+    for( unsigned int i = 0; i < allLabels.size(); i++ )
+      {
+      int label = allLabels[i];
+
+      std::cout << std::setw( 10 ) << label;
+      std::cout << std::setw( 17 ) << filter->GetTargetOverlap( label );
+      std::cout << std::setw( 17 ) << filter->GetUnionOverlap( label );
+      std::cout << std::setw( 17 ) << filter->GetMeanOverlap( label );
+      std::cout << std::setw( 17 ) << filter->GetVolumeSimilarity( label );
+      std::cout << std::setw( 17 ) << filter->GetFalseNegativeError( label );
+      std::cout << std::setw( 17 ) << filter->GetFalsePositiveError( label );
+      std::cout << std::endl;
+      }
+    }
+
+  return EXIT_SUCCESS;
+}
+
+// entry point for the library; parameter 'args' is equivalent to 'argv' in (argc,argv) of commandline parameters to
+// 'main()'
+int LabelOverlapMeasures( std::vector<std::string> args, std::ostream * /*out_stream = NULL */ )
+{
+  // put the arguments coming in as 'args' into standard (argc,argv) format;
+  // 'args' doesn't have the command name as first, argument, so add it manually;
+  // 'args' may have adjacent arguments concatenated into one argument,
+  // which the parser should handle
+  args.insert( args.begin(), "LabelOverlapMeasures" );
+
+  int     argc = args.size();
+  char* * argv = new char *[args.size() + 1];
+  for( unsigned int i = 0; i < args.size(); ++i )
+    {
+    // allocate space for the string plus a null character
+    argv[i] = new char[args[i].length() + 1];
+    std::strncpy( argv[i], args[i].c_str(), args[i].length() );
+    // place the null character in the end
+    argv[i][args[i].length()] = '\0';
+    }
+  argv[argc] = ITK_NULLPTR;
+  // class to automatically cleanup argv upon destruction
+  class Cleanup_argv
+  {
+public:
+    Cleanup_argv( char* * argv_, int argc_plus_one_ ) : argv( argv_ ), argc_plus_one( argc_plus_one_ )
+    {
+    }
+
+    ~Cleanup_argv()
+    {
+      for( unsigned int i = 0; i < argc_plus_one; ++i )
+        {
+        delete[] argv[i];
+        }
+      delete[] argv;
+    }
+
+private:
+    char* *      argv;
+    unsigned int argc_plus_one;
+  };
+  Cleanup_argv cleanup_argv( argv, argc + 1 );
+
+  // antscout->set_stream( out_stream );
+
+  if( argc < 4 )
+    {
+    std::cout << "Usage: " << argv[0] << " imageDimension sourceImage "
+              << "targetImage [outputCSVFile]" << std::endl;
+    if( argc >= 2 &&
+        ( std::string( argv[1] ) == std::string("--help") || std::string( argv[1] ) == std::string("-h") ) )
+      {
+      return EXIT_SUCCESS;
+      }
+    return EXIT_FAILURE;
+    }
+
+  switch( atoi( argv[1] ) )
+    {
+    case 2:
+      {
+      return LabelOverlapMeasures<2>( argc, argv );
+      }
+      break;
+    case 3:
+      {
+      return LabelOverlapMeasures<3>( argc, argv );
+      }
+      break;
+    default:
+      std::cout << "Unsupported dimension" << std::endl;
+      return EXIT_FAILURE;
+    }
+  return EXIT_SUCCESS;
+}
+
+} // namespace ants

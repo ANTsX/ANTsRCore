@@ -67,6 +67,8 @@ echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
 echo ".PHONY: all libs" >> Makevars
 
 echo "all: \$(SHLIB)" >> Makevars
+# echo "all: \$(CHECKER) \$(SHLIB)" >> Makevars
+# echo "\$(CHECKER): ; @echo \"Myantssource is \${myantssource}\" && @echo \"PWD is \${PWD}\" && @echo \"ITK is \${ITK}\"" >> Makevars
 
 echo "\$(SHLIB): libs" >> Makevars
 
