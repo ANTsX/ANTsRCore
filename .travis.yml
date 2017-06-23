@@ -74,18 +74,18 @@ jobs:
       - export CXX=clang++
       - export CC=clang
       - cd ..
-      - travis_wait 100 unbuffer R CMD build ANTsRCore ${R_BUILD_ARGS}
+      - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)        
-      - travis_wait 100 unbuffer R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}" --no-manual; 
+      - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}" --no-manual; 
       os: linux
     - script:
       - source ~/.R/Makevars
       - export CXX=clang++
       - export CC=clang
       - cd ..
-      - travis_wait 100 unbuffer R CMD build ANTsRCore ${R_BUILD_ARGS}
+      - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)        
-      - travis_wait 100 unbuffer R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}" --no-manual; 
+      - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}" --no-manual; 
       os: osx      
     - stage: "Deployment"
       script: 
@@ -93,7 +93,7 @@ jobs:
       - export CXX=clang++
       - export CC=clang
       - cd ..
-      - travis_wait 100 unbuffer R CMD build ANTsRCore ${R_BUILD_ARGS}
+      - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)  
       - if [[ ${#TRAVIS_TAG} -gt 0 ]]; 
         then 
@@ -122,7 +122,7 @@ jobs:
       - export CXX=clang++
       - export CC=clang
       - cd ..
-      - travis_wait 100 unbuffer R CMD build ANTsRCore ${R_BUILD_ARGS}
+      - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)  
       - if [[ ${#TRAVIS_TAG} -gt 0 ]]; 
         then 
@@ -151,6 +151,9 @@ jobs:
 
 after_success:
   - cd $mydir
+  - echo ${TRAVIS_BUILD_DIR}
+  - dn=`dirname ${TRAVIS_BUILD_DIR}`
+  - cat ${dn}/ANTsRCore.Rcheck/00check.log  
   - export PATH=${ORIG_PATH}
   
 after_failure:
