@@ -41,7 +41,7 @@ cran: http://cran.rstudio.com
 before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; 
     then 
-      brew install expect
+      brew install expect ;
     fi
   - export ORIG_PATH=${PATH}  
   - mkdir -p ~/.R
