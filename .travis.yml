@@ -6,6 +6,11 @@ os:
   - linux
   - osx
 
+addons:
+  apt:
+    packages:
+      - expect-dev
+
 r_build_args: --no-build-vignettes --no-manual
 env:
   global:
@@ -34,6 +39,10 @@ cran: http://cran.rstudio.com
 #   - Rcpp
 
 before_install:
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; 
+    then 
+      brew install expect
+    fi
   - export ORIG_PATH=${PATH}  
   - mkdir -p ~/.R
   - export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
