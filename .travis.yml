@@ -34,7 +34,7 @@ cran: http://cran.rstudio.com
 #   - Rcpp
 
 before_install:
-  - export ORIG_PATH=${PATH}  
+  - export ORIG_PATH=${PATH}
   - mkdir -p ~/.R
   - export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
   - export CC=clang
@@ -50,9 +50,12 @@ before_install:
   - rm travis_helpers.sh
   - export cmake_version="3.4"
   - cmake --version
-  - cmake_setup    
+  - cmake_setup
   - cmake --version
-  - remote_binary_install ITKR
+#  - remote_binary_install ITKR
+  - itkrrel=0.4.12
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; R CMD INSTALL ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then wget http://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}.tgz; R CMD INSTALL ITKR_${itkrrel}.tgz; fi
   - ./cleanup
 
 script:
@@ -66,8 +69,8 @@ jobs:
       - export CC=clang
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
-      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)        
-      - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}" --no-manual; 
+      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
+      - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}" --no-manual;
       os: linux
     - script:
       - source ~/.R/Makevars
@@ -75,26 +78,26 @@ jobs:
       - export CC=clang
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
-      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)        
-      - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}" --no-manual; 
-      os: osx      
+      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
+      - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}" --no-manual;
+      os: osx
     - stage: "Deployment"
-      script: 
+      script:
       - source ~/.R/Makevars
       - export CXX=clang++
       - export CC=clang
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
-      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)  
-      - if [[ ${#TRAVIS_TAG} -gt 0 ]]; 
-        then 
-          travis_wait 100 R CMD INSTALL --build ANTsRCore; 
-          PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1); 
-          if [ "$TRAVIS_OS_NAME" == "osx" ];  
-            then  
-              PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);  
-          fi; 
-        fi        
+      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
+      - if [[ ${#TRAVIS_TAG} -gt 0 ]];
+        then
+          travis_wait 100 R CMD INSTALL --build ANTsRCore;
+          PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
+          if [ "$TRAVIS_OS_NAME" == "osx" ];
+            then
+              PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);
+          fi;
+        fi
       deploy:
         provider: releases
         api_key:
@@ -106,24 +109,24 @@ jobs:
           repo: stnava/ANTsRCore
           tags: true
           all_branches: true
-      os: linux          
+      os: linux
     - stage: "Deployment"
-      script: 
+      script:
       - source ~/.R/Makevars
       - export CXX=clang++
       - export CC=clang
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
-      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)  
-      - if [[ ${#TRAVIS_TAG} -gt 0 ]]; 
-        then 
-          travis_wait 100 R CMD INSTALL --build ANTsRCore; 
-          PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1); 
-          if [ "$TRAVIS_OS_NAME" == "osx" ];  
-            then  
-              PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);  
-          fi; 
-        fi        
+      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
+      - if [[ ${#TRAVIS_TAG} -gt 0 ]];
+        then
+          travis_wait 100 R CMD INSTALL --build ANTsRCore;
+          PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
+          if [ "$TRAVIS_OS_NAME" == "osx" ];
+            then
+              PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);
+          fi;
+        fi
       deploy:
         provider: releases
         api_key:
@@ -134,7 +137,7 @@ jobs:
         on:
           repo: stnava/ANTsRCore
           tags: true
-          all_branches: true          
+          all_branches: true
       os: osx
   allow_failures:
     - os: osx
@@ -143,7 +146,7 @@ jobs:
 after_success:
   - cd $mydir
   - export PATH=${ORIG_PATH}
-  
+
 after_failure:
   - echo ${TRAVIS_BUILD_DIR}
   - dn=`dirname ${TRAVIS_BUILD_DIR}`
@@ -168,4 +171,3 @@ notifications:
 #     repo: stnava/ANTsRCore
 #     tags: true
 #     all_branches: true
-
