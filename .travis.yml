@@ -57,20 +57,20 @@ before_install:
   - cmake --version
   - cmake_setup
   - cmake --version
-  - remote_binary_install ITKR
+  # - remote_binary_install ITKR
   - ./cleanup  
   - itkrrel=0.4.12
-  # - if [ "$TRAVIS_OS_NAME" == "linux" ]; 
-  #   then 
-  #     wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; 
-  #     R CMD INSTALL ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; 
-  #   fi
-  # - if [ "$TRAVIS_OS_NAME" == "osx" ]; 
-  #   then 
-  #   wget http://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}.tgz; 
-  #   R CMD INSTALL ITKR_${itkrrel}.tgz; 
-  #   fi
-  # - drop_remote ITKR
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; 
+    then 
+      wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; 
+      R CMD INSTALL ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; 
+    fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; 
+    then 
+    wget http://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}.tgz; 
+    R CMD INSTALL ITKR_${itkrrel}.tgz; 
+    fi
+  - drop_remote ITKR
 
 
 script:
