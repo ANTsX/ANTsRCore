@@ -167,7 +167,6 @@ jobs:
 
 
 after_success:
-  - cd $mydir
   - echo ${TRAVIS_BUILD_DIR}
   - dn=`dirname ${TRAVIS_BUILD_DIR}`
   - cat ${dn}/ANTsRCore.Rcheck/00check.log  
