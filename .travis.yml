@@ -44,6 +44,8 @@ before_install:
   - export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
   - export CC=clang
   - export CXX=clang++
+  - export CXX1X=clang++
+  - export CXX1XSTD=-std=c++11
   - echo "CC=clang" >  ~/.R/Makevars
   - echo "CXX=clang++" >> ~/.R/Makevars
   - echo "CXX1X=clang++" >> ~/.R/Makevars
@@ -81,6 +83,7 @@ script:
 jobs:
   include:
     - script:
+      - cat ~/.R/Makevars
       - source ~/.R/Makevars
       - export CXX=clang++
       - export CC=clang
@@ -90,6 +93,7 @@ jobs:
       - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}" --no-manual;
       os: linux
     - script:
+      - cat ~/.R/Makevars
       - source ~/.R/Makevars
       - export CXX=clang++
       - export CC=clang
@@ -100,6 +104,7 @@ jobs:
       os: osx
     - stage: "Deployment"
       script:
+      - cat ~/.R/Makevars
       - source ~/.R/Makevars
       - export CXX=clang++
       - export CC=clang
@@ -129,6 +134,7 @@ jobs:
       os: linux
     - stage: "Deployment"
       script:
+      - cat ~/.R/Makevars
       - source ~/.R/Makevars
       - export CXX=clang++
       - export CC=clang
