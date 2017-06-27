@@ -22,6 +22,7 @@ setMethod("Arith", signature(e1 = "antsImage", e2 = "antsImage"),
             if (!antsImagePhysicalSpaceConsistency(e1, e2)) {
               stop("Images do not occupy the same physical space")
             }
+            print("Generic method being called")
             a1 = as.array(e1)
             a2 = as.array(e2)
 

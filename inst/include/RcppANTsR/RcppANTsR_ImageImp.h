@@ -28,33 +28,38 @@ SEXP wrap( const itk::IMAGETYPE<PIXELTYPE,DIMENSION>::Pointer &image )
 }
 */
 
-/*
-void print_antsimage_S4( Rcpp::S4 itkImageObject ) {
+template <typename PixelType, unsigned int Dimension>
+class itkImageFinalizer
+{
+public:
+  typedef itk::Image<PixelType,Dimension>   ImageType;
+  typedef typename ImageType::Pointer       ImagePointerType;
 
-  if ( !itkImageObject.is( "antsImage")) {
-    Rcpp::Rcout << "Object is not an 'antsImage'" << std::endl;
+  static void Finalize( ImagePointerType* ptr)
+  {
+    Rcpp::Rcout << "itkImageFinalizer::Finalize" << std::endl;
+    (*ptr) = NULL;
+    delete ptr;
   }
-  else {
-    Rcpp::Rcout << "PixelType:  " << Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) << std::endl;
-    Rcpp::Rcout << "Dimension:  " << Rcpp::as<int>(itkImageObject.slot("dimension")) << std::endl;
-    Rcpp::Rcout << "Components: " << Rcpp::as<int>(itkImageObject.slot("components")) << std::endl;
-  }
-}
-*/
+};
 
 template <> inline
 SEXP wrap( const itk::Image<double,2>::Pointer &image )
 {
   typedef itk::Image<double,2>        ImageType;
-  typedef ImageType::Pointer ImagePointerType;
+  typedef ImageType::Pointer          ImagePointerType;
+  //typedef itkImageFinalizer<double,2> FinalizerType;
+  //typedef typename Rcpp::XPtr<ImagePointerType,PreserveStorage,FinalizerType::Finalize> XPtrType;
+  typedef typename Rcpp::XPtr<ImagePointerType> XPtrType;
 
   ImagePointerType* rawPointer = new ImagePointerType( image );
-  Rcpp::XPtr< ImagePointerType > xptr( rawPointer , true ) ;
+  XPtrType xptr( rawPointer , true );
 
   Rcpp::S4 itkImage( std::string( "antsImage" ) );
   itkImage.slot( "pixeltype" ) = "double";
   itkImage.slot( "dimension" ) = 2;
   itkImage.slot( "components" ) = 1;
+  itkImage.slot( "isVector" ) = false;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -73,6 +78,7 @@ SEXP wrap( const itk::Image<double,3>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "double";
   itkImage.slot( "dimension" ) = 3;
   itkImage.slot( "components" ) = 1;
+  itkImage.slot( "isVector" ) = false;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -85,12 +91,13 @@ SEXP wrap( const itk::Image<double,4>::Pointer &image )
   typedef ImageType::Pointer ImagePointerType;
 
   ImagePointerType* rawPointer = new ImagePointerType( image );
-  Rcpp::XPtr< ImagePointerType > xptr( rawPointer , true ) ;
+  Rcpp::XPtr< ImagePointerType  > xptr( rawPointer , true ) ;
 
   Rcpp::S4 itkImage( std::string( "antsImage" ) );
   itkImage.slot( "pixeltype" ) = "double";
   itkImage.slot( "dimension" ) = 4;
   itkImage.slot( "components" ) = 1;
+  itkImage.slot( "isVector" ) = false;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -109,6 +116,7 @@ SEXP wrap( const itk::Image<float,2>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "float";
   itkImage.slot( "dimension" ) = 2;
   itkImage.slot( "components" ) = 1;
+  itkImage.slot( "isVector" ) = false;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -127,6 +135,7 @@ SEXP wrap( const itk::Image<float,3>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "float";
   itkImage.slot( "dimension" ) = 3;
   itkImage.slot( "components" ) = 1;
+  itkImage.slot( "isVector" ) = false;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -145,6 +154,7 @@ SEXP wrap( const itk::Image<float,4>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "float";
   itkImage.slot( "dimension" ) = 4;
   itkImage.slot( "components" ) = 1;
+  itkImage.slot( "isVector" ) = false;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -163,6 +173,7 @@ SEXP wrap( const itk::Image<unsigned int,2>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "unsigned int";
   itkImage.slot( "dimension" ) = 2;
   itkImage.slot( "components" ) = 1;
+  itkImage.slot( "isVector" ) = false;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -181,6 +192,7 @@ SEXP wrap( const itk::Image<unsigned int,3>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "unsigned int";
   itkImage.slot( "dimension" ) = 3;
   itkImage.slot( "components" ) = 1;
+  itkImage.slot( "isVector" ) = false;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -199,6 +211,7 @@ SEXP wrap( const itk::Image<unsigned int,4>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "unsigned int";
   itkImage.slot( "dimension" ) = 4;
   itkImage.slot( "components" ) = 1;
+  itkImage.slot( "isVector" ) = false;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -218,6 +231,7 @@ SEXP wrap( const itk::Image<unsigned char,2>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "unsigned char";
   itkImage.slot( "dimension" ) = 2;
   itkImage.slot( "components" ) = 1;
+  itkImage.slot( "isVector" ) = false;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -236,6 +250,7 @@ SEXP wrap( const itk::Image<unsigned char,3>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "unsigned char";
   itkImage.slot( "dimension" ) = 3;
   itkImage.slot( "components" ) = 1;
+  itkImage.slot( "isVector" ) = false;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -254,6 +269,7 @@ SEXP wrap( const itk::Image<unsigned char,4>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "unsigned char";
   itkImage.slot( "dimension" ) = 4;
   itkImage.slot( "components" ) = 1;
+  itkImage.slot( "isVector" ) = false;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));

@@ -4,77 +4,415 @@
 #include <string>
 #include <RcppANTsR.h>
 
-#include "itkAddImageFilter.h"
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkCastImageFilter.h"
-#include "itkDivideImageFilter.h"
+#include "itkDefaultConvertPixelTraits.h"
 #include "itkImage.h"
-#include "itkModulusImageFilter.h"
-#include "itkMultiplyImageFilter.h"
-#include "itkPowImageFilter.h"
-#include "itkSubtractImageFilter.h"
+
 
 /*
   Define S4 generics for group Arith: "+", "-", "*", "^", "%%", "%/%", "/"
+*/
 
-  FIXME: C++ modulus returns different results for negative inputs than R
+/*
+  C++ modulus returns different results for negative inputs than R
     in C++: -5 %% 4 returns -2
     in R:   -5 %% 4 returns 3
+
+    in R: x == (x %% y) + y * ( x %/% y )
 */
+
+
 namespace itk
    {
-   namespace Functor
-   {
-   template< typename TInput1, typename TInput2, typename TOutput >
-   class FMod
+
+   /* Class to return the nth element for data types with more than one component
+    * and the first value for one element data type
+    */
+   template< typename DataType >
+   class ANTsR_GetDataValue
    {
    public:
-     FMod() {}
-     ~FMod() {}
-     bool operator!=(const FMod &) const
+     ANTsR_GetDataValue() {}
+     ~ANTsR_GetDataValue() {}
+
+     typedef itk::DefaultConvertPixelTraits<DataType> ConvertType;
+     typedef itk::NumericTraits<DataType>             TraitsType;
+     typedef typename TraitsType::ValueType           ValueType;
+
+     bool operator!=(const ANTsR_GetDataValue &) const
      {
        return false;
      }
 
-    bool operator==(const FMod & other) const
+     bool operator==(const ANTsR_GetDataValue & other) const
      {
        return !( *this != other );
      }
 
-     inline TOutput operator()(const TInput1 & A, const TInput2 & B ) const
-     {
-       if ( std::is_same<TInput1, double>::value || std::is_same<TInput1, float>::value )
-       {
-         return static_cast<TOutput>( std::fmod( static_cast<TInput1>(A), static_cast<TInput1>(B) ) );
+     static inline ValueType NthValue (unsigned long i, const DataType & A ) {
+       if ( TraitsType::GetLength(A)==1 ) {
+         return ConvertType::GetNthComponent(0,A);
        }
-       else
-       {
-          return static_cast<TOutput>( static_cast<unsigned int>(A) % static_cast<unsigned int>(B) );
+       else {
+         return ConvertType::GetNthComponent(i,A);
        }
 
      }
    };
+
+   namespace Functor
+   {
+     template< typename DataType >
+     class ANTsR_IDiv
+     {
+     public:
+       ANTsR_IDiv() {}
+       ~ANTsR_IDiv() {}
+
+       typedef itk::DefaultConvertPixelTraits<DataType> ConvertType;
+       typedef itk::NumericTraits<DataType>             TraitsType;
+       typedef typename TraitsType::ValueType           ValueType;
+       typedef ANTsR_GetDataValue<DataType>             GetValueType;
+
+       bool operator!=(const ANTsR_IDiv &) const
+       {
+         return false;
+       }
+
+      bool operator==(const ANTsR_IDiv & other) const
+       {
+         return !( *this != other );
+       }
+
+      inline DataType operator()(const DataType & A, const DataType & B ) const
+       {
+         //return static_cast<TOutput>( std::floor( static_cast<double>(A) / B ) );
+
+         DataType output;
+         unsigned int nComponents = std::max( TraitsType::GetLength(A),TraitsType::GetLength(B));
+         TraitsType::SetLength(output,nComponents);
+
+
+         for ( unsigned int i=0; i<nComponents; i++) {
+           ValueType aVal = GetValueType::NthValue(i,A);
+           ValueType bVal = GetValueType::NthValue(i,B);
+
+           ConvertType::SetNthComponent(i, output,
+              static_cast<ValueType>( std::floor( static_cast<double>(aVal) / bVal)));
+         }
+         return output;
+       }
+     };
+
+     template< typename DataType >
+     class ANTsR_Mod
+     {
+     public:
+       ANTsR_Mod() {}
+       ~ANTsR_Mod() {}
+
+       typedef itk::DefaultConvertPixelTraits<DataType> ConvertType;
+       typedef itk::NumericTraits<DataType>             TraitsType;
+       typedef typename TraitsType::ValueType           ValueType;
+       typedef ANTsR_GetDataValue<DataType>             GetValueType;
+
+       bool operator!=(const ANTsR_Mod &) const
+       {
+         return false;
+       }
+
+      bool operator==(const ANTsR_Mod & other) const
+       {
+         return !( *this != other );
+       }
+
+       inline DataType operator()(const DataType & A, const DataType & B ) const
+       {
+         //return static_cast<TOutput>( std::floor( static_cast<double>(A) / B ) );
+
+         DataType output;
+         unsigned int nComponents = std::max( TraitsType::GetLength(A),TraitsType::GetLength(B));
+         TraitsType::SetLength(output,nComponents);
+
+         for ( unsigned int i=0; i<nComponents; i++) {
+
+           ValueType aVal = GetValueType::NthValue(i,A);
+           ValueType bVal = GetValueType::NthValue(i,B);
+
+           ValueType val = static_cast<ValueType>( aVal - bVal*std::floor( static_cast<double>(aVal) / bVal ) );
+           if ( (val < 0 ) && ( bVal > 0) )
+           {
+             val = static_cast<ValueType>( val + bVal );
+           }
+
+           ConvertType::SetNthComponent(i, output, val);
+
+         }
+         return output;
+       }
+     };
+/*
+     template< typename TInput1, typename TInput2, typename TOutput >
+     class ANTsR_Mod
+     {
+     public:
+       ANTsR_Mod() {}
+       ~ANTsR_Mod() {}
+       bool operator!=(const ANTsR_Mod &) const
+       {
+         return false;
+       }
+
+      bool operator==(const ANTsR_Mod & other) const
+       {
+         return !( *this != other );
+       }
+
+       inline TOutput operator()(const TInput1 & A, const TInput2 & B ) const
+       {
+         TOutput returnValue = static_cast<TOutput>( A - B*std::floor( static_cast<double>(A) / B ) );
+
+         if ( (returnValue < 0 ) && ( B > 0) )
+         {
+           returnValue = static_cast<TOutput>( returnValue + B );
+         }
+         return returnValue;
+       }
+     };
+     */
+
+    template< typename DataType >
+    class ANTsR_Add
+    {
+    public:
+      ANTsR_Add() {}
+      ~ANTsR_Add() {}
+
+      typedef itk::DefaultConvertPixelTraits<DataType> ConvertType;
+      typedef itk::NumericTraits<DataType>             TraitsType;
+      typedef typename TraitsType::ValueType           ValueType;
+      typedef ANTsR_GetDataValue<DataType>             GetValueType;
+
+      bool operator!=(const ANTsR_Add &) const
+      {
+        return false;
+      }
+
+      bool operator==(const ANTsR_Add & other) const
+      {
+        return !( *this != other );
+      }
+
+      inline DataType operator()(const DataType & A, const DataType & B ) const
+      {
+        unsigned int nComponents = std::max( TraitsType::GetLength(A),TraitsType::GetLength(B));
+        DataType output;
+        TraitsType::SetLength(output, nComponents);
+
+        for (unsigned int i=0; i<nComponents; i++)
+        {
+          ValueType val = GetValueType::NthValue(i,A) + GetValueType::NthValue(i,B);
+          ConvertType::SetNthComponent(i,output,val);
+        }
+        return output;
+      }
+    };
+
+    template< typename DataType >
+    class ANTsR_Subtract
+    {
+    public:
+      ANTsR_Subtract() {}
+      ~ANTsR_Subtract() {}
+
+      typedef itk::DefaultConvertPixelTraits<DataType> ConvertType;
+      typedef itk::NumericTraits<DataType>             TraitsType;
+      typedef typename TraitsType::ValueType           ValueType;
+      typedef ANTsR_GetDataValue<DataType>             GetValueType;
+
+      bool operator!=(const ANTsR_Subtract &) const
+      {
+        return false;
+      }
+
+      bool operator==(const ANTsR_Subtract & other) const
+      {
+        return !( *this != other );
+      }
+
+      inline DataType operator()(const DataType & A, const DataType & B ) const
+      {
+        unsigned int nComponents = std::max( TraitsType::GetLength(A),TraitsType::GetLength(B));
+        DataType output;
+        TraitsType::SetLength(output, nComponents);
+
+        for (unsigned int i=0; i<nComponents; i++)
+        {
+          ValueType val = GetValueType::NthValue(i,A) - GetValueType::NthValue(i,B);
+          ConvertType::SetNthComponent(i,output,val);
+        }
+        return output;
+      }
+    };
+
+    template< typename DataType >
+    class ANTsR_Multiply
+    {
+    public:
+      ANTsR_Multiply() {}
+      ~ANTsR_Multiply() {}
+
+      typedef itk::DefaultConvertPixelTraits<DataType> ConvertType;
+      typedef itk::NumericTraits<DataType>             TraitsType;
+      typedef typename TraitsType::ValueType           ValueType;
+      typedef ANTsR_GetDataValue<DataType>             GetValueType;
+
+      bool operator!=(const ANTsR_Multiply &) const
+      {
+        return false;
+      }
+
+      bool operator==(const ANTsR_Multiply & other) const
+      {
+        return !( *this != other );
+      }
+
+      inline DataType operator()(const DataType & A, const DataType & B ) const
+      {
+        unsigned int nComponents = std::max( TraitsType::GetLength(A),TraitsType::GetLength(B));
+        DataType output;
+        TraitsType::SetLength(output, nComponents);
+
+        for (unsigned int i=0; i<nComponents; i++)
+        {
+          ValueType val = GetValueType::NthValue(i,A) * GetValueType::NthValue(i,B);
+          ConvertType::SetNthComponent(i,output,val);
+        }
+        return output;
+      }
+    };
+
+    template< typename DataType >
+    class ANTsR_Divide
+    {
+    public:
+      ANTsR_Divide() {}
+      ~ANTsR_Divide() {}
+
+      typedef itk::DefaultConvertPixelTraits<DataType> ConvertType;
+      typedef itk::NumericTraits<DataType>             TraitsType;
+      typedef typename TraitsType::ValueType           ValueType;
+      typedef ANTsR_GetDataValue<DataType>             GetValueType;
+
+      bool operator!=(const ANTsR_Divide &) const
+      {
+        return false;
+      }
+
+      bool operator==(const ANTsR_Divide & other) const
+      {
+        return !( *this != other );
+      }
+
+      inline DataType operator()(const DataType & A, const DataType & B ) const
+      {
+        unsigned int nComponents = std::max( TraitsType::GetLength(A),TraitsType::GetLength(B));
+        DataType output;
+        TraitsType::SetLength(output, nComponents);
+
+        for (unsigned int i=0; i<nComponents; i++)
+        {
+          ValueType val = GetValueType::NthValue(i,A) / GetValueType::NthValue(i,B);
+          ConvertType::SetNthComponent(i,output,val);
+        }
+        return output;
+      }
+    };
+
+    template< typename DataType >
+    class ANTsR_Pow
+    {
+    public:
+      ANTsR_Pow() {}
+      ~ANTsR_Pow() {}
+
+      typedef itk::DefaultConvertPixelTraits<DataType> ConvertType;
+      typedef itk::NumericTraits<DataType>             TraitsType;
+      typedef typename TraitsType::ValueType           ValueType;
+      typedef ANTsR_GetDataValue<DataType>             GetValueType;
+
+      bool operator!=(const ANTsR_Pow &) const
+      {
+        return false;
+      }
+
+      bool operator==(const ANTsR_Pow & other) const
+      {
+        return !( *this != other );
+      }
+
+      inline DataType operator()(const DataType & A, const DataType & B ) const
+      {
+        unsigned int nComponents = std::max( TraitsType::GetLength(A),TraitsType::GetLength(B));
+        DataType output;
+        TraitsType::SetLength(output, nComponents);
+
+        for (unsigned int i=0; i<nComponents; i++)
+        {
+          ValueType val = pow( GetValueType::NthValue(i,A), GetValueType::NthValue(i,B));
+          ConvertType::SetNthComponent(i,output,val);
+        }
+        return output;
+      }
+    };
+
   }
   }
 
 
-template< class PixelType , unsigned int Dimension >
-SEXP antsImageArithImageNumeric( typename itk::Image< PixelType , Dimension >::Pointer image, SEXP r_numeric, SEXP r_operator )
+
+template< class ImageType >
+SEXP antsImageArithImageNumeric( SEXP r_antsimage, SEXP r_numeric, SEXP r_operator )
 {
-  //Rcpp::Rcout << "antsImageArithImageNumeric " << Rcpp::as< std::string >( r_operator ) << " "
-  //  <<  Rcpp::as<PixelType>( r_numeric ) << std::endl;
+  Rcpp::Rcout << "antsImageArithImageNumeric " << Rcpp::as< std::string >( r_operator ) << std::endl;
 
-  typedef itk::Image< PixelType , Dimension > ImageType;
+  typedef typename ImageType::PixelType PixelType;
+  typedef typename ImageType::Pointer ImagePointerType;
+  typedef itk::DefaultConvertPixelTraits<PixelType> PixelConvertType;
 
-  if( !image.IsNotNull() ) {
+  ImagePointerType image = Rcpp::as<ImagePointerType>(r_antsimage);
+  //PixelType numeric = Rcpp::as<PixelType>( r_numeric );
+
+  Rcpp::S4 antsimage(r_antsimage);
+  unsigned int nComponents = Rcpp::as<unsigned int>( antsimage.slot("components") );
+
+  PixelType numeric;
+  Rcpp::NumericVector numVec(r_numeric);
+
+  if ( (numVec.length() != nComponents) && (numVec.length() != 1) ) {
+    Rcpp::Rcout << "Constant must have one component or the same number of components as the image" << std::endl;
     return Rcpp::wrap(NA_REAL);
   }
 
-  PixelType numeric = Rcpp::as<PixelType>( r_numeric );
+  itk::NumericTraits<PixelType>::SetLength(numeric, nComponents);
+  if ( numVec.length() == 1)
+  {
+    for ( unsigned int i=0; i<nComponents; i++) {
+      PixelConvertType::SetNthComponent(i, numeric, numVec[0]);
+    }
+  }
+  else
+  {
+    for ( unsigned int i=0; i<nComponents; i++) {
+      PixelConvertType::SetNthComponent(i, numeric, numVec[i]);
+    }
+  }
 
   if ( Rcpp::as< std::string >( r_operator ) == "+" )
   {
-    typedef itk::AddImageFilter<ImageType, ImageType, ImageType> FilterType;
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_Add<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetInput1( image );
@@ -86,7 +424,8 @@ SEXP antsImageArithImageNumeric( typename itk::Image< PixelType , Dimension >::P
   }
   else if ( Rcpp::as< std::string >( r_operator ) == "-" )
   {
-    typedef itk::SubtractImageFilter<ImageType, ImageType, ImageType> FilterType;
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_Subtract<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetInput1( image );
@@ -98,7 +437,8 @@ SEXP antsImageArithImageNumeric( typename itk::Image< PixelType , Dimension >::P
   }
   else if ( Rcpp::as< std::string >( r_operator ) == "*" )
   {
-    typedef itk::MultiplyImageFilter<ImageType, ImageType, ImageType> FilterType;
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_Multiply<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetInput1( image );
@@ -110,7 +450,8 @@ SEXP antsImageArithImageNumeric( typename itk::Image< PixelType , Dimension >::P
   }
   else if ( Rcpp::as< std::string >( r_operator ) == "/" )
   {
-    typedef itk::DivideImageFilter<ImageType, ImageType, ImageType> FilterType;
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_Divide<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetInput1( image );
@@ -123,7 +464,7 @@ SEXP antsImageArithImageNumeric( typename itk::Image< PixelType , Dimension >::P
   else if ( Rcpp::as< std::string >( r_operator ) == "%%" )
   {
     typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
-      itk::Functor::FMod<PixelType,PixelType,PixelType>  > FilterType;
+      itk::Functor::ANTsR_Mod<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetInput1( image );
@@ -135,26 +476,8 @@ SEXP antsImageArithImageNumeric( typename itk::Image< PixelType , Dimension >::P
   }
   else if ( Rcpp::as< std::string >( r_operator ) == "%/%" )
   {
-    typedef itk::Image<int, Dimension>                                    IntImageType;
-    typedef itk::CastImageFilter<ImageType,IntImageType>                  CastType;
-    typedef itk::DivideImageFilter<IntImageType, IntImageType, ImageType> FilterType;
-
-    typename FilterType::Pointer filter = FilterType::New();
-    typename CastType::Pointer cast1 = CastType::New();
-    //typename CastType::Pointer cast2 = CastType::New();
-    cast1->SetInput( image );
-    //cast2->SetInput( image2 );
-    filter->SetInput1( cast1->GetOutput() );
-    filter->SetConstant2( (int) numeric );
-    filter->Update();
-    typename ImageType::Pointer outImage = filter->GetOutput();
-
-    return Rcpp::wrap(outImage);
-  }
-  else if ( Rcpp::as< std::string >( r_operator ) == "^" )
-  {
-
-    typedef itk::PowImageFilter<ImageType, ImageType> FilterType;
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_IDiv<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetInput1( image );
@@ -163,12 +486,25 @@ SEXP antsImageArithImageNumeric( typename itk::Image< PixelType , Dimension >::P
     typename ImageType::Pointer outImage = filter->GetOutput();
 
     return Rcpp::wrap(outImage);
+  }
+  else if ( Rcpp::as< std::string >( r_operator ) == "^" )
+  {
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_Pow<PixelType>  > FilterType;
 
+    typename FilterType::Pointer filter = FilterType::New();
+    filter->SetInput1( image );
+    filter->SetConstant2( numeric );
+    filter->Update();
+    typename ImageType::Pointer outImage = filter->GetOutput();
+
+    return Rcpp::wrap(outImage);
   }
 
   Rcpp::Rcout << "Unsupported operator: " << Rcpp::as< std::string >( r_operator ) << std::endl;
   return Rcpp::wrap(NA_REAL);
 }
+
 
 RcppExport SEXP antsImageArithImageNumeric( SEXP r_antsimage, SEXP r_numeric, SEXP r_operator ) {
 try
@@ -182,6 +518,7 @@ try
   Rcpp::S4 antsimage( r_antsimage ) ;
   std::string pixeltype = Rcpp::as< std::string >( antsimage.slot( "pixeltype" ) );
   unsigned int dimension = Rcpp::as< int >( antsimage.slot( "dimension" ) );
+  bool isVector = Rcpp::as<bool>( antsimage.slot("isVector") );
 
   if( pixeltype == "double" )
     {
@@ -189,26 +526,29 @@ try
       if( dimension == 4 )
         {
         const int ImageDimension = 4;
-        typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-        return antsImageArithImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
+        typedef itk::Image< PixelType , ImageDimension >      ImageType;
+        typedef itk::VectorImage< PixelType, ImageDimension > VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithImageNumeric< ImageType >( r_antsimage, r_numeric, r_operator ) :
+          antsImageArithImageNumeric< VectorImageType >( r_antsimage, r_numeric, r_operator );
         }
       else if( dimension == 3 )
         {
         const int ImageDimension = 3;
-        typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-        return antsImageArithImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
+        typedef itk::Image< PixelType , ImageDimension >      ImageType;
+        typedef itk::VectorImage< PixelType, ImageDimension > VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithImageNumeric< ImageType >( r_antsimage, r_numeric, r_operator ) :
+          antsImageArithImageNumeric< VectorImageType >( r_antsimage, r_numeric, r_operator );
         }
       else if( dimension == 2 )
         {
         const int ImageDimension = 2;
-        typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-        return antsImageArithImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
+        typedef itk::Image< PixelType , ImageDimension >      ImageType;
+        typedef itk::VectorImage< PixelType, ImageDimension > VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithImageNumeric< ImageType >( r_antsimage, r_numeric, r_operator ) :
+          antsImageArithImageNumeric< VectorImageType >( r_antsimage, r_numeric, r_operator );
         }
       else
         {
@@ -222,26 +562,29 @@ try
       if( dimension == 4 )
         {
         const int ImageDimension = 4;
-        typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-        return antsImageArithImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
+        typedef itk::Image< PixelType , ImageDimension >      ImageType;
+        typedef itk::VectorImage< PixelType, ImageDimension > VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithImageNumeric< ImageType >( r_antsimage, r_numeric, r_operator ) :
+          antsImageArithImageNumeric< VectorImageType >( r_antsimage, r_numeric, r_operator );
         }
       else if( dimension == 3 )
         {
         const int ImageDimension = 3;
-        typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-        return antsImageArithImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
+        typedef itk::Image< PixelType , ImageDimension >      ImageType;
+        typedef itk::VectorImage< PixelType, ImageDimension > VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithImageNumeric< ImageType >( r_antsimage, r_numeric, r_operator ) :
+          antsImageArithImageNumeric< VectorImageType >( r_antsimage, r_numeric, r_operator );
         }
       else if( dimension == 2 )
         {
         const int ImageDimension = 2;
-        typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-        return antsImageArithImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
+        typedef itk::Image< PixelType , ImageDimension >      ImageType;
+        typedef itk::VectorImage< PixelType, ImageDimension > VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithImageNumeric< ImageType >( r_antsimage, r_numeric, r_operator ) :
+          antsImageArithImageNumeric< VectorImageType >( r_antsimage, r_numeric, r_operator );
         }
       else
         {
@@ -251,32 +594,33 @@ try
       }
   else if( pixeltype == "unsigned int" )
     {
+    typedef unsigned int PixelType;
     if( dimension == 4 )
       {
       const int ImageDimension = 4;
-      typedef unsigned int PixelType;
-      typedef itk::Image< PixelType , ImageDimension > ImageType;
-      typedef ImageType::Pointer ImagePointerType;
-      ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-      return antsImageArithImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
+        typedef itk::Image< PixelType , ImageDimension >      ImageType;
+        typedef itk::VectorImage< PixelType, ImageDimension > VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithImageNumeric< ImageType >( r_antsimage, r_numeric, r_operator ) :
+          antsImageArithImageNumeric< VectorImageType >( r_antsimage, r_numeric, r_operator );
       }
     else if( dimension == 3 )
       {
       const int ImageDimension = 3;
-      typedef unsigned int PixelType;
-      typedef itk::Image< PixelType , ImageDimension > ImageType;
-      typedef ImageType::Pointer ImagePointerType;
-      ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-      return antsImageArithImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
+        typedef itk::Image< PixelType , ImageDimension >      ImageType;
+        typedef itk::VectorImage< PixelType, ImageDimension > VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithImageNumeric< ImageType >( r_antsimage, r_numeric, r_operator ) :
+          antsImageArithImageNumeric< VectorImageType >( r_antsimage, r_numeric, r_operator );
       }
     else if( dimension == 2 )
       {
       const int ImageDimension = 2;
-      typedef unsigned int PixelType;
-      typedef itk::Image< PixelType , ImageDimension > ImageType;
-      typedef ImageType::Pointer ImagePointerType;
-      ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-      return antsImageArithImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
+        typedef itk::Image< PixelType , ImageDimension >      ImageType;
+        typedef itk::VectorImage< PixelType, ImageDimension > VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithImageNumeric< ImageType >( r_antsimage, r_numeric, r_operator ) :
+          antsImageArithImageNumeric< VectorImageType >( r_antsimage, r_numeric, r_operator );
       }
     else
       {
@@ -286,32 +630,33 @@ try
     }
   else if( pixeltype == "unsigned char" )
     {
+    typedef unsigned char PixelType;
     if( dimension == 4 )
       {
       const int ImageDimension = 4;
-      typedef unsigned char PixelType;
-      typedef itk::Image< PixelType , ImageDimension > ImageType;
-      typedef ImageType::Pointer ImagePointerType;
-      ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-      return antsImageArithImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
+        typedef itk::Image< PixelType , ImageDimension >      ImageType;
+        typedef itk::VectorImage< PixelType, ImageDimension > VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithImageNumeric< ImageType >( r_antsimage, r_numeric, r_operator ) :
+          antsImageArithImageNumeric< VectorImageType >( r_antsimage, r_numeric, r_operator );
       }
     else if( dimension == 3 )
       {
       const int ImageDimension = 3;
-      typedef unsigned char PixelType;
-      typedef itk::Image< PixelType , ImageDimension > ImageType;
-      typedef ImageType::Pointer ImagePointerType;
-      ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-      return antsImageArithImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
+        typedef itk::Image< PixelType , ImageDimension >      ImageType;
+        typedef itk::VectorImage< PixelType, ImageDimension > VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithImageNumeric< ImageType >( r_antsimage, r_numeric, r_operator ) :
+          antsImageArithImageNumeric< VectorImageType >( r_antsimage, r_numeric, r_operator );
       }
     else if( dimension == 2 )
       {
       const int ImageDimension = 2;
-      typedef unsigned char PixelType;
-      typedef itk::Image< PixelType , ImageDimension > ImageType;
-      typedef ImageType::Pointer ImagePointerType;
-      ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-      return antsImageArithImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
+        typedef itk::Image< PixelType , ImageDimension >      ImageType;
+        typedef itk::VectorImage< PixelType, ImageDimension > VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithImageNumeric< ImageType >( r_antsimage, r_numeric, r_operator ) :
+          antsImageArithImageNumeric< VectorImageType >( r_antsimage, r_numeric, r_operator );
       }
     else
     {
@@ -332,23 +677,47 @@ return Rcpp::wrap( NA_REAL );
 
 }
 
-template< class PixelType , unsigned int Dimension >
-SEXP antsImageArithNumericImage( SEXP r_numeric, typename itk::Image< PixelType , Dimension >::Pointer image, SEXP r_operator )
+template< class ImageType >
+SEXP antsImageArithNumericImage( SEXP r_numeric, SEXP r_antsimage, SEXP r_operator )
 {
-  //Rcpp::Rcout << "antsImageArithNumericImage " << Rcpp::as< std::string >( r_operator ) << " "
-  //  <<  Rcpp::as<PixelType>( r_numeric ) << std::endl;
+  Rcpp::Rcout << "antsImageArithNumericImage " << Rcpp::as< std::string >( r_operator ) << std::endl;
 
-  typedef itk::Image< PixelType , Dimension > ImageType;
+  typedef typename ImageType::PixelType PixelType;
+  typedef typename ImageType::Pointer ImagePointerType;
+  typedef itk::DefaultConvertPixelTraits<PixelType> PixelConvertType;
 
-  if( !image.IsNotNull() ) {
+  ImagePointerType image = Rcpp::as<ImagePointerType>(r_antsimage);
+  //PixelType numeric = Rcpp::as<PixelType>( r_numeric );
+
+  Rcpp::S4 antsimage(r_antsimage);
+  unsigned int nComponents = Rcpp::as<unsigned int>( antsimage.slot("components") );
+
+  PixelType numeric;
+  Rcpp::NumericVector numVec(r_numeric);
+
+  if ( (numVec.length() != nComponents) && (numVec.length() != 1) ) {
+    Rcpp::Rcout << "Constant must have one component or the same number of components as the image" << std::endl;
     return Rcpp::wrap(NA_REAL);
   }
 
-  PixelType numeric = Rcpp::as<PixelType>( r_numeric );
+  itk::NumericTraits<PixelType>::SetLength(numeric, nComponents);
+  if ( numVec.length() == 1)
+  {
+    for ( unsigned int i=0; i<nComponents; i++) {
+      PixelConvertType::SetNthComponent(i, numeric, numVec[0]);
+    }
+  }
+  else
+  {
+    for ( unsigned int i=0; i<nComponents; i++) {
+      PixelConvertType::SetNthComponent(i, numeric, numVec[i]);
+    }
+  }
 
   if ( Rcpp::as< std::string >( r_operator ) == "+" )
   {
-    typedef itk::AddImageFilter<ImageType, ImageType, ImageType> FilterType;
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_Add<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetConstant1( numeric );
@@ -360,7 +729,8 @@ SEXP antsImageArithNumericImage( SEXP r_numeric, typename itk::Image< PixelType 
   }
   else if ( Rcpp::as< std::string >( r_operator ) == "-" )
   {
-    typedef itk::SubtractImageFilter<ImageType, ImageType, ImageType> FilterType;
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_Subtract<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetConstant1( numeric );
@@ -372,7 +742,8 @@ SEXP antsImageArithNumericImage( SEXP r_numeric, typename itk::Image< PixelType 
   }
   else if ( Rcpp::as< std::string >( r_operator ) == "*" )
   {
-    typedef itk::MultiplyImageFilter<ImageType, ImageType, ImageType> FilterType;
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_Multiply<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetConstant1( numeric );
@@ -384,7 +755,8 @@ SEXP antsImageArithNumericImage( SEXP r_numeric, typename itk::Image< PixelType 
   }
   else if ( Rcpp::as< std::string >( r_operator ) == "/" )
   {
-    typedef itk::DivideImageFilter<ImageType, ImageType, ImageType> FilterType;
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_Divide<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetConstant1( numeric );
@@ -397,11 +769,11 @@ SEXP antsImageArithNumericImage( SEXP r_numeric, typename itk::Image< PixelType 
   else if ( Rcpp::as< std::string >( r_operator ) == "%%" )
   {
     typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
-      itk::Functor::FMod<PixelType,PixelType,PixelType>  > FilterType;
+      itk::Functor::ANTsR_Mod<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetConstant1( numeric );
-    filter->SetConstant2( numeric );
+    filter->SetInput2( image );
     filter->Update();
     typename ImageType::Pointer outImage = filter->GetOutput();
 
@@ -409,17 +781,12 @@ SEXP antsImageArithNumericImage( SEXP r_numeric, typename itk::Image< PixelType 
   }
   else if ( Rcpp::as< std::string >( r_operator ) == "%/%" )
   {
-    typedef itk::Image<int, Dimension>                                    IntImageType;
-    typedef itk::CastImageFilter<ImageType,IntImageType>                  CastType;
-    typedef itk::DivideImageFilter<IntImageType, IntImageType, ImageType> FilterType;
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_IDiv<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
-    typename CastType::Pointer cast1 = CastType::New();
-    //typename CastType::Pointer cast2 = CastType::New();
-    cast1->SetInput( image );
-    //cast2->SetInput( image2 );
-    filter->SetInput1( cast1->GetOutput() );
-    filter->SetConstant( (int) numeric );
+    filter->SetInput2( image );
+    filter->SetConstant1( numeric );
     filter->Update();
     typename ImageType::Pointer outImage = filter->GetOutput();
 
@@ -427,12 +794,12 @@ SEXP antsImageArithNumericImage( SEXP r_numeric, typename itk::Image< PixelType 
   }
   else if ( Rcpp::as< std::string >( r_operator ) == "^" )
   {
-
-    typedef itk::PowImageFilter<ImageType, ImageType> FilterType;
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_Pow<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
+    filter->SetInput2( image );
     filter->SetConstant1( numeric );
-    filter->SetConstant2( numeric );
     filter->Update();
     typename ImageType::Pointer outImage = filter->GetOutput();
 
@@ -456,6 +823,7 @@ try
   Rcpp::S4 antsimage( r_antsimage ) ;
   std::string pixeltype = Rcpp::as< std::string >( antsimage.slot( "pixeltype" ) );
   unsigned int dimension = Rcpp::as< int >( antsimage.slot( "dimension" ) );
+  bool isVector = Rcpp::as<bool>( antsimage.slot("isVector"));
 
   if( pixeltype == "double" )
     {
@@ -464,25 +832,28 @@ try
         {
         const int ImageDimension = 4;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-        return antsImageArithNumericImage< PixelType , ImageDimension >( r_numeric, img, r_operator );
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithNumericImage<ImageType>( r_numeric, r_antsimage, r_operator) :
+          antsImageArithNumericImage<VectorImageType>( r_numeric, r_antsimage, r_operator);
         }
       else if( dimension == 3 )
         {
         const int ImageDimension = 3;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-        return antsImageArithNumericImage< PixelType , ImageDimension >( r_numeric, img, r_operator );
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithNumericImage<ImageType>( r_numeric, r_antsimage, r_operator) :
+          antsImageArithNumericImage<VectorImageType>( r_numeric, r_antsimage, r_operator);
         }
       else if( dimension == 2 )
         {
         const int ImageDimension = 2;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-        return antsImageArithNumericImage< PixelType , ImageDimension >( r_numeric, img, r_operator );
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithNumericImage<ImageType>( r_numeric, r_antsimage, r_operator) :
+          antsImageArithNumericImage<VectorImageType>( r_numeric, r_antsimage, r_operator);
         }
       else
         {
@@ -496,26 +867,29 @@ try
       if( dimension == 4 )
         {
         const int ImageDimension = 4;
-        typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-        return antsImageArithNumericImage< PixelType , ImageDimension >( r_numeric, img, r_operator );
+          typedef itk::Image< PixelType , ImageDimension > ImageType;
+          typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithNumericImage<ImageType>( r_numeric, r_antsimage, r_operator) :
+          antsImageArithNumericImage<VectorImageType>( r_numeric, r_antsimage, r_operator);
         }
       else if( dimension == 3 )
         {
         const int ImageDimension = 3;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-        return antsImageArithNumericImage< PixelType , ImageDimension >( r_numeric, img, r_operator );
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithNumericImage<ImageType>( r_numeric, r_antsimage, r_operator) :
+          antsImageArithNumericImage<VectorImageType>( r_numeric, r_antsimage, r_operator);
         }
       else if( dimension == 2 )
         {
         const int ImageDimension = 2;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-        return antsImageArithNumericImage< PixelType , ImageDimension >( r_numeric, img, r_operator );
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithNumericImage<ImageType>( r_numeric, r_antsimage, r_operator) :
+          antsImageArithNumericImage<VectorImageType>( r_numeric, r_antsimage, r_operator);
         }
       else
         {
@@ -525,32 +899,33 @@ try
       }
   else if( pixeltype == "unsigned int" )
     {
+    typedef unsigned int PixelType;
     if( dimension == 4 )
       {
       const int ImageDimension = 4;
-      typedef unsigned int PixelType;
-      typedef itk::Image< PixelType , ImageDimension > ImageType;
-      typedef ImageType::Pointer ImagePointerType;
-      ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-      return antsImageArithNumericImage< PixelType , ImageDimension >( r_numeric, img, r_operator );
+        typedef itk::Image< PixelType , ImageDimension > ImageType;
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithNumericImage<ImageType>( r_numeric, r_antsimage, r_operator) :
+          antsImageArithNumericImage<VectorImageType>( r_numeric, r_antsimage, r_operator);
       }
     else if( dimension == 3 )
       {
       const int ImageDimension = 3;
-      typedef unsigned int PixelType;
-      typedef itk::Image< PixelType , ImageDimension > ImageType;
-      typedef ImageType::Pointer ImagePointerType;
-      ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-      return antsImageArithNumericImage< PixelType , ImageDimension >( r_numeric, img, r_operator );
+        typedef itk::Image< PixelType , ImageDimension > ImageType;
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithNumericImage<ImageType>( r_numeric, r_antsimage, r_operator) :
+          antsImageArithNumericImage<VectorImageType>( r_numeric, r_antsimage, r_operator);
       }
     else if( dimension == 2 )
       {
       const int ImageDimension = 2;
-      typedef unsigned int PixelType;
-      typedef itk::Image< PixelType , ImageDimension > ImageType;
-      typedef ImageType::Pointer ImagePointerType;
-      ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-      return antsImageArithNumericImage< PixelType , ImageDimension >( r_numeric, img, r_operator );
+        typedef itk::Image< PixelType , ImageDimension > ImageType;
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithNumericImage<ImageType>( r_numeric, r_antsimage, r_operator) :
+          antsImageArithNumericImage<VectorImageType>( r_numeric, r_antsimage, r_operator);
       }
     else
       {
@@ -560,32 +935,33 @@ try
     }
   else if( pixeltype == "unsigned char" )
     {
+    typedef unsigned char PixelType;
     if( dimension == 4 )
       {
       const int ImageDimension = 4;
-      typedef unsigned char PixelType;
-      typedef itk::Image< PixelType , ImageDimension > ImageType;
-      typedef ImageType::Pointer ImagePointerType;
-      ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-      return antsImageArithNumericImage< PixelType , ImageDimension >( r_numeric, img, r_operator );
+        typedef itk::Image< PixelType , ImageDimension > ImageType;
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithNumericImage<ImageType>( r_numeric, r_antsimage, r_operator) :
+          antsImageArithNumericImage<VectorImageType>( r_numeric, r_antsimage, r_operator);
       }
     else if( dimension == 3 )
       {
       const int ImageDimension = 3;
-      typedef unsigned char PixelType;
-      typedef itk::Image< PixelType , ImageDimension > ImageType;
-      typedef ImageType::Pointer ImagePointerType;
-      ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-      return antsImageArithNumericImage< PixelType , ImageDimension >( r_numeric, img, r_operator );
+        typedef itk::Image< PixelType , ImageDimension > ImageType;
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithNumericImage<ImageType>( r_numeric, r_antsimage, r_operator) :
+          antsImageArithNumericImage<VectorImageType>( r_numeric, r_antsimage, r_operator);
       }
     else if( dimension == 2 )
       {
       const int ImageDimension = 2;
-      typedef unsigned char PixelType;
-      typedef itk::Image< PixelType , ImageDimension > ImageType;
-      typedef ImageType::Pointer ImagePointerType;
-      ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
-      return antsImageArithNumericImage< PixelType , ImageDimension >( r_numeric, img, r_operator );
+        typedef itk::Image< PixelType , ImageDimension > ImageType;
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector ) ?
+          antsImageArithNumericImage<ImageType>( r_numeric, r_antsimage, r_operator) :
+          antsImageArithNumericImage<VectorImageType>( r_numeric, r_antsimage, r_operator);
       }
     else
     {
@@ -608,14 +984,16 @@ return Rcpp::wrap( NA_REAL );
 
 
 
-template< class PixelType , unsigned int Dimension >
-SEXP antsImageArithImageImage( typename itk::Image< PixelType , Dimension >::Pointer image1,
-                               typename itk::Image< PixelType , Dimension >::Pointer image2,
-                               SEXP r_operator )
+template< class ImageType >
+SEXP antsImageArithImageImage( SEXP r_antsimage1, SEXP r_antsimage2, SEXP r_operator )
 {
-  //Rcpp::Rcout << "antsImageArithImageImage " << Rcpp::as< std::string >( r_operator ) << std::endl;
+  Rcpp::Rcout << "antsImageArithImageImage " << Rcpp::as< std::string >( r_operator ) << std::endl;
 
-  typedef itk::Image< PixelType , Dimension > ImageType;
+  typedef typename ImageType::PixelType PixelType;
+  typedef typename ImageType::Pointer ImagePointerType;
+
+  ImagePointerType image1 = Rcpp::as<ImagePointerType>(r_antsimage1);
+  ImagePointerType image2 = Rcpp::as<ImagePointerType>(r_antsimage2);
 
   if( !image1.IsNotNull() || !image2.IsNotNull() ) {
     return Rcpp::wrap(NA_REAL);
@@ -623,7 +1001,8 @@ SEXP antsImageArithImageImage( typename itk::Image< PixelType , Dimension >::Poi
 
   if ( Rcpp::as< std::string >( r_operator ) == "+" )
   {
-    typedef itk::AddImageFilter<ImageType, ImageType, ImageType> FilterType;
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_Add<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetInput1( image1 );
@@ -635,7 +1014,8 @@ SEXP antsImageArithImageImage( typename itk::Image< PixelType , Dimension >::Poi
   }
   else if ( Rcpp::as< std::string >( r_operator ) == "-" )
   {
-    typedef itk::SubtractImageFilter<ImageType, ImageType, ImageType> FilterType;
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_Subtract<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetInput1( image1 );
@@ -647,7 +1027,8 @@ SEXP antsImageArithImageImage( typename itk::Image< PixelType , Dimension >::Poi
   }
   else if ( Rcpp::as< std::string >( r_operator ) == "*" )
   {
-    typedef itk::MultiplyImageFilter<ImageType, ImageType, ImageType> FilterType;
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_Multiply<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetInput1( image1 );
@@ -659,7 +1040,8 @@ SEXP antsImageArithImageImage( typename itk::Image< PixelType , Dimension >::Poi
   }
   else if ( Rcpp::as< std::string >( r_operator ) == "/" )
   {
-    typedef itk::DivideImageFilter<ImageType, ImageType, ImageType> FilterType;
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_Divide<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetInput1( image1 );
@@ -672,7 +1054,7 @@ SEXP antsImageArithImageImage( typename itk::Image< PixelType , Dimension >::Poi
   else if ( Rcpp::as< std::string >( r_operator ) == "%%" )
   {
     typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
-      itk::Functor::FMod<PixelType,PixelType,PixelType>  > FilterType;
+      itk::Functor::ANTsR_Mod<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetInput1( image1 );
@@ -684,17 +1066,12 @@ SEXP antsImageArithImageImage( typename itk::Image< PixelType , Dimension >::Poi
   }
   else if ( Rcpp::as< std::string >( r_operator ) == "%/%" )
   {
-    typedef itk::Image<int, Dimension>                                    IntImageType;
-    typedef itk::CastImageFilter<ImageType,IntImageType>                  CastType;
-    typedef itk::DivideImageFilter<IntImageType, IntImageType, ImageType> FilterType;
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_IDiv<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
-    typename CastType::Pointer cast1 = CastType::New();
-    typename CastType::Pointer cast2 = CastType::New();
-    cast1->SetInput( image1 );
-    cast2->SetInput( image2 );
-    filter->SetInput1( cast1->GetOutput() );
-    filter->SetInput2( cast2->GetOutput() );
+    filter->SetInput1( image1 );
+    filter->SetInput2( image2 );
     filter->Update();
     typename ImageType::Pointer outImage = filter->GetOutput();
 
@@ -702,7 +1079,8 @@ SEXP antsImageArithImageImage( typename itk::Image< PixelType , Dimension >::Poi
   }
   else if ( Rcpp::as< std::string >( r_operator ) == "^" )
   {
-    typedef itk::PowImageFilter<ImageType, ImageType> FilterType;
+    typedef itk::BinaryFunctorImageFilter<ImageType, ImageType, ImageType,
+      itk::Functor::ANTsR_Pow<PixelType>  > FilterType;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetInput1( image1 );
@@ -727,15 +1105,40 @@ try
       return Rcpp::wrap( NA_REAL );
     }
 
-  Rcpp::S4 antsimage1( r_antsimage1 ) ;
+
+  Rcpp::S4 antsimage1(r_antsimage1);
+  unsigned int nComponents = Rcpp::as<unsigned int>( antsimage1.slot("components") );
+  bool isVector = Rcpp::as<bool>( antsimage1.slot("isVector") );
+
+  Rcpp::S4 antsimage2(r_antsimage2);
+  unsigned int nComponents2 = Rcpp::as<unsigned int>( antsimage2.slot("components") );
+  bool isVector2 = Rcpp::as<bool>( antsimage2.slot("isVector") );
+
+  if ( isVector != isVector2 ) {
+    Rcpp::Rcout << "Both images must of of same type (scalar or vector)" << std::endl;
+    return(Rcpp::wrap(NA_REAL));
+  }
+
+  if ( nComponents > 1 ) {
+    if ( (nComponents2 != nComponents) && (nComponents2 != 1)) {
+      Rcpp::Rcout << "Both images must have same number of components or one component" << std::endl;
+      return(Rcpp::wrap(NA_REAL));
+    }
+  }
+  if ( nComponents2 > 1 ) {
+    if ( (nComponents2 != nComponents) && (nComponents != 1)) {
+      Rcpp::Rcout << "Both images must have same number of components or one component" << std::endl;
+      return(Rcpp::wrap(NA_REAL));
+    }
+  }
+
   std::string pixeltype = Rcpp::as< std::string >( antsimage1.slot( "pixeltype" ) );
   unsigned int dimension = Rcpp::as< int >( antsimage1.slot( "dimension" ) );
 
-  Rcpp::S4 antsimage2( r_antsimage2 ) ;
   std::string pixeltype2 = Rcpp::as< std::string >( antsimage2.slot( "pixeltype" ) );
 
   pixeltype = pixeltype_highest_precision( pixeltype, pixeltype2 );
-  Rcpp::Rcout << "Arith returning pixeltype: " << pixeltype << std::endl;
+  //Rcpp::Rcout << "Arith returning pixeltype: " << pixeltype << std::endl;
 
 if( pixeltype == "double" )
     {
@@ -744,28 +1147,28 @@ if( pixeltype == "double" )
         {
         const int ImageDimension = 4;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img1 = Rcpp::as<ImagePointerType>( r_antsimage1 );
-        ImagePointerType img2 = Rcpp::as<ImagePointerType>( r_antsimage2 );
-        return antsImageArithImageImage< PixelType , ImageDimension >( img1, img2, r_operator );
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector) ?
+          antsImageArithImageImage<ImageType>( r_antsimage1, r_antsimage2, r_operator ) :
+          antsImageArithImageImage<VectorImageType>( r_antsimage1, r_antsimage2, r_operator );
         }
       else if( dimension == 3 )
         {
         const int ImageDimension = 3;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img1 = Rcpp::as<ImagePointerType>( r_antsimage1 );
-        ImagePointerType img2 = Rcpp::as<ImagePointerType>( r_antsimage2 );
-        return antsImageArithImageImage< PixelType , ImageDimension >( img1, img2, r_operator );
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector) ?
+          antsImageArithImageImage<ImageType>( r_antsimage1, r_antsimage2, r_operator ) :
+          antsImageArithImageImage<VectorImageType>( r_antsimage1, r_antsimage2, r_operator );
         }
       else if( dimension == 2 )
         {
         const int ImageDimension = 2;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img1 = Rcpp::as<ImagePointerType>( r_antsimage1 );
-        ImagePointerType img2 = Rcpp::as<ImagePointerType>( r_antsimage2 );
-        return antsImageArithImageImage< PixelType , ImageDimension >( img1, img2, r_operator );
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector) ?
+          antsImageArithImageImage<ImageType>( r_antsimage1, r_antsimage2, r_operator ) :
+          antsImageArithImageImage<VectorImageType>( r_antsimage1, r_antsimage2, r_operator );
         }
       else
         {
@@ -780,28 +1183,28 @@ else if( pixeltype == "float" )
         {
         const int ImageDimension = 4;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img1 = Rcpp::as<ImagePointerType>( r_antsimage1 );
-        ImagePointerType img2 = Rcpp::as<ImagePointerType>( r_antsimage2 );
-        return antsImageArithImageImage< PixelType , ImageDimension >( img1, img2, r_operator );
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector) ?
+          antsImageArithImageImage<ImageType>( r_antsimage1, r_antsimage2, r_operator ) :
+          antsImageArithImageImage<VectorImageType>( r_antsimage1, r_antsimage2, r_operator );
         }
       else if( dimension == 3 )
         {
         const int ImageDimension = 3;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img1 = Rcpp::as<ImagePointerType>( r_antsimage1 );
-        ImagePointerType img2 = Rcpp::as<ImagePointerType>( r_antsimage2 );
-        return antsImageArithImageImage< PixelType , ImageDimension >( img1, img2, r_operator );
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector) ?
+          antsImageArithImageImage<ImageType>( r_antsimage1, r_antsimage2, r_operator ) :
+          antsImageArithImageImage<VectorImageType>( r_antsimage1, r_antsimage2, r_operator );
         }
       else if( dimension == 2 )
         {
         const int ImageDimension = 2;
-        typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img1 = Rcpp::as<ImagePointerType>( r_antsimage1 );
-        ImagePointerType img2 = Rcpp::as<ImagePointerType>( r_antsimage2 );
-        return antsImageArithImageImage< PixelType , ImageDimension >( img1, img2, r_operator );
+          typedef itk::Image< PixelType , ImageDimension > ImageType;
+          typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+          return ( !isVector) ?
+            antsImageArithImageImage<ImageType>( r_antsimage1, r_antsimage2, r_operator ) :
+            antsImageArithImageImage<VectorImageType>( r_antsimage1, r_antsimage2, r_operator );
         }
       else
         {
@@ -816,28 +1219,28 @@ else if( pixeltype == "unsigned int" )
         {
         const int ImageDimension = 4;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img1 = Rcpp::as<ImagePointerType>( r_antsimage1 );
-        ImagePointerType img2 = Rcpp::as<ImagePointerType>( r_antsimage2 );
-        return antsImageArithImageImage< PixelType , ImageDimension >( img1, img2, r_operator );
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector) ?
+          antsImageArithImageImage<ImageType>( r_antsimage1, r_antsimage2, r_operator ) :
+          antsImageArithImageImage<VectorImageType>( r_antsimage1, r_antsimage2, r_operator );
         }
       else if( dimension == 3 )
         {
         const int ImageDimension = 3;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img1 = Rcpp::as<ImagePointerType>( r_antsimage1 );
-        ImagePointerType img2 = Rcpp::as<ImagePointerType>( r_antsimage2 );
-        return antsImageArithImageImage< PixelType , ImageDimension >( img1, img2, r_operator );
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector) ?
+          antsImageArithImageImage<ImageType>( r_antsimage1, r_antsimage2, r_operator ) :
+          antsImageArithImageImage<VectorImageType>( r_antsimage1, r_antsimage2, r_operator );
         }
       else if( dimension == 2 )
         {
         const int ImageDimension = 2;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img1 = Rcpp::as<ImagePointerType>( r_antsimage1 );
-        ImagePointerType img2 = Rcpp::as<ImagePointerType>( r_antsimage2 );
-        return antsImageArithImageImage< PixelType , ImageDimension >( img1, img2, r_operator );
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector) ?
+          antsImageArithImageImage<ImageType>( r_antsimage1, r_antsimage2, r_operator ) :
+          antsImageArithImageImage<VectorImageType>( r_antsimage1, r_antsimage2, r_operator );
         }
       else
         {
@@ -852,28 +1255,28 @@ else if( pixeltype == "unsigned int" )
         {
         const int ImageDimension = 4;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img1 = Rcpp::as<ImagePointerType>( r_antsimage1 );
-        ImagePointerType img2 = Rcpp::as<ImagePointerType>( r_antsimage2 );
-        return antsImageArithImageImage< PixelType , ImageDimension >( img1, img2, r_operator );
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector) ?
+          antsImageArithImageImage<ImageType>( r_antsimage1, r_antsimage2, r_operator ) :
+          antsImageArithImageImage<VectorImageType>( r_antsimage1, r_antsimage2, r_operator );
         }
       else if( dimension == 3 )
         {
         const int ImageDimension = 3;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img1 = Rcpp::as<ImagePointerType>( r_antsimage1 );
-        ImagePointerType img2 = Rcpp::as<ImagePointerType>( r_antsimage2 );
-        return antsImageArithImageImage< PixelType , ImageDimension >( img1, img2, r_operator );
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector) ?
+          antsImageArithImageImage<ImageType>( r_antsimage1, r_antsimage2, r_operator ) :
+          antsImageArithImageImage<VectorImageType>( r_antsimage1, r_antsimage2, r_operator );
         }
       else if( dimension == 2 )
         {
         const int ImageDimension = 2;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
-        typedef ImageType::Pointer ImagePointerType;
-        ImagePointerType img1 = Rcpp::as<ImagePointerType>( r_antsimage1 );
-        ImagePointerType img2 = Rcpp::as<ImagePointerType>( r_antsimage2 );
-        return antsImageArithImageImage< PixelType , ImageDimension >( img1, img2, r_operator );
+        typedef itk::VectorImage<PixelType, ImageDimension> VectorImageType;
+        return ( !isVector) ?
+          antsImageArithImageImage<ImageType>( r_antsimage1, r_antsimage2, r_operator ) :
+          antsImageArithImageImage<VectorImageType>( r_antsimage1, r_antsimage2, r_operator );
         }
       else
       {

@@ -79,10 +79,10 @@ test_that("min of antsImage", {
 })
 
 test_that("var of antsImage", {
-  expect_s4_class(varimg, "antsImage")  
+  expect_s4_class(varimg, "antsImage")
   expect_is(varvalues, "numeric")
   # print(search())
-  # print(var)  
+  # print(var)
   expect_equal( ANTsRCore::var(varimg), var(varvalues), tolerance = 1.e-7 )
   expect_equal( var(as.numeric(varimg)), var(varvalues), tolerance = 1.e-7 )
   # expect_equal( var(varimg), var(varvalues), tolerance = 1.e-7 )
@@ -126,13 +126,26 @@ test_that("antsGetDirection works", {
   expect_true(all(antsGetDirection(img) == -diag(2)) )
 })
 
+# Logic group operations
+
+
+
+# Arith group operation
+
 test_that("antsImage + scalar", {
   expect_true(is.antsImage(img1 + 2))
   expect_true(all(sum(img1 + 2) == sum(valuesm + 2)))
 })
 test_that("antsImage + scalar, preserves header", {
-  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, img +
-                                                  2))
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, img + 2))
+})
+
+test_that("scalar + antsImage", {
+  expect_true(is.antsImage(2 + img1))
+  expect_true(all(sum(2 + img1) == sum(2+ valuesm)))
+})
+test_that("scalar + antsImage, preserves header", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, 2 + img))
 })
 
 test_that("antsImage + antsImage", {
@@ -140,8 +153,31 @@ test_that("antsImage + antsImage", {
   expect_true(sum(img1 + img2) == sum(values2 + valuesm))
 })
 test_that("antsImage + antsImage, preserves header", {
-  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE,
-                                                img, img + img))
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE,img, img + img))
+})
+
+test_that("antsImage - scalar", {
+  expect_true(is.antsImage(img1 - 2))
+  expect_true(all(sum(img1 - 2) == sum(valuesm - 2)))
+})
+test_that("antsImage - scalar, preserves header", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, img - 2))
+})
+
+test_that("scalar - antsImage", {
+  expect_true(is.antsImage(2 - img1))
+  expect_true(all(sum(2 - img1) == sum(2 - valuesm)))
+})
+test_that("scalar - antsImage, preserves header", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, 2 - img))
+})
+
+test_that("antsImage - antsImage", {
+  expect_true(is.antsImage(img1 - img2))
+  expect_true(sum(img1 - img2) == sum(valuesm - values2))
+})
+test_that("antsImage - antsImage, preserves header", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, img - img))
 })
 
 test_that("antsImage * scalar", {
@@ -150,67 +186,127 @@ test_that("antsImage * scalar", {
   expect_true(sum(img1 * 2) == sum(valuesm * 2))
 })
 test_that("antsImage * scalar, preserves header", {
-  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, img *
-                                                  2))
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, img*2))
+})
+
+test_that("scalar * antsImage", {
+  expect_true(is.antsImage(2*img1))
+
+  expect_true(sum(2* img1) == sum(2 * valuesm))
+})
+test_that("scalar * antsImage, preserves header", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, 2*img))
 })
 
 test_that("antsImage * antsImage", {
   expect_true(sum(img1 * img2) == sum(valuesm * values2))
 })
 test_that("antsImage * antsImage, preserves header", {
-  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, img *
-                                                  img))
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, img * img))
 })
 
 test_that("antsImage / scalar", {
+  expect_true(is.antsImage(img1/2))
   expect_true(sum(img1 / 2) == sum(valuesm / 2))
 })
 test_that("antsImage / scalar, preserves header", {
-  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, img /
-                                                  2))
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, img/2))
+})
+
+test_that("scalar / antsImage", {
+  expect_true(is.antsImage(2/img3))
+  expect_true(sum(2 / img3) == sum(2 / values3))
+})
+test_that("scalar / antsImage, preserves header", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img3, 2/img3))
 })
 
 test_that("antsImage / antsImage", {
+  expect_true(is.antsImage(img1/img3))
   expect_true(sum(img1 / img3) == sum(valuesm / values3))
 })
 test_that("antsImage / antsImage, preserves header", {
-  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img1, img1 /
-                                                  img3))
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img1, img1/img3))
 })
 
 test_that("antsImage ^ scalar", {
+  expect_true(is.antsImage(img1^2))
   expect_true(sum(img1 ^ 2) == sum(valuesm ^ 2))
 })
 test_that("antsImage ^ scalar, preserves header", {
-  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, img ^
-                                                  2))
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, img^2))
+})
+
+test_that("scalar ^ antsImage", {
+  expect_true(is.antsImage(2^img1))
+  expect_true(sum(2 ^ img1) == sum(2 ^ valuesm))
+})
+test_that("scalar ^ antsImage, preserves header", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, 2^img))
 })
 
 test_that("antsImage ^ antsImage", {
+  expect_true(is.antsImage(img3^img1))
   expect_true(sum(img3 ^ img3) == sum(values3 ^ values3))
 })
 test_that("antsImage ^ antsImage, preserves header", {
-  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img3, img3 ^
-                                                  img3))
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img3, img3^img3))
 })
 
-test_that("antsImage ^ scalar", {
+test_that("antsImage %% scalar", {
+  expect_true(is.antsImage(img1 %% 2))
   expect_true(sum(img1 %% 2) == sum(valuesm %% 2))
 })
 test_that("antsImage %% scalar, preserves header", {
-  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, img %%
-                                                  2))
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, img %% 2))
+})
+
+test_that("scalar %% antsImage", {
+  expect_true(is.antsImage(2 %% img2))
+  expect_true(sum(2 %% img2) == sum(2 %% values2))
+})
+test_that("antsImage %% antsImage, preserves header", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, 2 %% img))
 })
 
 test_that("antsImage %% antsImage", {
+  expect_true(is.antsImage(img1 %% img2))
   expect_true(sum(img1 %% img2) == sum(valuesm %% values2))
 })
 test_that("antsImage %% antsImage, preserves header", {
-  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, img %%
-                                                  img))
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, img %% img))
 })
 
+test_that("antsImage %/% scalar", {
+  expect_true(is.antsImage(img1 %/% 2))
+  expect_true(sum(img1 %/% 2) == sum(valuesm %/% 2))
+})
+test_that("antsImage %/% scalar, preserves header", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, img %/% 2))
+})
+
+test_that("scalar %/% antsImage", {
+  expect_true(is.antsImage(2 %/% img2))
+  expect_true(sum(2 %/% img2) == sum(2 %/% values2))
+})
+test_that("antsImage %% antsImage, preserves header", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img, 2 %/% img))
+})
+
+test_that("antsImage %/% antsImage", {
+  expect_true(is.antsImage(img1 %% img2))
+  expect_true(sum(img1 %/% img2) == sum(valuesm %/% values2))
+})
+test_that("antsImage %/% antsImage, preserves header", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, img1, img1 %/% img2))
+})
+
+
+
+# Math group operations
+
 test_that("antsImage log", {
+  expect_true(is.antsImage(log(img3)))
   expect_true(sum(log(img3)) == sum(log(values3)))
 })
 test_that("antsImage log, preserves header", {
@@ -218,6 +314,7 @@ test_that("antsImage log, preserves header", {
 })
 
 test_that("antsImage exp", {
+  expect_true(is.antsImage(exp(img1)))
   expect_true(sum(exp(img1)) == sum(exp(valuesm)))
 })
 test_that("antsImage exp, preserves header", {
@@ -225,6 +322,7 @@ test_that("antsImage exp, preserves header", {
 })
 
 test_that("antsImage abs", {
+  expect_true(is.antsImage(abs(img1)))
   expect_true(sum(abs(img1)) == sum(abs(valuesm)))
 })
 test_that("antsImage exp, preserves header", {
@@ -304,19 +402,83 @@ test_that("antsGetDirection works on multichannel", {
 })
 
 test_that("antsImage + scalar on multichannel", {
+  expect_true(is.antsImage(mimg+2))
   expect_true(sum(mimg + 2) == sum(mvalues + 2))
 })
 test_that("antsImage + scalar, preserves header on multichannel", {
   expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, mimg1, mimg1 + 2))
 })
 
+test_that("scalar + antsImage on multichannel", {
+  expect_true(is.antsImage(2+mimg))
+  expect_true(sum(2 + mimg) == sum(2 + mvalues))
+})
+test_that("scalar + antsImage, preserves header on multichannel", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, mimg1, 2 + mimg1))
+})
+
+test_that("antsImage + vector on multichannel", {
+  expect_true(is.antsImage(mimg+c(1,2)))
+  expect_equal(sum(mimg + c(1,2)), sum( (img1+1)+(img2+2) ), tolerance = 1.e-7)
+})
+test_that("antsImage + vector, preserves header on multichannel", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, mimg1, mimg1 + c(1,2)))
+})
+
+test_that("vector + antsImage on multichannel", {
+  expect_true(is.antsImage(c(1,2)+mimg))
+  expect_equal(sum(c(1,2) + mimg), sum( (1+img1)+(2+img2) ), tolerance = 1.e-7)
+})
+test_that("vector + antsImage, preserves header on multichannel", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, mimg1, c(1,2) + mimg1))
+})
+
 test_that("antsImage + antsImage on multichannel", {
   expect_true(sum(mimg1 + mimg2) == sum(mvalues + mvalues))
 })
-test_that("antsImage /+ antsImage, preserves header on multichannel", {
-  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, mimg1, mimg1 +
-                                                  mimg3))
+test_that("antsImage + antsImage, preserves header on multichannel", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, mimg1, mimg1 + mimg2))
 })
+
+test_that("antsImage - scalar on multichannel", {
+  expect_true(is.antsImage(mimg-2))
+  expect_true(sum(mimg - 2) == sum(mvalues - 2))
+})
+test_that("antsImage - scalar, preserves header on multichannel", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, mimg1, mimg1 - 2))
+})
+
+test_that("scalar - antsImage on multichannel", {
+  expect_true(is.antsImage(2-mimg))
+  expect_true(sum(2 - mimg) == sum(2 - mvalues))
+})
+test_that("scalar - antsImage, preserves header on multichannel", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, mimg1, 2 - mimg1))
+})
+
+test_that("antsImage - vector on multichannel", {
+  expect_true(is.antsImage(mimg-c(1,2)))
+  expect_equal(sum(mimg - c(1,2)), sum( (img1-1)+(img2-2) ), tolerance = 1.e-7)
+})
+test_that("antsImage - vector, preserves header on multichannel", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, mimg1, mimg1 - c(1,2)))
+})
+
+test_that("vector - antsImage on multichannel", {
+  expect_true(is.antsImage(c(1,2)-mimg))
+  expect_equal(sum(c(1,2) - mimg), sum( (1-img1)+(2-img2) ), tolerance = 1.e-7)
+})
+test_that("vector - antsImage, preserves header on multichannel", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, mimg1, c(1,2) - mimg1))
+})
+
+test_that("antsImage - antsImage on multichannel", {
+  expect_true(sum(mimg1 - mimg2) == sum(mvalues - mvalues))
+})
+test_that("antsImage - antsImage, preserves header on multichannel", {
+  expect_true(antsImagePhysicalSpaceConsistency(data.type = TRUE, mimg1, mimg1 - mimg2))
+})
+
 
 test_that("antsImage * scalar on multichannel", {
   expect_true(sum(mimg1 * 2) == sum(mvalues * 2))
