@@ -139,7 +139,8 @@ jobs:
       - export CXX=clang++
       - export CC=clang
       - cd ..
-      - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
+      # - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
+      - R CMD build ANTsRCore ${R_BUILD_ARGS} #maybe try --debug
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
       - if [[ ${#TRAVIS_TAG} -gt 0 ]];
         then
