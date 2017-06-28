@@ -6,6 +6,9 @@ os:
   - linux
   - osx
 
+compiler: clang
+osx_image: xcode8.2
+
 r_build_args: --no-build-vignettes --no-manual
 env:
   global:
@@ -18,7 +21,6 @@ env:
   - BOOTSTRAP_LATEX=1
   # - WARNINGS_ARE_ERRORS=0
 
-osx_image: xcode8.2
 
 language: r
 r:
