@@ -6,11 +6,6 @@ os:
   - linux
   - osx
 
-addons:
-  apt:
-    packages:
-      - expect-dev
-
 r_build_args: --no-build-vignettes --no-manual
 env:
   global:
