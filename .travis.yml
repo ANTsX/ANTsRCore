@@ -82,6 +82,7 @@ jobs:
       - source ~/.R/Makevars
       - export CXX=clang++
       - export CC=clang
+      - export CXX1X=clang++      
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
@@ -92,6 +93,7 @@ jobs:
       - source ~/.R/Makevars
       - export CXX=clang++
       - export CC=clang
+      - export CXX1X=clang++      
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
@@ -103,6 +105,7 @@ jobs:
       - source ~/.R/Makevars
       - export CXX=clang++
       - export CC=clang
+      - export CXX1X=clang++
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
@@ -133,6 +136,7 @@ jobs:
       - source ~/.R/Makevars
       - export CXX=clang++
       - export CC=clang
+      - export CXX1X=clang++
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
