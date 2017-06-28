@@ -108,7 +108,7 @@ jobs:
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
       - if [[ ${#TRAVIS_TAG} -gt 0 ]];
         then
-          R CMD INSTALL --build ANTsRCore; #maybe try --debug
+          R CMD INSTALL --debug --build ANTsRCore; #maybe try 
           PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
           if [ "$TRAVIS_OS_NAME" == "osx" ];
             then
@@ -138,7 +138,7 @@ jobs:
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
       - if [[ ${#TRAVIS_TAG} -gt 0 ]];
         then
-          R CMD INSTALL --build ANTsRCore; #maybe try --debug
+          R CMD INSTALL --debug --build ANTsRCore; #maybe try --debug
           PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
           if [ "$TRAVIS_OS_NAME" == "osx" ];
             then
