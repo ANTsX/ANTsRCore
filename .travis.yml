@@ -43,6 +43,7 @@ before_install:
   - export CXX=clang++
   - export CXX1X=clang++
   - export CXX1XSTD=-std=c++11
+  - export CXX11=clang++    
   - echo "CC=clang" >  ~/.R/Makevars
   - echo "CXX=clang++" >> ~/.R/Makevars
   - echo "CXX1X=clang++" >> ~/.R/Makevars
@@ -108,6 +109,7 @@ jobs:
       - export CXX=clang++
       - export CC=clang
       - export CXX1X=clang++
+      - export CXX11=clang++
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
@@ -139,6 +141,7 @@ jobs:
       - export CXX=clang++
       - export CC=clang
       - export CXX1X=clang++
+      - export CXX11=clang++      
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
