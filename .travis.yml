@@ -37,44 +37,20 @@ cran: http://cran.rstudio.com
 
 before_install:
   - export ORIG_PATH=${PATH}
-  - mkdir -p ~/.R
   - export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
-  - clang --version
-  - clang++ --version
-  - export CC=clang
-  - export CXX=clang++
-  - export CXX1X=clang++
-  - export CXX1XSTD=-std=c++11
-  - export CXX11=clang++    
-  - echo "CC=clang" >  ~/.R/Makevars
-  - echo "CXX=clang++" >> ~/.R/Makevars
-  - echo "CXX1X=clang++" >> ~/.R/Makevars
-  - echo "CXX1XSTD=-std=c++11" >> ~/.R/Makevars
-  - echo "CXX11=clang++" >> ~/.R/Makevars
-  - source ~/.R/Makevars
-  # wget
+  - mkdir -p ~/.R
   - wget -O travis_helpers.sh http://bit.ly/travis_helpers
   - source travis_helpers.sh
   - rm travis_helpers.sh
+  # does all the clang exports
+  - clang_cxx
   - export cmake_version="3.4"
   - cmake --version
   - cmake_setup
   - cmake --version
   # - remote_binary_install ITKR
   - ./cleanup  
-  - itkrrel=0.4.12
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; 
-    then 
-      wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; 
-      R CMD INSTALL ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; 
-      rm ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz ;
-    fi
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; 
-    then 
-    wget http://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}.tgz; 
-    R CMD INSTALL ITKR_${itkrrel}.tgz; 
-    rm ITKR_${itkrrel}.tgz;
-    fi
+  - gh_binary_install stnava/ITKR
   - drop_remote ITKR
 
 
@@ -86,9 +62,7 @@ jobs:
     - script:
       - cat ~/.R/Makevars
       - source ~/.R/Makevars
-      - export CXX=clang++
-      - export CC=clang
-      - export CXX1X=clang++      
+      - export_clang_cxx    
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
@@ -97,9 +71,7 @@ jobs:
     - script:
       - cat ~/.R/Makevars
       - source ~/.R/Makevars
-      - export CXX=clang++
-      - export CC=clang
-      - export CXX1X=clang++      
+      - export_clang_cxx    
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
@@ -109,10 +81,7 @@ jobs:
       script:
       - cat ~/.R/Makevars
       - source ~/.R/Makevars
-      - export CXX=clang++
-      - export CC=clang
-      - export CXX1X=clang++
-      - export CXX11=clang++
+      - export_clang_cxx
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
@@ -141,10 +110,7 @@ jobs:
       script:
       - cat ~/.R/Makevars
       - source ~/.R/Makevars
-      - export CXX=clang++
-      - export CC=clang
-      - export CXX1X=clang++
-      - export CXX11=clang++      
+      - export_clang_cxx     
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
