@@ -50,6 +50,7 @@ before_install:
   - echo "CXX=clang++" >> ~/.R/Makevars
   - echo "CXX1X=clang++" >> ~/.R/Makevars
   - echo "CXX1XSTD=-std=c++11" >> ~/.R/Makevars
+  - echo "CXX11=clang++" >> ~/.R/Makevars
   - source ~/.R/Makevars
   # wget
   - wget -O travis_helpers.sh http://bit.ly/travis_helpers
