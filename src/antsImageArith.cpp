@@ -152,35 +152,6 @@ namespace itk
          return output;
        }
      };
-/*
-     template< typename TInput1, typename TInput2, typename TOutput >
-     class ANTsR_Mod
-     {
-     public:
-       ANTsR_Mod() {}
-       ~ANTsR_Mod() {}
-       bool operator!=(const ANTsR_Mod &) const
-       {
-         return false;
-       }
-
-      bool operator==(const ANTsR_Mod & other) const
-       {
-         return !( *this != other );
-       }
-
-       inline TOutput operator()(const TInput1 & A, const TInput2 & B ) const
-       {
-         TOutput returnValue = static_cast<TOutput>( A - B*std::floor( static_cast<double>(A) / B ) );
-
-         if ( (returnValue < 0 ) && ( B > 0) )
-         {
-           returnValue = static_cast<TOutput>( returnValue + B );
-         }
-         return returnValue;
-       }
-     };
-     */
 
     template< typename DataType >
     class ANTsR_Add
@@ -375,7 +346,7 @@ namespace itk
 template< class ImageType >
 SEXP antsImageArithImageNumeric( SEXP r_antsimage, SEXP r_numeric, SEXP r_operator )
 {
-  Rcpp::Rcout << "antsImageArithImageNumeric " << Rcpp::as< std::string >( r_operator ) << std::endl;
+  //Rcpp::Rcout << "antsImageArithImageNumeric " << Rcpp::as< std::string >( r_operator ) << std::endl;
 
   typedef typename ImageType::PixelType PixelType;
   typedef typename ImageType::Pointer ImagePointerType;
@@ -680,7 +651,7 @@ return Rcpp::wrap( NA_REAL );
 template< class ImageType >
 SEXP antsImageArithNumericImage( SEXP r_numeric, SEXP r_antsimage, SEXP r_operator )
 {
-  Rcpp::Rcout << "antsImageArithNumericImage " << Rcpp::as< std::string >( r_operator ) << std::endl;
+  //Rcpp::Rcout << "antsImageArithNumericImage " << Rcpp::as< std::string >( r_operator ) << std::endl;
 
   typedef typename ImageType::PixelType PixelType;
   typedef typename ImageType::Pointer ImagePointerType;
@@ -987,7 +958,7 @@ return Rcpp::wrap( NA_REAL );
 template< class ImageType >
 SEXP antsImageArithImageImage( SEXP r_antsimage1, SEXP r_antsimage2, SEXP r_operator )
 {
-  Rcpp::Rcout << "antsImageArithImageImage " << Rcpp::as< std::string >( r_operator ) << std::endl;
+  //Rcpp::Rcout << "antsImageArithImageImage " << Rcpp::as< std::string >( r_operator ) << std::endl;
 
   typedef typename ImageType::PixelType PixelType;
   typedef typename ImageType::Pointer ImagePointerType;
