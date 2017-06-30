@@ -6,6 +6,9 @@ os:
   - linux
   - osx
 
+compiler: clang
+osx_image: xcode8.2
+
 r_build_args: --no-build-vignettes --no-manual
 env:
   global:
@@ -18,7 +21,6 @@ env:
   - BOOTSTRAP_LATEX=1
   # - WARNINGS_ARE_ERRORS=0
 
-osx_image: xcode8.2
 
 language: r
 r:
@@ -37,12 +39,18 @@ before_install:
   - export ORIG_PATH=${PATH}
   - mkdir -p ~/.R
   - export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
+  - clang --version
+  - clang++ --version
   - export CC=clang
   - export CXX=clang++
+  - export CXX1X=clang++
+  - export CXX1XSTD=-std=c++11
+  - export CXX11=clang++    
   - echo "CC=clang" >  ~/.R/Makevars
   - echo "CXX=clang++" >> ~/.R/Makevars
   - echo "CXX1X=clang++" >> ~/.R/Makevars
   - echo "CXX1XSTD=-std=c++11" >> ~/.R/Makevars
+  - echo "CXX11=clang++" >> ~/.R/Makevars
   - source ~/.R/Makevars
   # wget
   - wget -O travis_helpers.sh http://bit.ly/travis_helpers
@@ -52,11 +60,23 @@ before_install:
   - cmake --version
   - cmake_setup
   - cmake --version
-#  - remote_binary_install ITKR
+  # - remote_binary_install ITKR
+  - ./cleanup  
   - itkrrel=0.4.12
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; R CMD INSTALL ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; fi
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then wget http://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}.tgz; R CMD INSTALL ITKR_${itkrrel}.tgz; fi
-  - ./cleanup
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; 
+    then 
+      wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; 
+      R CMD INSTALL ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; 
+      rm ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz ;
+    fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; 
+    then 
+    wget http://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}.tgz; 
+    R CMD INSTALL ITKR_${itkrrel}.tgz; 
+    rm ITKR_${itkrrel}.tgz;
+    fi
+  - drop_remote ITKR
+
 
 script:
   - echo "Overriding travis R script"
@@ -64,18 +84,22 @@ script:
 jobs:
   include:
     - script:
+      - cat ~/.R/Makevars
       - source ~/.R/Makevars
       - export CXX=clang++
       - export CC=clang
+      - export CXX1X=clang++      
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
       - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}" --no-manual;
       os: linux
     - script:
+      - cat ~/.R/Makevars
       - source ~/.R/Makevars
       - export CXX=clang++
       - export CC=clang
+      - export CXX1X=clang++      
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
@@ -83,15 +107,18 @@ jobs:
       os: osx
     - stage: "Deployment"
       script:
+      - cat ~/.R/Makevars
       - source ~/.R/Makevars
       - export CXX=clang++
       - export CC=clang
+      - export CXX1X=clang++
+      - export CXX11=clang++
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
       - if [[ ${#TRAVIS_TAG} -gt 0 ]];
         then
-          travis_wait 100 R CMD INSTALL --build ANTsRCore;
+          R CMD INSTALL --debug --build ANTsRCore; 
           PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
           if [ "$TRAVIS_OS_NAME" == "osx" ];
             then
@@ -112,15 +139,18 @@ jobs:
       os: linux
     - stage: "Deployment"
       script:
+      - cat ~/.R/Makevars
       - source ~/.R/Makevars
       - export CXX=clang++
       - export CC=clang
+      - export CXX1X=clang++
+      - export CXX11=clang++      
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
       - if [[ ${#TRAVIS_TAG} -gt 0 ]];
         then
-          travis_wait 100 R CMD INSTALL --build ANTsRCore;
+          R CMD INSTALL --debug --build ANTsRCore; 
           PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
           if [ "$TRAVIS_OS_NAME" == "osx" ];
             then
@@ -144,7 +174,9 @@ jobs:
 
 
 after_success:
-  - cd $mydir
+  - echo ${TRAVIS_BUILD_DIR}
+  - dn=`dirname ${TRAVIS_BUILD_DIR}`
+  - cat ${dn}/ANTsRCore.Rcheck/00check.log  
   - export PATH=${ORIG_PATH}
 
 after_failure:

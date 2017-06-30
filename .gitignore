@@ -19,15 +19,11 @@ src/itki/
 inst/doc
 vignettes/*pdf
 vignettes/*html
-
 obsolete/*
-
 .Rhistory
 R/.Rhistory
-
 .DS_Store
 .Rproj.user
-
 inst/include/ANTS.cxx
 inst/include/ANTSConformalMapping.cxx
 inst/include/ANTSConformalMapping.h

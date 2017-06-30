@@ -1,8 +1,8 @@
 Package: ANTsRCore
 Type: Package
 Title: Core Software Infrastructure for ANTsR
-Version: 0.3.7.3
-Date: 2017-06-17
+Version: 0.3.7.4
+Date: 2017-06-26
 Author: Brian B. Avants, Benjamin M. Kandel, Jeff T. Duda, Philip A. Cook,
     Nicholas J. Tustison
 Maintainer: Brian B. Avants <stnava@gmail.com>
@@ -28,8 +28,11 @@ Suggests:
     abind,
     pixmap,
     viridis,
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
 SystemRequirements: cmake, git, clang (recommended)
 Remotes: stnava/ITKR
 NeedsCompilation: yes
 RoxygenNote: 6.0.1
+VignetteBuilder: knitr
