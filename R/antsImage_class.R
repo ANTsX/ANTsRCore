@@ -36,7 +36,8 @@ setClass(Class = "antsRegion", representation(index = "numeric", size = "numeric
 setClass(Class = "antsImage",
          representation(pixeltype = "character", dimension = "integer",
                         components = "integer", pointer = "externalptr",
-                        isVector = "logical"))
+                        isVector = "logical"),
+         prototype=list(isVector=FALSE) )
 
 #' @rdname antsImage
 #' @aliases show,antsImage-method
