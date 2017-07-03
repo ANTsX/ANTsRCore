@@ -397,8 +397,174 @@ catch(...)
 return Rcpp::wrap(NA_REAL); // not reached
 }
 
+/*
+RcppExport SEXP antsImage_rm( SEXP r_antsimage ) {
+try
+  {
+  if( r_antsimage == NULL )
+    {
+      Rcpp::Rcout << "Unspecified Arguments" << std::endl;
+      return Rcpp::wrap( NA_REAL );
+    }
+
+  Rcpp::S4 antsimage( r_antsimage ) ;
+  std::string pixeltype = Rcpp::as< std::string >( antsimage.slot( "pixeltype" ) );
+  unsigned int dimension = Rcpp::as< int >( antsimage.slot( "dimension" ) );
 
 
+  if( pixeltype == "double" )
+    {
+      typedef double PixelType;
+      if( dimension == 4 )
+        {
+        const int ImageDimension = 4;
+        typedef itk::Image< PixelType , ImageDimension > ImageType;
+        typedef typename ImageType::Pointer ImagePointerType;
+        Rcpp::XPtr<ImagePointerType> xptr( static_cast<SEXP>( antsimage.slot("pointer") ));
+        ImagePointerType img = *xptr;
+        xptr.release();
+        antsimage.slot("pointer") = NULL;
+
+
+        }
+      else if( dimension == 3 )
+        {
+        const int ImageDimension = 3;
+        typedef itk::Image< PixelType , ImageDimension > ImageType;
+        typedef typename ImageType::Pointer ImagePointerType;
+        Rcpp::XPtr<ImagePointerType> xptr( static_cast<SEXP>( antsimage.slot("pointer") ));
+        xptr.release();
+        }
+      else if( dimension == 2 )
+        {
+        const int ImageDimension = 2;
+        typedef itk::Image< PixelType , ImageDimension > ImageType;
+        typedef typename ImageType::Pointer ImagePointerType;
+        Rcpp::XPtr<ImagePointerType> xptr( static_cast<SEXP>( antsimage.slot("pointer") ));
+        xptr.release();
+        }
+      else
+        {
+        Rcpp::Rcout << "Unsupported Dimension" << std::endl ;
+        return Rcpp::wrap( NA_REAL ) ;
+        }
+    }
+  else if( pixeltype == "float" )
+      {
+      typedef float PixelType;
+      if( dimension == 4 )
+        {
+        const int ImageDimension = 4;
+        typedef itk::Image< PixelType , ImageDimension > ImageType;
+        typedef typename ImageType::Pointer ImagePointerType;
+        Rcpp::XPtr<ImagePointerType> xptr( static_cast<SEXP>( antsimage.slot("pointer") ));
+        xptr.release();
+        }
+      else if( dimension == 3 )
+        {
+        const int ImageDimension = 3;
+        typedef itk::Image< PixelType , ImageDimension > ImageType;
+        typedef typename ImageType::Pointer ImagePointerType;
+        Rcpp::XPtr<ImagePointerType> xptr( static_cast<SEXP>( antsimage.slot("pointer") ));
+        xptr.release();
+        }
+      else if( dimension == 2 )
+        {
+        const int ImageDimension = 2;
+        typedef itk::Image< PixelType , ImageDimension > ImageType;
+        typedef typename ImageType::Pointer ImagePointerType;
+        Rcpp::XPtr<ImagePointerType> xptr( static_cast<SEXP>( antsimage.slot("pointer") ));
+        xptr.release();
+        }
+      else
+        {
+        Rcpp::Rcout << "Unsupported Dimension" << std::endl ;
+        return Rcpp::wrap( NA_REAL ) ;
+        }
+      }
+  else if( pixeltype == "unsigned int" )
+    {
+    if( dimension == 4 )
+      {
+      const int ImageDimension = 4;
+      typedef unsigned int PixelType;
+      typedef itk::Image< PixelType , ImageDimension > ImageType;
+      typedef typename ImageType::Pointer ImagePointerType;
+      Rcpp::XPtr<ImagePointerType> xptr( static_cast<SEXP>( antsimage.slot("pointer") ));
+      xptr.release();
+      }
+    else if( dimension == 3 )
+      {
+      const int ImageDimension = 3;
+      typedef unsigned int PixelType;
+      typedef itk::Image< PixelType , ImageDimension > ImageType;
+      typedef typename ImageType::Pointer ImagePointerType;
+      Rcpp::XPtr<ImagePointerType> xptr( static_cast<SEXP>( antsimage.slot("pointer") ));
+      xptr.release();
+      }
+    else if( dimension == 2 )
+      {
+      const int ImageDimension = 2;
+      typedef unsigned int PixelType;
+      typedef itk::Image< PixelType , ImageDimension > ImageType;
+      typedef typename ImageType::Pointer ImagePointerType;
+      Rcpp::XPtr<ImagePointerType> xptr( static_cast<SEXP>( antsimage.slot("pointer") ));
+      xptr.release();
+      }
+    else
+      {
+      Rcpp::Rcout << "Unsupported Dimension" << std::endl ;
+      return Rcpp::wrap( NA_REAL ) ;
+      }
+    }
+  else if( pixeltype == "unsigned char" )
+    {
+    if( dimension == 4 )
+      {
+      const int ImageDimension = 4;
+      typedef unsigned char PixelType;
+      typedef itk::Image< PixelType , ImageDimension > ImageType;
+      typedef typename ImageType::Pointer ImagePointerType;
+      Rcpp::XPtr<ImagePointerType> xptr( static_cast<SEXP>( antsimage.slot("pointer") ));
+      xptr.release();
+      }
+    else if( dimension == 3 )
+      {
+      const int ImageDimension = 3;
+      typedef unsigned char PixelType;
+      typedef itk::Image< PixelType , ImageDimension > ImageType;
+      typedef typename ImageType::Pointer ImagePointerType;
+      Rcpp::XPtr<ImagePointerType> xptr( static_cast<SEXP>( antsimage.slot("pointer") ));
+      xptr.release();
+      }
+    else if( dimension == 2 )
+      {
+      const int ImageDimension = 2;
+      typedef unsigned char PixelType;
+      typedef itk::Image< PixelType , ImageDimension > ImageType;
+      typedef typename ImageType::Pointer ImagePointerType;
+      Rcpp::XPtr<ImagePointerType> xptr( static_cast<SEXP>( antsimage.slot("pointer") ));
+      xptr.release();
+      }
+    else
+    {
+      Rcpp::Rcout << "Unsupported Dimension" << std::endl ;
+      return Rcpp::wrap( NA_REAL ) ;
+    }
+  }
+
+  }
+catch( const std::exception& exc )
+  {
+    Rcpp::Rcout<< exc.what() << std::endl;
+    return Rcpp::wrap( NA_REAL );
+  }
+
+// Never reached
+return Rcpp::wrap( NA_REAL );
+
+}
+*/
 
 template< typename ImageType >
 Rcpp::IntegerVector antsImage_dim( typename ImageType::Pointer image )
@@ -416,6 +582,7 @@ Rcpp::IntegerVector antsImage_dim( typename ImageType::Pointer image )
 
   return dim_r ;
 }
+
 
 RcppExport SEXP antsImage_dim( SEXP r_antsimage )
 {

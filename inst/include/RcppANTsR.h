@@ -45,7 +45,7 @@ inline std::string pixeltype_highest_precision( std::string p1, std::string p2 )
     return "float";
   }
   else if ( (p1=="unsigned int") || (p2=="unsigned int")) {
-    return "double";
+    return "unsigned int";
   }
   else if ( (p1=="unsigned char") || (p2=="unsigned char")) {
     return "unsigned char";
