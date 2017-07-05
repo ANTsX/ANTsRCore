@@ -30,6 +30,7 @@ extern SEXP antsImage_GetOrigin(SEXP);
 extern SEXP antsImage_GetPixels(SEXP, SEXP);
 extern SEXP antsImage_GetSpacing(SEXP);
 extern SEXP antsImage_isna(SEXP);
+//extern SEXP antsImage_rm(SEXP);
 //extern SEXP antsImage_RelationalOperators(SEXP, SEXP, SEXP, SEXP);
 extern SEXP antsImage_SetDirection(SEXP, SEXP);
 extern SEXP antsImage_SetOrigin(SEXP, SEXP);
@@ -38,6 +39,9 @@ extern SEXP antsImage_SetRegion(SEXP, SEXP, SEXP, SEXP);
 extern SEXP antsImage_SetSpacing(SEXP, SEXP);
 extern SEXP antsImage_TransformIndexToPhysicalPoint(SEXP, SEXP);
 extern SEXP antsImage_TransformPhysicalPointToIndex(SEXP, SEXP);
+extern SEXP antsImageArithImageImage(SEXP,SEXP,SEXP);
+extern SEXP antsImageArithImageNumeric(SEXP,SEXP,SEXP);
+extern SEXP antsImageArithNumericImage(SEXP,SEXP,SEXP);
 extern SEXP antsImageComparisonImageImage(SEXP,SEXP,SEXP);
 extern SEXP antsImageComparisonImageNumeric(SEXP,SEXP,SEXP);
 extern SEXP antsImageClone(SEXP, SEXP);
@@ -110,6 +114,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsImage_GetPixels",                     (DL_FUNC) &antsImage_GetPixels,                      2},
     {"antsImage_GetSpacing",                    (DL_FUNC) &antsImage_GetSpacing,                     1},
     {"antsImage_isna",                          (DL_FUNC) &antsImage_isna,                           1},
+    //{"antsImage_rm",                            (DL_FUNC) &antsImage_rm,                             1},
     // {"antsImage_RelationalOperators",           (DL_FUNC) &antsImage_RelationalOperators,            4},
     {"antsImage_SetByImage",                    (DL_FUNC) &antsImage_SetByImage,                     3},
     {"antsImage_SetDirection",                  (DL_FUNC) &antsImage_SetDirection,                   2},
@@ -119,7 +124,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsImage_SetSpacing",                    (DL_FUNC) &antsImage_SetSpacing,                     2},
     {"antsImage_TransformIndexToPhysicalPoint", (DL_FUNC) &antsImage_TransformIndexToPhysicalPoint,  2},
     {"antsImage_TransformPhysicalPointToIndex", (DL_FUNC) &antsImage_TransformPhysicalPointToIndex,  2},
-    {"antsImageComparisonImageImage",           (DL_FUNC) &antsImageComparisonImageImage,            3},    {"antsImageComparisonImageNumeric",         (DL_FUNC) &antsImageComparisonImageNumeric,          3},
+    {"antsImageArithImageImage",                (DL_FUNC) &antsImageArithImageImage,                 3},
+    {"antsImageArithImageNumeric",              (DL_FUNC) &antsImageArithImageNumeric,               3},
+    {"antsImageArithNumericImage",              (DL_FUNC) &antsImageArithNumericImage,               3},
+    {"antsImageComparisonImageImage",           (DL_FUNC) &antsImageComparisonImageImage,            3},
+    {"antsImageComparisonImageNumeric",         (DL_FUNC) &antsImageComparisonImageNumeric,          3},
     {"antsImageClone",                          (DL_FUNC) &antsImageClone,                           2},
     {"antsImageHeaderInfo",                     (DL_FUNC) &antsImageHeaderInfo,                      1},
     {"antsImageIterator",                       (DL_FUNC) &antsImageIterator,                        1},

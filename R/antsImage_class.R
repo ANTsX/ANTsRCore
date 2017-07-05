@@ -35,7 +35,9 @@ setClass(Class = "antsRegion", representation(index = "numeric", size = "numeric
 #' @rdname antsImage
 setClass(Class = "antsImage",
          representation(pixeltype = "character", dimension = "integer",
-                        components = "integer", pointer = "externalptr"))
+                        components = "integer", pointer = "externalptr",
+                        isVector = "logical"),
+         prototype=list(isVector=FALSE) )
 
 #' @rdname antsImage
 #' @aliases show,antsImage-method
@@ -57,7 +59,7 @@ setMethod(f = "show", "antsImage", function(object){
 #' @slot components number of pixel components
 setMethod(f = "initialize", signature(.Object = "antsImage"),
           definition = function(.Object,
-                                pixeltype = "float", dimension = 3, components = 1) {
+                                pixeltype = "float", dimension = 3, components = 1, isVector=FALSE) {
             return(.Call("antsImage", pixeltype, dimension, components, PACKAGE = "ANTsRCore"))
           })
 
@@ -70,6 +72,18 @@ setMethod(f = "dim", signature(x = "antsImage"), definition = function(x) {
 })
 
 
+# #' @rdname rm.antsImage
+# #' @name rm.antsImage
+# #' @aliases rm,antsImage-method
+# #' @export
+#rm.antsImage <- function(x) {
+#  print("rm.antsImage(x)")
+#  a = .Call("antsImage_rm", x, PACKAGE = "ANTsRCore")
+#  print("done with call to antsImage_rm")
+#  #x@pointer = NA
+#  rm(x)
+#  return(NA)
+#}
 
 ###  @  rdname antsImage # this doesnt work b/c nnz is not a generic
 # setGeneric("nnz",function(x){standardGeneric("nnz")})

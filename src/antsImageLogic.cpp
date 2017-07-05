@@ -81,8 +81,8 @@ try
         typedef unsigned int PixelType;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
         typedef ImageType::Pointer ImagePointerType;
-        Rcpp::XPtr< ImagePointerType > antsimage_xptr( static_cast< SEXP >( antsimage.slot( "pointer" ) ) );
-        return antsImageLogicImageNumeric< PixelType , ImageDimension >( *antsimage_xptr, r_numeric, r_operator );
+        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
+        return antsImageLogicImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
         }
       else if( dimension == 3 )
         {
@@ -90,8 +90,8 @@ try
         typedef unsigned int PixelType;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
         typedef ImageType::Pointer ImagePointerType;
-        Rcpp::XPtr< ImagePointerType > antsimage_xptr( static_cast< SEXP >( antsimage.slot( "pointer" ) ) );
-        return antsImageLogicImageNumeric< PixelType , ImageDimension >( *antsimage_xptr, r_numeric, r_operator );
+        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
+        return antsImageLogicImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
         }
       else if( dimension == 2 )
         {
@@ -99,8 +99,8 @@ try
         typedef unsigned int PixelType;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
         typedef ImageType::Pointer ImagePointerType;
-        Rcpp::XPtr< ImagePointerType > antsimage_xptr( static_cast< SEXP >( antsimage.slot( "pointer" ) ) );
-        return antsImageLogicImageNumeric< PixelType , ImageDimension >( *antsimage_xptr, r_numeric, r_operator );
+        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
+        return antsImageLogicImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
         }
       else
         {
@@ -116,8 +116,8 @@ try
         typedef unsigned char PixelType;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
         typedef ImageType::Pointer ImagePointerType;
-        Rcpp::XPtr< ImagePointerType > antsimage_xptr( static_cast< SEXP >( antsimage.slot( "pointer" ) ) );
-        return antsImageLogicImageNumeric< PixelType , ImageDimension >( *antsimage_xptr, r_numeric, r_operator );
+        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
+        return antsImageLogicImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
         }
       else if( dimension == 3 )
         {
@@ -125,8 +125,8 @@ try
         typedef unsigned char PixelType;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
         typedef ImageType::Pointer ImagePointerType;
-        Rcpp::XPtr< ImagePointerType > antsimage_xptr( static_cast< SEXP >( antsimage.slot( "pointer" ) ) );
-        return antsImageLogicImageNumeric< PixelType , ImageDimension >( *antsimage_xptr, r_numeric, r_operator );
+        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
+        return antsImageLogicImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
         }
       else if( dimension == 2 )
         {
@@ -134,8 +134,8 @@ try
         typedef unsigned char PixelType;
         typedef itk::Image< PixelType , ImageDimension > ImageType;
         typedef ImageType::Pointer ImagePointerType;
-        Rcpp::XPtr< ImagePointerType > antsimage_xptr( static_cast< SEXP >( antsimage.slot( "pointer" ) ) );
-        return antsImageLogicImageNumeric< PixelType , ImageDimension >( *antsimage_xptr, r_numeric, r_operator );
+        ImagePointerType img = Rcpp::as<ImagePointerType>( r_antsimage );
+        return antsImageLogicImageNumeric< PixelType , ImageDimension >( img, r_numeric, r_operator );
         }
       else
       {

@@ -23,6 +23,7 @@ SEXP wrap( const itk::VectorImage<double,2>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "double";
   itkImage.slot( "dimension" ) = 2;
   itkImage.slot( "components" ) = image->GetNumberOfComponentsPerPixel();
+  itkImage.slot( "isVector" ) = true;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -41,6 +42,7 @@ SEXP wrap( const itk::VectorImage<double,3>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "double";
   itkImage.slot( "dimension" ) = 3;
   itkImage.slot( "components" ) = image->GetNumberOfComponentsPerPixel();
+  itkImage.slot( "isVector" ) = true;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -59,6 +61,7 @@ SEXP wrap( const itk::VectorImage<double,4>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "double";
   itkImage.slot( "dimension" ) = 4;
   itkImage.slot( "components" ) = image->GetNumberOfComponentsPerPixel();
+  itkImage.slot( "isVector" ) = true;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -77,6 +80,7 @@ SEXP wrap( const itk::VectorImage<float,2>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "float";
   itkImage.slot( "dimension" ) = 2;
   itkImage.slot( "components" ) = image->GetNumberOfComponentsPerPixel();
+  itkImage.slot( "isVector" ) = true;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -95,6 +99,7 @@ SEXP wrap( const itk::VectorImage<float,3>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "float";
   itkImage.slot( "dimension" ) = 3;
   itkImage.slot( "components" ) = image->GetNumberOfComponentsPerPixel();
+  itkImage.slot( "isVector" ) = true;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -113,6 +118,7 @@ SEXP wrap( const itk::VectorImage<float,4>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "float";
   itkImage.slot( "dimension" ) = 4;
   itkImage.slot( "components" ) = image->GetNumberOfComponentsPerPixel();
+  itkImage.slot( "isVector" ) = true;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -131,6 +137,7 @@ SEXP wrap( const itk::VectorImage<unsigned int,2>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "unsigned int";
   itkImage.slot( "dimension" ) = 2;
   itkImage.slot( "components" ) = image->GetNumberOfComponentsPerPixel();
+  itkImage.slot( "isVector" ) = true;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -149,6 +156,7 @@ SEXP wrap( const itk::VectorImage<unsigned int,3>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "unsigned int";
   itkImage.slot( "dimension" ) = 3;
   itkImage.slot( "components" ) = image->GetNumberOfComponentsPerPixel();
+  itkImage.slot( "isVector" ) = true;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -167,6 +175,7 @@ SEXP wrap( const itk::VectorImage<unsigned int,4>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "unsigned int";
   itkImage.slot( "dimension" ) = 4;
   itkImage.slot( "components" ) = image->GetNumberOfComponentsPerPixel();
+  itkImage.slot( "isVector" ) = true;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -185,6 +194,7 @@ SEXP wrap( const itk::VectorImage<unsigned char,2>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "unsigned char";
   itkImage.slot( "dimension" ) = 2;
   itkImage.slot( "components" ) = image->GetNumberOfComponentsPerPixel();
+  itkImage.slot( "isVector" ) = true;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -203,6 +213,7 @@ SEXP wrap( const itk::VectorImage<unsigned char,3>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "unsigned char";
   itkImage.slot( "dimension" ) = 3;
   itkImage.slot( "components" ) = image->GetNumberOfComponentsPerPixel();
+  itkImage.slot( "isVector" ) = true;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
@@ -221,6 +232,7 @@ SEXP wrap( const itk::VectorImage<unsigned char,4>::Pointer &image )
   itkImage.slot( "pixeltype" ) = "unsigned char";
   itkImage.slot( "dimension" ) = 4;
   itkImage.slot( "components" ) = image->GetNumberOfComponentsPerPixel();
+  itkImage.slot( "isVector" ) = true;
   itkImage.slot( "pointer") = xptr;
 
   return(wrap(itkImage));
