@@ -10,7 +10,7 @@
 \S4method{show}{antsImage}(object)
 
 \S4method{initialize}{antsImage}(.Object, pixeltype = "float",
-  dimension = 3, components = 1)
+  dimension = 3, components = 1, isVector = FALSE)
 }
 \arguments{
 \item{object}{input object to convert}

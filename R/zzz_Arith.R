@@ -291,11 +291,8 @@ setMethod("Arith", signature(e1 = "numeric", e2 = "antsImage"),
 #' @aliases Arith,antsImage,logical-method
 setMethod("Arith", signature(e1 = "antsImage", e2 = "logical"),
           function(e1, e2) {
-            ## either use drop_img_dim and validObject or take out both
-            a1 = as.array(e1)
-
-            res <- callGeneric(a1, e2)
-            res = as.antsImage(res, reference = e1)
+            e2 = as.numeric(e2)
+            res <- callGeneric(e1, e2)
             return(res)
           })
 
@@ -303,11 +300,8 @@ setMethod("Arith", signature(e1 = "antsImage", e2 = "logical"),
 #' @aliases Arith,logical,antsImage-method
 setMethod("Arith", signature(e1 = "logical", e2 = "antsImage"),
           function(e1, e2) {
-            ## either use drop_img_dim and validObject or take out both
-            a2 = as.array(e2)
-
-            res <- callGeneric(e1, a2)
-            res = as.antsImage(res, reference = e2)
+            e1 = as.numeric(e1)
+            res = callGeneric(e1, e2)
             return(res)
           })
 
@@ -318,11 +312,8 @@ setMethod("Arith", signature(e1 = "logical", e2 = "antsImage"),
 #' @aliases Arith,antsImage,array-method
 setMethod("Arith", signature(e1 = "antsImage", e2 = "array"),
           function(e1, e2) {
-            ## either use drop_img_dim and validObject or take out both
-            a1 = as.array(e1)
-
-            res <- callGeneric(a1, e2)
-            res = as.antsImage(res, reference = e1)
+            e2 = as.antsImage(e2, reference = e1)
+            res = callGeneric(e1, e2)
             return(res)
           })
 
@@ -330,11 +321,8 @@ setMethod("Arith", signature(e1 = "antsImage", e2 = "array"),
 #' @aliases Arith,array,antsImage-method
 setMethod("Arith", signature(e1 = "array", e2 = "antsImage"),
           function(e1, e2) {
-            ## either use drop_img_dim and validObject or take out both
-            a2 = as.array(e2)
-
-            res <- callGeneric(e1, a2)
-            res = as.antsImage(res, reference = e2)
+            e1 = as.antsImage(e1, reference = e2)
+            res = callGeneric(e1, e2)
             return(res)
           })
 

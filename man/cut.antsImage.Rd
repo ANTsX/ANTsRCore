@@ -9,14 +9,14 @@
 \arguments{
 \item{x}{Object of class \code{antsImage}}
 
-\item{breaks}{either a numeric vector of two or more unique cut points 
-or a single number (greater than or equal to 2) 
-giving the number of intervals into which x is to be cut. 
+\item{breaks}{either a numeric vector of two or more unique cut points
+or a single number (greater than or equal to 2)
+giving the number of intervals into which x is to be cut.
 Passed to \code{\link{cut}})}
 
 \item{...}{Arguments passed to \code{\link{cut}}}
 
-\item{mask}{object to subset the image.  If missing, then all 
+\item{mask}{object to subset the image.  If missing, then all
 values of the image are used}
 }
 \value{
