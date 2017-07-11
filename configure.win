@@ -19,24 +19,17 @@ echo "ITK=${ITKRCMAKE}" >> Makevars.win
 
 needVCL_CAN_STATIC_CONST_INIT_FLOAT=0
 echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
+echo "PKG_CPPFLAGS = -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
+  -I\${myantssource}/Utilities -I\${myantssource}/Examples/ -I../inst/include/\
+  -I\${myantssource}/Tensor/ " >> Makevars.win
 
-aincludes=`Rscript.exe -e 'a<-ANTsRCore:::antsIncludes(); cat(a)'`
-
-# echo "PKG_CPPFLAGS = -I\${ITK} -I\${PWD}  \
-#   -I`\${R_HOME}/bin/Rscript -e 'ANTsRCore:::antsIncludes()'` \
-#   -I../inst/include/ " >> Makevars
-echo "PKG_CPPFLAGS = -I\${ITK} -I\${PWD}  \
-  -I${aincludes} \
-  -I../inst/include/ " >> Makevars.win
-  
 echo "CXX_STD = CXX11" >> Makevars.win
 
-myantslib=`Rscript.exe -e 'a<-ANTsRCore:::antsLibs(); cat(a)'`
+echo "myantslib=\${PWD}/antb/lib/" >> Makevars.win
 
-# echo "myantslib=`\${R_HOME}/bin/Rscript -e 'ANTsRCore:::antsLibs()'` " >> Makevars.win
 echo "myantslib=${myantslib}" >> Makevars.win
 
-echo "libants=\`find ${myantslib} -name \"lib*.a\"\`" >> Makevars.win
+echo "libants=\`find \${myantslib} -name \"lib*.a\"\`" >> Makevars.win
 
 echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\"\`" >> Makevars.win
 
@@ -51,20 +44,22 @@ echo "all: \$(SHLIB)" >> Makevars.win
 
 echo "\$(SHLIB): libs" >> Makevars.win
 
-echo "libs: ; cd \${PWD}" >> Makevars.win
-
-
+echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build && \$(MAKE) all install " >> Makevars.win
 
 # get / set up ANTs code
 antsgit=https://github.com/stnava/ANTs.git
-antstag=961ac541bc0dfd60289e3fe5b0c10dbe607ee39e # geometric jacobian bug
+antstag=6bc3e652d7628b428896ddaec837248a61d2af3b # for 4.12
+antsrtag=`git log --pretty=format:'%H' -n 1`
 git clone $antsbranch $antsgit ants
 mkdir -p ../data
 
 echo "Dependency;GitTag" > ../data/antsVersions.csv
 echo "ANTs;${antstag}" >> ../data/antsVersions.csv
+echo "ANTsRCore;${antsrtag}" >> ../data/antsVersions.csv
 cd ants
-git checkout master;  git pull;  git checkout $antstag
+git checkout master;  
+git pull;  
+git checkout $antstag
 # needed for warning
 rm -rf .git
 cd ../
