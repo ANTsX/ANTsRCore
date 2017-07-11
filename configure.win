@@ -1,9 +1,9 @@
 #!/bin/bash
 CXX_STD=CXX11
-ITKRCMAKE=`Rscript.exe -e 'a<-ITKR:::itkIncludes(); cat(a)'`
-ITKRLIB=`Rscript.exe -e 'a<-ITKR:::itkLibs(); cat(a)'`
-compflags=`Rscript.exe -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
-ITKDIR=`Rscript.exe -e 'a<-ITKR:::itkDir(); cat(a)'`
+ITKRCMAKE=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkIncludes(); cat(a)'`
+ITKRLIB=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkLibs(); cat(a)'`
+compflags=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
+ITKDIR=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkDir(); cat(a)'`
 
 CMAKE_BUILD_TYPE=Release
 # get a version of cmake
