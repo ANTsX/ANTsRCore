@@ -6,15 +6,11 @@ compflags=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
 ITKDIR=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkDir(); cat(a)'`
 
 CMAKE_BUILD_TYPE=Release
-# get a version of cmake
-# cmaker=`which cmake`
-# if [[ ! -x $cmaker ]] ; then # try r version
-#   cmaker=`${R_HOME}/bin/Rscript -e 'a<-cmaker::cmake()'`
-# fi
 cd ./src
+PWD=`pwd`
 # platform-specific Makevars
-echo "myantssource=\${PWD}/ants/" > Makevars.win
-# echo "ITK = \`\$(R_HOME)/bin/Rscript -e 'ITKR:::itkIncludes()'\`" >> Makevars
+echo "PWD=${PWD}" > Makevars.win
+echo "myantssource=\${PWD}/ants" >> Makevars.win
 echo "ITK=${ITKRCMAKE}" >> Makevars.win
 
 needVCL_CAN_STATIC_CONST_INIT_FLOAT=0
@@ -26,8 +22,6 @@ echo "PKG_CPPFLAGS = -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
 echo "CXX_STD = CXX11" >> Makevars.win
 
 echo "myantslib=\${PWD}/antb/lib/" >> Makevars.win
-
-echo "myantslib=${myantslib}" >> Makevars.win
 
 echo "libants=\`find \${myantslib} -name \"lib*.a\"\`" >> Makevars.win
 
