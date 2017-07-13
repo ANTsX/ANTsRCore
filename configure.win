@@ -39,7 +39,7 @@ echo "all: \$(SHLIB)" >> Makevars.win
 echo "\$(SHLIB): libs" >> Makevars.win
 # MAKER=c:/Rtools/mingw_64/bin/mingw32-make.exe
 MAKER=mingw32-make
-echo "libs: ; cd \${PWD}/antb && ${MAKER} -j 2 &&  cd \${PWD}/antb/ANTS-build && ${MAKER} all install " >> Makevars.win
+echo "libs: ; cd \${PWD}/antb && ${MAKER} -j 2 &&  cd \${PWD}/antb/ANTS-build && ${MAKER} all -j 2 && echo 'Installing the libs'  && ${MAKER} install " >> Makevars.win
 
 # get / set up ANTs code
 antsgit=https://github.com/stnava/ANTs.git
