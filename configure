@@ -61,6 +61,7 @@ echo "libants=\`find \${myantslib} -name \"lib*.a\"\`" >> Makevars
 echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\"\`" >> Makevars
 
 echo "PKG_LIBS=\${libitk} \${libants}" >> Makevars
+
 # echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
 #                  \${libants} \${libitk} \${libants} \${itklib} \${libants} \
 #                  \${libitk} \${libants} \${itklib} \${libants} \${itklib} \
