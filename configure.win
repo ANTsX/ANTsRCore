@@ -21,7 +21,8 @@ echo "PKG_CPPFLAGS = -Wa,-mbig-obj -I\${ITK} -I\${PWD} -I\${myantssource}/Exampl
 
 echo "CXX_STD = CXX11" >> Makevars.win
 
-echo "myantslib=\"\${PWD}/antb/lib/\"" >> Makevars.win
+# echo "myantslib=\"\${PWD}/antb/lib/\"" >> Makevars.win
+echo "myantslib=\"./antb/lib/\"" >> Makevars.win
 
 echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
 
@@ -41,7 +42,7 @@ echo "all: \$(SHLIB)" >> Makevars.win
 echo "\$(SHLIB): libs" >> Makevars.win
 # MAKER=c:/Rtools/mingw_64/bin/mingw32-make.exe
 MAKER=mingw32-make
-echo "libs: ; cd \"\${PWD}/antb\" && ${MAKER} -j 2 &&  cd \"\${PWD}/antb/ANTS-build\" && ${MAKER} all install"
+echo "libs: ; cd antb && ${MAKER} -j 2 &&  cd antb/ANTS-build && ${MAKER} all install"
 
 # get / set up ANTs code
 antsgit=https://github.com/stnava/ANTs.git
