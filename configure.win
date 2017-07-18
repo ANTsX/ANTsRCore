@@ -25,7 +25,7 @@ echo "myantslib=\"\${PWD}/antb/lib/\"" >> Makevars.win
 
 echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
 
-echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\"\`" >> Makevars.win
+echo "libitk=\`find \"${ITKRLIB}\" -name \"lib*.a\"\`" >> Makevars.win
 
 echo "PKG_LIBS=\${libitk} \${libants}" >> Makevars.win
 
