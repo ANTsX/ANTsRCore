@@ -70,7 +70,7 @@ cd ./antb
 cmake \
     -G "MinGW Makefiles" \
     -DITK_DIR:PATH=${ITKDIR} \
-    -DCMAKE_SH:BOOL=OFF \    
+    -DCMAKE_SH:BOOL=OFF \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} -DNDEBUG  "\
     -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} -DNDEBUG  "\
     -DBUILD_SHARED_LIBS=OFF \
