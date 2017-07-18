@@ -10,8 +10,8 @@ cd ./src
 PWD=`pwd`
 # platform-specific Makevars
 echo "PWD=${PWD}" > Makevars.win
-echo "myantssource=\${PWD}/ants" >> Makevars.win
-echo "ITK=${ITKRCMAKE}" >> Makevars.win
+echo "myantssource=\"\${PWD}/ants\"" >> Makevars.win
+echo "ITK=\"${ITKRCMAKE}\"" >> Makevars.win
 
 needVCL_CAN_STATIC_CONST_INIT_FLOAT=0
 echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
@@ -41,7 +41,7 @@ echo "all: \$(SHLIB)" >> Makevars.win
 echo "\$(SHLIB): libs" >> Makevars.win
 # MAKER=c:/Rtools/mingw_64/bin/mingw32-make.exe
 MAKER=mingw32-make
-echo "libs: ; cd \${PWD}/antb && ${MAKER} -j 2 &&  cd \${PWD}/antb/ANTS-build && ${MAKER} all install"
+echo "libs: ; cd \"\${PWD}/antb\" && ${MAKER} -j 2 &&  cd \"\${PWD}/antb/ANTS-build\" && ${MAKER} all install"
 
 # get / set up ANTs code
 antsgit=https://github.com/stnava/ANTs.git
