@@ -28,7 +28,7 @@ echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
 
 echo "libitk=\`find \"${ITKRLIB}\" -name \"lib*.a\"\`" >> Makevars.win
 
-echo "PKG_LIBS=\${libitk} \${libants}" >> Makevars.win
+echo "PKG_LIBS=\"\${libitk} \${libants}\"" >> Makevars.win
 
 # echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
 #                  \${libants} \${libitk} \${libants} \${itklib} \${libants} \
@@ -42,7 +42,7 @@ echo "all: \$(SHLIB)" >> Makevars.win
 echo "\$(SHLIB): libs" >> Makevars.win
 # MAKER=c:/Rtools/mingw_64/bin/mingw32-make.exe
 MAKER=mingw32-make
-echo "libs: ; cd antb && ${MAKER} -j 2 &&  cd antb/ANTS-build && ${MAKER} all install"
+echo "libs: ; cd antb && ${MAKER} -j 2 &&  cd antb/ANTS-build && ${MAKER} all install" >> Makevars.win
 
 # get / set up ANTs code
 antsgit=https://github.com/stnava/ANTs.git
