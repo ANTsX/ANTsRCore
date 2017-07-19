@@ -15,11 +15,11 @@ echo "ITK=\"${ITKRCMAKE}\"" >> Makevars.win
 
 needVCL_CAN_STATIC_CONST_INIT_FLOAT=0
 echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
-echo "PKG_CPPFLAGS = -Wa,-mbig-obj -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
+echo "PKG_CPPFLAGS =\"-Wa,-mbig-obj -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
   -I\${myantssource}/Utilities -I\${myantssource}/Examples/ -I../inst/include/\
-  -I\${myantssource}/Tensor/ " >> Makevars.win
+  -I\${myantssource}/Tensor/ \"" >> Makevars.win
 
-echo "CXX_STD = CXX11" >> Makevars.win
+echo "CXX_STD=CXX11" >> Makevars.win
 
 # echo "myantslib=\"\${PWD}/antb/lib/\"" >> Makevars.win
 echo "myantslib=\"./antb/lib/\"" >> Makevars.win
