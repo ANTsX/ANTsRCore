@@ -1,51 +1,48 @@
-# use containers
+language: r
 sudo: false
-# cache local R libraries directory:
 cache: packages
+warnings_are_errors: true
+use_bioc: true
+bioc_required: true
+cran: http://cran.rstudio.com
+
 os:
   - linux
   - osx
+
 
 latex: false
 compiler: clang
 osx_image: xcode8.2
 
-r_build_args: --no-build-vignettes --no-manual
 env:
   global:
-  - R_BUILD_ARGS=" "
-  - R_CHECK_ARGS=" --timings --as-cran"
-  - R_CHECK_TIME="TRUE"
-  - R_CHECK_TESTS="TRUE"
-  - _R_CHECK_TIMINGS_="0"
-  - _R_CHECK_FORCE_SUGGESTS_="0"
-  - BOOTSTRAP_LATEX=1
-  # - WARNINGS_ARE_ERRORS=0
+  - R_BUILD_ARGS="--no-build-vignettes --no-manual"
+  - R_CHECK_ARGS="--as-cran --install-args=--build"
 
-language: r
-r:
-  - release
-
-cran: http://cran.rstudio.com
 
 before_install:
-  - export ORIG_PATH=${PATH}
+  - export PROJ_DIR=`basename $PWD`  
   - export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
   - wget -O travis_helpers.sh http://bit.ly/travis_helpers
   - source travis_helpers.sh
   - rm travis_helpers.sh
+  - remove_neuroc_packages  
   # does all the clang exports
   - clang_cxx
   - export cmake_version="3.4"
   - cmake --version
   - cmake_setup
   - cmake --version
-  - ./cleanup  
-  - gh_binary_install stnava/ITKR
-  - drop_remote ITKR
-  - install_remotes_no_dep  
-  # - remote_binary_install ITKR
-
+  - export ants_user=stnava
+  - install_missing_remote_deps ${ants_user}/ITKR ${ants_user}/ANTsRCore ${ants_user}/ANTsR
+  - echo "Done Installing Missing Deps"
+  - gh_binary_install ${ants_user}/ITKR
+  - cat DESCRIPTION
+  - install_remotes_no_dep
+  - cat DESCRIPTION
+  - export PACKAGE_NAME=`package_name`
+  - export PATH=$HOME/bin/:$PATH
 
 script:
   - echo "Overriding travis R script"
@@ -53,7 +50,6 @@ script:
 jobs:
   include:
     - script:
-      - cat ~/.R/Makevars
       - source ~/.R/Makevars
       - export_clang_cxx    
       - cd ..
@@ -62,7 +58,6 @@ jobs:
       - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}" --no-manual;
       os: linux
     - script:
-      - cat ~/.R/Makevars
       - source ~/.R/Makevars
       - export_clang_cxx    
       - cd ..
@@ -72,7 +67,6 @@ jobs:
       os: osx
     - stage: "Deployment"
       script:
-      - cat ~/.R/Makevars
       - source ~/.R/Makevars
       - export_clang_cxx
       - cd ..
@@ -101,7 +95,6 @@ jobs:
       os: linux
     - stage: "Deployment"
       script:
-      - cat ~/.R/Makevars
       - source ~/.R/Makevars
       - export_clang_cxx     
       - cd ..
@@ -132,18 +125,13 @@ jobs:
     - os: osx
 
 
-after_success:
-  - echo ${TRAVIS_BUILD_DIR}
-  - dn=`dirname ${TRAVIS_BUILD_DIR}`
-  - cat ${dn}/ANTsRCore.Rcheck/00check.log  
-  - cat ${dn}/ANTsRCore.Rcheck/00install.out
-  - export PATH=${ORIG_PATH}
-
 after_failure:
-  - echo ${TRAVIS_BUILD_DIR}
-  - dn=`dirname ${TRAVIS_BUILD_DIR}`
-  - cat ${dn}/ANTsRCore.Rcheck/00install.out
-  - cat ${dn}/ANTsRCore.Rcheck/00check.log
+  - cat ${PACKAGE_NAME}.Rcheck/00install.out
+  - cat ${PACKAGE_NAME}.Rcheck/00check.log
+
+after_success:
+  - cat ${PACKAGE_NAME}.Rcheck/00install.out
+  - cat ${PACKAGE_NAME}.Rcheck/00check.log
 
 notifications:
   email:
@@ -151,15 +139,3 @@ notifications:
     - stnava@gmail.com
     on_success: change
     on_failure: always
-
-# deploy:
-#   provider: releases
-#   api_key:
-#     secure: Hm3kbkCySSneOe8644MWudbNAphB4+YDpGhWCeeHuSiHoQU6+Qmx/f014iVM5JqZI72EGX21hSygqfD9jB8O78J4imO4xMUnNciA80pV/NlUnzwMiYVfpYAga3QQApvSJZuBA/4+kJXlFZkigWGXuzb8W5Qty0xY1KV9FuaUzo5bRxCPa4f3t3PP/Ikjhla2vH53UHo+YiRIfGlH5Rn3p2kDS5390cfdO5+1kn8p5UMZV7C1B2VAE2OO0QxtVmjZbpAxE/k+QGdeGMXBfu5bCfERO3Wr/sfITaTu9j5Oulv/fDfVe6kuIRhAkX0eUn+CEkEhBgSO6yp1+abcagxIRVYfF3hp5e6+cOeGC/QH0z9kSsCim3SdYvz+rFhtzS+vO4LTO8wgGzyMLalvH2Jopf4OrRbSwbmiLpQzR/fFrmx9IZt0o4lD9+KW9Nhj0o9+V6NHg+Usx1wbTVYDjh53op6AT5c6E4Zej0gLeG9gXXtICtcEE1pCLiK8EX11cCUpgRD0NcG+F/dcPY5kLtf4/Uw/krhwz8OagPk9Mt3aleu0iepkuwQoGNoy2XBzc0zcaGICC3Y23KW/VZRc0xZGjiUmQXyMlbuB/dOYr0V8VGVPanRgDksr+ML0B4nqdfbtqTC1FQl2ORtG7iCDuArAZo7bokisZ2GTSA2F85BpfRY=
-#   file: ${PKG_FILE_NAME}
-#   skip_cleanup: true
-#   overwrite: true
-#   on:
-#     repo: stnava/ANTsRCore
-#     tags: true
-#     all_branches: true
