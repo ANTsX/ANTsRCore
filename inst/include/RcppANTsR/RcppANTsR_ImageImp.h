@@ -49,8 +49,8 @@ SEXP wrap( const itk::Image<double,2>::Pointer &image )
   typedef itk::Image<double,2>        ImageType;
   typedef ImageType::Pointer          ImagePointerType;
   //typedef itkImageFinalizer<double,2> FinalizerType;
-  //typedef typename Rcpp::XPtr<ImagePointerType,PreserveStorage,FinalizerType::Finalize> XPtrType;
-  typedef typename Rcpp::XPtr<ImagePointerType> XPtrType;
+  //typedef Rcpp::XPtr<ImagePointerType,PreserveStorage,FinalizerType::Finalize> XPtrType;
+  typedef Rcpp::XPtr<ImagePointerType> XPtrType;
 
   ImagePointerType* rawPointer = new ImagePointerType( image );
   XPtrType xptr( rawPointer , true );
