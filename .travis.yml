@@ -10,7 +10,6 @@ os:
   - linux
   - osx
 
-
 latex: false
 compiler: clang
 osx_image: xcode8.2
