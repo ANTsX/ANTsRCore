@@ -1,6 +1,6 @@
 language: r
 sudo: false
-cache: packages
+# cache: packages
 warnings_are_errors: true
 use_bioc: true
 bioc_required: true
@@ -55,7 +55,7 @@ jobs:
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-      - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}" --no-manual;
+      - travis_wait 100 R CMD check ${R_CHECK_ARGS}  --no-manual "${PKG_FILE_NAME}";
       os: linux
     - script:
       - source ~/.R/Makevars
@@ -63,7 +63,7 @@ jobs:
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-      - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}" --no-manual;
+      - travis_wait 100 R CMD check ${R_CHECK_ARGS}  --no-manual "${PKG_FILE_NAME}";
       os: osx
     - stage: "Deployment"
       script:
