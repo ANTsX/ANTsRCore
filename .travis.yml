@@ -17,7 +17,7 @@ osx_image: xcode8.2
 env:
   global:
   - R_BUILD_ARGS="--no-build-vignettes --no-manual"
-  - R_CHECK_ARGS="--as-cran"
+  - R_CHECK_ARGS="--as-cran --no-manual"
 # --install-args=--build
 
 before_install:
@@ -54,7 +54,7 @@ jobs:
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-      - travis_wait 100 R CMD check ${R_CHECK_ARGS}  --no-manual "${PKG_FILE_NAME}";
+      - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
       os: linux
     - script:
       - source ~/.R/Makevars
@@ -62,7 +62,7 @@ jobs:
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-      - travis_wait 100 R CMD check ${R_CHECK_ARGS}  --no-manual "${PKG_FILE_NAME}";
+      - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
       os: osx
     - stage: "Deployment"
       script:
