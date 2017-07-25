@@ -26,8 +26,7 @@ before_install:
   - export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
   - fname=travis_helpers.sh
   - wget -O ${fname} http://bit.ly/travis_helpers
-  - source ${fname}; cat ${fname};
-  - rm ${fname}
+  - source ${fname}; cat ${fname}; rm ${fname}  
   - remove_neuroc_packages  
   # does all the clang exports
   - x=`export_clang_cxx`; eval ${x}
