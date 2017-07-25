@@ -28,6 +28,9 @@ before_install:
   - rm travis_helpers.sh
   - remove_neuroc_packages  
   # does all the clang exports
+  - x=`export_clang_cxx`; eval ${x}
+  - echo "CC=${CC}, CXX=${CXX}, CXX1X=${CXX1X}"
+  - echo "CXX1XSTD=${CXX1XSTD}, CXX11=${CXX11}"  
   - clang_cxx
   - export cmake_version="3.4"
   - cmake --version
@@ -50,7 +53,7 @@ jobs:
   include:
     - script:
       - source ~/.R/Makevars
-      - export_clang_cxx    
+      - x=`export_clang_cxx`; eval ${x}
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
@@ -58,7 +61,7 @@ jobs:
       os: linux
     - script:
       - source ~/.R/Makevars
-      - export_clang_cxx    
+      - x=`export_clang_cxx`; eval ${x}
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
@@ -67,7 +70,7 @@ jobs:
     - stage: "Deployment"
       script:
       - source ~/.R/Makevars
-      - export_clang_cxx
+      - x=`export_clang_cxx`; eval ${x}
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
@@ -95,7 +98,7 @@ jobs:
     - stage: "Deployment"
       script:
       - source ~/.R/Makevars
-      - export_clang_cxx     
+      - x=`export_clang_cxx`; eval ${x}
       - cd ..
       - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
