@@ -44,7 +44,7 @@ before_install:
   - install_remotes_no_dep
   - cat DESCRIPTION
   - export PACKAGE_NAME=`package_name`
-  - export PATH=$HOME/bin/:$PATH
+  # - export PATH=$HOME/bin/:$PATH
   - echo $PATH ;
 
 script:
