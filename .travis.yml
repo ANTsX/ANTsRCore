@@ -34,7 +34,7 @@ before_install:
   - clang_cxx
   - export cmake_version="3.4"
   - cmake --version
-  - cmake_setup
+  - x=`cmake_setup`; echo "${x}"; eval ${x};
   - cmake --version
   - export ants_user=stnava
   - install_missing_remote_deps ${ants_user}/ITKR ${ants_user}/ANTsRCore ${ants_user}/ANTsR
@@ -45,6 +45,7 @@ before_install:
   - cat DESCRIPTION
   - export PACKAGE_NAME=`package_name`
   - export PATH=$HOME/bin/:$PATH
+  - echo $PATH ;
 
 script:
   - echo "Overriding travis R script"
