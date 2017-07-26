@@ -16,8 +16,8 @@ osx_image: xcode8.2
 
 env:
   global:
-  - R_BUILD_ARGS="--no-build-vignettes --no-manual"
-  - R_CHECK_ARGS="--as-cran --no-manual"
+  - R_BUILD_ARGS=" --no-build-vignettes --no-manual"
+  - R_CHECK_ARGS=" --timings --as-cran --no-manual"
 # --install-args=--build
 
 before_install:
