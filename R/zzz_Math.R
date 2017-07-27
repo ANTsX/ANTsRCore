@@ -58,7 +58,9 @@ setMethod("log", signature(x = "antsImage"),
               return(.Call("antsImageMath", x, "log10", PACKAGE = "ANTsRCore"))
             }
             else {
-              stop("Invalid base, must be exp(1), 2, or 10")
+              res=.Call("antsImageMath", x, "log10", PACKAGE = "ANTsRCore")
+              res = res/(log10(base))
+              return(res)
             }
 
           })
