@@ -47,8 +47,20 @@ setMethod("trunc", signature(x = "antsImage"),
           })
 
 setMethod("log", signature(x = "antsImage"),
-          function(x) {
-            return(.Call("antsImageMath", x, "log", PACKAGE = "ANTsRCore"))
+          function(x, base=exp(1) ) {
+            if ( base==exp(1) ) {
+              return(.Call("antsImageMath", x, "log", PACKAGE = "ANTsRCore"))
+            }
+            else if ( base==2 ) {
+              return(.Call("antsImageMath", x, "log2", PACKAGE = "ANTsRCore"))
+            }
+            else if ( base==10 ) {
+              return(.Call("antsImageMath", x, "log10", PACKAGE = "ANTsRCore"))
+            }
+            else {
+              stop("Invalid base, must be exp(1), 2, or 10")
+            }
+
           })
 
 setMethod("log10", signature(x = "antsImage"),
