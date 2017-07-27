@@ -36,6 +36,7 @@ before_install:
   - cmake --version
   - x=`cmake_setup`; echo "${x}"; eval ${x};
   - cmake --version
+  - ./cleanup
   - export ants_user=stnava
   - install_missing_remote_deps ${ants_user}/ITKR ${ants_user}/ANTsRCore ${ants_user}/ANTsR
   - echo "Done Installing Missing Deps"
@@ -56,7 +57,7 @@ jobs:
       - source ~/.R/Makevars
       - x=`export_clang_cxx`; eval ${x}
       - cd ..
-      - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
+      - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
       - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
       os: linux
@@ -64,7 +65,7 @@ jobs:
       - source ~/.R/Makevars
       - x=`export_clang_cxx`; eval ${x}
       - cd ..
-      - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
+      - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
       - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
       os: osx
@@ -73,11 +74,11 @@ jobs:
       - source ~/.R/Makevars
       - x=`export_clang_cxx`; eval ${x}
       - cd ..
-      - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
+      - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
       - if [[ ${#TRAVIS_TAG} -gt 0 ]];
         then
-          R CMD INSTALL --debug --build ANTsRCore; 
+          R CMD INSTALL --debug --build ${PROJ_DIR}; 
           PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
           if [ "$TRAVIS_OS_NAME" == "osx" ];
             then
@@ -92,7 +93,7 @@ jobs:
         skip_cleanup: true
         overwrite: true
         on:
-          repo: stnava/ANTsRCore
+          repo: stnava/${PROJ_DIR}
           tags: true
           all_branches: true
       os: linux
@@ -101,11 +102,11 @@ jobs:
       - source ~/.R/Makevars
       - x=`export_clang_cxx`; eval ${x}
       - cd ..
-      - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
+      - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
       - if [[ ${#TRAVIS_TAG} -gt 0 ]];
         then
-          R CMD INSTALL --debug --build ANTsRCore; 
+          R CMD INSTALL --debug --build ${PROJ_DIR}; 
           PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
           if [ "$TRAVIS_OS_NAME" == "osx" ];
             then
@@ -120,7 +121,7 @@ jobs:
         skip_cleanup: true
         overwrite: true
         on:
-          repo: stnava/ANTsRCore
+          repo: stnava/${PROJ_DIR}
           tags: true
           all_branches: true
       os: osx

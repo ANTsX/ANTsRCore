@@ -31,7 +31,7 @@ Suggests:
     testthat,
     knitr,
     rmarkdown
-SystemRequirements: cmake, git, clang (recommended)
+SystemRequirements: cmake, git, clang
 Remotes: stnava/ITKR
 NeedsCompilation: yes
 RoxygenNote: 6.0.1.9000
