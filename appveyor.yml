@@ -30,6 +30,7 @@ build_script:
   - ls
   - Rscript -e "install.packages('ITKR.zip', repos = NULL)"  
   - rm ITKR.zip
+  - Rscript -e 'x= read.dcf("DESCRIPTION", all = TRUE); x$Remotes = NULL; write.dcf(x, file = "DESCRIPTION")'
   # - wget -O travis_helpers.sh --no-check-certificate http://bit.ly/travis_helpers
   # - cat travis_helpers.sh
   # - bash travis_helpers.sh
