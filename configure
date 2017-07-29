@@ -56,13 +56,12 @@ echo "CXX_STD = CXX11" >> Makevars
 
 echo "myantslib=\${PWD}/antb/lib/" >> Makevars
 
-echo "libants=\`find \${myantslib} -name \"lib*.a\"\`" >> Makevars
+# echo "libants=\`find \${myantslib} -name \"lib*.a\"\`" >> Makevars
 
 # echo "libitk=\`find \\\`\$(R_HOME)/bin/Rscript -e 'ITKR:::itkLibs()'\\\` -name \"lib*.a\"\` " >> Makevars
-echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\"\`" >> Makevars
+# echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\"\`" >> Makevars
 
-echo "PKG_LIBS=${PKG_LIBS} \${libitk} \${libants} \${libitk} \${libants} \
- \${libitk} \${libants}" >> Makevars
+echo "PKG_LIBS=${PKG_LIBS} -L${myantslib} -L${ITKRLIB}" >> Makevars
 
 # echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
 #                  \${libants} \${libitk} \${libants} \${itklib} \${libants} \
