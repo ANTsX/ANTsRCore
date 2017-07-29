@@ -62,6 +62,7 @@ extern SEXP antsImage_SetByImage( SEXP, SEXP, SEXP );
 extern SEXP antsImageIterator_SetIndex(SEXP, SEXP);
 extern SEXP antsImageLogicImageImage(SEXP,SEXP,SEXP);
 extern SEXP antsImageLogicImageNumeric(SEXP,SEXP,SEXP);
+extern SEXP antsImageMath(SEXP,SEXP);
 extern SEXP antsImageMutualInformation(SEXP, SEXP);
 extern SEXP antsImageRead(SEXP, SEXP, SEXP, SEXP);
 extern SEXP antsImageWrite(SEXP, SEXP);
@@ -145,6 +146,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsImageIterator_Set",                   (DL_FUNC) &antsImageIterator_Set,                    2},
     {"antsImageIterator_SetIndex",              (DL_FUNC) &antsImageIterator_SetIndex,               2},
     {"antsImageLogicImageImage",                (DL_FUNC) &antsImageLogicImageImage,                 3},    {"antsImageLogicImageNumeric",              (DL_FUNC) &antsImageLogicImageNumeric,               3},
+    {"antsImageMath",                           (DL_FUNC) &antsImageMath,                            2},    
     {"antsImageMutualInformation",              (DL_FUNC) &antsImageMutualInformation,               2},
     {"antsImageRead",                           (DL_FUNC) &antsImageRead,                            4},
     {"antsImageWrite",                          (DL_FUNC) &antsImageWrite,                           2},

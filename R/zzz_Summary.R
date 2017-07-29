@@ -8,14 +8,6 @@
 #' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
 #' abs(img01)
 #' @export
-setMethod("Math", signature(x = "antsImage"),
-          function(x) {
-            ## either use drop_img_dim and validObject or take out both
-            a1 = as.array(x)
-            res = callGeneric(a1)
-            res = as.antsImage(res, reference = x)
-            return(res)
-          })
 
 
 # From http://r.789695.n4.nabble.com/trouble-with-S4-methods-for-
@@ -113,8 +105,8 @@ setMethod("Summary", "antsImage",
             }
             args$x = x
             args$na.rm = na.rm
-            
-            
+
+
             res = do.call(callGeneric, args = args)
             # L = list(...)
             # mask = L$mask
@@ -231,4 +223,11 @@ var.antsImage = function(x, ...) {
   do.call(var, args = args)
 }
 
-
+#' @rdname antsImageops
+#' @aliases Math,antsImage,numeric-method
+#setMethod("abs", signature(e1 = "antsImage"),
+#          function(e1) {
+#            res = .Call("antsImageMath",
+#                        e1, "abs", PACKAGE = "ANTsRCore")
+#            return(res)
+#          })
