@@ -30,7 +30,6 @@ build_script:
   - ls
   - Rscript -e "install.packages('ITKR.zip', repos = NULL)"  
   - rm ITKR.zip
-  - Rscript -e 'x= read.dcf("DESCRIPTION", all = TRUE); x$Remotes = NULL; write.dcf(x, file = "DESCRIPTION")'
   # - wget -O travis_helpers.sh --no-check-certificate http://bit.ly/travis_helpers
   # - cat travis_helpers.sh
   # - bash travis_helpers.sh
@@ -39,6 +38,7 @@ build_script:
   # - travis_helpers.sh drop_remote ITKR 
   # - cat DESCRIPTION
   # setting PATH to be specific - no MinGW overall - just R's
+  - Rscript -e "x= read.dcf('DESCRIPTION', all = TRUE); x$Remotes = NULL; write.dcf(x, file = 'DESCRIPTION')"
   - set PATH=C:\Rtools\bin;C:\Rtools\MinGW\bin;
   - set PATH=%PATH%;C:\Rtools\mingw_64\bin;
   - set PATH=%PATH%;C:\Program Files\Git\cmd;
