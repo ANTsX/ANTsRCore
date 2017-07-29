@@ -63,8 +63,8 @@ echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\"\`" >> Makevars
 
 # echo "PKG_LIBS=${PKG_LIBS} -L${myantslib} -L${ITKRLIB}" >> Makevars
 
-echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
-                 \${libants}" >> Makevars
+echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \
+ \${libitk} \${libants}" >> Makevars
 
 echo ".PHONY: all libs" >> Makevars
 
