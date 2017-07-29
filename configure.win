@@ -10,7 +10,7 @@ cd ./src
 PWD=`pwd`
 # platform-specific Makevars
 echo "PWD=${PWD}" > Makevars.win
-echo "myantssource=\"\${PWD}/ants\"" >> Makevars.win
+echo "myantssource=\${PWD}/ants" >> Makevars.win
 echo "ITK=\"${ITKRCMAKE}\"" >> Makevars.win
 
 needVCL_CAN_STATIC_CONST_INIT_FLOAT=0
