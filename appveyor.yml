@@ -34,7 +34,6 @@ build_script:
   - ps: wget https://midas3.kitware.com/midas/download/bitstream/461597/castxml-windows.zip -OutFile castxml.zip
   - cmd: echo "Unzipping castxml..."
   - cmd: 7z x castxml.zip -o"C:\Program Files\" -y > nul
-  - cmd: castxml --version  
   # - wget -O travis_helpers.sh --no-check-certificate http://bit.ly/travis_helpers
   # - cat travis_helpers.sh
   # - bash travis_helpers.sh
@@ -59,6 +58,7 @@ build_script:
   - set PATH=%PATH%;C:\Windows\System32\WindowsPowerShell\v1.0\
   - set PATH=%PATH%;C:\Program Files\7-Zip
   - cmd: set PATH=%PATH:castxml\bin=%;C:\Program Files\castxml\bin  
+  - cmd: castxml --version    
   - travis-tool.sh install_deps
 
 test_script:
