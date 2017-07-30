@@ -54,7 +54,7 @@ echo "PKG_CPPFLAGS=${PKG_CPPFLAGS} \
 
 echo "CXX_STD = CXX11" >> Makevars
 
-echo "myantslib=\${PWD}/antb/lib/" >> Makevars
+echo "myantslib=./antb/lib/" >> Makevars
 
 echo "libants=\`find \${myantslib} -name \"lib*.a\"\`" >> Makevars
 
