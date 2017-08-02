@@ -40,3 +40,4 @@ if ( usePkg("magrittr") ) { # string ops together
 \author{
 JT Duda
 }
+

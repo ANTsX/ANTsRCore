@@ -32,3 +32,4 @@ check <- antsImagePhysicalSpaceConsistency(img1, img2)
 
 
 }
+

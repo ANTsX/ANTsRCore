@@ -11,7 +11,7 @@
 
 \item{...}{Arguments passed to \code{\link{boxplot.default}}}
 
-\item{mask}{object to subset the image.  If missing, then all 
+\item{mask}{object to subset the image.  If missing, then all
 values of the image are plotted.}
 }
 \value{
@@ -26,3 +26,4 @@ img = makeImage(c(10,10),rnorm(100))
 mask = img > 0
 boxplot(img, mask = mask)
 }
+

@@ -11,7 +11,7 @@
 
 \item{...}{Arguments passed to \code{\link{hist.default}}}
 
-\item{mask}{object to subset the image.  If missing, then all 
+\item{mask}{object to subset the image.  If missing, then all
 values of the image are plotted.}
 }
 \value{
@@ -27,3 +27,4 @@ mask = img > 0
 hist(img)
 hist(img, mask = mask)
 }
+

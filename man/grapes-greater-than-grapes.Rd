@@ -18,3 +18,4 @@ Chain operators together
 The \code{\%>>\%} operator pipes the object on the left-hand side to the
 right-hand side according to the syntax.
 }
+

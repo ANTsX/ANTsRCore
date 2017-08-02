@@ -27,3 +27,4 @@ segs1 = kmeansSegmentation( img, 3 )
 labelStats(img, segs1$segmentation)
 
 }
+

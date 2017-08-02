@@ -27,3 +27,4 @@ allDoubles = antsImageTypeCast( list(img, img2) )
 \author{
 J Duda
 }
+

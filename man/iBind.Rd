@@ -26,3 +26,4 @@ multismoo<- fi \%>\% iBind( smoothImage(fi,2) ) \%>\% iBind( smoothImage(fi,4) )
 \author{
 BB Avants
 }
+
