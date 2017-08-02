@@ -192,6 +192,7 @@ void antsrImageToImageMetric_SetFixedImage( SEXP r_metric, SEXP r_antsimage, boo
     typedef itk::CastImageFilter<ImageType,MaskImageType> CastFilterType;
     typename CastFilterType::Pointer cast = CastFilterType::New();
     cast->SetInput( image );
+    cast->Update();
     mask->SetImage( cast->GetOutput() );
     metric->SetMovingImageMask(mask);
   }
@@ -313,6 +314,7 @@ void antsrImageToImageMetric_SetMovingImage( SEXP r_metric, SEXP r_antsimage, bo
     typedef itk::CastImageFilter<ImageType,MaskImageType> CastFilterType;
     typename CastFilterType::Pointer cast = CastFilterType::New();
     cast->SetInput( image );
+    cast->Update();
     mask->SetImage( cast->GetOutput() );
     metric->SetMovingImageMask(mask);
   }
