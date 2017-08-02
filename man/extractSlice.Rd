@@ -29,3 +29,4 @@ slice <- extractSlice( fi, 1, 1 )
 Brian B. Avants, Nicholas J. Tustison
 }
 \keyword{extract}
+

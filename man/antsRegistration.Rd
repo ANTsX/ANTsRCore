@@ -132,3 +132,4 @@ jac = createJacobianDeterminantImage( fi, mytx$fwdtransforms[1] )
 \author{
 Shrinidhi KL, Tustison NJ, Avants BB
 }
+

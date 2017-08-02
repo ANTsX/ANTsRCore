@@ -9,7 +9,7 @@ mask_values(x, mask)
 \arguments{
 \item{x}{Object of class \code{antsImage}}
 
-\item{mask}{object to subset the image.  If missing, then all 
+\item{mask}{object to subset the image.  If missing, then all
 values of the image are plotted.}
 }
 \value{
@@ -18,3 +18,4 @@ Vector of values
 \description{
 Takes in a mask and an image and then returns the values
 }
+

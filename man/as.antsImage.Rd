@@ -3,8 +3,8 @@
 \docType{methods}
 \name{as.antsImage}
 \alias{as.antsImage}
-\alias{as.antsImage,matrix-method}
 \alias{as.antsImage,array-method}
+\alias{as.antsImage,matrix-method}
 \title{Convert Objects into antsImage objects}
 \usage{
 as.antsImage(object, pixeltype = "float", spacing = as.numeric(seq.int(from
@@ -45,3 +45,4 @@ as.antsImage(object, pixeltype = "float", spacing = as.numeric(seq.int(from
 \description{
 Convert types to antsImage
 }
+

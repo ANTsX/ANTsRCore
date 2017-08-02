@@ -30,3 +30,4 @@ pixel<-getPixels(img,i=c(1,2),j=1)
 
 
 }
+

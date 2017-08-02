@@ -16,3 +16,4 @@
 \description{
 Returns subsets of antsImage objects as vectors
 }
+

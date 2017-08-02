@@ -23,3 +23,4 @@ params = getAntsrTransformParameters(tx)
 setAntsrTransformParameters(tx, params*2)
 pt2 = applyAntsrTransformToPoint(tx, c(1,2,3))
 }
+

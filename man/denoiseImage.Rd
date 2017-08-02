@@ -38,3 +38,4 @@ dimg <- denoiseImage( img, img * 0 + 1 )
 \author{
 N Tustison, B Avants
 }
+
