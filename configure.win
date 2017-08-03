@@ -1,70 +1,66 @@
 #!/bin/bash
 CXX_STD=CXX11
-ITKRCMAKE=`Rscript.exe -e 'a<-ITKR:::itkIncludes(); cat(a)'`
-ITKRLIB=`Rscript.exe -e 'a<-ITKR:::itkLibs(); cat(a)'`
-compflags=`Rscript.exe -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
-ITKDIR=`Rscript.exe -e 'a<-ITKR:::itkDir(); cat(a)'`
+ITKRCMAKE=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkIncludes(); cat(a)'`
+ITKRLIB=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkLibs(); cat(a)'`
+compflags=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
+ITKDIR=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkDir(); cat(a)'`
 
 CMAKE_BUILD_TYPE=Release
-# get a version of cmake
-# cmaker=`which cmake`
-# if [[ ! -x $cmaker ]] ; then # try r version
-#   cmaker=`${R_HOME}/bin/Rscript -e 'a<-cmaker::cmake()'`
-# fi
 cd ./src
+PWD=`pwd`
 # platform-specific Makevars
-echo "myantssource=\${PWD}/ants/" > Makevars.win
-# echo "ITK = \`\$(R_HOME)/bin/Rscript -e 'ITKR:::itkIncludes()'\`" >> Makevars
-echo "ITK=${ITKRCMAKE}" >> Makevars.win
+echo "PWD=${PWD}" > Makevars.win
+echo "myantssource=\${PWD}/ants" >> Makevars.win
+echo "ITK=\"${ITKRCMAKE}\"" >> Makevars.win
 
 needVCL_CAN_STATIC_CONST_INIT_FLOAT=0
 echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
+echo "PKG_CPPFLAGS = -Wa,-mbig-obj -msse2 -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
+  -I\${myantssource}/Utilities -I\${myantssource}/Examples/ -I../inst/include/\
+  -I\${myantssource}/Tensor/ " >> Makevars.win
 
-aincludes=`Rscript.exe -e 'a<-ANTsRCore:::antsIncludes(); cat(a)'`
+echo "CXX_STD=CXX11" >> Makevars.win
 
-# echo "PKG_CPPFLAGS = -I\${ITK} -I\${PWD}  \
-#   -I`\${R_HOME}/bin/Rscript -e 'ANTsRCore:::antsIncludes()'` \
-#   -I../inst/include/ " >> Makevars
-echo "PKG_CPPFLAGS = -I\${ITK} -I\${PWD}  \
-  -I${aincludes} \
-  -I../inst/include/ " >> Makevars.win
-  
-echo "CXX_STD = CXX11" >> Makevars.win
+# echo "myantslib=\"\${PWD}/antb/lib/\"" >> Makevars.win
+echo "myantslib=\"./antb/lib/\"" >> Makevars.win
 
-myantslib=`Rscript.exe -e 'a<-ANTsRCore:::antsLibs(); cat(a)'`
+echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
 
-# echo "myantslib=`\${R_HOME}/bin/Rscript -e 'ANTsRCore:::antsLibs()'` " >> Makevars.win
-echo "myantslib=${myantslib}" >> Makevars.win
+echo "libitk=\`find \"${ITKRLIB}\" -name \"lib*.a\"\`" >> Makevars.win
 
-echo "libants=\`find ${myantslib} -name \"lib*.a\"\`" >> Makevars.win
+# echo "PKG_LIBS=\"\${libitk} \${libants} \${libitk} \${libants} \${itklib}\"" >> Makevars.win
 
-echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\"\`" >> Makevars.win
+echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \
+ \${libitk} \${libants}" >> Makevars.win
 
-echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
-                 \${libants} \${libitk} \${libants} \${itklib} \${libants} \
-                 \${libitk} \${libants} \${itklib} \${libants} \${itklib} \
-                 \${libants} \${libitk} \${libants} \${itklib}" >> Makevars.win
+# echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
+#                  \${libants} \${libitk} \${libants} \${itklib} \${libants} \
+#                  \${libitk} \${libants} \${itklib} \${libants} \${itklib} \
+#                  \${libants} \${libitk} \${libants} \${itklib}" >> Makevars.win
 
 echo ".PHONY: all libs" >> Makevars.win
 
 echo "all: \$(SHLIB)" >> Makevars.win
 
 echo "\$(SHLIB): libs" >> Makevars.win
-
-echo "libs: ; cd \${PWD}" >> Makevars.win
-
-
+# MAKER=c:/Rtools/mingw_64/bin/mingw32-make.exe
+MAKER=mingw32-make
+echo "libs: ; cd antb && ${MAKER} && cd ANTS-build && ${MAKER} all install" >> Makevars.win
 
 # get / set up ANTs code
 antsgit=https://github.com/stnava/ANTs.git
-antstag=961ac541bc0dfd60289e3fe5b0c10dbe607ee39e # geometric jacobian bug
+antstag=6bc3e652d7628b428896ddaec837248a61d2af3b # for 4.12
+antsrtag=`git log --pretty=format:'%H' -n 1`
 git clone $antsbranch $antsgit ants
 mkdir -p ../data
 
 echo "Dependency;GitTag" > ../data/antsVersions.csv
 echo "ANTs;${antstag}" >> ../data/antsVersions.csv
+echo "ANTsRCore;${antsrtag}" >> ../data/antsVersions.csv
 cd ants
-git checkout master;  git pull;  git checkout $antstag
+git checkout master;  
+git pull;  
+git checkout $antstag
 # needed for warning
 rm -rf .git
 cd ../
@@ -78,6 +74,8 @@ cd ./antb
 cmake \
     -G "MinGW Makefiles" \
     -DITK_DIR:PATH=${ITKDIR} \
+    -DCMAKE_SH:BOOL=OFF \
+    -DVNL_CONFIG_ENABLE_SSE2_ROUNDING:BOOL=OFF \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} -DNDEBUG  "\
     -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} -DNDEBUG  "\
     -DBUILD_SHARED_LIBS=OFF \
@@ -85,6 +83,6 @@ cmake \
     -DUSE_SYSTEM_ITK=OFF \
     -DBUILD_TESTING=OFF \
     -DCOPY_SCRIPT_FILES_TO_BIN_DIR=OFF \
-    -DCMAKE_INSTALL_PREFIX:PATH=${R_PACKAGE_DIR}/libs/  \
+    -DCMAKE_INSTALL_PREFIX:PATH="${R_PACKAGE_DIR}/libs/" \
     -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}"  ../ants
 cd ../

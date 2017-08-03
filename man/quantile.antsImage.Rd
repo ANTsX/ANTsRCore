@@ -11,14 +11,14 @@
 
 \item{...}{Arguments passed to \code{\link{quantile}}}
 
-\item{mask}{object to subset the image.  If missing, then all 
+\item{mask}{object to subset the image.  If missing, then all
 values of the image are used}
 }
 \value{
 Output of \code{\link{quantile}}
 }
 \description{
-Computes sample 
+Computes sample
 quantiles for an image, with the option of a mask.
 }
 \examples{
