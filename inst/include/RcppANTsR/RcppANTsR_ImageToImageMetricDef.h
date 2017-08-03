@@ -9,7 +9,7 @@
 #include "itkMeanSquaresImageToImageMetricv4.h"
 #include "itkCorrelationImageToImageMetricv4.h"
 #include "itkMattesMutualInformationImageToImageMetricv4.h"
-#include "itkANTSNeighborhoodCorrelationImagetoImageMetricv4.h"
+#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
 #include "itkDemonsImageToImageMetricv4.h"
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 

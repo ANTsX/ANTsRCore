@@ -15,6 +15,7 @@
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 #include "itkImageMaskSpatialObject.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
+#include "itkImageRandomConstIteratorWithIndex.h"
 
 template< class ImageType >
 SEXP antsrImageToImageMetric( std::string type, SEXP r_fixed, SEXP r_moving )
