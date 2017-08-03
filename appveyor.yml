@@ -19,6 +19,9 @@ cache:
 
 # Adapt as necessary starting from here
 build_script:
+  - set TMP=C:\
+  - set TMPDIR=C:\
+  - set TEMP=C:\
   # need to move to higher dir because CMake path req
   - mkdir C:\run
   - cp -avr * C:\run
@@ -26,14 +29,14 @@ build_script:
   - cp ../travis-tool.sh C:\
   - cd C:\run
   # - ps: Invoke-WebRequest http://ci.appveyor.com/api/buildjobs/tu3s6m73682lhvc1/artifacts/ITKR_0.4.12.3.zip -OutFile ".\ITKR.zip"
-  - ps: Invoke-WebRequest https://github.com/muschellij2/ITKR/releases/download/v0.4.12.2/ITKR_0.4.12.2.zip -OutFile ".\ITKR.zip"
-  - ls
-  - Rscript -e "install.packages('ITKR.zip', repos = NULL)"  
-  - rm ITKR.zip
-  # Install castxml
-  - ps: wget https://midas3.kitware.com/midas/download/bitstream/461597/castxml-windows.zip -OutFile castxml.zip
-  - cmd: echo "Unzipping castxml..."
-  - cmd: 7z x castxml.zip -o"C:\Program Files\" -y > nul
+  # - ps: Invoke-WebRequest https://github.com/muschellij2/ITKR/releases/download/v0.4.12.2/ITKR_0.4.12.2.zip -OutFile ".\ITKR.zip"
+  # - ls
+  # - Rscript -e "install.packages('ITKR.zip', repos = NULL)"  
+  # - rm ITKR.zip
+  # # Install castxml
+  # - ps: wget https://midas3.kitware.com/midas/download/bitstream/461597/castxml-windows.zip -OutFile castxml.zip
+  # - cmd: echo "Unzipping castxml..."
+  # - cmd: 7z x castxml.zip -o"C:\Program Files\" -y > nul
   # - wget -O travis_helpers.sh --no-check-certificate http://bit.ly/travis_helpers
   # - cat travis_helpers.sh
   # - bash travis_helpers.sh
@@ -42,7 +45,7 @@ build_script:
   # - travis_helpers.sh drop_remote ITKR 
   # - cat DESCRIPTION
   # setting PATH to be specific - no MinGW overall - just R's
-  - Rscript -e "x= read.dcf('DESCRIPTION', all = TRUE); x$Remotes = NULL; write.dcf(x, file = 'DESCRIPTION')"
+  # - Rscript -e "x= read.dcf('DESCRIPTION', all = TRUE); x$Remotes = NULL; write.dcf(x, file = 'DESCRIPTION')"
   - set PATH=C:\Rtools\bin;C:\Rtools\MinGW\bin;
   - set PATH=%PATH%;C:\Rtools\mingw_64\bin;
   - set PATH=%PATH%;C:\Program Files\Git\cmd;
@@ -57,8 +60,8 @@ build_script:
   - set PATH=%PATH%;C:\Windows\System32\Wbem
   - set PATH=%PATH%;C:\Windows\System32\WindowsPowerShell\v1.0\
   - set PATH=%PATH%;C:\Program Files\7-Zip
-  - cmd: set PATH=%PATH:castxml\bin=%;C:\Program Files\castxml\bin  
-  - cmd: castxml --version    
+  # - cmd: set PATH=%PATH:castxml\bin=%;C:\Program Files\castxml\bin  
+  # - cmd: castxml --version    
   - travis-tool.sh install_deps
 
 test_script:
@@ -88,9 +91,6 @@ artifacts:
 
   - path: '*.Rcheck\**\*.Rout'
     name: Logs
-
-  - path: '\*_*.tar.gz'
-    name: Bits
 
   - path: '\*_*.zip'
     name: Bits
