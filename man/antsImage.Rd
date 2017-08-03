@@ -23,6 +23,8 @@ etc noting that short is not supported}
 \item{dimension}{usually 2 or 3 but can be 4}
 
 \item{components}{number of pixel components}
+
+\item{isVector}{logical indicator of the image is a vector}
 }
 \description{
 C++ type used to represent an ITK image pointed to by 'pointer'. the
@@ -39,6 +41,8 @@ etc noting that short is not supported}
 \item{\code{components}}{number of pixel components}
 
 \item{\code{pointer}}{the memory location}
+
+\item{\code{isVector}}{logical indicator of the image is a vector}
 
 \item{\code{pixeltype}}{usually float, can be other types unsigned char, int, double
 etc noting that short is not supported}
