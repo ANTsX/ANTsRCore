@@ -430,8 +430,8 @@ antsRegistration <- function(
         if ( typeofTransform == "TVMSQ" ) {
           if ( is.na(gradStep) ) gradStep=1.0
           tvtx=paste("TimeVaryingVelocityField[",
-                     gradStep,", 4, 0.0,0.0, 0.5,0 ]",sep='')
-          args <- list("-d", as.character(fixed@dimension), # "-r", initx,
+                     gradStep,", 4,",flowSigma,",0.0,",totalSigma,",0 ]",sep='')
+          args <- list("-d", as.character(fixed@dimension), "-r", initx,
                        "-m", paste(synMetric,"[", f, ",", m, ",1,",synSampling,"]", sep = ""),
                        "-t", tvtx,
                        "-c", paste("[",synits,",1e-7,8]",collapse=''),
