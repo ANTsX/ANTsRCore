@@ -26,12 +26,14 @@ setClass(Class = "antsRegion", representation(index = "numeric", size = "numeric
 #' etc noting that short is not supported
 #' @param dimension usually 2 or 3 but can be 4
 #' @param components number of pixel components
+#' @param isVector logical indicator of the image is a vector
 #'
 #' @slot pixeltype usually float, can be other types unsigned char, int, double
 #' etc noting that short is not supported
 #' @slot dimension usually 2 or 3 but can be 4
 #' @slot components number of pixel components
 #' @slot pointer the memory location
+#' @slot isVector logical indicator of the image is a vector
 #' @rdname antsImage
 setClass(Class = "antsImage",
          representation(pixeltype = "character", dimension = "integer",

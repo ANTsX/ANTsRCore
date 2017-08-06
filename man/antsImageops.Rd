@@ -4,6 +4,48 @@
 \name{antsImage-operators}
 \alias{antsImage-operators}
 \alias{Arith,antsImage,antsImage-method}
+\alias{+,antsImage,antsImage-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{-,antsImage,antsImage-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{*,antsImage,antsImage-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{/,antsImage,antsImage-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{^,antsImage,antsImage-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{\%\%,antsImage,antsImage-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{\%/\%,antsImage,antsImage-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{+,antsImage,numeric-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{-,antsImage,numeric-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{*,antsImage,numeric-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{/,antsImage,numeric-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{^,antsImage,numeric-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{\%\%,antsImage,numeric-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{\%/\%,antsImage,numeric-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{+,numeric,antsImage-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{-,numeric,antsImage-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{*,numeric,antsImage-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{/,numeric,antsImage-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{^,numeric,antsImage-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{\%\%,numeric,antsImage-method}
+\alias{Arith,antsImage,numeric-method}
+\alias{\%/\%,numeric,antsImage-method}
 \alias{Arith,antsImage,numeric-method}
 \alias{Arith,antsImage,missing-method}
 \alias{Arith,antsImage,numeric-method}
@@ -71,7 +113,49 @@
 \usage{
 \S4method{Arith}{antsImage,antsImage}(e1, e2)
 
+\S4method{+}{antsImage,antsImage}(e1, e2)
+
+\S4method{-}{antsImage,antsImage}(e1, e2)
+
+\S4method{*}{antsImage,antsImage}(e1, e2)
+
+\S4method{/}{antsImage,antsImage}(e1, e2)
+
+\S4method{^}{antsImage,antsImage}(e1, e2)
+
+\S4method{\%\%}{antsImage,antsImage}(e1, e2)
+
+\S4method{\%/\%}{antsImage,antsImage}(e1, e2)
+
 \S4method{Arith}{antsImage,numeric}(e1, e2)
+
+\S4method{+}{antsImage,numeric}(e1, e2)
+
+\S4method{-}{antsImage,numeric}(e1, e2)
+
+\S4method{*}{antsImage,numeric}(e1, e2)
+
+\S4method{/}{antsImage,numeric}(e1, e2)
+
+\S4method{^}{antsImage,numeric}(e1, e2)
+
+\S4method{\%\%}{antsImage,numeric}(e1, e2)
+
+\S4method{\%/\%}{antsImage,numeric}(e1, e2)
+
+\S4method{+}{numeric,antsImage}(e1, e2)
+
+\S4method{-}{numeric,antsImage}(e1, e2)
+
+\S4method{*}{numeric,antsImage}(e1, e2)
+
+\S4method{/}{numeric,antsImage}(e1, e2)
+
+\S4method{^}{numeric,antsImage}(e1, e2)
+
+\S4method{\%\%}{numeric,antsImage}(e1, e2)
+
+\S4method{\%/\%}{numeric,antsImage}(e1, e2)
 
 \S4method{Arith}{antsImage,missing}(e1, e2)
 
