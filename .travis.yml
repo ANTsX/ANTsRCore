@@ -132,6 +132,7 @@ jobs:
 after_failure:
   - cat ${PACKAGE_NAME}.Rcheck/00install.out
   - cat ${PACKAGE_NAME}.Rcheck/00check.log
+  - cat ${PACKAGE_NAME}.Rcheck/00_pkg_src/${PACKAGE_NAME}/src/Makevars
 
 after_success:
   - cat ${PACKAGE_NAME}.Rcheck/00install.out
