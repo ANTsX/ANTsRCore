@@ -7,7 +7,7 @@
 #' @examples
 #' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
 #' abs(img01)
-#' @export
+
 
 
 # From http://r.789695.n4.nabble.com/trouble-with-S4-methods-for-
