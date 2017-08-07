@@ -18,4 +18,3 @@ Vector of values
 \description{
 Takes in a mask and an image and then returns the values
 }
-

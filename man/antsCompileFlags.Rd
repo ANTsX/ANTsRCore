@@ -17,4 +17,3 @@ antsCompileFlags()
 \author{
 Avants BB
 }
-

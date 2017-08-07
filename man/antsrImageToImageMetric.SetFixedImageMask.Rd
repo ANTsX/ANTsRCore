@@ -4,15 +4,17 @@
 \alias{antsrImageToImageMetric.SetFixedImageMask}
 \title{antsrImageToImageMetric.SetFixedImageMask}
 \usage{
-antsrImageToImageMetric.SetFixedImageMask(metric, mask)
+antsrImageToImageMetric.SetFixedImageMask(metric, image)
 }
 \arguments{
 \item{metric}{an 'antsrImageToImageMetric'}
 
-\item{image}{the fixed mask 'antsImage'}
+\item{image}{the fixed 'antsImage'}
+
+\item{isMask}{flag indicating if input is image or mask}
 }
 \description{
-set fixed image mask for image to image metric
+set fixed image for image to image metric
 }
 \note{
 After calling this, must call antsrImageToImageMetric.Initialize(metric)
@@ -24,4 +26,3 @@ metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
 z = getMask(x)
 antsrImageToImageMetric.SetFixedImageMask(metric, z)
 }
-

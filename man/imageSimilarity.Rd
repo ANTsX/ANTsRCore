@@ -46,4 +46,3 @@ x =  antsImageRead( getANTsRData( 'r16' ))
 y =  antsImageRead( getANTsRData( 'r30' ))
 metric = imageSimilarity(x,y,type="MeanSquares")
 }
-

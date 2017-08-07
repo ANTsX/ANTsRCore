@@ -47,4 +47,3 @@ x =  antsImageRead( getANTsRData( 'r16' ))
 y =  antsImageRead( getANTsRData( 'r30' ))
 metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
 }
-

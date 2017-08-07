@@ -34,4 +34,3 @@ data(iMathOps)
   }
 }
 \keyword{datasets}
-

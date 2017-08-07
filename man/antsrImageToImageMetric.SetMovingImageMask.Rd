@@ -4,15 +4,15 @@
 \alias{antsrImageToImageMetric.SetMovingImageMask}
 \title{antsrImageToImageMetric.SetMovingImageMask}
 \usage{
-antsrImageToImageMetric.SetMovingImageMask(metric, mask)
+antsrImageToImageMetric.SetMovingImageMask(metric, image)
 }
 \arguments{
 \item{metric}{an 'antsrImageToImageMetric'}
 
-\item{image}{the moving mask 'antsImage'}
+\item{image}{the moving 'antsImage'}
 }
 \description{
-set moving image mask for image to image metric
+set moving image for image to image metric
 }
 \note{
 After calling this, must call antsrImageToImageMetric.Initialize(metric)
@@ -24,4 +24,3 @@ metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
 z = getMask(y)
 antsrImageToImageMetric.SetMovingImageMask(metric, z)
 }
-

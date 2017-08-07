@@ -9,6 +9,9 @@ antsrImageToImageMetric.GetValue(metric)
 \arguments{
 \item{metric}{an 'antsrImageToImageMetric'}
 }
+\value{
+image similarity value
+}
 \description{
 set moving image mask for image to image metric
 }
@@ -18,4 +21,3 @@ y =  antsImageRead( getANTsRData( 'r30' ))
 metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
 metricValue = antsrImageToImageMetric.GetValue(metric)
 }
-

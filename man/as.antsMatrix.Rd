@@ -3,8 +3,8 @@
 \docType{methods}
 \name{as.antsMatrix}
 \alias{as.antsMatrix}
-\alias{as.antsMatrix,data.frame-method}
 \alias{as.antsMatrix,list-method}
+\alias{as.antsMatrix,data.frame-method}
 \alias{as.antsMatrix,matrix-method}
 \title{Coerce Object to as.antsMatrix}
 \usage{
@@ -29,4 +29,3 @@ convert types to an antsMatrix
 \examples{
 as.antsMatrix(matrix(rnorm(10), nrow=2))
 }
-

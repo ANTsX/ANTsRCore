@@ -24,4 +24,3 @@ metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
 z = x*2
 antsrImageToImageMetric.SetFixedImage(metric, z)
 }
-

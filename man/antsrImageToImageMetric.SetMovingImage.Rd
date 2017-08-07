@@ -10,6 +10,8 @@ antsrImageToImageMetric.SetMovingImage(metric, image)
 \item{metric}{an 'antsrImageToImageMetric'}
 
 \item{image}{the moving 'antsImage'}
+
+\item{isMask}{flag indicating if input is image or mask}
 }
 \description{
 set moving image for image to image metric
@@ -21,7 +23,6 @@ After calling this, must call antsrImageToImageMetric.Initialize(metric)
 x =  antsImageRead( getANTsRData( 'r16' ))
 y =  antsImageRead( getANTsRData( 'r30' ))
 metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
-z = x*2
-antsrImageToImageMetric.SetFixedImage(metric, z)
+z = y*2
+antsrImageToImageMetric.SetMovingImage(metric, z)
 }
-

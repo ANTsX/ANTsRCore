@@ -28,7 +28,5 @@ After calling this, must call antsrImageToImageMetric.Initialize(metric)
 x =  antsImageRead( getANTsRData( 'r16' ))
 y =  antsImageRead( getANTsRData( 'r30' ))
 metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
-z = getMask(y)
-antsrImageToImageMetric.SetMovingImageMask(metric, z)
+antsrImageToImageMetric.SetSampling(metric,"random",0.4)
 }
-

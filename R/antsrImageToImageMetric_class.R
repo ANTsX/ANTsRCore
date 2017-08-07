@@ -164,53 +164,55 @@ antsrImageToImageMetric.Create <- function( fixed, moving, type="MeanSquares", s
     .Call("antsrImageToImageMetric_SetFixedImage", metric, image, FALSE)
   }
 
+  #' @title antsrImageToImageMetric.SetFixedImageMask
+  #' @description set fixed image for image to image metric
+  #' @param metric an 'antsrImageToImageMetric'
+  #' @param image the fixed 'antsImage'
+  #' @param isMask flag indicating if input is image or mask
+  #' @examples
+  #' x =  antsImageRead( getANTsRData( 'r16' ))
+  #' y =  antsImageRead( getANTsRData( 'r30' ))
+  #' metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
+  #' z = getMask(x)
+  #' antsrImageToImageMetric.SetFixedImageMask(metric, z)
+  #' @note After calling this, must call antsrImageToImageMetric.Initialize(metric)
+  #' @export
+    antsrImageToImageMetric.SetFixedImageMask = function( metric, image ) {
+      .Call("antsrImageToImageMetric_SetFixedImage", metric, image, TRUE)
+    }
+
 #' @title antsrImageToImageMetric.SetMovingImage
 #' @description set moving image for image to image metric
 #' @param metric an 'antsrImageToImageMetric'
 #' @param image the moving 'antsImage'
+#' @param isMask flag indicating if input is image or mask
 #' @examples
 #' x =  antsImageRead( getANTsRData( 'r16' ))
 #' y =  antsImageRead( getANTsRData( 'r30' ))
 #' metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
-#' z = x*2
-#' antsrImageToImageMetric.SetFixedImage(metric, z)
+#' z = y*2
+#' antsrImageToImageMetric.SetMovingImage(metric, z)
 #' @note After calling this, must call antsrImageToImageMetric.Initialize(metric)
 #' @export
-  antsrImageToImageMetric.SetMovingImage = function( metric, image ) {
+  antsrImageToImageMetric.SetMovingImage = function( metric, image) {
     .Call("antsrImageToImageMetric_SetMovingImage", metric, image, FALSE)
   }
 
-#' @title antsrImageToImageMetric.SetFixedImageMask
-#' @description set fixed image mask for image to image metric
-#' @param metric an 'antsrImageToImageMetric'
-#' @param image the fixed mask 'antsImage'
-#' @examples
-#' x =  antsImageRead( getANTsRData( 'r16' ))
-#' y =  antsImageRead( getANTsRData( 'r30' ))
-#' metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
-#' z = getMask(x)
-#' antsrImageToImageMetric.SetFixedImageMask(metric, z)
-#' @note After calling this, must call antsrImageToImageMetric.Initialize(metric)
-#' @export
-  antsrImageToImageMetric.SetFixedImageMask = function( metric, mask ) {
-    .Call("antsrImageToImageMetric_SetFixedImage", metric, mask, TRUE)
-  }
-
-#' @title antsrImageToImageMetric.SetMovingImageMask
-#' @description set moving image mask for image to image metric
-#' @param metric an 'antsrImageToImageMetric'
-#' @param image the moving mask 'antsImage'
-#' @examples
-#' x =  antsImageRead( getANTsRData( 'r16' ))
-#' y =  antsImageRead( getANTsRData( 'r30' ))
-#' metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
-#' z = getMask(y)
-#' antsrImageToImageMetric.SetMovingImageMask(metric, z)
-#' @note After calling this, must call antsrImageToImageMetric.Initialize(metric)
-#' @export
-  antsrImageToImageMetric.SetMovingImageMask = function( metric, mask ) {
-    .Call("antsrImageToImageMetric_SetMovingImage", metric, mask, TRUE)
-  }
+  #' @title antsrImageToImageMetric.SetMovingImageMask
+  #' @description set moving image for image to image metric
+  #' @param metric an 'antsrImageToImageMetric'
+  #' @param image the moving 'antsImage'
+  #' @examples
+  #' x =  antsImageRead( getANTsRData( 'r16' ))
+  #' y =  antsImageRead( getANTsRData( 'r30' ))
+  #' metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
+  #' z = getMask(y)
+  #' antsrImageToImageMetric.SetMovingImageMask(metric, z)
+  #' @note After calling this, must call antsrImageToImageMetric.Initialize(metric)
+  #' @export
+    antsrImageToImageMetric.SetMovingImageMask = function( metric, image) {
+      .Call("antsrImageToImageMetric_SetMovingImage", metric, image, TRUE)
+    }
 
 #' @title antsrImageToImageMetric.SetSampling
 #' @description set moving image mask for image to image metric
@@ -226,8 +228,7 @@ antsrImageToImageMetric.Create <- function( fixed, moving, type="MeanSquares", s
 #' x =  antsImageRead( getANTsRData( 'r16' ))
 #' y =  antsImageRead( getANTsRData( 'r30' ))
 #' metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
-#' z = getMask(y)
-#' antsrImageToImageMetric.SetMovingImageMask(metric, z)
+#' antsrImageToImageMetric.SetSampling(metric,"random",0.4)
 #' @note After calling this, must call antsrImageToImageMetric.Initialize(metric)
 #' @export
   antsrImageToImageMetric.SetSampling = function( metric, strategy, percentage ) {
@@ -242,7 +243,7 @@ antsrImageToImageMetric.Create <- function( fixed, moving, type="MeanSquares", s
 #' y =  antsImageRead( getANTsRData( 'r30' ))
 #' metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
 #' metricValue = antsrImageToImageMetric.GetValue(metric)
-#' @returns image similarity value
+#' @return image similarity value
 #' @export
   antsrImageToImageMetric.GetValue = function( metric ) {
     return( .Call("antsrImageToImageMetric_GetValue", metric, PACKAGE = "ANTsRCore" ) )
@@ -255,6 +256,7 @@ antsrImageToImageMetric.Create <- function( fixed, moving, type="MeanSquares", s
 #' x =  antsImageRead( getANTsRData( 'r16' ))
 #' y =  antsImageRead( getANTsRData( 'r30' ))
 #' z = getMask(y)
+#' metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
 #' antsrImageToImageMetric.SetMovingImageMask(metric, z)
 #' antsrImageToImageMetric.Initialize(metric)
 #' @note must call this after setting up object, before getting values back

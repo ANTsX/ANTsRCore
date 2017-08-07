@@ -19,7 +19,7 @@ must call this after setting up object, before getting values back
 x =  antsImageRead( getANTsRData( 'r16' ))
 y =  antsImageRead( getANTsRData( 'r30' ))
 z = getMask(y)
+metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
 antsrImageToImageMetric.SetMovingImageMask(metric, z)
 antsrImageToImageMetric.Initialize(metric)
 }
-
