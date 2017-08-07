@@ -58,7 +58,7 @@ build_script:
   - set PATH=%PATH%;C:\Program Files\7-Zip
   - Rscript -e "install.packages('Rcpp', repos = 'https://cran.rstudio.com')"
   - git clone https://github.com/muschellij2/ITKR
-  - R CMD INSTALL ITKR
+  - R CMD INSTALL ITKR 
   - rm -rf ITKR  
   - Rscript -e "x= read.dcf('DESCRIPTION', all = TRUE); x$Remotes = NULL; write.dcf(x, file = 'DESCRIPTION')"
   # - cmd: set PATH=%PATH:castxml\bin=%;C:\Program Files\castxml\bin  
