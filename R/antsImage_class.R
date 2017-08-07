@@ -686,8 +686,9 @@ setMethod(f = "as.antsImage", signature(object = "matrix"), definition = functio
   {
     pixeltype = reference@pixeltype
     components = (reference@components > 1)
-    spacing = antsGetSpacing(reference)
-    origin = antsGetOrigin(reference)
+    ndim = length(dim(object))
+    spacing = antsGetSpacing(reference)[seq_len(ndim)]
+    origin = antsGetOrigin(reference)[seq_len(ndim)]
     direction = antsGetDirection(reference)
   }
   return(.Call("antsImage_asantsImage", object, pixeltype, spacing, origin, direction, components, PACKAGE = "ANTsRCore"))
