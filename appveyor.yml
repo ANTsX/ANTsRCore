@@ -42,6 +42,7 @@ build_script:
   # - travis_helpers.sh drop_remote ITKR 
   # - cat DESCRIPTION
   # setting PATH to be specific - no MinGW overall - just R's
+  - echo ${PATH}
   - set PATH=C:\Rtools\bin;C:\Rtools\MinGW\bin;
   - set PATH=%PATH%;C:\Rtools\mingw_64\bin;
   - set PATH=%PATH%;C:\Program Files\Git\cmd;
