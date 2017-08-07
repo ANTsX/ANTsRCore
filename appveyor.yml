@@ -45,7 +45,7 @@ build_script:
   - ps: echo "${PATH}"
   - ps: echo "${LD_LIBRARY_PATH}"
   - set LD_LIBRARY_PATH=%LD_LIBRARY_PATH%;C:\Rtools\mingw_64\lib\gcc\x86_64-w64-mingw32\4.9.3\include
-  - ps: $env:PKG_LIBS += " -IC:/Rtools/mingw_64/lib/gcc/x86_64-w64-mingw32/4.9.3/include"
+  - ps: $env:PKG_CPPFLAGS += " -IC:/Rtools/mingw_64/lib/gcc/x86_64-w64-mingw32/4.9.3/include"
   - set PATH=C:\Rtools\bin;C:\Rtools\MinGW\bin;
   - set PATH=%PATH%;C:\Rtools\mingw_64\bin;
   - set PATH=%PATH%;C:\Program Files\Git\cmd;
