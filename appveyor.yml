@@ -44,6 +44,7 @@ build_script:
   # setting PATH to be specific - no MinGW overall - just R's
   - echo ${PATH}
   - echo ${LD_LIBRARY_PATH}
+  - set LD_LIBRARY_PATH=%LD_LIBRARY_PATH%;C:\Rtools\mingw_64\lib\gcc\x86_64-w64-mingw32\4.9.3\include
   - set PATH=C:\Rtools\bin;C:\Rtools\MinGW\bin;
   - set PATH=%PATH%;C:\Rtools\mingw_64\bin;
   - set PATH=%PATH%;C:\Program Files\Git\cmd;
@@ -58,7 +59,7 @@ build_script:
   - set PATH=%PATH%;C:\Windows\System32\Wbem
   - set PATH=%PATH%;C:\Windows\System32\WindowsPowerShell\v1.0\
   - set PATH=%PATH%;C:\Program Files\7-Zip
-  - Rscript -e "install.packages('Rcpp', repos = 'https://cran.rstudio.com')"
+  - Rscript -e "install.packages('Rcpp', repos = 'https://cran.rstudio.com', type = 'source')"
   - git clone https://github.com/muschellij2/ITKR
   - R CMD INSTALL ITKR 
   - rm -rf ITKR  
