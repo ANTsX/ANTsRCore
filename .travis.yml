@@ -21,7 +21,7 @@ env:
 # --install-args=--build
 
 before_install:
-  - export PROJ_DIR=`basename $PWD`  
+  - export PROJ_DIR=`basename ${TRAVIS_BUILD_DIR}`  
   - export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
   - fname=travis_helpers.sh
   - wget -O ${fname} http://bit.ly/travis_helpers
