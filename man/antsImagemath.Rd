@@ -31,8 +31,6 @@
 \alias{exp,antsImage-method}
 \alias{gamma,antsImage-method}
 \alias{lgamma,antsImage-method}
-\alias{antsImage-math}
-\alias{Math,antsImage-method}
 \alias{!,antsImage-method}
 \title{Math for antsImage Objects}
 \usage{
@@ -92,8 +90,6 @@
 
 \S4method{lgamma}{antsImage}(x)
 
-max(x, ..., na.rm = FALSE)
-
 \S4method{!}{antsImage}(x)
 }
 \arguments{
@@ -102,23 +98,11 @@ max(x, ..., na.rm = FALSE)
 \item{base}{a positive or complex number: 
 the base with respect to which logarithms are computed. 
 Defaults to e=exp(1).}
-
-\item{...}{additional arguments to pass to standard summary
-measure (e.g. max/min)}
-
-\item{na.rm}{a logical indicating whether missing 
-values should be removed.}
-
-\item{x}{is an object of class \code{antsImage}.}
 }
 \description{
 Overloaded math for antsImage objects
-
-Overloaded math for antsImage objects
 }
 \examples{
-img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
-abs(img01)
 img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
 abs(img01)
 }

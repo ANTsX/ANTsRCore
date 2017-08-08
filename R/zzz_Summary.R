@@ -22,20 +22,46 @@
   function(x, ..., na.rm = FALSE)
     base::all(x, ..., na.rm = na.rm)
 
-#' @title Math for antsImage Objects
-#' @description Overloaded math for antsImage objects
-#' @name antsImage-math
-#' @rdname antsImagemath
+#' @title Summary for antsImage Objects
+#' @description Overloaded Summary for antsImage objects
+#' @name antsImage-summary
+#' @rdname antsImageSummary
 #' @param x is an object of class \code{antsImage}.
-#' @param ... additional arguments to pass to standard summary
-#' measure (e.g. max/min)
-#' @param na.rm a logical indicating whether missing 
-#' values should be removed.
-
-#' @aliases Math,antsImage-method
+#' @param ... further arguments passed to summary methods
+#' @param na.rm logical: should missing values be removed?
 #' @examples
 #' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
-#' abs(img01)
+#' max(img01)
+#' min(img01)
+#' range(img01)
+#' prod(img01)
+#' @aliases Summary,antsImage-method
+#' @export
+setMethod("Summary", "antsImage",
+          function(x, ..., na.rm = FALSE) {
+            args = list(...)
+            mask = args$mask
+            args$mask = NULL
+            x = mask_values(x, mask)
+            # I think this makes sense but should ask Avants.
+            # relevant for warnings for all/any in summary
+            if (all(x %in% c(0, 1, NA, NaN))) {
+              x = as.logical(x)
+            }
+            args$x = x
+            args$na.rm = na.rm
+            
+            
+            res = do.call(callGeneric, args = args)
+            # L = list(...)
+            # mask = L$mask
+            # rm(list = "L"); gc();
+            # x = mask_values(x, mask)
+            # res = callGeneric(x, ..., na.rm = na.rm)
+            # # res = as.antsImage(res, reference = x)
+            return(res)
+          })
+
 #' @rdname antsImageSummary
 #' @export
 setGeneric("max", function(x, ..., na.rm = FALSE)
@@ -79,45 +105,6 @@ setGeneric("all", function(x, ..., na.rm = FALSE)
   useAsDefault = .all_def, group = "Summary")
 
 
-#' @title Summary for antsImage Objects
-#' @description Overloaded Summary for antsImage objects
-#' @name antsImage-summary
-#' @rdname antsImageSummary
-#' @param x is an object of class \code{antsImage}.
-#' @param ... further arguments passed to summary methods
-#' @param na.rm logical: should missing values be removed?
-#' @examples
-#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
-#' max(img01)
-#' min(img01)
-#' range(img01)
-#' prod(img01)
-#' @aliases Summary,antsImage-method
-#' @export
-setMethod("Summary", "antsImage",
-          function(x, ..., na.rm = FALSE) {
-            args = list(...)
-            mask = args$mask
-            args$mask = NULL
-            x = mask_values(x, mask)
-            # I think this makes sense but should ask Avants.
-            # relevant for warnings for all/any in summary
-            if (all(x %in% c(0, 1, NA, NaN))) {
-              x = as.logical(x)
-            }
-            args$x = x
-            args$na.rm = na.rm
-
-
-            res = do.call(callGeneric, args = args)
-            # L = list(...)
-            # mask = L$mask
-            # rm(list = "L"); gc();
-            # x = mask_values(x, mask)
-            # res = callGeneric(x, ..., na.rm = na.rm)
-            # # res = as.antsImage(res, reference = x)
-            return(res)
-          })
 
 #' @rdname antsImagemath
 #' @aliases !,antsImage-method
