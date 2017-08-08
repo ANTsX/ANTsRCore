@@ -77,13 +77,16 @@ setMethod(f = "initialize", signature(.Object = "antsrImageToImageMetric"), defi
 #' y =  antsImageRead( getANTsRData( 'r30' ))
 #' metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
 #' @export
-antsrImageToImageMetric.Create <- function( fixed, moving, type="MeanSquares", supported.types=FALSE, fixed.mask=NA, moving.mask=NA,
+antsrImageToImageMetric.Create <- function( 
+  fixed, moving, 
+  type=c("MeanSquares", "MattesMutualInformation", 
+         "ANTSNeighborhoodCorrelation", "Correlation", 
+         "Demons", "JointHistogramMutualInformation"), 
+  fixed.mask=NA, moving.mask=NA,
   sampling.strategy="none", sampling.percentage=1 )
-  {
-  supportedTypes = c("MeanSquares", "MattesMutualInformation", "ANTSNeighborhoodCorrelation", "Correlation", "Demons", "JointHistogramMutualInformation")
-  if ( supported.types ) {
-    return( supportedTypes )
-  }
+{
+
+  type = match.arg(type)
 
   dimension = 3
   pixeltype = "float"
@@ -92,12 +95,6 @@ antsrImageToImageMetric.Create <- function( fixed, moving, type="MeanSquares", s
   if ( (dimension < 2) || (dimension > 4) )
   {
     stop(paste("Unsupported dimension:", dimension))
-  }
-
-  # Check for supported transform type
-  if ( sum(type==supportedTypes)==0 )
-  {
-    stop(paste("Unsupported type:", type))
   }
 
   isVector=FALSE # For now, no multichannel images
@@ -177,8 +174,9 @@ antsrImageToImageMetric.Create <- function( fixed, moving, type="MeanSquares", s
   #' antsrImageToImageMetric.SetFixedImageMask(metric, z)
   #' @note After calling this, must call antsrImageToImageMetric.Initialize(metric)
   #' @export
-    antsrImageToImageMetric.SetFixedImageMask = function( metric, image ) {
-      .Call("antsrImageToImageMetric_SetFixedImage", metric, image, TRUE)
+    antsrImageToImageMetric.SetFixedImageMask = function( metric, image,
+                                                          isMask = TRUE) {
+      .Call("antsrImageToImageMetric_SetFixedImage", metric, image, isMask)
     }
 
 #' @title antsrImageToImageMetric.SetMovingImage
@@ -194,8 +192,9 @@ antsrImageToImageMetric.Create <- function( fixed, moving, type="MeanSquares", s
 #' antsrImageToImageMetric.SetMovingImage(metric, z)
 #' @note After calling this, must call antsrImageToImageMetric.Initialize(metric)
 #' @export
-  antsrImageToImageMetric.SetMovingImage = function( metric, image) {
-    .Call("antsrImageToImageMetric_SetMovingImage", metric, image, FALSE)
+  antsrImageToImageMetric.SetMovingImage = function( metric, image, 
+                                                     isMask = FALSE) {
+    .Call("antsrImageToImageMetric_SetMovingImage", metric, image, isMask)
   }
 
   #' @title antsrImageToImageMetric.SetMovingImageMask
@@ -231,8 +230,10 @@ antsrImageToImageMetric.Create <- function( fixed, moving, type="MeanSquares", s
 #' antsrImageToImageMetric.SetSampling(metric,"random",0.4)
 #' @note After calling this, must call antsrImageToImageMetric.Initialize(metric)
 #' @export
-  antsrImageToImageMetric.SetSampling = function( metric, strategy, percentage ) {
-    .Call("antsrImageToImageMetric_SetSampling", metric, strategy, percentage )
+  antsrImageToImageMetric.SetSampling = function( 
+    metric, sampling.strategy, sampling.percentage ) {
+    .Call("antsrImageToImageMetric_SetSampling",
+          metric, sampling.strategy, sampling.percentage )
   }
 
 #' @title antsrImageToImageMetric.GetValue
