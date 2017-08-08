@@ -1,4 +1,3 @@
-#' @include antsImage_class.R
 #' @rdname accessor-methods
 #' @title Extract Image Attributes \code{pixeltype} from antsImages
 #' @description Methods that act on the \code{slots} of the
