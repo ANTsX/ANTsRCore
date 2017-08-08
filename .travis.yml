@@ -21,121 +21,49 @@ env:
   - R_CHECK_ARGS=" --timings --as-cran --no-manual"
 # --install-args=--build
 
+
 before_install:
-  - export ORIG_PATH=${PATH}
-  - mkdir -p ~/.R
+  - export PROJ_DIR=`basename ${TRAVIS_BUILD_DIR}`  
   - export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
-  - clang --version
-  - clang++ --version
-  - export CC=clang
-  - export CXX=clang++
-  - export CXX1X=clang++
-  - export CXX1XSTD=-std=c++11
-  - export CXX11=clang++    
-  - echo "CC=clang" >  ~/.R/Makevars
-  - echo "CXX=clang++" >> ~/.R/Makevars
-  - echo "CXX1X=clang++" >> ~/.R/Makevars
-  - echo "CXX1XSTD=-std=c++11" >> ~/.R/Makevars
-  - echo "CXX11=clang++" >> ~/.R/Makevars
-  - source ~/.R/Makevars
-  # wget
-  - wget -O travis_helpers.sh http://bit.ly/travis_helpers
-  - source travis_helpers.sh
-  - rm travis_helpers.sh
+  - fname=travis_helpers.sh
+  - wget -O ${fname} http://bit.ly/travis_helpers
+  - cat ${fname}; source ${fname}; rm ${fname}  
+  - remove_neuroc_packages  
+  # does all the clang exports
+  - x=`export_clang_cxx`; eval ${x}
+  - echo "CC=${CC}, CXX=${CXX}, CXX1X=${CXX1X}"
+  - echo "CXX1XSTD=${CXX1XSTD}, CXX11=${CXX11}"  
+  - clang_cxx
+  - cat ~/.R/Makevars
   - export cmake_version="3.4"
   - cmake --version
-  - cmake_setup
+  - x=`cmake_setup`; echo "${x}"; eval ${x};
   - cmake --version
-  # - remote_binary_install ITKR
-  - ./cleanup  
-  - itkrrel=0.4.12
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; 
-    then 
-      wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; 
-      R CMD INSTALL ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; 
-      rm ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz ;
-    fi
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; 
-    then 
-    wget http://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}.tgz; 
-    R CMD INSTALL ITKR_${itkrrel}.tgz; 
-    rm ITKR_${itkrrel}.tgz;
-    fi
-  - drop_remote ITKR
+  - ./cleanup
+  - export ants_user=stnava
+  - install_missing_remote_deps ${ants_user}/ITKR ${ants_user}/ANTsRCore ${ants_user}/ANTsR
+  - echo "Done Installing Missing Deps"
+  - cat DESCRIPTION  
+  - gh_binary_install ${ants_user}/ITKR
+  - install_remotes_no_dep
+  - cat DESCRIPTION
   - export PACKAGE_NAME=`package_name`
-  
-
-# before_install:
-#   - export PROJ_DIR=`basename ${TRAVIS_BUILD_DIR}`  
-#   - export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
-#   - fname=travis_helpers.sh
-#   - wget -O ${fname} http://bit.ly/travis_helpers
-#   - cat ${fname}; source ${fname}; rm ${fname}  
-#   - remove_neuroc_packages  
-#   # does all the clang exports
-#   - x=`export_clang_cxx`; eval ${x}
-#   - echo "CC=${CC}, CXX=${CXX}, CXX1X=${CXX1X}"
-#   - echo "CXX1XSTD=${CXX1XSTD}, CXX11=${CXX11}"  
-#   - clang_cxx
-#   - cat ~/.R/Makevars
-#   - export cmake_version="3.4"
-#   - cmake --version
-#   # - x=`cmake_setup`; echo "${x}"; eval ${x};
-#   - cmake_setup
-#   - cmake --version
-#   - ./cleanup
-#   - export ants_user=stnava
-#   - install_missing_remote_deps ${ants_user}/ITKR ${ants_user}/ANTsRCore ${ants_user}/ANTsR
-#   - echo "Done Installing Missing Deps"
-#   - cat DESCRIPTION  
-#   # - gh_binary_install ${ants_user}/ITKR
-#   - itkrrel=0.4.12
-#   - if [ "$TRAVIS_OS_NAME" == "linux" ]; 
-#     then 
-#       wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; 
-#       R CMD INSTALL ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; 
-#       rm ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz ;
-#     fi
-#   - if [ "$TRAVIS_OS_NAME" == "osx" ]; 
-#     then 
-#     wget http://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}.tgz; 
-#     R CMD INSTALL ITKR_${itkrrel}.tgz; 
-#     rm ITKR_${itkrrel}.tgz;
-#     fi
-#   - drop_remote ITKR  
-#   # - install_remotes_no_dep
-#   - cat DESCRIPTION
-#   - export PACKAGE_NAME=`package_name`
-#   # - export PATH=$HOME/bin/:$PATH
-#   - echo $PATH ;
+  # - export PATH=$HOME/bin/:$PATH
+  - echo $PATH ;
 
 script:
   - echo "Overriding travis R script"
-
-# jobs:
-#   include:
-#     - script:
-#       - cat ~/.R/Makevars
-#       - source ~/.R/Makevars
-#       - x=`export_clang_cxx`; eval ${x}
-#       - cd ..
-#       - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
-#       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-#       - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
-#       os: linux
 
 jobs:
   include:
     - script:
       - cat ~/.R/Makevars
       - source ~/.R/Makevars
-      - export CXX=clang++
-      - export CC=clang
-      - export CXX1X=clang++      
+      - x=`export_clang_cxx`; eval ${x}
       - cd ..
-      - travis_wait 100 R CMD build ANTsRCore ${R_BUILD_ARGS}
+      - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-      - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}" --no-manual;
+      - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
       os: linux
     - script:
       - cat ~/.R/Makevars
