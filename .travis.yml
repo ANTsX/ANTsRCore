@@ -56,6 +56,7 @@ script:
 jobs:
   include:
     - script:
+      - cat ~/.R/Makevars
       - source ~/.R/Makevars
       - x=`export_clang_cxx`; eval ${x}
       - cd ..
@@ -64,6 +65,7 @@ jobs:
       - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
       os: linux
     - script:
+      - cat ~/.R/Makevars
       - source ~/.R/Makevars
       - x=`export_clang_cxx`; eval ${x}
       - cd ..
@@ -73,6 +75,7 @@ jobs:
       os: osx
     - stage: "Deployment"
       script:
+      - cat ~/.R/Makevars
       - source ~/.R/Makevars
       - x=`export_clang_cxx`; eval ${x}
       - cd ..
@@ -101,6 +104,7 @@ jobs:
       os: linux
     - stage: "Deployment"
       script:
+      - cat ~/.R/Makevars
       - source ~/.R/Makevars
       - x=`export_clang_cxx`; eval ${x}
       - cd ..
