@@ -1,15 +1,3 @@
-#' @title Math for antsImage Objects
-#' @description Overloaded math for antsImage objects
-#' @name antsImage-math
-#' @rdname antsImagemath
-#' @param x is an object of class \code{antsImage}.
-#' @aliases Math,antsImage-method
-#' @examples
-#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
-#' abs(img01)
-
-
-
 # From http://r.789695.n4.nabble.com/trouble-with-S4-methods-for-
 # group-quot-Summary-quot-td790541.html
 .max_def <-
@@ -34,6 +22,20 @@
   function(x, ..., na.rm = FALSE)
     base::all(x, ..., na.rm = na.rm)
 
+#' @title Math for antsImage Objects
+#' @description Overloaded math for antsImage objects
+#' @name antsImage-math
+#' @rdname antsImagemath
+#' @param x is an object of class \code{antsImage}.
+#' @param ... additional arguments to pass to standard summary
+#' measure (e.g. max/min)
+#' @param na.rm a logical indicating whether missing 
+#' values should be removed.
+
+#' @aliases Math,antsImage-method
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' abs(img01)
 #' @rdname antsImageSummary
 #' @export
 setGeneric("max", function(x, ..., na.rm = FALSE)
@@ -120,8 +122,9 @@ setMethod("Summary", "antsImage",
 #' @rdname antsImagemath
 #' @aliases !,antsImage-method
 setMethod(f = "!", signature(x = "antsImage"), definition = function(x) {
-  a2 = as.array(x)
-  !a2
+  # a2 = as.array(x)
+  # !a2
+  x != 0
 })
 
 #' #' @rdname antsImagemath

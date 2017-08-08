@@ -32,7 +32,6 @@
 \alias{gamma,antsImage-method}
 \alias{lgamma,antsImage-method}
 \alias{antsImage-math}
-\alias{.max_def}
 \alias{Math,antsImage-method}
 \alias{!,antsImage-method}
 \title{Math for antsImage Objects}
@@ -93,12 +92,22 @@
 
 \S4method{lgamma}{antsImage}(x)
 
-.max_def(x, ..., na.rm = FALSE)
+max(x, ..., na.rm = FALSE)
 
 \S4method{!}{antsImage}(x)
 }
 \arguments{
 \item{x}{is an object of class \code{antsImage}.}
+
+\item{base}{a positive or complex number: 
+the base with respect to which logarithms are computed. 
+Defaults to e=exp(1).}
+
+\item{...}{additional arguments to pass to standard summary
+measure (e.g. max/min)}
+
+\item{na.rm}{a logical indicating whether missing 
+values should be removed.}
 
 \item{x}{is an object of class \code{antsImage}.}
 }

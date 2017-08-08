@@ -59,6 +59,9 @@ setMethod("trunc", signature(x = "antsImage"),
           })
 
 #' @rdname antsImagemath
+#' @param base a positive or complex number: 
+#' the base with respect to which logarithms are computed. 
+#' Defaults to e=exp(1).
 #' @export
 setMethod("log", signature(x = "antsImage"),
           function(x, base=exp(1) ) {
