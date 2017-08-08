@@ -42,9 +42,23 @@ before_install:
   - export ants_user=stnava
   - install_missing_remote_deps ${ants_user}/ITKR ${ants_user}/ANTsRCore ${ants_user}/ANTsR
   - echo "Done Installing Missing Deps"
-  - gh_binary_install ${ants_user}/ITKR
-  - cat DESCRIPTION
-  - install_remotes_no_dep
+  - cat DESCRIPTION  
+  # - gh_binary_install ${ants_user}/ITKR
+  - itkrrel=0.4.12
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; 
+    then 
+      wget https://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; 
+      R CMD INSTALL ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz; 
+      rm ITKR_${itkrrel}_R_x86_64-pc-linux-gnu.tar.gz ;
+    fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; 
+    then 
+    wget http://github.com/stnava/ITKR/releases/download/latest/ITKR_${itkrrel}.tgz; 
+    R CMD INSTALL ITKR_${itkrrel}.tgz; 
+    rm ITKR_${itkrrel}.tgz;
+    fi
+  - drop_remote ITKR  
+  # - install_remotes_no_dep
   - cat DESCRIPTION
   - export PACKAGE_NAME=`package_name`
   # - export PATH=$HOME/bin/:$PATH
