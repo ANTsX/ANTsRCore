@@ -61,6 +61,8 @@ before_install:
     rm ITKR_${itkrrel}.tgz;
     fi
   - drop_remote ITKR
+  - export PACKAGE_NAME=`package_name`
+  
 
 # before_install:
 #   - export PROJ_DIR=`basename ${TRAVIS_BUILD_DIR}`  
