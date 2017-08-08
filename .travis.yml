@@ -140,6 +140,8 @@ jobs:
       - cat ~/.R/Makevars
       - source ~/.R/Makevars
       - x=`export_clang_cxx`; eval ${x}
+      - echo "CC=${CC}, CXX=${CXX}, CXX1X=${CXX1X}"
+      - echo "CXX1XSTD=${CXX1XSTD}, CXX11=${CXX11}"        
       - cd ..
       - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
