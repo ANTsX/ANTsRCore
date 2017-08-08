@@ -21,6 +21,7 @@ cache:
 build_script:
   - cd C:\Rtools\mingw_64\lib\gcc\x86_64-w64-mingw32\4.9.3\include
   - ls 
+  - cd %APPVEYOR_BUILD_FOLDER%
   - set TMP=C:/
   - set TMPDIR=C:/
   - set TEMP=C:/
