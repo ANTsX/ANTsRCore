@@ -19,7 +19,7 @@ cache:
 
 # Adapt as necessary starting from here
 build_script:
-  - cd C:\MinGW
+  - cd C:\MinGW\include
   - ls
   - cd %APPVEYOR_BUILD_FOLDER%
   - set TMP=C:/
