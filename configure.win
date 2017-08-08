@@ -15,7 +15,7 @@ echo "ITK=\"${ITKRCMAKE}\"" >> Makevars.win
 
 needVCL_CAN_STATIC_CONST_INIT_FLOAT=0
 echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
-echo "PKG_CPPFLAGS = -Wa,-mbig-obj -msse2 -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
+echo "PKG_CPPFLAGS = ${PKG_CPPFLAGS} -Wa,-mbig-obj -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
   -I\${myantssource}/Utilities -I\${myantssource}/Examples/ -I../inst/include/\
   -I\${myantssource}/Tensor/ " >> Makevars.win
 
@@ -28,10 +28,8 @@ echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
 
 echo "libitk=\`find \"${ITKRLIB}\" -name \"lib*.a\"\`" >> Makevars.win
 
-# echo "PKG_LIBS=\"\${libitk} \${libants} \${libitk} \${libants} \${itklib}\"" >> Makevars.win
-
-echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \
- \${libitk} \${libants}" >> Makevars.win
+echo "PKG_LIBS=${PKG_LIBS} \${libitk} \${libants} \${libitk} \${libants} \${libitk} \
+                 \${libants}" >> Makevars.win
 
 # echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
 #                  \${libants} \${libitk} \${libants} \${itklib} \${libants} \
@@ -75,7 +73,6 @@ cmake \
     -G "MinGW Makefiles" \
     -DITK_DIR:PATH=${ITKDIR} \
     -DCMAKE_SH:BOOL=OFF \
-    -DVNL_CONFIG_ENABLE_SSE2_ROUNDING:BOOL=OFF \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} -DNDEBUG  "\
     -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} -DNDEBUG  "\
     -DBUILD_SHARED_LIBS=OFF \

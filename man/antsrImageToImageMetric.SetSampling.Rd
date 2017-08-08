@@ -4,7 +4,8 @@
 \alias{antsrImageToImageMetric.SetSampling}
 \title{antsrImageToImageMetric.SetSampling}
 \usage{
-antsrImageToImageMetric.SetSampling(metric, strategy, percentage)
+antsrImageToImageMetric.SetSampling(metric, sampling.strategy,
+  sampling.percentage)
 }
 \arguments{
 \item{metric}{an 'antsrImageToImageMetric'}
