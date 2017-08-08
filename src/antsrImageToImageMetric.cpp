@@ -518,7 +518,6 @@ template< class MetricType >
 void antsrImageToImageMetric_SetSampling( SEXP r_metric, std::string strategy, double percentage )
 {
   typedef typename MetricType::MovingImageType  ImageType;
-  typedef typename ImageType::Pointer           ImagePointerType;
   typedef typename MetricType::Pointer          MetricPointerType;
 
   typedef typename MetricType::FixedSampledPointSetType MetricSamplePointSetType;
