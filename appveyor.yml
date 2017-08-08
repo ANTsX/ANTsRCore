@@ -63,6 +63,8 @@ build_script:
   - set PATH=%PATH%;C:\Windows\System32\Wbem
   - set PATH=%PATH%;C:\Windows\System32\WindowsPowerShell\v1.0\
   - set PATH=%PATH%;C:\Program Files\7-Zip
+  - ps: echo | gcc -E -dM -
+
   - Rscript -e "install.packages('Rcpp', repos = 'https://cran.rstudio.com', type = 'source')"
   - git clone https://github.com/muschellij2/ITKR
   - R CMD INSTALL ITKR 
