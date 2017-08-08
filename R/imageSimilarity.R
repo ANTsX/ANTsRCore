@@ -29,7 +29,7 @@
 imageSimilarity <- function( fixed, moving, type="MeanSquares", fixed.mask=NA, moving.mask=NA,
   sampling.strategy="none", sampling.percentage=1 ) {
 
-  metric = antsrImageToImageMetric.Create(  fixed, moving, type="MeanSquares", fixed.mask=fixed.mask, moving.mask=moving.mask,
+  metric = antsrImageToImageMetric.Create(  fixed, moving, type=type, fixed.mask=fixed.mask, moving.mask=moving.mask,
     sampling.strategy=sampling.strategy, sampling.percentage=sampling.percentage )
   return( antsrImageToImageMetric.GetValue(metric) )
   }
