@@ -31,7 +31,7 @@ echo "libitk=\`find \"${ITKRLIB}\" -name \"lib*.a\"\`" >> Makevars.win
 echo "PKG_LIBS=${PKG_LIBS} \${libitk} \${libants} \${libitk} \${libants} \${libitk} \
                  \${libants} \${libitk} \${libants} \${itklib} \${libants} \
                  \${libitk} \${libants} \${itklib} \${libants} \${itklib} \
-                 \${libants} \${libitk} \${libants} \${itklib}" >> Makevars
+                 \${libants} \${libitk} \${libants} \${itklib}" >> Makevars.win
 
 # echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
 #                  \${libants} \${libitk} \${libants} \${itklib} \${libants} \
