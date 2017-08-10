@@ -8,6 +8,9 @@ src/antb/
 src/.dummy
 src/*.o
 src/*.so
+src/antb/.git
+src/antb/.git/*
+src/ants/.git
 src/ants/.git/*
 .gitignore
 ^.*\.Rproj$

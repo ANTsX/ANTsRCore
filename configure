@@ -95,7 +95,7 @@ if [[ -d .git ]]; then
     git pull
     git checkout $antstag
     # needed for warning
-    rm -rf .git
+    # rm -rf .git
 fi
 cd ../
 if [[ ! -s antb ]] ; then
