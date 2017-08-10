@@ -1,11 +1,14 @@
 language: r
 sudo: false
-cache: packages
+cache: 
+  - packages
+  - ccache
 warnings_are_errors: true
 use_bioc: true
 bioc_required: true
 cran: http://cran.rstudio.com
 dist: precise
+
 
 os:
   - linux
@@ -49,6 +52,11 @@ before_install:
   - export PACKAGE_NAME=`package_name`
   # - export PATH=$HOME/bin/:$PATH
   - echo $PATH ;
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; 
+    then 
+      brew install ccache; 
+      export PATH="/usr/local/opt/ccache/libexec:$PATH";
+    fi
 
 script:
   - echo "Overriding travis R script"
