@@ -94,8 +94,6 @@ if [[ -d .git ]]; then
     git checkout master
     git pull
     git checkout $antstag
-    # needed for warning
-    # rm -rf .git
 fi
 cd ../
 if [[ ! -s antb ]] ; then
@@ -118,3 +116,5 @@ ${cmaker} -DITK_DIR:PATH=${ITKDIR} \
     -DCMAKE_INSTALL_PREFIX:PATH=${R_PACKAGE_DIR}/libs/  \
     -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}"  ../ants
 cd ../
+# needed for warning
+rm -rf ants/.git
