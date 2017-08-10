@@ -21,7 +21,6 @@ env:
   - R_CHECK_ARGS=" --timings --as-cran --no-manual"
 # --install-args=--build
 
-
 before_install:
   - export PROJ_DIR=`basename ${TRAVIS_BUILD_DIR}`  
   - export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
