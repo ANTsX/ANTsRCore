@@ -4,7 +4,9 @@
 \alias{imageSimilarity}
 \title{imageSimilarity}
 \usage{
-imageSimilarity(fixed, moving, type = "MeanSquares", fixed.mask = NA,
+imageSimilarity(fixed, moving, type = c("MeanSquares",
+  "MattesMutualInformation", "ANTSNeighborhoodCorrelation", "Correlation",
+  "Demons", "JointHistogramMutualInformation"), fixed.mask = NA,
   moving.mask = NA, sampling.strategy = "none", sampling.percentage = 1)
 }
 \arguments{

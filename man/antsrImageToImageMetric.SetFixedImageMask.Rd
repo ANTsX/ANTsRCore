@@ -4,7 +4,7 @@
 \alias{antsrImageToImageMetric.SetFixedImageMask}
 \title{antsrImageToImageMetric.SetFixedImageMask}
 \usage{
-antsrImageToImageMetric.SetFixedImageMask(metric, image)
+antsrImageToImageMetric.SetFixedImageMask(metric, image, isMask = TRUE)
 }
 \arguments{
 \item{metric}{an 'antsrImageToImageMetric'}

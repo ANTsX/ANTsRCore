@@ -4,9 +4,10 @@
 \alias{antsrImageToImageMetric.Create}
 \title{antsrImageToImageMetric.Create}
 \usage{
-antsrImageToImageMetric.Create(fixed, moving, type = "MeanSquares",
-  supported.types = FALSE, fixed.mask = NA, moving.mask = NA,
-  sampling.strategy = "none", sampling.percentage = 1)
+antsrImageToImageMetric.Create(fixed, moving, type = c("MeanSquares",
+  "MattesMutualInformation", "ANTSNeighborhoodCorrelation", "Correlation",
+  "Demons", "JointHistogramMutualInformation"), fixed.mask = NA,
+  moving.mask = NA, sampling.strategy = "none", sampling.percentage = 1)
 }
 \arguments{
 \item{fixed}{the fixed antsImage}

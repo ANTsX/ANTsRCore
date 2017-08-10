@@ -47,7 +47,7 @@ else # just try gcc directly
   fi
 fi
 echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
-echo "PKG_CPPFLAGS = -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
+echo "PKG_CPPFLAGS= -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
   -I\${myantssource}/Utilities -I\${myantssource}/Examples/ -I../inst/include/\
   -I\${myantssource}/Tensor/ " >> Makevars
 
@@ -61,9 +61,7 @@ echo "libants=\`find \${myantslib} -name \"lib*.a\"\`" >> Makevars
 echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\"\`" >> Makevars
 
 echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
-                 \${libants} \${libitk} \${libants} \${itklib} \${libants} \
-                 \${libitk} \${libants} \${itklib} \${libants} \${itklib} \
-                 \${libants} \${libitk} \${libants} \${itklib}" >> Makevars
+                 \${libants} \${libitk}" >> Makevars
 
 echo ".PHONY: all libs" >> Makevars
 

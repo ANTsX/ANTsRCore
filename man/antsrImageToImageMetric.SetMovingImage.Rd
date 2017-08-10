@@ -4,7 +4,7 @@
 \alias{antsrImageToImageMetric.SetMovingImage}
 \title{antsrImageToImageMetric.SetMovingImage}
 \usage{
-antsrImageToImageMetric.SetMovingImage(metric, image)
+antsrImageToImageMetric.SetMovingImage(metric, image, isMask = FALSE)
 }
 \arguments{
 \item{metric}{an 'antsrImageToImageMetric'}

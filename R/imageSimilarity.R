@@ -26,10 +26,24 @@
 #' y =  antsImageRead( getANTsRData( 'r30' ))
 #' metric = imageSimilarity(x,y,type="MeanSquares")
 #' @export
-imageSimilarity <- function( fixed, moving, type="MeanSquares", fixed.mask=NA, moving.mask=NA,
-  sampling.strategy="none", sampling.percentage=1 ) {
-
-  metric = antsrImageToImageMetric.Create(  fixed, moving, type=type, fixed.mask=fixed.mask, moving.mask=moving.mask,
-    sampling.strategy=sampling.strategy, sampling.percentage=sampling.percentage )
+imageSimilarity <- function( 
+  fixed, moving, 
+  type=c("MeanSquares", "MattesMutualInformation", 
+         "ANTSNeighborhoodCorrelation", "Correlation", 
+         "Demons", "JointHistogramMutualInformation"), 
+  fixed.mask=NA, moving.mask=NA,
+  sampling.strategy="none", 
+  sampling.percentage=1 ) {
+  
+  type = match.arg(type)
+  metric = antsrImageToImageMetric.Create(
+    fixed,
+    moving,
+    type = type,
+    fixed.mask = fixed.mask,
+    moving.mask = moving.mask,
+    sampling.strategy = sampling.strategy,
+    sampling.percentage = sampling.percentage
+  )
   return( antsrImageToImageMetric.GetValue(metric) )
-  }
+}

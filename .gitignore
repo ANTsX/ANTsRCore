@@ -381,3 +381,4 @@ inst/include/sccan.h
 inst/include/simpleSynRegistration.cxx
 inst/include/simpleSynRegistration.h
 inst/include/template_for_executables.cxx.in
+inst/include/TestSuite/*

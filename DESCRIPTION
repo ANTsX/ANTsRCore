@@ -1,8 +1,8 @@
 Package: ANTsRCore
 Type: Package
 Title: Core Software Infrastructure for ANTsR
-Version: 0.3.8.2
-Date: 2017-07-06
+Version: 0.4.2
+Date: 2017-08-07
 Author: Brian B. Avants, Benjamin M. Kandel, Jeff T. Duda, Philip A. Cook,
     Nicholas J. Tustison
 Maintainer: Brian B. Avants <stnava@gmail.com>
