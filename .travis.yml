@@ -4,8 +4,7 @@ cache:
   - packages
   - ccache
 warnings_are_errors: true
-use_bioc: true
-bioc_required: true
+bioc_required: false
 cran: http://cran.rstudio.com
 dist: precise
 
