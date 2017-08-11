@@ -24,6 +24,7 @@ env:
 # --install-args=--build
 
 before_install:
+  - export CCACHE=ccache
   - export PROJ_DIR=`basename ${TRAVIS_BUILD_DIR}`  
   - export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
   - fname=travis_helpers.sh
