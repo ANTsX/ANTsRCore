@@ -58,8 +58,6 @@ cd ants
 git checkout master;  
 git pull;  
 git checkout $antstag
-# needed for warning
-rm -rf .git
 cd ../
 mkdir antb
 cp ../inst/include/antscore.h ./ants/Examples/include/ants.h
@@ -82,3 +80,5 @@ cmake \
     -DCMAKE_INSTALL_PREFIX:PATH="${R_PACKAGE_DIR}/libs/" \
     -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}"  ../ants
 cd ../
+# needed for warning
+rm -rf ants/.git
