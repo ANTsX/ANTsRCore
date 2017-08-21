@@ -74,9 +74,7 @@ echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build &&
 
 # get / set up ANTs code
 antsgit=https://github.com/stnava/ANTs.git
-# antstag=`tail -n 1 ../data/antsVersions.csv  | cut -d ';' -f 2`
-# antstag=18506d4b305e7abd33c435ecaf7dc3f0672cca72
-antstag=6bc3e652d7628b428896ddaec837248a61d2af3b # for 4.12
+antstag=99ea3b9d6a661bc599c43601e32704355c8c8966
 antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants
