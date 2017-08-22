@@ -13,7 +13,7 @@ antsrImageToImageMetric.GetValue(metric)
 image similarity value
 }
 \description{
-set moving image mask for image to image metric
+get current value of metric
 }
 \examples{
 x =  antsImageRead( getANTsRData( 'r16' ))

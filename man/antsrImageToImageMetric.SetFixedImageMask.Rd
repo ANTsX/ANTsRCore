@@ -4,14 +4,12 @@
 \alias{antsrImageToImageMetric.SetFixedImageMask}
 \title{antsrImageToImageMetric.SetFixedImageMask}
 \usage{
-antsrImageToImageMetric.SetFixedImageMask(metric, image, isMask = TRUE)
+antsrImageToImageMetric.SetFixedImageMask(metric, image)
 }
 \arguments{
 \item{metric}{an 'antsrImageToImageMetric'}
 
 \item{image}{the fixed 'antsImage'}
-
-\item{isMask}{flag indicating if input is image or mask}
 }
 \description{
 set fixed image for image to image metric

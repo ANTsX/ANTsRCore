@@ -71,11 +71,14 @@ extern SEXP antsMatrix_asantsMatrix(SEXP, SEXP);
 extern SEXP antsMatrix_asList(SEXP);
 extern SEXP antsRegistration(SEXP);
 extern SEXP antsrImageToImageMetric(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+extern SEXP antsrImageToImageMetric_GetDerivative(SEXP);
 extern SEXP antsrImageToImageMetric_GetValue(SEXP);
 extern SEXP antsrImageToImageMetric_Initialize(SEXP);
-extern SEXP antsrImageToImageMetric_SetFixedImage(SEXP,SEXP,SEXP);
-extern SEXP antsrImageToImageMetric_SetMovingImage(SEXP,SEXP,SEXP);
+extern SEXP antsrImageToImageMetric_SetImage(SEXP,SEXP,SEXP,SEXP);
+extern SEXP antsrImageToImageMetric_SetNumberOfHistogramBins(SEXP,SEXP);
+extern SEXP antsrImageToImageMetric_SetRadius(SEXP,SEXP);
 extern SEXP antsrImageToImageMetric_SetSampling(SEXP,SEXP,SEXP);
+extern SEXP antsrImageToImageMetric_SetTransform(SEXP,SEXP,SEXP);
 extern SEXP antsrTransform(SEXP, SEXP, SEXP);
 extern SEXP antsrTransform_Compose(SEXP, SEXP, SEXP);
 extern SEXP antsrTransform_FromDisplacementField(SEXP);
@@ -162,11 +165,14 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsMatrix_asList",                       (DL_FUNC) &antsMatrix_asList,                        1},
     {"antsRegistration",                        (DL_FUNC) &antsRegistration,                         1},
     {"antsrImageToImageMetric",                 (DL_FUNC) &antsrImageToImageMetric,                  6},
+    {"antsrImageToImageMetric_GetDerivative",   (DL_FUNC) &antsrImageToImageMetric_GetDerivative,    1},
     {"antsrImageToImageMetric_GetValue",        (DL_FUNC) &antsrImageToImageMetric_GetValue,         1},
     {"antsrImageToImageMetric_Initialize",      (DL_FUNC) &antsrImageToImageMetric_Initialize,       1},
-    {"antsrImageToImageMetric_SetFixedImage",   (DL_FUNC) &antsrImageToImageMetric_SetFixedImage,    3},
-    {"antsrImageToImageMetric_SetMovingImage",  (DL_FUNC) &antsrImageToImageMetric_SetMovingImage,   3},
+    {"antsrImageToImageMetric_SetImage",        (DL_FUNC) &antsrImageToImageMetric_SetImage,         4},
+    {"antsrImageToImageMetric_SetNumberOfHistogramBins", (DL_FUNC) &antsrImageToImageMetric_SetNumberOfHistogramBins,      2},
+    {"antsrImageToImageMetric_SetRadius",       (DL_FUNC) &antsrImageToImageMetric_SetRadius,        2},
     {"antsrImageToImageMetric_SetSampling",     (DL_FUNC) &antsrImageToImageMetric_SetSampling,      3},
+    {"antsrImageToImageMetric_SetTransform",    (DL_FUNC) &antsrImageToImageMetric_SetTransform,     3},
     {"antsrTransform",                          (DL_FUNC) &antsrTransform,                           3},
     {"antsrTransform_Compose",                  (DL_FUNC) &antsrTransform_Compose,                   3},
     {"antsrTransform_FromDisplacementField",    (DL_FUNC) &antsrTransform_FromDisplacementField,     1},

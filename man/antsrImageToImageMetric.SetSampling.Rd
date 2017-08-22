@@ -20,7 +20,7 @@ antsrImageToImageMetric.SetSampling(metric, sampling.strategy,
 \item{sampling.percentage}{percentage of data to sample when calculating metric}
 }
 \description{
-set moving image mask for image to image metric
+set image sampling strategy and rate
 }
 \note{
 After calling this, must call antsrImageToImageMetric.Initialize(metric)

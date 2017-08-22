@@ -10,7 +10,7 @@ antsrImageToImageMetric.Initialize(metric)
 \item{metric}{an 'antsrImageToImageMetric'}
 }
 \description{
-set moving image mask for image to image metric
+prepare to return values
 }
 \note{
 must call this after setting up object, before getting values back

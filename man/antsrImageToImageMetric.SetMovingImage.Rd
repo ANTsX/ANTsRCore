@@ -4,14 +4,12 @@
 \alias{antsrImageToImageMetric.SetMovingImage}
 \title{antsrImageToImageMetric.SetMovingImage}
 \usage{
-antsrImageToImageMetric.SetMovingImage(metric, image, isMask = FALSE)
+antsrImageToImageMetric.SetMovingImage(metric, image)
 }
 \arguments{
 \item{metric}{an 'antsrImageToImageMetric'}
 
 \item{image}{the moving 'antsImage'}
-
-\item{isMask}{flag indicating if input is image or mask}
 }
 \description{
 set moving image for image to image metric

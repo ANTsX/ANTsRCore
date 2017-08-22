@@ -77,13 +77,13 @@ setMethod(f = "initialize", signature(.Object = "antsrImageToImageMetric"), defi
 #' y =  antsImageRead( getANTsRData( 'r30' ))
 #' metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
 #' @export
-antsrImageToImageMetric.Create <- function( 
-  fixed, moving, 
-  type=c("MeanSquares", "MattesMutualInformation", 
-         "ANTSNeighborhoodCorrelation", "Correlation", 
-         "Demons", "JointHistogramMutualInformation"), 
+antsrImageToImageMetric.Create <- function(
+  fixed, moving,
+  type=c("MeanSquares", "MattesMutualInformation",
+         "ANTSNeighborhoodCorrelation", "Correlation",
+         "Demons", "JointHistogramMutualInformation"),
   fixed.mask=NA, moving.mask=NA,
-  sampling.strategy="none", sampling.percentage=1 )
+  sampling.strategy="none", sampling.percentage=1, nBins=32, radius=3 )
 {
 
   type = match.arg(type)
@@ -139,6 +139,15 @@ antsrImageToImageMetric.Create <- function(
     stop("Invalid sampling.strategy")
   }
 
+  if ( (type=="MattesMutualInformation") | (type=="JointHistogramMutualInformation")) {
+    if ( nBins < 5 ) {
+      stop("Number of histogram bins must be >= 5")
+    }
+    antsrImageToImageMetric.SetNumberOfHistogramBins(metric, nBins)
+  }
+  else if ( type=="ANTSNeighborhoodCorrelation" ) {
+    antsrImageToImageMetric.SetRadius( metric, radius )
+  }
 
   antsrImageToImageMetric.Initialize(metric)
 
@@ -158,14 +167,13 @@ antsrImageToImageMetric.Create <- function(
 #' @note After calling this, must call antsrImageToImageMetric.Initialize(metric)
 #' @export
   antsrImageToImageMetric.SetFixedImage = function( metric, image ) {
-    .Call("antsrImageToImageMetric_SetFixedImage", metric, image, FALSE)
+    invisible(.Call("antsrImageToImageMetric_SetImage", metric, image, TRUE, FALSE))
   }
 
   #' @title antsrImageToImageMetric.SetFixedImageMask
   #' @description set fixed image for image to image metric
   #' @param metric an 'antsrImageToImageMetric'
   #' @param image the fixed 'antsImage'
-  #' @param isMask flag indicating if input is image or mask
   #' @examples
   #' x =  antsImageRead( getANTsRData( 'r16' ))
   #' y =  antsImageRead( getANTsRData( 'r30' ))
@@ -174,16 +182,14 @@ antsrImageToImageMetric.Create <- function(
   #' antsrImageToImageMetric.SetFixedImageMask(metric, z)
   #' @note After calling this, must call antsrImageToImageMetric.Initialize(metric)
   #' @export
-    antsrImageToImageMetric.SetFixedImageMask = function( metric, image,
-                                                          isMask = TRUE) {
-      .Call("antsrImageToImageMetric_SetFixedImage", metric, image, isMask)
+    antsrImageToImageMetric.SetFixedImageMask = function( metric, image ) {
+      invisible(.Call("antsrImageToImageMetric_SetImage", metric, image, TRUE, TRUE))
     }
 
 #' @title antsrImageToImageMetric.SetMovingImage
 #' @description set moving image for image to image metric
 #' @param metric an 'antsrImageToImageMetric'
 #' @param image the moving 'antsImage'
-#' @param isMask flag indicating if input is image or mask
 #' @examples
 #' x =  antsImageRead( getANTsRData( 'r16' ))
 #' y =  antsImageRead( getANTsRData( 'r30' ))
@@ -192,9 +198,8 @@ antsrImageToImageMetric.Create <- function(
 #' antsrImageToImageMetric.SetMovingImage(metric, z)
 #' @note After calling this, must call antsrImageToImageMetric.Initialize(metric)
 #' @export
-  antsrImageToImageMetric.SetMovingImage = function( metric, image, 
-                                                     isMask = FALSE) {
-    .Call("antsrImageToImageMetric_SetMovingImage", metric, image, isMask)
+  antsrImageToImageMetric.SetMovingImage = function( metric, image ) {
+    invisible(.Call("antsrImageToImageMetric_SetImage", metric, image, FALSE, FALSE))
   }
 
   #' @title antsrImageToImageMetric.SetMovingImageMask
@@ -210,11 +215,51 @@ antsrImageToImageMetric.Create <- function(
   #' @note After calling this, must call antsrImageToImageMetric.Initialize(metric)
   #' @export
     antsrImageToImageMetric.SetMovingImageMask = function( metric, image) {
-      .Call("antsrImageToImageMetric_SetMovingImage", metric, image, TRUE)
+      invisible(.Call("antsrImageToImageMetric_SetImage", metric, image, FALSE, TRUE))
     }
 
+#' @title antsrImageToImageMetric.SetNumberOfHistogramBins
+#' @description set histogram bins image to image metric
+#' @param metric an 'antsrImageToImageMetric' of type 'MattesMutualInformation' or 'JointHistogramMutualInformation'
+#' @param nBins number of bins (minimum is 5 even for binary data)
+#' @examples
+#' x =  antsImageRead( getANTsRData( 'r16' ))
+#' y =  antsImageRead( getANTsRData( 'r30' ))
+#' metric = antsrImageToImageMetric.Create(x,y,type="MattesMutualInformation")
+#' antsrImageToImageMetric.SetNumberOfHistogramBins(metric,12)
+#' @export
+  antsrImageToImageMetric.SetNumberOfHistogramBins = function(
+    metric, nBins ) {
+
+    if ( ( metric@type != "MattesMutualInformation" ) &
+         ( metric@type != "JointHistogramMutualInformation" ) ) {
+           stop( "Metric must be a histogram type")
+         }
+
+    invisible(.Call("antsrImageToImageMetric_SetNumberOfHistogramBins", metric, nBins ))
+  }
+
+#' @title antsrImageToImageMetric.SetRadius
+#' @description set neighborhood radius
+#' @param metric an 'antsrImageToImageMetric' of type 'ANTSNeighborhoodCorrelation'
+#' @param radius radius of neighborhood
+#' @examples
+#' x =  antsImageRead( getANTsRData( 'r16' ))
+#' y =  antsImageRead( getANTsRData( 'r30' ))
+#' metric = antsrImageToImageMetric.Create(x,y,type="ANTSNeighborhoodCorrelation")
+#' antsrImageToImageMetric.SetRadius(metric,5)
+#' @export
+  antsrImageToImageMetric.SetRadius = function( metric, radius ) {
+
+    if ( metric@type != "ANTSNeighborhoodCorrelation" )  {
+      stop( "Metric must be a ANTSNeighborhoodCorrelation")
+      }
+
+    invisible(.Call("antsrImageToImageMetric_SetRadius", metric, radius ))
+  }
+
 #' @title antsrImageToImageMetric.SetSampling
-#' @description set moving image mask for image to image metric
+#' @description set image sampling strategy and rate
 #' @param metric an 'antsrImageToImageMetric'
 #' @param sampling.strategy sampling strategy, default if full sampling
 #' \itemize{
@@ -230,14 +275,51 @@ antsrImageToImageMetric.Create <- function(
 #' antsrImageToImageMetric.SetSampling(metric,"random",0.4)
 #' @note After calling this, must call antsrImageToImageMetric.Initialize(metric)
 #' @export
-  antsrImageToImageMetric.SetSampling = function( 
+  antsrImageToImageMetric.SetSampling = function(
     metric, sampling.strategy, sampling.percentage ) {
-    .Call("antsrImageToImageMetric_SetSampling",
-          metric, sampling.strategy, sampling.percentage )
+    invisible(.Call("antsrImageToImageMetric_SetSampling",
+          metric, sampling.strategy, sampling.percentage ))
+  }
+
+#' @title antsrImageToImageMetric.SetMovingTransform
+#' @description set transform for moving image
+#' @param metric an 'antsrImageToImageMetric'
+#' @param transform an 'antsrTransform'
+#' @examples
+#' x =  antsImageRead( getANTsRData( 'r16' ))
+#' y =  antsImageRead( getANTsRData( 'r30' ))
+#' metric = antsrImageToImageMetric.Create(x,y,type="ANTSNeighborhoodCorrelation")
+#' tx <- createAntsrTransform( precision="double", type="AffineTransform", dimension=2)
+#' setAntsrTransformParameters(tx, c(0,-1,1,0,0,0))
+#' setAntsrTransformFixedParameters(tx, c(128,128))
+#' antsrImageToImageMetric.SetMovingTransform(metric, tx)
+#' antsrImageToImageMetric.GetValue(metric)
+#' @export
+  antsrImageToImageMetric.SetMovingTransform = function( metric, transform ) {
+    invisible(.Call("antsrImageToImageMetric_SetTransform", metric, transform, FALSE ))
+  }
+
+#' @title antsrImageToImageMetric.SetFixedTransform
+#' @description set transform for fixed image
+#' @param metric an 'antsrImageToImageMetric'
+#' @param transform an 'antsrTransform'
+#' @examples
+#' @examples
+#' x =  antsImageRead( getANTsRData( 'r16' ))
+#' y =  antsImageRead( getANTsRData( 'r30' ))
+#' metric = antsrImageToImageMetric.Create(x,y,type="ANTSNeighborhoodCorrelation")
+#' tx <- createAntsrTransform( precision="double", type="AffineTransform", dimension=2)
+#' setAntsrTransformParameters(tx, c(0,-1,1,0,0,0))
+#' setAntsrTransformFixedParameters(tx, c(128,128))
+#' antsrImageToImageMetric.SetFixedTransform(metric, tx)
+#' antsrImageToImageMetric.GetValue(metric)
+#' @export
+  antsrImageToImageMetric.SetFixedTransform = function( metric, transform ) {
+    invisible(.Call("antsrImageToImageMetric_SetTransform", metric, transform, TRUE ))
   }
 
 #' @title antsrImageToImageMetric.GetValue
-#' @description set moving image mask for image to image metric
+#' @description get current value of metric
 #' @param metric an 'antsrImageToImageMetric'
 #' @examples
 #' x =  antsImageRead( getANTsRData( 'r16' ))
@@ -250,8 +332,26 @@ antsrImageToImageMetric.Create <- function(
     return( .Call("antsrImageToImageMetric_GetValue", metric, PACKAGE = "ANTsRCore" ) )
   }
 
+#' @title antsrImageToImageMetric.GetDerivative
+#' @description get derivative of image metric
+#' @param metric an 'antsrImageToImageMetric'
+#' @examples
+#' x =  antsImageRead( getANTsRData( 'r16' ))
+#' y =  antsImageRead( getANTsRData( 'r30' ))
+#' metric = antsrImageToImageMetric.Create(x,y,type="MeanSquares")
+#' tx <- createAntsrTransform( precision="double", type="AffineTransform", dimension=2)
+#' setAntsrTransformParameters(tx, c(0,-1,1,0,0,0))
+#' setAntsrTransformFixedParameters(tx, c(128,128))
+#' antsrImageToImageMetric.SetMovingTransform(metric, tx)
+#' metricValue = antsrImageToImageMetric.GetDerivative(metric)
+#' @return image similarity value
+#' @export
+  antsrImageToImageMetric.GetDerivative = function( metric ) {
+    return( .Call("antsrImageToImageMetric_GetDerivative", metric, PACKAGE = "ANTsRCore" ) )
+  }
+
 #' @title antsrImageToImageMetric.Initialize
-#' @description set moving image mask for image to image metric
+#' @description prepare to return values
 #' @param metric an 'antsrImageToImageMetric'
 #' @examples
 #' x =  antsImageRead( getANTsRData( 'r16' ))
