@@ -28,8 +28,7 @@ echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
 
 echo "libitk=\`find \"${ITKRLIB}\" -name \"lib*.a\"\`" >> Makevars.win
 
-echo "PKG_LIBS=${PKG_LIBS} \${libitk} \${libants} \${libitk} \${libants} \${libitk} \
-                 \${libants}" >> Makevars.win
+echo "PKG_LIBS=${PKG_LIBS}  \${libants} \${libitk} \${libants} \${libitk}" >> Makevars.win
 
 # echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
 #                  \${libants} \${libitk} \${libants} \${itklib} \${libants} \
@@ -59,8 +58,6 @@ cd ants
 git checkout master;  
 git pull;  
 git checkout $antstag
-# needed for warning
-rm -rf .git
 cd ../
 mkdir antb
 cp ../inst/include/antscore.h ./ants/Examples/include/ants.h
@@ -83,3 +80,5 @@ cmake \
     -DCMAKE_INSTALL_PREFIX:PATH="${R_PACKAGE_DIR}/libs/" \
     -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}"  ../ants
 cd ../
+# needed for warning
+rm -rf ants/.git

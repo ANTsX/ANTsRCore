@@ -30,7 +30,7 @@ fi
 
 cd ./src
 # platform-specific Makevars
-echo "myantssource=\${PWD}/ants/" > Makevars
+echo "myantssource=\${PWD}/ants" > Makevars
 # echo "ITK = \`\$(R_HOME)/bin/Rscript -e 'ITKR:::itkIncludes()'\`" >> Makevars
 echo "ITK=${ITKRCMAKE}" >> Makevars
 
@@ -47,7 +47,7 @@ else # just try gcc directly
   fi
 fi
 echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
-echo "PKG_CPPFLAGS= -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
+echo "PKG_CPPFLAGS= ${PKG_CPPFLAGS} -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
   -I\${myantssource}/Utilities -I\${myantssource}/Examples/ -I../inst/include/\
   -I\${myantssource}/Tensor/ " >> Makevars
 
@@ -60,8 +60,7 @@ echo "libants=\`find \${myantslib} -name \"lib*.a\"\`" >> Makevars
 # echo "libitk=\`find \\\`\$(R_HOME)/bin/Rscript -e 'ITKR:::itkLibs()'\\\` -name \"lib*.a\"\` " >> Makevars
 echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\"\`" >> Makevars
 
-echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
-                 \${libants} \${libitk}" >> Makevars
+echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk}" >> Makevars
 
 echo ".PHONY: all libs" >> Makevars
 
@@ -91,8 +90,6 @@ if [[ -d .git ]]; then
     git checkout master
     git pull
     git checkout $antstag
-    # needed for warning
-    rm -rf .git
 fi
 cd ../
 if [[ ! -s antb ]] ; then
@@ -115,3 +112,5 @@ ${cmaker} -DITK_DIR:PATH=${ITKDIR} \
     -DCMAKE_INSTALL_PREFIX:PATH=${R_PACKAGE_DIR}/libs/  \
     -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}"  ../ants
 cd ../
+# needed for warning
+rm -rf ants/.git
