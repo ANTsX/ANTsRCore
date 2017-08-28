@@ -23,3 +23,4 @@ make_comparison_operator\.R
 R/\.Rhistory
 .Rhistory
 zzz_Comparison2\.R
+^docs$

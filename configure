@@ -62,6 +62,7 @@ echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\"\`" >> Makevars
 
 echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk} \
     \${libants} \${libitk} \${libants} \${libitk} \${libants} \${libitk}" >> Makevars
+echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk} \${libants} \${libitk} \${libants} \${libitk}" >> Makevars
 
 echo ".PHONY: all libs" >> Makevars
 
@@ -115,3 +116,4 @@ ${cmaker} -DITK_DIR:PATH=${ITKDIR} \
 cd ../
 # needed for warning
 rm -rf ants/.git
+
