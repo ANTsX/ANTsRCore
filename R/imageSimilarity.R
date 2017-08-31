@@ -38,7 +38,7 @@ imageSimilarity <- function(
   sampling.percentage=1, nBins=32, radius=3 ) {
 
   type = match.arg(type)
-  metric = antsrImageToImageMetric.Create(
+  metric = antsrMetricCreate(
     fixed,
     moving,
     type = type,
@@ -50,5 +50,5 @@ imageSimilarity <- function(
     radius=radius
   )
 
-  return( antsrImageToImageMetric.GetValue(metric) )
+  return( antsrMetricGetValue(metric) )
 }
