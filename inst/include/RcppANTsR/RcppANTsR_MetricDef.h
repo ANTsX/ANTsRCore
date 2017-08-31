@@ -1,5 +1,5 @@
-#ifndef __RCPPANTSR_IMAGETOIMAGEMETRIC_H
-#define __RCPPANTSR_IMAGETOIMAGEMETRIC_H
+#ifndef __RCPPANTSR_METRIC_H
+#define __RCPPANTSR_METRIC_H
 
 #include "itkMacro.h"
 #include "itkImage.h"

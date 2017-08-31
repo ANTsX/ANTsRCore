@@ -18,7 +18,7 @@
 #include "itkImageRandomConstIteratorWithIndex.h"
 
 template< class ImageType >
-SEXP antsrImageToImageMetric( std::string type, SEXP r_fixed, SEXP r_moving )
+SEXP antsrMetric( std::string type, SEXP r_fixed, SEXP r_moving )
 {
   typedef typename ImageType::Pointer           ImagePointerType;
   bool gradientfilter = false;
@@ -128,7 +128,7 @@ SEXP antsrImageToImageMetric( std::string type, SEXP r_fixed, SEXP r_moving )
 }
 
 //pixeltype, precision, dimension, type, isVector
-RcppExport SEXP antsrImageToImageMetric( SEXP r_pixeltype,
+RcppExport SEXP antsrMetric( SEXP r_pixeltype,
   SEXP r_dimension, SEXP r_type, SEXP r_isVector, SEXP r_fixed, SEXP r_moving )
 {
 try
@@ -153,17 +153,17 @@ try
     if( dimension == 4 )
 	    {
       typedef itk::Image<PixelType,4> ImageType;
-      return antsrImageToImageMetric<ImageType>( type, r_fixed, r_moving );
+      return antsrMetric<ImageType>( type, r_fixed, r_moving );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
-      return antsrImageToImageMetric<ImageType>( type, r_fixed, r_moving );
+      return antsrMetric<ImageType>( type, r_fixed, r_moving );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
-      return antsrImageToImageMetric<ImageType>( type, r_fixed, r_moving );
+      return antsrMetric<ImageType>( type, r_fixed, r_moving );
 	    }
 	  }
   else if( pixeltype == "float" )
@@ -172,17 +172,17 @@ try
     if( dimension == 4 )
 	    {
       typedef itk::Image<PixelType,4> ImageType;
-      return antsrImageToImageMetric<ImageType>( type, r_fixed, r_moving );
+      return antsrMetric<ImageType>( type, r_fixed, r_moving );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
-      return antsrImageToImageMetric<ImageType>( type, r_fixed, r_moving );
+      return antsrMetric<ImageType>( type, r_fixed, r_moving );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
-      return antsrImageToImageMetric<ImageType>( type, r_fixed, r_moving );
+      return antsrMetric<ImageType>( type, r_fixed, r_moving );
 	    }
     }
   else {
@@ -210,7 +210,7 @@ return Rcpp::wrap(NA_REAL); //not reached
 }
 
 template< class MetricType >
-void antsrImageToImageMetric_SetImage( SEXP r_metric, SEXP r_antsimage, bool isFixed, bool isMask )
+void antsrMetric_SetImage( SEXP r_metric, SEXP r_antsimage, bool isFixed, bool isMask )
 {
   typedef typename MetricType::FixedImageType   ImageType;
   typedef typename ImageType::Pointer           ImagePointerType;
@@ -247,12 +247,12 @@ void antsrImageToImageMetric_SetImage( SEXP r_metric, SEXP r_antsimage, bool isF
 }
 
 
-RcppExport SEXP antsrImageToImageMetric_SetImage( SEXP r_metric,
+RcppExport SEXP antsrMetric_SetImage( SEXP r_metric,
   SEXP r_antsimage, SEXP r_isFixed, SEXP r_isMask )
 {
 try
 {
-  //Rcpp::Rcout << "antsrImageToImageMetric_SetFixedImage()" << std::endl;
+  //Rcpp::Rcout << "antsrMetric_SetFixedImage()" << std::endl;
 
   Rcpp::S4 antsmetric( r_metric ) ;
   std::string pixeltype = Rcpp::as< std::string >( antsmetric.slot( "pixeltype" ) );
@@ -279,19 +279,19 @@ try
 	    {
       typedef itk::Image<PixelType,4> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetImage<MetricType>( r_metric, r_antsimage, isFixed, isMask );
+      antsrMetric_SetImage<MetricType>( r_metric, r_antsimage, isFixed, isMask );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetImage<MetricType>( r_metric, r_antsimage, isFixed, isMask );
+      antsrMetric_SetImage<MetricType>( r_metric, r_antsimage, isFixed, isMask );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetImage<MetricType>( r_metric, r_antsimage, isFixed, isMask );
+      antsrMetric_SetImage<MetricType>( r_metric, r_antsimage, isFixed, isMask );
 	    }
 	  }
   else if( pixeltype == "float" )
@@ -301,19 +301,19 @@ try
 	    {
       typedef itk::Image<PixelType,4> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetImage<MetricType>( r_metric, r_antsimage, isFixed, isMask );
+      antsrMetric_SetImage<MetricType>( r_metric, r_antsimage, isFixed, isMask );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetImage<MetricType>( r_metric, r_antsimage, isFixed, isMask );
+      antsrMetric_SetImage<MetricType>( r_metric, r_antsimage, isFixed, isMask );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetImage<MetricType>( r_metric, r_antsimage, isFixed, isMask );
+      antsrMetric_SetImage<MetricType>( r_metric, r_antsimage, isFixed, isMask );
 	    }
     }
   else {
@@ -341,7 +341,7 @@ return Rcpp::wrap(NA_REAL); //not reached
 }
 
 template< class MetricType >
-void antsrImageToImageMetric_SetTransform( SEXP r_metric, SEXP r_antsrtransform, bool isFixed )
+void antsrMetric_SetTransform( SEXP r_metric, SEXP r_antsrtransform, bool isFixed )
 {
   typedef typename MetricType::Pointer             MetricPointerType;
   typedef typename MetricType::MovingTransformType TransformType;
@@ -360,12 +360,12 @@ void antsrImageToImageMetric_SetTransform( SEXP r_metric, SEXP r_antsrtransform,
 }
 
 
-RcppExport SEXP antsrImageToImageMetric_SetTransform( SEXP r_metric,
+RcppExport SEXP antsrMetric_SetTransform( SEXP r_metric,
   SEXP r_antsrtransform, SEXP r_isFixed )
 {
 try
 {
-  Rcpp::Rcout << "antsrImageToImageMetric_SetTransform()" << std::endl;
+  Rcpp::Rcout << "antsrMetric_SetTransform()" << std::endl;
 
   Rcpp::S4 antsmetric( r_metric ) ;
   std::string pixeltype = Rcpp::as< std::string >( antsmetric.slot( "pixeltype" ) );
@@ -384,19 +384,19 @@ try
 	    {
       typedef itk::Image<PixelType,4> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetTransform<MetricType>( r_metric, r_antsrtransform, isFixed );
+      antsrMetric_SetTransform<MetricType>( r_metric, r_antsrtransform, isFixed );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetTransform<MetricType>( r_metric, r_antsrtransform, isFixed );
+      antsrMetric_SetTransform<MetricType>( r_metric, r_antsrtransform, isFixed );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetTransform<MetricType>( r_metric, r_antsrtransform, isFixed );
+      antsrMetric_SetTransform<MetricType>( r_metric, r_antsrtransform, isFixed );
 	    }
 	  }
   else if( pixeltype == "float" )
@@ -406,19 +406,19 @@ try
 	    {
       typedef itk::Image<PixelType,4> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetTransform<MetricType>( r_metric, r_antsrtransform, isFixed );
+      antsrMetric_SetTransform<MetricType>( r_metric, r_antsrtransform, isFixed );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetTransform<MetricType>( r_metric, r_antsrtransform, isFixed );
+      antsrMetric_SetTransform<MetricType>( r_metric, r_antsrtransform, isFixed );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetTransform<MetricType>( r_metric, r_antsrtransform, isFixed );
+      antsrMetric_SetTransform<MetricType>( r_metric, r_antsrtransform, isFixed );
 	    }
     }
   else {
@@ -446,20 +446,20 @@ return Rcpp::wrap(NA_REAL); //not reached
 }
 
 template< class MetricType >
-SEXP antsrImageToImageMetric_GetValue( SEXP r_metric )
+SEXP antsrMetric_GetValue( SEXP r_metric )
 {
-  //Rcpp::Rcout << "antsrImageToImageMetric_GetValue<MetricType>()" << std::endl;
+  //Rcpp::Rcout << "antsrMetric_GetValue<MetricType>()" << std::endl;
   typedef typename MetricType::Pointer          MetricPointerType;
   MetricPointerType metric = Rcpp::as<MetricPointerType>( r_metric );
   return Rcpp::wrap( metric->GetValue() );
 }
 
 //pixeltype, precision, dimension, type, isVector
-RcppExport SEXP antsrImageToImageMetric_GetValue( SEXP r_metric )
+RcppExport SEXP antsrMetric_GetValue( SEXP r_metric )
 {
 try
 {
-  //Rcpp::Rcout << "antsrImageToImageMetric_GetValue()" << std::endl;
+  //Rcpp::Rcout << "antsrMetric_GetValue()" << std::endl;
 
   Rcpp::S4 antsmetric( r_metric );
 
@@ -482,19 +482,19 @@ try
 	    {
       typedef itk::Image<PixelType,4> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      return antsrImageToImageMetric_GetValue<MetricType>( r_metric );
+      return antsrMetric_GetValue<MetricType>( r_metric );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      return antsrImageToImageMetric_GetValue<MetricType>( r_metric );
+      return antsrMetric_GetValue<MetricType>( r_metric );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      return antsrImageToImageMetric_GetValue<MetricType>( r_metric );
+      return antsrMetric_GetValue<MetricType>( r_metric );
 	    }
 	  }
   else if( pixeltype == "float" )
@@ -504,19 +504,19 @@ try
 	    {
       typedef itk::Image<PixelType,4> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      return antsrImageToImageMetric_GetValue<MetricType>( r_metric );
+      return antsrMetric_GetValue<MetricType>( r_metric );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      return antsrImageToImageMetric_GetValue<MetricType>( r_metric );
+      return antsrMetric_GetValue<MetricType>( r_metric );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      return antsrImageToImageMetric_GetValue<MetricType>( r_metric );
+      return antsrMetric_GetValue<MetricType>( r_metric );
 	    }
     }
   else {
@@ -545,9 +545,9 @@ return Rcpp::wrap(NA_REAL); //not reached
 
 
 template< class MetricType >
-SEXP antsrImageToImageMetric_GetDerivative( SEXP r_metric )
+SEXP antsrMetric_GetDerivative( SEXP r_metric )
 {
-  //Rcpp::Rcout << "antsrImageToImageMetric_GetValue<MetricType>()" << std::endl;
+  //Rcpp::Rcout << "antsrMetric_GetValue<MetricType>()" << std::endl;
   typedef typename MetricType::Pointer          MetricPointerType;
   MetricPointerType metric = Rcpp::as<MetricPointerType>( r_metric );
 
@@ -559,11 +559,11 @@ SEXP antsrImageToImageMetric_GetDerivative( SEXP r_metric )
 }
 
 //pixeltype, precision, dimension, type, isVector
-RcppExport SEXP antsrImageToImageMetric_GetDerivative( SEXP r_metric )
+RcppExport SEXP antsrMetric_GetDerivative( SEXP r_metric )
 {
 try
 {
-  //Rcpp::Rcout << "antsrImageToImageMetric_GetValue()" << std::endl;
+  //Rcpp::Rcout << "antsrMetric_GetValue()" << std::endl;
 
   Rcpp::S4 antsmetric( r_metric );
 
@@ -586,19 +586,19 @@ try
 	    {
       typedef itk::Image<PixelType,4> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      return antsrImageToImageMetric_GetDerivative<MetricType>( r_metric );
+      return antsrMetric_GetDerivative<MetricType>( r_metric );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      return antsrImageToImageMetric_GetDerivative<MetricType>( r_metric );
+      return antsrMetric_GetDerivative<MetricType>( r_metric );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      return antsrImageToImageMetric_GetDerivative<MetricType>( r_metric );
+      return antsrMetric_GetDerivative<MetricType>( r_metric );
 	    }
 	  }
   else if( pixeltype == "float" )
@@ -608,19 +608,19 @@ try
 	    {
       typedef itk::Image<PixelType,4> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      return antsrImageToImageMetric_GetDerivative<MetricType>( r_metric );
+      return antsrMetric_GetDerivative<MetricType>( r_metric );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      return antsrImageToImageMetric_GetDerivative<MetricType>( r_metric );
+      return antsrMetric_GetDerivative<MetricType>( r_metric );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      return antsrImageToImageMetric_GetDerivative<MetricType>( r_metric );
+      return antsrMetric_GetDerivative<MetricType>( r_metric );
 	    }
     }
   else {
@@ -648,7 +648,7 @@ return Rcpp::wrap(NA_REAL); //not reached
 }
 
 template< class MetricType >
-void antsrImageToImageMetric_SetSampling( SEXP r_metric, std::string strategy, double percentage )
+void antsrMetric_SetSampling( SEXP r_metric, std::string strategy, double percentage )
 {
   typedef typename MetricType::MovingImageType  ImageType;
   typedef typename MetricType::Pointer          MetricPointerType;
@@ -727,7 +727,7 @@ void antsrImageToImageMetric_SetSampling( SEXP r_metric, std::string strategy, d
 }
 
 //pixeltype, precision, dimension, type, isVector
-RcppExport SEXP antsrImageToImageMetric_SetSampling( SEXP r_metric,
+RcppExport SEXP antsrMetric_SetSampling( SEXP r_metric,
   SEXP r_strategy, SEXP r_percentage )
 {
 try
@@ -739,7 +739,7 @@ try
   std::string strategy = Rcpp::as<std::string>( r_strategy );
   double percentage = Rcpp::as<double>( r_percentage );
 
-  //Rcpp::Rcout << "antsrImageToImageMetric_SetSampling(metric," << strategy <<
+  //Rcpp::Rcout << "antsrMetric_SetSampling(metric," << strategy <<
   //  "," << percentage << ")" << std::endl;
 
   //if ( isVector ) {
@@ -758,19 +758,19 @@ try
 	    {
       typedef itk::Image<PixelType,4> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetSampling<MetricType>( r_metric, strategy, percentage  );
+      antsrMetric_SetSampling<MetricType>( r_metric, strategy, percentage  );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetSampling<MetricType>( r_metric, strategy, percentage  );
+      antsrMetric_SetSampling<MetricType>( r_metric, strategy, percentage  );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetSampling<MetricType>( r_metric, strategy, percentage  );
+      antsrMetric_SetSampling<MetricType>( r_metric, strategy, percentage  );
 	    }
 	  }
   else if( pixeltype == "float" )
@@ -780,19 +780,19 @@ try
 	    {
       typedef itk::Image<PixelType,4> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetSampling<MetricType>( r_metric, strategy, percentage  );
+      antsrMetric_SetSampling<MetricType>( r_metric, strategy, percentage  );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetSampling<MetricType>( r_metric, strategy, percentage  );
+      antsrMetric_SetSampling<MetricType>( r_metric, strategy, percentage  );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetSampling<MetricType>( r_metric, strategy, percentage  );
+      antsrMetric_SetSampling<MetricType>( r_metric, strategy, percentage  );
 	    }
     }
   else {
@@ -821,7 +821,7 @@ return Rcpp::wrap(NA_REAL); //not reached
 
 
 template< class MetricType >
-void antsrImageToImageMetric_SetNumberOfHistogramBins( SEXP r_metric, unsigned int nBins )
+void antsrMetric_SetNumberOfHistogramBins( SEXP r_metric, unsigned int nBins )
 {
   typedef typename MetricType::MovingImageType  ImageType;
   typedef typename MetricType::Pointer          MetricPointerType;
@@ -849,7 +849,7 @@ void antsrImageToImageMetric_SetNumberOfHistogramBins( SEXP r_metric, unsigned i
 
 }
 
-RcppExport SEXP antsrImageToImageMetric_SetNumberOfHistogramBins( SEXP r_metric, SEXP r_nBins )
+RcppExport SEXP antsrMetric_SetNumberOfHistogramBins( SEXP r_metric, SEXP r_nBins )
 {
 try
 {
@@ -870,19 +870,19 @@ try
 	    {
       typedef itk::Image<PixelType,4> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetNumberOfHistogramBins<MetricType>( r_metric, nBins );
+      antsrMetric_SetNumberOfHistogramBins<MetricType>( r_metric, nBins );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetNumberOfHistogramBins<MetricType>( r_metric, nBins );
+      antsrMetric_SetNumberOfHistogramBins<MetricType>( r_metric, nBins );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetNumberOfHistogramBins<MetricType>( r_metric, nBins );
+      antsrMetric_SetNumberOfHistogramBins<MetricType>( r_metric, nBins );
 	    }
 	  }
   else if( pixeltype == "float" )
@@ -892,19 +892,19 @@ try
 	    {
       typedef itk::Image<PixelType,4> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetNumberOfHistogramBins<MetricType>( r_metric, nBins );
+      antsrMetric_SetNumberOfHistogramBins<MetricType>( r_metric, nBins );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetNumberOfHistogramBins<MetricType>( r_metric, nBins );
+      antsrMetric_SetNumberOfHistogramBins<MetricType>( r_metric, nBins );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetNumberOfHistogramBins<MetricType>( r_metric, nBins );
+      antsrMetric_SetNumberOfHistogramBins<MetricType>( r_metric, nBins );
 	    }
     }
   else {
@@ -932,7 +932,7 @@ return Rcpp::wrap(NA_REAL); //not reached
 }
 
 template< class MetricType >
-void antsrImageToImageMetric_SetRadius( SEXP r_metric, unsigned int radius )
+void antsrMetric_SetRadius( SEXP r_metric, unsigned int radius )
 {
   typedef typename MetricType::MovingImageType  ImageType;
   typedef typename MetricType::Pointer          MetricPointerType;
@@ -958,7 +958,7 @@ void antsrImageToImageMetric_SetRadius( SEXP r_metric, unsigned int radius )
 
 }
 
-RcppExport SEXP antsrImageToImageMetric_SetRadius( SEXP r_metric, SEXP r_radius )
+RcppExport SEXP antsrMetric_SetRadius( SEXP r_metric, SEXP r_radius )
 {
 try
 {
@@ -979,19 +979,19 @@ try
 	    {
       typedef itk::Image<PixelType,4> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetRadius<MetricType>( r_metric, radius );
+      antsrMetric_SetRadius<MetricType>( r_metric, radius );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetRadius<MetricType>( r_metric, radius );
+      antsrMetric_SetRadius<MetricType>( r_metric, radius );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetRadius<MetricType>( r_metric, radius );
+      antsrMetric_SetRadius<MetricType>( r_metric, radius );
 	    }
 	  }
   else if( pixeltype == "float" )
@@ -1001,19 +1001,19 @@ try
 	    {
       typedef itk::Image<PixelType,4> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetRadius<MetricType>( r_metric, radius );
+      antsrMetric_SetRadius<MetricType>( r_metric, radius );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetRadius<MetricType>( r_metric, radius );
+      antsrMetric_SetRadius<MetricType>( r_metric, radius );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_SetRadius<MetricType>( r_metric, radius );
+      antsrMetric_SetRadius<MetricType>( r_metric, radius );
 	    }
     }
   else {
@@ -1041,19 +1041,19 @@ return Rcpp::wrap(NA_REAL); //not reached
 }
 
 template< class MetricType >
-void antsrImageToImageMetric_Initialize( SEXP r_metric )
+void antsrMetric_Initialize( SEXP r_metric )
 {
-  //Rcpp::Rcout << "antsrImageToImageMetric_GetValue<MetricType>()" << std::endl;
+  //Rcpp::Rcout << "antsrMetric_GetValue<MetricType>()" << std::endl;
   typedef typename MetricType::Pointer          MetricPointerType;
   MetricPointerType metric = Rcpp::as<MetricPointerType>( r_metric );
   metric->Initialize();
 }
 
-RcppExport SEXP antsrImageToImageMetric_Initialize( SEXP r_metric )
+RcppExport SEXP antsrMetric_Initialize( SEXP r_metric )
 {
 try
 {
-  //Rcpp::Rcout << "antsrImageToImageMetric_Initialize()" << std::endl;
+  //Rcpp::Rcout << "antsrMetric_Initialize()" << std::endl;
 
   Rcpp::S4 antsmetric( r_metric ) ;
   std::string pixeltype = Rcpp::as< std::string >( antsmetric.slot( "pixeltype" ) );
@@ -1075,19 +1075,19 @@ try
 	    {
       typedef itk::Image<PixelType,4> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_Initialize<MetricType>( r_metric );
+      antsrMetric_Initialize<MetricType>( r_metric );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_Initialize<MetricType>( r_metric );
+      antsrMetric_Initialize<MetricType>( r_metric );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_Initialize<MetricType>( r_metric );
+      antsrMetric_Initialize<MetricType>( r_metric );
 	    }
 	  }
   else if( pixeltype == "float" )
@@ -1097,19 +1097,19 @@ try
 	    {
       typedef itk::Image<PixelType,4> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_Initialize<MetricType>( r_metric );
+      antsrMetric_Initialize<MetricType>( r_metric );
       }
     else if( dimension == 3 )
 	    {
       typedef itk::Image<PixelType,3> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_Initialize<MetricType>( r_metric );
+      antsrMetric_Initialize<MetricType>( r_metric );
 	    }
     else if( dimension == 2 )
 	    {
       typedef itk::Image<PixelType,2> ImageType;
       typedef itk::ImageToImageMetricv4<ImageType,ImageType> MetricType;
-      antsrImageToImageMetric_Initialize<MetricType>( r_metric );
+      antsrMetric_Initialize<MetricType>( r_metric );
 	    }
     }
   else {
