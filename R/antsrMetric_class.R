@@ -100,6 +100,9 @@ antsrMetricCreate <- function(
   }
 
   isVector=FALSE # For now, no multichannel images
+  if ( fixed@isVector | moving@isVector ) {
+    stop("Multichannel images are not supported")
+  }
 
   if ( is.antsImage(fixed) ) {
     dimension = fixed@dimension
