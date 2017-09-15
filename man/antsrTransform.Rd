@@ -7,8 +7,6 @@
 \alias{initialize,antsrMetric-method}
 \alias{initialize,antsrTransform-method}
 \alias{antsrTransform-class}
-\alias{show,antsrTransform-method}
-\alias{initialize,antsrTransform-method}
 \title{An S4 class for an antsrTransform}
 \usage{
 \S4method{show}{antsrMetric}(object)
