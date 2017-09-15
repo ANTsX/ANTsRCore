@@ -64,7 +64,7 @@ inline std::string pixeltype_highest_precision( std::string p1, std::string p2 )
 #include <RcppANTsR/RcppANTsR_VectorImageDef.h>
 #include <RcppANTsR/RcppANTsR_ImageIteratorDef.h>
 #include <RcppANTsR/RcppANTsR_TransformDef.h>
-#include <RcppANTsR/RcppANTsR_ImageToImageMetricDef.h>
+#include <RcppANTsR/RcppANTsR_MetricDef.h>
 
 // This needs to go after wrap declarations and before implementations
 #include <Rcpp.h>
@@ -74,7 +74,7 @@ inline std::string pixeltype_highest_precision( std::string p1, std::string p2 )
 #include <RcppANTsR/RcppANTsR_VectorImageImp.h>
 #include <RcppANTsR/RcppANTsR_ImageIteratorImp.h>
 #include <RcppANTsR/RcppANTsR_TransformImp.h>
-#include <RcppANTsR/RcppANTsR_ImageToImageMetricImp.h>
+#include <RcppANTsR/RcppANTsR_MetricImp.h>
 
 
 #endif

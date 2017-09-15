@@ -70,12 +70,15 @@ extern SEXP antsMatrix(SEXP);
 extern SEXP antsMatrix_asantsMatrix(SEXP, SEXP);
 extern SEXP antsMatrix_asList(SEXP);
 extern SEXP antsRegistration(SEXP);
-extern SEXP antsrImageToImageMetric(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
-extern SEXP antsrImageToImageMetric_GetValue(SEXP);
-extern SEXP antsrImageToImageMetric_Initialize(SEXP);
-extern SEXP antsrImageToImageMetric_SetFixedImage(SEXP,SEXP,SEXP);
-extern SEXP antsrImageToImageMetric_SetMovingImage(SEXP,SEXP,SEXP);
-extern SEXP antsrImageToImageMetric_SetSampling(SEXP,SEXP,SEXP);
+extern SEXP antsrMetric(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+extern SEXP antsrMetric_GetDerivative(SEXP);
+extern SEXP antsrMetric_GetValue(SEXP);
+extern SEXP antsrMetric_Initialize(SEXP);
+extern SEXP antsrMetric_SetImage(SEXP,SEXP,SEXP,SEXP);
+extern SEXP antsrMetric_SetNumberOfHistogramBins(SEXP,SEXP);
+extern SEXP antsrMetric_SetRadius(SEXP,SEXP);
+extern SEXP antsrMetric_SetSampling(SEXP,SEXP,SEXP);
+extern SEXP antsrMetric_SetTransform(SEXP,SEXP,SEXP);
 extern SEXP antsrTransform(SEXP, SEXP, SEXP);
 extern SEXP antsrTransform_Compose(SEXP, SEXP, SEXP);
 extern SEXP antsrTransform_FromDisplacementField(SEXP);
@@ -161,12 +164,15 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsMatrix_asantsMatrix",                 (DL_FUNC) &antsMatrix_asantsMatrix,                  2},
     {"antsMatrix_asList",                       (DL_FUNC) &antsMatrix_asList,                        1},
     {"antsRegistration",                        (DL_FUNC) &antsRegistration,                         1},
-    {"antsrImageToImageMetric",                 (DL_FUNC) &antsrImageToImageMetric,                  6},
-    {"antsrImageToImageMetric_GetValue",        (DL_FUNC) &antsrImageToImageMetric_GetValue,         1},
-    {"antsrImageToImageMetric_Initialize",      (DL_FUNC) &antsrImageToImageMetric_Initialize,       1},
-    {"antsrImageToImageMetric_SetFixedImage",   (DL_FUNC) &antsrImageToImageMetric_SetFixedImage,    3},
-    {"antsrImageToImageMetric_SetMovingImage",  (DL_FUNC) &antsrImageToImageMetric_SetMovingImage,   3},
-    {"antsrImageToImageMetric_SetSampling",     (DL_FUNC) &antsrImageToImageMetric_SetSampling,      3},
+    {"antsrMetric",                             (DL_FUNC) &antsrMetric,                              6},
+    {"antsrMetric_GetDerivative",               (DL_FUNC) &antsrMetric_GetDerivative,                1},
+    {"antsrMetric_GetValue",                    (DL_FUNC) &antsrMetric_GetValue,                     1},
+    {"antsrMetric_Initialize",                  (DL_FUNC) &antsrMetric_Initialize,                   1},
+    {"antsrMetric_SetImage",                    (DL_FUNC) &antsrMetric_SetImage,                     4},
+    {"antsrMetric_SetNumberOfHistogramBins",    (DL_FUNC) &antsrMetric_SetNumberOfHistogramBins,     2},
+    {"antsrMetric_SetRadius",                   (DL_FUNC) &antsrMetric_SetRadius,                    2},
+    {"antsrMetric_SetSampling",                 (DL_FUNC) &antsrMetric_SetSampling,                  3},
+    {"antsrMetric_SetTransform",                (DL_FUNC) &antsrMetric_SetTransform,                 3},
     {"antsrTransform",                          (DL_FUNC) &antsrTransform,                           3},
     {"antsrTransform_Compose",                  (DL_FUNC) &antsrTransform_Compose,                   3},
     {"antsrTransform_FromDisplacementField",    (DL_FUNC) &antsrTransform_FromDisplacementField,     1},
