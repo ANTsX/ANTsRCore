@@ -27,7 +27,8 @@ resampleImage <- function(image, resampleParams, useVoxels = FALSE, interpType =
   if ( pixtype == "int" ) numpixtype = 4
   if ( pixtype == "unsigned int" ) numpixtype = 5
   if ( pixtype == "float" ) numpixtype = 6
-  if ( !is.na(  numpixtype ) ) stop( paste( "cannot process pixeltype",pixtype ))
+  if ( is.na(  numpixtype ) ) stop( paste( "cannot process pixeltype",pixtype, numpixtype ))
+  rsampar <- paste(resampleParams, collapse = "x")
   if ( image@components == 1 )
     {
     outimg = new("antsImage", pixtype, image@dimension )
@@ -43,7 +44,6 @@ resampleImage <- function(image, resampleParams, useVoxels = FALSE, interpType =
     for ( k in 1:length( mychanns ) )
       {
       outimg = new("antsImage", pixtype, image@dimension )
-      rsampar <- paste(resampleParams, collapse = "x")
       args <- list( image@dimension, mychanns[[k]], outimg, rsampar,
         as.numeric(useVoxels), interpType, numpixtype)
       temp <- .int_antsProcessArguments(args)
