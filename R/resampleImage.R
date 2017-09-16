@@ -18,16 +18,24 @@
 #'
 #' @export resampleImage
 resampleImage <- function(image, resampleParams, useVoxels = FALSE, interpType = 1) {
+  pixtype = image@pixeltype
+  numpixtype = NA
+  if ( pixtype == "char" ) numpixtype = 0
+  if ( pixtype == "unsigned char" ) numpixtype = 1
+  if ( pixtype == "short" ) numpixtype = 2
+  if ( pixtype == "unsigned short" ) numpixtype = 3
+  if ( pixtype == "int" ) numpixtype = 4
+  if ( pixtype == "unsigned int" ) numpixtype = 5
+  if ( pixtype == "float" ) numpixtype = 6
+  if ( is.na(  numpixtype ) ) stop( paste( "cannot process pixeltype",pixtype, numpixtype ))
+  rsampar <- paste(resampleParams, collapse = "x")
   if ( image@components == 1 )
     {
-    inimg <- antsImageClone(image, "double")
-    outimg <- antsImageClone(image, "double")
-    rsampar <- paste(resampleParams, collapse = "x")
-    args <- list(image@dimension, inimg, outimg, rsampar,
-      as.numeric(useVoxels), interpType)
+    outimg = new("antsImage", pixtype, image@dimension )
+    args <- list(image@dimension, image, outimg, rsampar,
+      as.numeric(useVoxels), interpType, numpixtype )
     k <- .int_antsProcessArguments(args)
     retval <- .Call("ResampleImage", k)
-    outimg <- antsImageClone(outimg, image@pixeltype)
     return(outimg)
     }
   if ( image@components > 1 )
@@ -35,11 +43,9 @@ resampleImage <- function(image, resampleParams, useVoxels = FALSE, interpType =
     mychanns = splitChannels( image )
     for ( k in 1:length( mychanns ) )
       {
-      inimg <- antsImageClone( mychanns[[k]], "double")
-      outimg <- antsImageClone( mychanns[[k]], "double")
-      rsampar <- paste(resampleParams, collapse = "x")
-      args <- list( image@dimension, inimg, outimg, rsampar,
-        as.numeric(useVoxels), interpType)
+      outimg = new("antsImage", pixtype, image@dimension )
+      args <- list( image@dimension, mychanns[[k]], outimg, rsampar,
+        as.numeric(useVoxels), interpType, numpixtype)
       temp <- .int_antsProcessArguments(args)
       retval <- .Call("ResampleImage", temp)
       mychanns[[k]] <- antsImageClone(outimg, image@pixeltype)

@@ -75,7 +75,7 @@ echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build &&
 
 # get / set up ANTs code
 antsgit=https://github.com/stnava/ANTs.git
-antstag=99ea3b9d6a661bc599c43601e32704355c8c8966
+antstag=fb874ebe977b84b57b7c5a2b124608f748e8e1e2 # pixeltype in resampleImage
 antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants
@@ -115,4 +115,3 @@ ${cmaker} -DITK_DIR:PATH=${ITKDIR} \
 cd ../
 # needed for warning
 rm -rf ants/.git
-
