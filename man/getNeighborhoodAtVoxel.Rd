@@ -27,7 +27,6 @@ a list
 Get the values in a local neighborhood of an \code{antsImage}.
 }
 \examples{
-
 img<-makeImage(c(10,10),rnorm(100))
 center <- dim(img)/2
 radius <- rep(3,2)

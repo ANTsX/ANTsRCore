@@ -53,7 +53,6 @@ around a center voxel
 }
 }
 \examples{
-
 r16 <- getANTsRData("r16")
 r16 <- antsImageRead(r16,2)
 mask <- getMask(r16,lowThresh=mean(r16),cleanup=1)
