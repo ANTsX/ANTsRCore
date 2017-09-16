@@ -1,5 +1,5 @@
-#ifndef __RCPPANTSR_IMAGETOIMAGEMETRIC_HPP
-#define __RCPPANTSR_IMAGETOIMAGEMETRIC_HPP
+#ifndef __RCPPANTSR_METRIC_HPP
+#define __RCPPANTSR_METRIC_HPP
 
 #include "itkMacro.h"
 #include "itkImage.h"
@@ -43,7 +43,7 @@ SEXP wrap( const itk::MeanSquaresImageToImageMetricv4< itk::Image<double,2>, itk
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 2;
   itkImageToImageMetric.slot( "type" ) = "MeanSquares";
@@ -64,7 +64,7 @@ SEXP wrap( const itk::MeanSquaresImageToImageMetricv4< itk::Image<double,3>, itk
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 3;
   itkImageToImageMetric.slot( "type" ) = "MeanSquares";
@@ -85,7 +85,7 @@ SEXP wrap( const itk::MeanSquaresImageToImageMetricv4< itk::Image<double,4>, itk
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 4;
   itkImageToImageMetric.slot( "type" ) = "MeanSquares";
@@ -107,7 +107,7 @@ SEXP wrap( const itk::MeanSquaresImageToImageMetricv4< itk::Image<float,2>, itk:
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 2;
   itkImageToImageMetric.slot( "type" ) = "MeanSquares";
@@ -128,7 +128,7 @@ SEXP wrap( const itk::MeanSquaresImageToImageMetricv4< itk::Image<float,3>, itk:
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 3;
   itkImageToImageMetric.slot( "type" ) = "MeanSquares";
@@ -149,7 +149,7 @@ SEXP wrap( const itk::MeanSquaresImageToImageMetricv4< itk::Image<float,4>, itk:
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 4;
   itkImageToImageMetric.slot( "type" ) = "MeanSquares";
@@ -171,7 +171,7 @@ SEXP wrap( const itk::CorrelationImageToImageMetricv4< itk::Image<double,2>, itk
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 2;
   itkImageToImageMetric.slot( "type" ) = "Correlation";
@@ -192,7 +192,7 @@ SEXP wrap( const itk::CorrelationImageToImageMetricv4< itk::Image<double,3>, itk
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 3;
   itkImageToImageMetric.slot( "type" ) = "Correlation";
@@ -213,7 +213,7 @@ SEXP wrap( const itk::CorrelationImageToImageMetricv4< itk::Image<double,4>, itk
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 4;
   itkImageToImageMetric.slot( "type" ) = "Correlation";
@@ -235,7 +235,7 @@ SEXP wrap( const itk::CorrelationImageToImageMetricv4< itk::Image<float,2>, itk:
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 2;
   itkImageToImageMetric.slot( "type" ) = "Correlation";
@@ -256,7 +256,7 @@ SEXP wrap( const itk::CorrelationImageToImageMetricv4< itk::Image<float,3>, itk:
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 3;
   itkImageToImageMetric.slot( "type" ) = "Correlation";
@@ -277,7 +277,7 @@ SEXP wrap( const itk::CorrelationImageToImageMetricv4< itk::Image<float,4>, itk:
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 4;
   itkImageToImageMetric.slot( "type" ) = "Correlation";
@@ -298,7 +298,7 @@ SEXP wrap( const itk::ANTSNeighborhoodCorrelationImageToImageMetricv4< itk::Imag
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 2;
   itkImageToImageMetric.slot( "type" ) = "ANTSNeighborhoodCorrelation";
@@ -319,7 +319,7 @@ SEXP wrap( const itk::ANTSNeighborhoodCorrelationImageToImageMetricv4< itk::Imag
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 3;
   itkImageToImageMetric.slot( "type" ) = "ANTSNeighborhoodCorrelation";
@@ -340,7 +340,7 @@ SEXP wrap( const itk::ANTSNeighborhoodCorrelationImageToImageMetricv4< itk::Imag
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 4;
   itkImageToImageMetric.slot( "type" ) = "ANTSNeighborhoodCorrelation";
@@ -361,7 +361,7 @@ SEXP wrap( const itk::ANTSNeighborhoodCorrelationImageToImageMetricv4< itk::Imag
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 2;
   itkImageToImageMetric.slot( "type" ) = "ANTSNeighborhoodCorrelation";
@@ -382,7 +382,7 @@ SEXP wrap( const itk::ANTSNeighborhoodCorrelationImageToImageMetricv4< itk::Imag
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 3;
   itkImageToImageMetric.slot( "type" ) = "ANTSNeighborhoodCorrelation";
@@ -403,7 +403,7 @@ SEXP wrap( const itk::ANTSNeighborhoodCorrelationImageToImageMetricv4< itk::Imag
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 4;
   itkImageToImageMetric.slot( "type" ) = "ANTSNeighborhoodCorrelation";
@@ -424,7 +424,7 @@ SEXP wrap( const itk::MattesMutualInformationImageToImageMetricv4< itk::Image<do
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 2;
   itkImageToImageMetric.slot( "type" ) = "MattesMutualInformation";
@@ -445,7 +445,7 @@ SEXP wrap( const itk::MattesMutualInformationImageToImageMetricv4< itk::Image<do
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 3;
   itkImageToImageMetric.slot( "type" ) = "MattesMutualInformation";
@@ -466,7 +466,7 @@ SEXP wrap( const itk::MattesMutualInformationImageToImageMetricv4< itk::Image<do
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 4;
   itkImageToImageMetric.slot( "type" ) = "MattesMutualInformation";
@@ -487,7 +487,7 @@ SEXP wrap( const itk::MattesMutualInformationImageToImageMetricv4< itk::Image<fl
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 2;
   itkImageToImageMetric.slot( "type" ) = "MattesMutualInformation";
@@ -508,7 +508,7 @@ SEXP wrap( const itk::MattesMutualInformationImageToImageMetricv4< itk::Image<fl
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 3;
   itkImageToImageMetric.slot( "type" ) = "MattesMutualInformation";
@@ -529,7 +529,7 @@ SEXP wrap( const itk::MattesMutualInformationImageToImageMetricv4< itk::Image<fl
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 4;
   itkImageToImageMetric.slot( "type" ) = "MattesMutualInformation";
@@ -550,7 +550,7 @@ SEXP wrap( const itk::JointHistogramMutualInformationImageToImageMetricv4< itk::
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 2;
   itkImageToImageMetric.slot( "type" ) = "JointHistogramMutualInformation";
@@ -571,7 +571,7 @@ SEXP wrap( const itk::JointHistogramMutualInformationImageToImageMetricv4< itk::
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 3;
   itkImageToImageMetric.slot( "type" ) = "JointHistogramMutualInformation";
@@ -592,7 +592,7 @@ SEXP wrap( const itk::JointHistogramMutualInformationImageToImageMetricv4< itk::
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 4;
   itkImageToImageMetric.slot( "type" ) = "JointHistogramMutualInformation";
@@ -613,7 +613,7 @@ SEXP wrap( const itk::JointHistogramMutualInformationImageToImageMetricv4< itk::
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 2;
   itkImageToImageMetric.slot( "type" ) = "JointHistogramMutualInformation";
@@ -634,7 +634,7 @@ SEXP wrap( const itk::JointHistogramMutualInformationImageToImageMetricv4< itk::
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 3;
   itkImageToImageMetric.slot( "type" ) = "JointHistogramMutualInformation";
@@ -655,7 +655,7 @@ SEXP wrap( const itk::JointHistogramMutualInformationImageToImageMetricv4< itk::
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 4;
   itkImageToImageMetric.slot( "type" ) = "JointHistogramMutualInformation";
@@ -676,7 +676,7 @@ SEXP wrap( const itk::DemonsImageToImageMetricv4< itk::Image<double,2>, itk::Ima
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 2;
   itkImageToImageMetric.slot( "type" ) = "Demons";
@@ -697,7 +697,7 @@ SEXP wrap( const itk::DemonsImageToImageMetricv4< itk::Image<double,3>, itk::Ima
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 3;
   itkImageToImageMetric.slot( "type" ) = "Demons";
@@ -718,7 +718,7 @@ SEXP wrap( const itk::DemonsImageToImageMetricv4< itk::Image<double,4>, itk::Ima
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "double";
   itkImageToImageMetric.slot( "dimension" ) = 4;
   itkImageToImageMetric.slot( "type" ) = "Demons";
@@ -739,7 +739,7 @@ SEXP wrap( const itk::DemonsImageToImageMetricv4< itk::Image<float,2>, itk::Imag
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 2;
   itkImageToImageMetric.slot( "type" ) = "Demons";
@@ -760,7 +760,7 @@ SEXP wrap( const itk::DemonsImageToImageMetricv4< itk::Image<float,3>, itk::Imag
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 3;
   itkImageToImageMetric.slot( "type" ) = "Demons";
@@ -781,7 +781,7 @@ SEXP wrap( const itk::DemonsImageToImageMetricv4< itk::Image<float,4>, itk::Imag
   MetricPointerType* rawPointer = new MetricPointerType( metric );
   XPtrType xptr( rawPointer , true );
 
-  Rcpp::S4 itkImageToImageMetric( std::string( "antsrImageToImageMetric" ) );
+  Rcpp::S4 itkImageToImageMetric( std::string( "antsrMetric" ) );
   itkImageToImageMetric.slot( "pixeltype" ) = "float";
   itkImageToImageMetric.slot( "dimension" ) = 4;
   itkImageToImageMetric.slot( "type" ) = "Demons";
@@ -807,7 +807,7 @@ itk::MeanSquaresImageToImageMetricv4< itk::Image<double,2>, itk::Image<double,2>
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "MeanSquares") )
@@ -829,7 +829,7 @@ itk::MeanSquaresImageToImageMetricv4< itk::Image<double,3>, itk::Image<double,3>
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "MeanSquares") )
@@ -851,7 +851,7 @@ itk::MeanSquaresImageToImageMetricv4< itk::Image<double,4>, itk::Image<double,4>
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "MeanSquares") )
@@ -873,7 +873,7 @@ itk::MeanSquaresImageToImageMetricv4< itk::Image<float,2>, itk::Image<float,2> >
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "MeanSquares") )
@@ -895,7 +895,7 @@ itk::MeanSquaresImageToImageMetricv4< itk::Image<float,3>, itk::Image<float,3> >
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "MeanSquares") )
@@ -917,7 +917,7 @@ itk::MeanSquaresImageToImageMetricv4< itk::Image<float,4>, itk::Image<float,4> >
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "MeanSquares") )
@@ -939,7 +939,7 @@ itk::CorrelationImageToImageMetricv4< itk::Image<double,2>, itk::Image<double,2>
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "Correlation") )
@@ -961,7 +961,7 @@ itk::CorrelationImageToImageMetricv4< itk::Image<double,3>, itk::Image<double,3>
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "Correlation") )
@@ -983,7 +983,7 @@ itk::CorrelationImageToImageMetricv4< itk::Image<double,4>, itk::Image<double,4>
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "Correlation") )
@@ -1005,7 +1005,7 @@ itk::CorrelationImageToImageMetricv4< itk::Image<float,2>, itk::Image<float,2> >
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "Correlation") )
@@ -1027,7 +1027,7 @@ itk::CorrelationImageToImageMetricv4< itk::Image<float,3>, itk::Image<float,3> >
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "Correlation") )
@@ -1049,7 +1049,7 @@ itk::CorrelationImageToImageMetricv4< itk::Image<float,4>, itk::Image<float,4> >
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "Correlation") )
@@ -1071,7 +1071,7 @@ itk::ANTSNeighborhoodCorrelationImageToImageMetricv4< itk::Image<double,2>, itk:
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "ANTSNeighborhoodCorrelation") )
@@ -1093,7 +1093,7 @@ itk::ANTSNeighborhoodCorrelationImageToImageMetricv4< itk::Image<double,3>, itk:
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "ANTSNeighborhoodCorrelation") )
@@ -1115,7 +1115,7 @@ itk::ANTSNeighborhoodCorrelationImageToImageMetricv4< itk::Image<double,4>, itk:
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "ANTSNeighborhoodCorrelation") )
@@ -1137,7 +1137,7 @@ itk::ANTSNeighborhoodCorrelationImageToImageMetricv4< itk::Image<float,2>, itk::
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "ANTSNeighborhoodCorrelation") )
@@ -1159,7 +1159,7 @@ itk::ANTSNeighborhoodCorrelationImageToImageMetricv4< itk::Image<float,3>, itk::
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "ANTSNeighborhoodCorrelation") )
@@ -1181,7 +1181,7 @@ itk::ANTSNeighborhoodCorrelationImageToImageMetricv4< itk::Image<float,4>, itk::
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "ANTSNeighborhoodCorrelation") )
@@ -1203,7 +1203,7 @@ itk::MattesMutualInformationImageToImageMetricv4< itk::Image<double,2>, itk::Ima
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "MattesMutualInformation") )
@@ -1225,7 +1225,7 @@ itk::MattesMutualInformationImageToImageMetricv4< itk::Image<double,3>, itk::Ima
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "MattesMutualInformation") )
@@ -1247,7 +1247,7 @@ itk::MattesMutualInformationImageToImageMetricv4< itk::Image<double,4>, itk::Ima
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "MattesMutualInformation") )
@@ -1269,7 +1269,7 @@ itk::MattesMutualInformationImageToImageMetricv4< itk::Image<float,2>, itk::Imag
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "MattesMutualInformation") )
@@ -1291,7 +1291,7 @@ itk::MattesMutualInformationImageToImageMetricv4< itk::Image<float,3>, itk::Imag
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "MattesMutualInformation") )
@@ -1313,7 +1313,7 @@ itk::MattesMutualInformationImageToImageMetricv4< itk::Image<float,4>, itk::Imag
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "MattesMutualInformation") )
@@ -1335,7 +1335,7 @@ itk::JointHistogramMutualInformationImageToImageMetricv4< itk::Image<double,2>, 
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "JointHistogramMutualInformation") )
@@ -1357,7 +1357,7 @@ itk::JointHistogramMutualInformationImageToImageMetricv4< itk::Image<double,3>, 
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "JointHistogramMutualInformation") )
@@ -1379,7 +1379,7 @@ itk::JointHistogramMutualInformationImageToImageMetricv4< itk::Image<double,4>, 
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "JointHistogramMutualInformation") )
@@ -1401,7 +1401,7 @@ itk::JointHistogramMutualInformationImageToImageMetricv4< itk::Image<float,2>, i
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "JointHistogramMutualInformation") )
@@ -1423,7 +1423,7 @@ itk::JointHistogramMutualInformationImageToImageMetricv4< itk::Image<float,3>, i
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "JointHistogramMutualInformation") )
@@ -1445,7 +1445,7 @@ itk::JointHistogramMutualInformationImageToImageMetricv4< itk::Image<float,4>, i
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "JointHistogramMutualInformation") )
@@ -1467,7 +1467,7 @@ itk::DemonsImageToImageMetricv4< itk::Image<double,2>, itk::Image<double,2> >::P
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "Demons") )
@@ -1489,7 +1489,7 @@ itk::DemonsImageToImageMetricv4< itk::Image<double,3>, itk::Image<double,3> >::P
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "Demons") )
@@ -1511,7 +1511,7 @@ itk::DemonsImageToImageMetricv4< itk::Image<double,4>, itk::Image<double,4> >::P
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "Demons") )
@@ -1533,7 +1533,7 @@ itk::DemonsImageToImageMetricv4< itk::Image<float,2>, itk::Image<float,2> >::Poi
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "Demons") )
@@ -1555,7 +1555,7 @@ itk::DemonsImageToImageMetricv4< itk::Image<float,3>, itk::Image<float,3> >::Poi
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "Demons") )
@@ -1577,7 +1577,7 @@ itk::DemonsImageToImageMetricv4< itk::Image<float,4>, itk::Image<float,4> >::Poi
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) ||
       (Rcpp::as<std::string>(itkImageMetric.slot("type")) != "Demons") )
@@ -1599,7 +1599,7 @@ itk::ImageToImageMetricv4< itk::Image<double,2>, itk::Image<double,2> >::Pointer
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) )
       {
@@ -1629,7 +1629,7 @@ itk::ImageToImageMetricv4< itk::Image<double,3>, itk::Image<double,3> >::Pointer
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) )
       {
@@ -1659,7 +1659,7 @@ itk::ImageToImageMetricv4< itk::Image<double,4>, itk::Image<double,4> >::Pointer
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) )
       {
@@ -1689,7 +1689,7 @@ itk::ImageToImageMetricv4< itk::Image<float,2>, itk::Image<float,2> >::Pointer a
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) )
       {
@@ -1719,7 +1719,7 @@ itk::ImageToImageMetricv4< itk::Image<float,3>, itk::Image<float,3> >::Pointer a
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) )
       {
@@ -1749,7 +1749,7 @@ itk::ImageToImageMetricv4< itk::Image<float,4>, itk::Image<float,4> >::Pointer a
 
   Rcpp::S4 itkImageMetric( itkImageToImageMetricR );
 
-  if (!itkImageMetric.is( "antsrImageToImageMetric") ||
+  if (!itkImageMetric.is( "antsrMetric") ||
       (Rcpp::as<std::string>(itkImageMetric.slot("pixeltype")) != "float") ||
       (Rcpp::as<int>(itkImageMetric.slot("dimension")) != Dim) )
       {
