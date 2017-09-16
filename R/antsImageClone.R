@@ -21,5 +21,19 @@ antsImageClone <- function(in_image, out_pixeltype = in_image@pixeltype) {
   if (length(dim(in_image)) == 1)
     if (dim(in_image)[1] == 1)
       return(NULL)
+  
+  if (in_image@components > 1) 
+  {
+    mychanns <- splitChannels( in_image )
+    for ( k in 1:length(mychanns) )
+    {
+      img.clone <- .Call("antsImageClone", mychanns[[k]], out_pixeltype, PACKAGE = "ANTsRCore")
+      mychanns[[k]] <- img.clone
+    }
+    return( mergeChannels( mychanns ) )
+  }
+  
   .Call("antsImageClone", in_image, out_pixeltype, PACKAGE = "ANTsRCore")
+  
 }
+
