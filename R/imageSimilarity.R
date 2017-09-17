@@ -19,6 +19,8 @@
 #'   \item{random}{}
 #'   \item{regular}{}
 #' }
+#' @param  nBins the number of bins for histogram metrics
+#' @param radius neighborhood radius of ANTSNeighborhoodCorrelation
 #' @param sampling.percentage percentage of data to sample when calculating metric
 #' @return value of image to image metric
 #' @examples
@@ -26,24 +28,27 @@
 #' y =  antsImageRead( getANTsRData( 'r30' ))
 #' metric = imageSimilarity(x,y,type="MeanSquares")
 #' @export
-imageSimilarity <- function( 
-  fixed, moving, 
-  type=c("MeanSquares", "MattesMutualInformation", 
-         "ANTSNeighborhoodCorrelation", "Correlation", 
-         "Demons", "JointHistogramMutualInformation"), 
+imageSimilarity <- function(
+  fixed, moving,
+  type=c("MeanSquares", "MattesMutualInformation",
+         "ANTSNeighborhoodCorrelation", "Correlation",
+         "Demons", "JointHistogramMutualInformation"),
   fixed.mask=NA, moving.mask=NA,
-  sampling.strategy="none", 
-  sampling.percentage=1 ) {
-  
+  sampling.strategy="none",
+  sampling.percentage=1, nBins=32, radius=3 ) {
+
   type = match.arg(type)
-  metric = antsrImageToImageMetric.Create(
+  metric = antsrMetricCreate(
     fixed,
     moving,
     type = type,
     fixed.mask = fixed.mask,
     moving.mask = moving.mask,
     sampling.strategy = sampling.strategy,
-    sampling.percentage = sampling.percentage
+    sampling.percentage = sampling.percentage,
+    nBins=nBins,
+    radius=radius
   )
-  return( antsrImageToImageMetric.GetValue(metric) )
+
+  return( antsrMetricGetValue(metric) )
 }
