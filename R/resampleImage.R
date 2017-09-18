@@ -27,6 +27,7 @@ resampleImage <- function(image, resampleParams, useVoxels = FALSE, interpType =
   if ( pixtype == "int" ) numpixtype = 4
   if ( pixtype == "unsigned int" ) numpixtype = 5
   if ( pixtype == "float" ) numpixtype = 6
+  if ( pixtype == "double" ) numpixtype = 7
   if ( is.na(  numpixtype ) ) stop( paste( "cannot process pixeltype",pixtype, numpixtype ))
   rsampar <- paste(resampleParams, collapse = "x")
   if ( image@components == 1 )

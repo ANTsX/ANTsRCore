@@ -75,7 +75,7 @@ echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build &&
 
 # get / set up ANTs code
 antsgit=https://github.com/stnava/ANTs.git
-antstag=fb874ebe977b84b57b7c5a2b124608f748e8e1e2 # pixeltype in resampleImage
+antstag=e51b74291a77997c08bdbe47f37e5f9c5cf9dbad # pixeltype in resampleImage, including double
 antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants
