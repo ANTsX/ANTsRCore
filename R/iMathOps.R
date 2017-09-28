@@ -1,7 +1,9 @@
+#' @name iMathOps
+#'
 #' @title Operations for iMath Operator
 #'
 #' @description Examples, description and categorization of iMath operations.
-#' 
+#'
 #' @format A data frame listing the following variables.
 #' \describe{
 #' \item{\code{Operation}}{Name of operation}
@@ -12,7 +14,7 @@
 #' \item{\code{OutputDimensionalityChange}}{NA if not image, otherwise
 #'   increment to output image dimensionality relative to input image}
 #' }
-#' @examples 
+#' @examples
 #' data(iMathOps)
 #'   i<-antsImageRead( getANTsRData('r16') , 2 )
 #'   roiImg<-getMask(i)
@@ -25,4 +27,4 @@
 #'   op <- as.character( iMathOps$Operation[j] )
 #'   }
 #' @keywords datasets
-"iMathOps"
+NULL
