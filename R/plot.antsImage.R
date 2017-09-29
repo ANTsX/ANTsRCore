@@ -36,6 +36,8 @@
 #' @param useAbsoluteScale boolean determines whether dynamic range is maximized
 #' when visualizing overlays
 #' @param doCropping  apply cropping, defaults to \code{TRUE}
+#' @param text vector containing x, y, label, cex and color values passed to
+#' text command, e.g. \code{txt=list(x=0,y=0,label='my text',cex=2,col='red')}
 #' @param ...  other parameters
 #' @return output is plot to standard R window
 #' @author Avants BB
@@ -48,6 +50,9 @@
 #'             0,1,1,0,
 #'             0,0,0,0), nrow=4))
 #' plot(img, list(mask))
+#' txt=list(x=2.5,y=1.5,label='my text',cex=4,col='red')
+#' plot(img, list(mask), text=txt)
+#'
 #' \dontrun{
 #'
 #'   img = antsImageRead( getANTsRData( 'r16' ) )
@@ -107,6 +112,7 @@ plot.antsImage <- function(x, y,
   ncolumns = 4,
   useAbsoluteScale = FALSE,
   doCropping = TRUE,
+  text,
   ... ) {
 if ( x@components > 1 )
   {
@@ -572,6 +578,8 @@ if ( ! any( is.na( domainImageMap ) ) )
   # g<-biglab ; g[]<-0 ; b<-biglab ; b[]<-0 print('try rgb')
   # dd<-pixmapRGB(c(biglab,g,b),nrow=nrow(bigslice),ncol=ncol(bigslice),bbox=c(0,0,wincols,winrows))
   par( mar = startpar )  # set margins to zero ! less wasted space
+  if ( ! missing( "text" ) )
+    text( x = text$x, y = text$y, label = text$label, cex = text$cex, col=text$col )
   if (!is.na(outname))
     dev.off()
   invisible(return())

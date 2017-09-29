@@ -3,18 +3,26 @@
 \docType{class}
 \name{antsrMetric-class}
 \alias{antsrMetric-class}
+\alias{show,antsrMetric-method}
+\alias{initialize,antsrMetric-method}
 \title{An S4 class for image metrics between two antsImages}
+\usage{
+\S4method{show}{antsrMetric}(object)
+
+\S4method{initialize}{antsrMetric}(.Object, dimension = 3,
+  type = "MeanSquares")
+}
 \arguments{
 \item{object}{input object to convert}
 
 \item{.Object}{input object to convert}
 
-\item{precision}{string e.g. "float" or "double"}
-
 \item{dimension}{dimensionality of the transform (2,3,or 4)}
 
 \item{type}{type of transform'
 etc noting that short is not supported}
+
+\item{precision}{string e.g. "float" or "double"}
 
 \item{parameters}{transformation parameters to send to
 \code{\link{setAntsrTransformParameters}}}

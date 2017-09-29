@@ -10,7 +10,7 @@
   title.line = NA, color.colorbar, window.img, window.overlay, quality = 2,
   outname = NA, alpha = 1, newwindow = FALSE, nslices = 10,
   domainImageMap = NA, ncolumns = 4, useAbsoluteScale = FALSE,
-  doCropping = TRUE, ...)
+  doCropping = TRUE, text, ...)
 }
 \arguments{
 \item{x}{the reference image on which to overlay.}
@@ -67,6 +67,9 @@ when visualizing overlays}
 
 \item{doCropping}{apply cropping, defaults to \code{TRUE}}
 
+\item{text}{vector containing x, y, label, cex and color values passed to
+text command, e.g. \code{txt=list(x=0,y=0,label='my text',cex=2,col='red')}}
+
 \item{...}{other parameters}
 }
 \value{
@@ -86,6 +89,9 @@ mask <- makeImage(c(4,4),
             0,1,1,0,
             0,0,0,0), nrow=4))
 plot(img, list(mask))
+txt=list(x=2.5,y=1.5,label='my text',cex=4,col='red')
+plot(img, list(mask), text=txt)
+
 \dontrun{
 
   img = antsImageRead( getANTsRData( 'r16' ) )

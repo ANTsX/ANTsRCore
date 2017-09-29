@@ -29,8 +29,8 @@ setClass(Class = "antsrMetric",
          type = "character", pixeltype = "character", isVector = "logical",
          pointer = "externalptr"))
 
-#' @rdname antsrTransform
-#' @aliases show,antsrTransform-method
+#' @rdname antsrMetric
+#' @aliases show,antsrMetric-method
 setMethod(f = "show", "antsrMetric", function(object){
     cat("antsrMetric\n")
     cat("  Dimensions    :", object@dimension, "\n")
@@ -40,8 +40,8 @@ setMethod(f = "show", "antsrMetric", function(object){
     cat("\n")
 })
 
-#' @rdname antsrTransform
-#' @aliases initialize,antsrTransform-method
+#' @rdname antsrMetric
+#' @aliases initialize,antsrMetric-method
 setMethod(f = "initialize", signature(.Object = "antsrMetric"), definition = function(.Object,
   dimension = 3, type = "MeanSquares") {
   tx = .Call("antsrMetric", pixeltype, dimension, type, PACKAGE = "ANTsRCore")
@@ -308,7 +308,6 @@ antsrMetricCreate <- function(
 #' @description set transform for fixed image
 #' @param metric an 'antsrMetric'
 #' @param transform an 'antsrTransform'
-#' @examples
 #' @examples
 #' x =  antsImageRead( getANTsRData( 'r16' ))
 #' y =  antsImageRead( getANTsRData( 'r30' ))
