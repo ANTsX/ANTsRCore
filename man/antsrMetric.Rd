@@ -21,11 +21,6 @@
 
 \item{type}{type of transform'
 etc noting that short is not supported}
-
-\item{precision}{string e.g. "float" or "double"}
-
-\item{parameters}{transformation parameters to send to
-\code{\link{setAntsrTransformParameters}}}
 }
 \description{
 C++ type used to represent an ITK image metric
