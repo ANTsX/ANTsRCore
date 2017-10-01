@@ -7,7 +7,7 @@ compflags=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
 ITKDIR=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkDir(); cat(a)'`
 
 # get a version of cmake
-cmaker=`command -v cmake`
+cmaker=`Rscript -e "x=Sys.which('cmake'); cat(x)"`
 if [[ -z "${cmaker}" ]]; then
 	res=`Rscript -e "cat(('cmaker' %in% installed.packages())*1)"`
 	if [[ $res -eq 0 ]]; 
@@ -17,7 +17,10 @@ if [[ -z "${cmaker}" ]]; then
 	    rm -rf cmaker ;
 	fi
     cmaker=`Rscript -e "x=cmaker::cmake()"`
+else
+	cmaker="cmake"
 fi
+
 # if [[ ! -x $cmaker ]] ; then # try r version
 #   cmaker=`${R_HOME}/bin/Rscript -e 'a<-cmaker::cmake()'`
 # fi
@@ -112,6 +115,7 @@ cp -r ants/Utilities/* ../inst/include/
 cp -r ants/Examples/*  ../inst/include/
 cp -r ants/Tensor/*  ../inst/include/
 cd ./antb
+
 ${cmaker} -DITK_DIR:PATH=${ITKDIR} \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} -DNDEBUG  "\
     -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} -DNDEBUG  "\
