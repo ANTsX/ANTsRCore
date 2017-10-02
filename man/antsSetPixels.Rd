@@ -26,7 +26,6 @@ array of pixel values
 Set a pixel value at an index in an 'antsImage'.
 }
 \examples{
-
 img<-makeImage(c(10,10),rnorm(100))
 antsSetPixels(img,2,3,value=Inf)
 

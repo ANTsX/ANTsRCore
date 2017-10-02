@@ -21,6 +21,9 @@
 #' Euler3DTransform, QuaternionRigidTransform, Rigid2DTransform,
 #' Similarity2DTransform, Similarity3DTransform
 #' @slot pointer to the memory location of the itk object
+## #' @param parameters transformation parameters to send to
+## #' \code{\link{setAntsrTransformParameters}} 
+## #' @param precision string e.g. "float" or "double"
 setClass(Class = "antsrMetric",
          representation(precision= "character", dimension = "integer",
          type = "character", pixeltype = "character", isVector = "logical",

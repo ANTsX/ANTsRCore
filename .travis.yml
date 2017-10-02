@@ -8,7 +8,6 @@ bioc_required: false
 cran: http://cran.rstudio.com
 dist: precise
 
-
 os:
   - linux
   - osx
@@ -21,6 +20,7 @@ env:
   global:
   - R_BUILD_ARGS=" --no-build-vignettes --no-manual"
   - R_CHECK_ARGS=" --timings --as-cran --no-manual"
+  - _R_CHECK_FORCE_SUGGESTS_=0
 # --install-args=--build
 
 before_install:
@@ -50,6 +50,7 @@ before_install:
   - install_remotes_no_dep
   - cat DESCRIPTION
   - export PACKAGE_NAME=`package_name`
+  - export RCHECK_DIR=${PACKAGE_NAME}.Rcheck  
   # - export PATH=$HOME/bin/:$PATH
   - echo $PATH ;
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; 
@@ -69,8 +70,12 @@ jobs:
       - x=`export_clang_cxx`; eval ${x}
       - cd ..
       - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
+      - rm -f travis_wait*.log      
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
       - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
+      - rm -f travis_wait*.log
+      - check_fail
+      - check_warnings       
       os: linux
     - script:
       - cat ~/.R/Makevars
@@ -80,8 +85,12 @@ jobs:
       - echo "CXX1XSTD=${CXX1XSTD}, CXX11=${CXX11}"        
       - cd ..
       - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
+      - rm -f travis_wait*.log
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
       - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
+      - rm -f travis_wait*.log
+      - check_fail
+      - check_warnings       
       os: osx
     - stage: "Deployment"
       script:

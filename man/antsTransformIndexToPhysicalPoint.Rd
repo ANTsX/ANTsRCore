@@ -18,7 +18,6 @@ array of pixel values
 Get spatial point from index of an \code{antsImage}.
 }
 \examples{
-
 img <- makeImage(c(10,10),rnorm(100))
 pt <- antsTransformIndexToPhysicalPoint(img, c(2,2))
 

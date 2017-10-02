@@ -198,11 +198,8 @@ as.array.antsImage = function(x, ..., mask = logical(),
 #' @param l indices in forth dimension
 #' @return array of pixel values
 #' @examples
-#'
 #' img<-makeImage(c(10,10),rnorm(100))
 #' pixel<-getPixels(img,i=c(1,2),j=1)
-#'
-#'
 #' @export
 getPixels <- function(x, i = NA, j = NA, k = NA, l = NA) {
   lst <- NULL
@@ -251,18 +248,16 @@ getPixels <- function(x, i = NA, j = NA, k = NA, l = NA) {
 #' @title antsImageGetSet
 #' @description Get and set methods for image header information
 #' @name antsImageGetSet
-#' @examples
-#' img <- makeImage(c(5,5), rnorm(25))
-#' antsSetSpacing(img, c(2.0, 2.0))
-#' antsSetOrigin(img, c(0.5, 0.5))
-
-
 #' @rdname antsImageGetSet
 #' @usage antsGetSpacing(x)
 #' @param x antsImage to access, of dimensionality \code{d}.
 #' @return For \code{get} methods, vector of length \code{d} (origin, spacing) or matrix of size \code{d * d} (direction).
 #' For \code{set} methods, 0 to indicate success.
 #' @export
+#' @examples
+#' img <- makeImage(c(5,5), rnorm(25))
+#' antsSetSpacing(img, c(2.0, 2.0))
+#' antsSetOrigin(img, c(0.5, 0.5))
 antsGetSpacing <- function(x) {
   if (class(x)[1] != "antsImage") {
     stop("Input must be of class 'antsImage'")
@@ -361,7 +356,6 @@ antsSetDirection <- function(x, direction) {
 #' }
 #' @author Duda JT
 #' @examples
-#'
 #' img<-makeImage(c(10,10),rnorm(100))
 #' center <- dim(img)/2
 #' radius <- rep(3,2)
@@ -369,7 +363,7 @@ antsSetDirection <- function(x, direction) {
 #' kernel <- 1*(rnorm(49)>0)
 #' dim(kernel) <- c(7,7)
 #' randlist <- getNeighborhoodAtVoxel(img,center,kernel)
-#'
+#' 
 #' @export
 getNeighborhoodAtVoxel <- function(image, center, kernel, physical.coordinates = FALSE ) {
 
@@ -442,7 +436,6 @@ getNeighborhoodAtVoxel <- function(image, center, kernel, physical.coordinates =
 #' }
 #' @author Duda JT
 #' @examples
-#'
 #' r16 <- getANTsRData("r16")
 #' r16 <- antsImageRead(r16,2)
 #' mask <- getMask(r16,lowThresh=mean(r16),cleanup=1)
@@ -519,7 +512,6 @@ getNeighborhoodInMask <- function(image, mask, radius, physical.coordinates = FA
 #' @param index image index
 #' @return array of pixel values
 #' @examples
-#'
 #' img <- makeImage(c(10,10),rnorm(100))
 #' pt <- antsTransformIndexToPhysicalPoint(img, c(2,2))
 #'
@@ -556,7 +548,6 @@ antsTransformIndexToPhysicalPoint <- function(x, index) {
 #' @param point image physical point
 #' @return array of pixel values
 #' @examples
-#'
 #' img<-makeImage(c(10,10),rnorm(100))
 #' pt<-antsTransformPhysicalPointToIndex(img,c(2,2))
 #'
@@ -596,7 +587,6 @@ antsTransformPhysicalPointToIndex <- function(x, point) {
 #' @param value the value to place at this location
 #' @return array of pixel values
 #' @examples
-#'
 #' img<-makeImage(c(10,10),rnorm(100))
 #' antsSetPixels(img,2,3,value=Inf)
 #'
