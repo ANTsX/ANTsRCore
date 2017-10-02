@@ -20,6 +20,7 @@ env:
   global:
   - R_BUILD_ARGS=" --no-build-vignettes --no-manual"
   - R_CHECK_ARGS=" --timings --as-cran --no-manual"
+  - _R_CHECK_FORCE_SUGGESTS_=0
 # --install-args=--build
 
 before_install:
