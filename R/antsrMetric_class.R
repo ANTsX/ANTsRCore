@@ -10,12 +10,9 @@
 #'
 #' @param object input object to convert
 #' @param .Object input object to convert
-#' @param precision string e.g. "float" or "double"
 #' @param dimension dimensionality of the transform (2,3,or 4)
 #' @param type type of transform'
 #' etc noting that short is not supported
-#' @param parameters transformation parameters to send to
-#' \code{\link{setAntsrTransformParameters}}
 #' @slot dimension usually 2 or 3 but can be 4
 #' @slot precision math precision is float or double'
 #' @slot type The type of transform: usually one of
