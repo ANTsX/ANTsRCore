@@ -66,7 +66,25 @@ cp -r ants/Utilities/* ../inst/include/
 cp -r ants/Examples/*  ../inst/include/
 cp -r ants/Tensor/*  ../inst/include/
 cd ./antb
-cmake \
+
+cmaker=`${R_HOME}/bin/Rscript.exe -e "x=Sys.which('cmake'); cat(x)"`
+if [ -z "${cmaker}" ]; then
+    res=`${R_HOME}/bin/Rscript.exe -e "cat(('cmaker' %in% installed.packages())*1)"`
+    if [ $res -eq 0 ]; 
+    then     
+        git clone https://github.com/stnava/cmaker
+        R CMD INSTALL cmaker
+        rm -rf cmaker
+    fi
+    cmaker=`${R_HOME}/bin/Rscript.exe -e "x=cmaker::cmake()"`
+    # cmake_path=`dirname cmaker`
+    # export PATH=${PATH}:${cmake_path}
+    # cmaker="cmake"
+else 
+    cmaker="cmake"
+fi
+
+${cmaker} \
     -G "MinGW Makefiles" \
     -DITK_DIR:PATH="${ITKDIR}" \
     -DCMAKE_SH:BOOL=OFF \
