@@ -100,16 +100,18 @@ bigLMStats <- function(mylm, lambda = 0, includeIntercept = F) {
 
 
 
-#' Efficiently compute a voxel-wise varying linear regression model
+#' Efficiently compute an image-based linear regression model (ilr)
 #'
 #' This function simplifies calculating p-values from linear models in which
-#' there is a similar formula that is applied many times with a change in only
-#' one predictor.  The outcome variable is constant.  The changing variable
-#' should be named \code{vox} in the input formula.
+#' there is a similar formula that is applied many times with a change in
+#' image-based predictors.  Image-based variables are stored in the input
+#' matrix list. They should be named consistently in the input formula and
+#' in the image list.  If they are not, an error will be thrown.  All input
+#' matrices should have the same number of rows and columns.
 #'
 #' @param dataFrame This data frame contains all relevant predictors except for
-#' the matrix associated with the changing variable, heretofore named \code{vox}.
-#' @param voxmat The matrix that contains the changing predictor named \code{vox}.
+#' the matrices associated with the image variables.
+#' @param voxmats The named list of matrices that contains the changing predictors.
 #' @param myFormula This is a character string that defines a valid regression formula.
 #' @return A list of different matrices that contain names derived from the
 #' formula and the coefficients of the regression model.
@@ -121,32 +123,51 @@ bigLMStats <- function(mylm, lambda = 0, includeIntercept = F) {
 #' outcome = rnorm( nsub )
 #' covar = rnorm( nsub )
 #' mat = replicate( nsub, rnorm( nsub ) )
+#' mat2 = replicate( nsub, rnorm( nsub ) )
 #' myform = " outcome ~ covar + vox "
 #' df = data.frame( outcome = outcome, covar = covar )
-#' result = bigLMStats2( df, mat, myform)
+#' result = ilr( df, list( vox = mat ), myform)
+#' print( names( result ) )
+#' print( rownames( result$pValue ) )
+#' myform = " vox2 ~ covar + vox "
+#' df = data.frame( outcome = outcome, covar = covar )
+#' result = ilr( df, list( vox = mat, vox2=mat2 ), myform)
 #' print( names( result ) )
 #' print( rownames( result$pValue ) )
 #'
-#' @export bigLMStats2
+#' @export ilr
 #' @importFrom RcppEigen fastLm
-bigLMStats2 <- function( dataFrame,  voxmat, myFormula ) {
-  vdf = data.frame( dataFrame, vox = voxmat[,1] )
+ilr <- function( dataFrame,  voxmats, myFormula ) {
+  vdf = data.frame( dataFrame )
+  matnames = names( voxmats )
+  if ( length( matnames ) == 0 ) stop( 'please name the input list entries')
+  p = ncol( voxmats[[1]] )
+  for ( k in 1:length( voxmats ) ) {
+    vdf = cbind( vdf, voxmats[[k]][,1] )
+    names( vdf )[  ncol( vdf ) ] = matnames[k]
+    if ( ncol( voxmats[[k]] ) != p  )
+      stop( paste( "matrix ", matnames[k], " does not have ", p, "entries" ) )
+  }
+  # get names from the standard lm
   temp = summary( lm( myFormula  , data=vdf))
   myrownames = rownames(temp$coefficients)
-  mycolnames = colnames( voxmat )
-  mypvs = matrix( rep( NA, ncol( voxmat ) * length( myrownames ) ),
+  mypvs = matrix( rep( NA, p * length( myrownames ) ),
     nrow = length( myrownames ) )
   myestvs = mypvs
   myervs = mypvs
   mytvs = mypvs
-  colnames( myestvs ) = colnames( myervs ) = colnames( mypvs ) = colnames( mytvs ) = mycolnames
+  mylm = lm( myFormula , data = vdf )
+#  colnames( myestvs ) = colnames( myervs ) = colnames( mypvs ) = colnames( mytvs ) = paste('v',1:p,sep='')
   rownames( myestvs ) = rownames( myervs ) = rownames( mypvs ) = rownames( mytvs ) = myrownames
   if ( ! usePkg( "RcppEigen" ) ) {
     print("Need RcppEigen package")
     } else {
+    lvx = length( voxmats )
     loform = as.formula( myFormula )
-    for ( n in 1:ncol( voxmat ) ) {
-      vdf$vox = voxmat[,n]
+    for ( n in 1:ncol( voxmats[[1]] ) ) {
+      for ( k in 1:lvx ) {
+        vdf[ ,  matnames[k] ] = voxmats[[k]][,n]
+      }
       flmmod <- RcppEigen::fastLm( loform, data=vdf )
       mysumm = summary( flmmod )
       mycoef = coefficients( mysumm )
