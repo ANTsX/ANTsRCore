@@ -809,7 +809,6 @@ return Rcpp::wrap(NA_REAL); //not reached
 template< class PrecisionType, unsigned int Dimension >
 SEXP antsrTransform_TransformPoint( SEXP r_transform, SEXP r_point )
 {
-
   Rcpp::S4 transform( r_transform );
   std::string type = Rcpp::as<std::string>( transform.slot("type") );
 
@@ -819,23 +818,27 @@ SEXP antsrTransform_TransformPoint( SEXP r_transform, SEXP r_point )
   typedef typename TransformType::OutputPointType  OutputPointType;
 
   TransformPointerType itkTransform = Rcpp::as<TransformPointerType>( r_transform );
-  Rcpp::NumericVector inPoint( r_point );
 
-  InputPointType inItkPoint;
-  for (unsigned int i=0; i<InputPointType::PointDimension; i++)
-    {
-    inItkPoint[i] = inPoint[i];
+  Rcpp::NumericMatrix inPoints( r_point );
+  Rcpp::NumericMatrix outPoints( inPoints.nrow(), inPoints.ncol() );
+
+  for (unsigned int n=0; n<inPoints.nrow(); n++) {
+
+    InputPointType inItkPoint;
+    for (unsigned int i=0; i<InputPointType::PointDimension; i++)
+      {
+      inItkPoint[i] = inPoints(n,i);
+      }
+
+    OutputPointType outItkPoint = itkTransform->TransformPoint( inItkPoint );
+
+    for (unsigned int i=0; i<OutputPointType::PointDimension; i++)
+      {
+      outPoints(n,i) = outItkPoint[i];
+      }
     }
 
-OutputPointType outItkPoint = itkTransform->TransformPoint( inItkPoint );
-
-  Rcpp::NumericVector outPoint( OutputPointType::PointDimension );
-  for (unsigned int i=0; i<OutputPointType::PointDimension; i++)
-    {
-    outPoint[i] = outItkPoint[i];
-    }
-
-  return outPoint;
+  return Rcpp::wrap(outPoints);
 }
 
 
@@ -926,23 +929,25 @@ SEXP antsrTransform_TransformVector( SEXP r_transform, SEXP r_vector )
 
 
   TransformPointerType itkTransform = Rcpp::as<TransformPointerType>( r_transform );
-  Rcpp::NumericVector inVector( r_vector );
+  Rcpp::NumericMatrix inVectors( r_vector );
+  Rcpp::NumericMatrix outVectors( inVectors.nrow(), inVectors.ncol() );
 
-  InputVectorType inItkVector;
-  for (unsigned int i=0; i<InputVectorType::Dimension; i++)
-    {
-    inItkVector[i] = inVector[i];
+  for (unsigned int n=0; n<inVectors.nrow(); n++ ) {
+    InputVectorType inItkVector;
+    for (unsigned int i=0; i<InputVectorType::Dimension; i++)
+      {
+      inItkVector[i] = inVectors(n,i);
+      }
+
+    OutputVectorType outItkVector = itkTransform->TransformVector( inItkVector );
+
+    for (unsigned int i=0; i<OutputVectorType::Dimension; i++)
+      {
+      outVectors(n,i) = outItkVector[i];
+      }
     }
 
-  OutputVectorType outItkVector = itkTransform->TransformVector( inItkVector );
-
-  Rcpp::NumericVector outVector( OutputVectorType::Dimension );
-  for (unsigned int i=0; i<OutputVectorType::Dimension; i++)
-    {
-    outVector[i] = outItkVector[i];
-    }
-
-  return outVector;
+  return Rcpp::wrap(outVectors);
 }
 
 
