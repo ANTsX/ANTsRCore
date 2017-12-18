@@ -4,12 +4,12 @@
 \alias{applyAntsrTransformToVector}
 \title{applyAntsrTransformToVector}
 \usage{
-applyAntsrTransformToVector(transform, vector)
+applyAntsrTransformToVector(transform, vectors)
 }
 \arguments{
 \item{transform}{antsrTransform}
 
-\item{vector}{array of vector coordinates}
+\item{vectors}{a matrix where each row is a vector to transform}
 }
 \value{
 array of coordinates

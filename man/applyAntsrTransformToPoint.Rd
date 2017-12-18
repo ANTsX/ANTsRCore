@@ -4,12 +4,12 @@
 \alias{applyAntsrTransformToPoint}
 \title{applyAntsrTransformToPoint}
 \usage{
-applyAntsrTransformToPoint(transform, point)
+applyAntsrTransformToPoint(transform, points)
 }
 \arguments{
 \item{transform}{antsrTransform}
 
-\item{point}{a spatial point}
+\item{points}{a matrix which each row is a spatial point}
 }
 \value{
 array of coordinates

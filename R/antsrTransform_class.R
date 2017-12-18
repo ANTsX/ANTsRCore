@@ -245,21 +245,39 @@ applyAntsrTransform <- function(transform, data, dataType="point", reference=NA,
     return( applyAntsrTransformToImage( transform, data, reference, ...) )
   }
   else {
+    ismatrix=TRUE
+    if (class(data)=="numeric") {
+      data = t(as.matrix(data))
+      ismatrix = FALSE
+    }
+
+    ret=NA
     if ( dataType == "point") {
-      return( applyAntsrTransformToPoint(transform, data))
+      ret = applyAntsrTransformToPoint(transform, data)
     }
     else if ( dataType == "vector") {
-      return( applyAntsrTransformToVector(transform, data))
+      ret = applyAntsrTransformToVector(transform, data)
     }
+    else {
+      stop("Invalid datatype")
+    }
+
+    if ( !ismatrix ) {
+      ret = as.numeric(t(ret))
+    }
+
+    return(ret)
+
   }
 
-  stop("Unsupported input data type")
+  # Never reached
+  return(NA)
 }
 
 #' @title applyAntsrTransformToPoint
 #' @description Apply transform to spatial point
 #' @param transform antsrTransform
-#' @param point a spatial point
+#' @param points a matrix which each row is a spatial point
 #' @return array of coordinates
 #' @examples
 #' tx = new("antsrTransform")
@@ -267,23 +285,46 @@ applyAntsrTransform <- function(transform, data, dataType="point", reference=NA,
 #' setAntsrTransformParameters(tx, params*2)
 #' pt2 = applyAntsrTransformToPoint(tx, c(1,2,3))
 #' @export
-applyAntsrTransformToPoint <- function(transform, point) {
-  return(.Call("antsrTransform_TransformPoint", transform, point, PACKAGE = "ANTsRCore"))
+applyAntsrTransformToPoint <- function(transform, points) {
+
+  ismatrix=TRUE
+  if (class(points)=="numeric") {
+    points = t(as.matrix(points))
+    ismatrix = FALSE
+  }
+
+  ret = .Call("antsrTransform_TransformPoint", transform, points, PACKAGE = "ANTsRCore")
+
+  if ( !ismatrix ) {
+    ret = as.numeric(t(ret))
+  }
+
+  return(ret)
 }
 
 #' @title applyAntsrTransformToVector
 #' @description Apply transform to spatial vector
 #' @param transform antsrTransform
-#' @param vector array of vector coordinates
+#' @param vectors a matrix where each row is a vector to transform
 #' @return array of coordinates
 #' @examples
 #' \dontrun{
 #' vec2 = applyAntsrTransformToVector(transform, c(1,2,3))
 #' }
 #' @export
-applyAntsrTransformToVector <- function(transform, vector) {
-  return(.Call("antsrTransform_TransformVector", transform,
-               vector, PACKAGE = "ANTsRCore"))
+applyAntsrTransformToVector <- function(transform, vectors) {
+
+  ismatrix=TRUE
+  if (class(vectors)=="numeric") {
+    vectors = t(as.matrix(vectors))
+    ismatrix = FALSE
+  }
+  ret = .Call("antsrTransform_TransformVector", transform, vectors, PACKAGE = "ANTsRCore")
+
+  if ( !ismatrix ) {
+    ret = as.numeric(t(ret))
+  }
+  return(ret)
 }
 
 #' @title applyAntsrTransformToImage
