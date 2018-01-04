@@ -190,7 +190,7 @@ ilr <- function( dataFrame,  voxmats, myFormula ) {
       pValue=mypvs,
       predictions = mypredictions,
       modelMatrix =  myModelMatrix ) )
-    # models = mymodels ) )
+#      models = mymodels ) )
 }
 
 
@@ -212,20 +212,18 @@ ilr <- function( dataFrame,  voxmats, myFormula ) {
 #'
 #' set.seed(1500)
 #' nsub = 100
-#' outcome = rnorm( nsub )
 #' covar = rnorm( nsub )
 #' mat = replicate( nsub, rnorm( nsub ) )
 #' mat2 = replicate( nsub, rnorm( nsub ) )
-#' myform = " outcome ~ covar + vox "
+#' outcome = mat[ , 2 ]
+#' myform = " outcome ~ covar + vox + vox2 "
 #' df = data.frame( outcome = outcome, covar = covar )
-#' result = ilr( df, list( vox = mat ), myform)
-#' print( names( result ) )
-#' print( rownames( result$pValue ) )
-#' myform = " vox2 ~ covar * vox "
-#' df = data.frame( outcome = outcome, covar = covar )
-#' result = ilr( df, list( vox = mat, vox2=mat2 ), myform)
-#' df = data.frame(  covar = covar )
-#' pred = ilr.predict(  result, df, list( vox = mat, vox2=mat2 ), myform )
+#' result = ilr( df, list( vox = mat, vox2 = mat2 ), myform)
+#' df2 = data.frame(  covar = covar )
+#' pred = ilr.predict(  result, df2, list( vox = mat, vox2=mat2 ), myform )
+#' max( cor( result$predictions, df$outcome ) )
+#' max( cor( pred, df$outcome ) )
+#' tail( diag( cor( result$predictions, refpred ) ) )
 #'
 #' @seealso \code{\link{ilr}}
 #' @export ilr.predict
@@ -236,6 +234,7 @@ ilr.predict <- function(
   myFormula )
 {
   vdf = data.frame( dataFrame )
+  loform = as.formula( myFormula )
   matnames = names( voxmats )
   if ( length( matnames ) == 0 ) stop( 'please name the input list entries')
   outcomevarname = trimws( unlist( strsplit( myFormula, "~" ) )[1] )
@@ -257,9 +256,7 @@ ilr.predict <- function(
       stop( paste( "matrix ", matnames[k], " does not have ", p, "entries" ) )
   }
   # get names from the standard lm
-  temp = summary( lm( myFormula  , data=vdf))
-  myModelMatrix = model.matrix( lm( myFormula  , data=vdf) )
-  myrownames = rownames(temp$coefficients)
+  refmdl = RcppEigen::fastLm( loform  , data=vdf)
   mypredictions = matrix( nrow = nrow(voxmats[[1]]), ncol =  ncol(voxmats[[1]]) )
   if ( ! usePkg( "RcppEigen" ) ) {
     stop("Need RcppEigen package")
@@ -270,9 +267,9 @@ ilr.predict <- function(
       for ( k in 1:lvx ) {
         vdf[ ,  matnames[k] ] = voxmats[[k]][,n]
       }
-      flmmod <- lm( loform, data=vdf )
       mycoef = ilrResult$estimate[,n]
-      mypredictions[ , n ] = predict( flmmod )
+      x = model.matrix( refmdl$formula, vdf )
+      mypredictions[ , n ] =  as.vector( x %*% mycoef )
     }
   }
   return( mypredictions )
