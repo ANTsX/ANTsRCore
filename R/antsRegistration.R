@@ -122,8 +122,25 @@ antsRegistration <- function(
   }
   if (nchar(typeofTransform) == 0)
     typeofTransform = "SyN"
-  if (nchar(outprefix) == 0)
+  if (nchar(outprefix) == 0 || length(outprefix) == 0) {
     outprefix = tempfile()
+  }
+  
+  find_tx = function(outprefix) {
+    alltx = Sys.glob( paste0( outprefix, "*", "[0-9]*") )
+    findinv = grepl( "[0-9]InverseWarp.nii.gz", alltx )
+    findaff = grepl( "[0-9]GenericAffine.mat", alltx )
+    findfwd = grepl( "[0-9]Warp.nii.gz", alltx )
+    L = list(alltx = alltx,
+             findinv = findinv, 
+             findfwd = findfwd,
+             findaff = findaff)
+    return(L)
+  }
+  all_tx = find_tx(outprefix)
+  pre_transform = all_tx$alltx[ all_tx$findinv | all_tx$findfwd | all_tx$findaff]
+  rm(list = "all_tx")
+  
   if ( numargs < 1 | missing(fixed) | missing(moving)
        | missing(typeofTransform) | missing(outprefix) )
   {
@@ -185,9 +202,10 @@ antsRegistration <- function(
     if (fixed@class[[1]] == "antsImage" & moving@class[[1]] == "antsImage") {
       inpixeltype <- fixed@pixeltype
       ttexists <- FALSE
+      # change this to a match.arg
       allowableTx <- c("Translation","Rigid", "Similarity", "Affine", "TRSAA",
-        "SyN","SyNRA","SyNOnly","SyNCC","SyNabp", "SyNBold", "SyNBoldAff",
-        "SyNAggro", "SyNLessAggro", "TVMSQ","TVMSQC","ElasticSyN")
+                       "SyN","SyNRA","SyNOnly","SyNCC","SyNabp", "SyNBold", "SyNBoldAff",
+                       "SyNAggro", "SyNLessAggro", "TVMSQ","TVMSQC","ElasticSyN")
       ttexists <- typeofTransform %in% allowableTx
       if (ttexists) {
         initx = initialTransform
@@ -303,7 +321,7 @@ antsRegistration <- function(
                        "-c", paste("[",synits,",1e-7,8]",collapse=''),
                        "-s", smoothingsigmas, "-f", shrinkfactors,
                        "-u","1", "-z", "1", "-l", myl, "-o", paste("[", outprefix, ",",
-                                                              wmo, ",", wfo, "]", sep = ""))
+                                                                   wmo, ",", wfo, "]", sep = ""))
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
@@ -349,7 +367,7 @@ antsRegistration <- function(
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
-
+        
         if (typeofTransform == "TRSAA") {
           itlen  = length( regIterations )
           itlenlow  = round( itlen/2 + 0.0001 )
@@ -393,7 +411,7 @@ antsRegistration <- function(
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
-
+        
         if (typeofTransform == "SyNabp") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
                        "-m", paste("mattes[", f, ",", m, ",1,32,regular,0.25]", sep = ""),
@@ -411,7 +429,7 @@ antsRegistration <- function(
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
-
+        
         if (typeofTransform == "SyNLessAggro") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.2]", sep = ""),
@@ -472,7 +490,7 @@ antsRegistration <- function(
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
-
+        
         args[[ length(args)+1]]="--float"
         args[[ length(args)+1]]="1"
         if ( verbose ) {
@@ -481,27 +499,27 @@ antsRegistration <- function(
         }
         args = .int_antsProcessArguments(c(args))
         .Call("antsRegistration", args, PACKAGE = "ANTsRCore")
-        afffns = Sys.glob( file.path( paste( outprefix, '*',"[0-9]GenericAffine.mat", sep='' ) ) )
-        fwarpfns = Sys.glob( file.path( paste( outprefix, '*',"[0-9]Warp.nii.gz", sep='' ) ) )
-        iwarpfns = Sys.glob( file.path( paste( outprefix, '*',"[0-9]InverseWarp.nii.gz", sep='' ) ) )
-        if ( length( afffns ) == 0 ) afffns = ""
-        if ( length( fwarpfns ) == 0 ) fwarpfns = ""
-        if ( length( iwarpfns ) == 0 ) iwarpfns = ""
-        alltx = Sys.glob( file.path( paste( outprefix, '*',"[0-9]*", sep='' ) ) )
-        findinv = grepl( "[0-9]InverseWarp.nii.gz", alltx )
-        findaff = grepl( "[0-9]GenericAffine.mat", alltx )
-        findfwd = grepl( "[0-9]Warp.nii.gz", alltx )
+        
+        
+        
+        
+        
+        all_tx = find_tx(outprefix)
+        alltx = all_tx$alltx
+        findinv = all_tx$findinv
+        findfwd = all_tx$findfwd
+        findaff = all_tx$findaff
+        rm(list = "all_tx")
         # this will make it so other file naming don't mess this up
         alltx = alltx[ findinv | findfwd | findaff]
-        # converting back to numeric for negative indexing below
-        findinv = which(findinv | findaff)
-        findfwd = which(findfwd | findaff)
         
-        if ( length( findinv ) > 0 ) {
-          fwdtransforms = rev( alltx[ -findinv ] )
-          invtransforms = ( alltx[ -findfwd ] )
+        if ( any( findinv )) {
+          fwdtransforms = rev( alltx[ findfwd | findaff ] )
+          invtransforms = alltx[ findinv | findaff ]
           if ( length( fwdtransforms ) != length( invtransforms ) ) {
-            message("transform composite list may not be invertible - return all transforms and leave it to user to figure it out")
+            message(paste0("transform composite list may not be ", 
+                           "invertible - return all transforms and ", 
+                           "leave it to user to figure it out"))
             invtransforms = alltx
           }
         } else {
@@ -514,7 +532,8 @@ antsRegistration <- function(
           list( warpedmovout = antsImageClone(warpedmovout, inpixeltype),
                 warpedfixout = antsImageClone(warpedfixout, inpixeltype),
                 fwdtransforms = fwdtransforms,
-                invtransforms = invtransforms )
+                invtransforms = invtransforms,
+                prev_transforms = pre_transform)
         )
       }
       if (!ttexists) {
