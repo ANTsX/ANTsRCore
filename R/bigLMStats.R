@@ -150,6 +150,7 @@ ilr <- function( dataFrame,  voxmats, myFormula ) {
   }
   # get names from the standard lm
   temp = summary( lm( myFormula  , data=vdf))
+  myModelMatrix = model.matrix( lm( myFormula  , data=vdf) )
   myrownames = rownames(temp$coefficients)
   mypvs = matrix( rep( NA, p * length( myrownames ) ),
     nrow = length( myrownames ) )
@@ -159,6 +160,8 @@ ilr <- function( dataFrame,  voxmats, myFormula ) {
   mylm = lm( myFormula , data = vdf )
 #  colnames( myestvs ) = colnames( myervs ) = colnames( mypvs ) = colnames( mytvs ) = paste('v',1:p,sep='')
   rownames( myestvs ) = rownames( myervs ) = rownames( mypvs ) = rownames( mytvs ) = myrownames
+  mypredictions = matrix( nrow = nrow(voxmats[[1]]), ncol =  ncol(voxmats[[1]]) )
+  mymodels = list()
   if ( ! usePkg( "RcppEigen" ) ) {
     print("Need RcppEigen package")
     } else {
@@ -175,6 +178,8 @@ ilr <- function( dataFrame,  voxmats, myFormula ) {
       myervs[ , n ] = mycoef[,2]
       mytvs[ , n ] = mycoef[,3]
       mypvs[ , n ] = mycoef[,4]
+      mypredictions[ , n ] = predict( flmmod )
+#      mymodels[[ n ]] = flmmod
     }
   }
   return(
@@ -182,5 +187,91 @@ ilr <- function( dataFrame,  voxmats, myFormula ) {
       estimate=myestvs,
       stdError=myervs,
       tValue=mytvs,
-      pValue=mypvs ) )
+      pValue=mypvs,
+      predictions = mypredictions,
+      modelMatrix =  myModelMatrix ) )
+#      models = mymodels ) )
+}
+
+
+
+
+
+#' Predict from ilr output
+#'
+#' This function computes a prediction given \code{ilr} output.
+#'
+#' @param ilrResult This output form ilr
+#' @param dataFrame This data frame contains all relevant predictors except for
+#' the matrices associated with the image variables.
+#' @param voxmats The named list of matrices that contains the changing predictors.
+#' @param myFormula This is a character string that defines a valid regression formula.
+#' @return the predicted matrix.
+#' @author BB Avants.
+#' @examples
+#'
+#' set.seed(1500)
+#' nsub = 100
+#' covar = rnorm( nsub )
+#' mat = replicate( nsub, rnorm( nsub ) )
+#' mat2 = replicate( nsub, rnorm( nsub ) )
+#' outcome = mat[ , 2 ]
+#' myform = " vox ~ covar + vox2 "
+#' # also try outcome ~ covar + vox + vox2
+#' df = data.frame( outcome = outcome, covar = covar )
+#' result = ilr( df, list( vox = mat, vox2 = mat2 ), myform)
+#' df2 = data.frame(  covar = covar, vox2 = mat2 )
+#' pred = ilr.predict(  result, df2, list( vox = mat, vox2=mat2 ), myform )
+#' max( cor( result$predictions, df$outcome ) )
+#' max( cor( pred, df$outcome ) )
+#' tail( diag( cor( result$predictions, pred ) ) )
+#'
+#' @seealso \code{\link{ilr}}
+#' @export ilr.predict
+ilr.predict <- function(
+  ilrResult,
+  dataFrame,
+  voxmats,
+  myFormula )
+{
+  vdf = data.frame( dataFrame )
+  loform = as.formula( myFormula )
+  matnames = names( voxmats )
+  if ( length( matnames ) == 0 ) stop( 'please name the input list entries')
+  outcomevarname = trimws( unlist( strsplit( myFormula, "~" ) )[1] )
+  outcomevarum = which( outcomevarname == matnames  )
+  outcomeisconstant = FALSE
+  if ( length( outcomevarum ) == 0 ) {
+    outcomeisconstant = TRUE
+    outcomevarum = which( colnames(vdf) == outcomevarname  )
+  }
+  if ( ! ( outcomevarname %in% names( vdf ) ) ) {
+    vdf = data.frame( vdf, rnorm(nrow(voxmats[[1]])))
+    names( vdf )[ ncol( vdf ) ] = outcomevarname
+  }
+  p = ncol( voxmats[[1]] )
+  for ( k in 1:length( voxmats ) ) {
+    vdf = cbind( vdf, voxmats[[k]][,1] )
+    names( vdf )[  ncol( vdf ) ] = matnames[k]
+    if ( ncol( voxmats[[k]] ) != p  )
+      stop( paste( "matrix ", matnames[k], " does not have ", p, "entries" ) )
+  }
+  # get names from the standard lm
+  refmdl = RcppEigen::fastLm( loform  , data=vdf)
+  mypredictions = matrix( nrow = nrow(voxmats[[1]]), ncol =  ncol(voxmats[[1]]) )
+  if ( ! usePkg( "RcppEigen" ) ) {
+    stop("Need RcppEigen package")
+  } else {
+    lvx = length( voxmats )
+    loform = as.formula( myFormula )
+    for ( n in 1:ncol( voxmats[[1]] ) ) {
+      for ( k in 1:lvx ) {
+        vdf[ ,  matnames[k] ] = voxmats[[k]][,n]
+      }
+      mycoef = ilrResult$estimate[,n]
+      x = model.matrix( refmdl$formula, vdf )
+      mypredictions[ , n ] =  as.vector( x %*% mycoef )
+    }
+  }
+  return( mypredictions )
 }
