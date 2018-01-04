@@ -26,19 +26,18 @@ This function computes a prediction given \code{ilr} output.
 
 set.seed(1500)
 nsub = 100
-covar = rnorm( nsub )
+trte = sample( 1:nsub )[1:70]
+covarIn = rnorm( nsub )
 mat = replicate( nsub, rnorm( nsub ) )
 mat2 = replicate( nsub, rnorm( nsub ) )
-outcome = mat[ , 2 ]
-myform = " vox ~ covar + vox2 "
-# also try outcome ~ covar + vox + vox2
-df = data.frame( outcome = outcome, covar = covar )
-result = ilr( df, list( vox = mat, vox2 = mat2 ), myform)
-df2 = data.frame(  covar = covar, vox2 = mat2 )
-pred = ilr.predict(  result, df2, list( vox = mat, vox2=mat2 ), myform )
-max( cor( result$predictions, df$outcome ) )
-max( cor( pred, df$outcome ) )
-tail( diag( cor( result$predictions, pred ) ) )
+outcomeAtVox = mat[ , 2 ]
+# also try myform = " vox ~ covar + vox2 "
+myform="outcome ~ covar + vox + vox2"
+df = data.frame( outcome = outcomeAtVox, covar = covarIn )
+result = ilr( df[trte,], list( vox = mat[trte,], vox2 = mat2[trte,] ), myform)
+df2 = data.frame( covar = covarIn[-trte] )
+pred = ilr.predict(  result, df2, list( vox = mat[-trte,], vox2=mat2[-trte,] ), myform )
+max( cor( pred, outcomeAtVox[-trte] ) )
 
 }
 \seealso{
