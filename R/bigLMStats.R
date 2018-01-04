@@ -223,7 +223,7 @@ ilr <- function( dataFrame,  voxmats, myFormula ) {
 #' pred = ilr.predict(  result, df2, list( vox = mat, vox2=mat2 ), myform )
 #' max( cor( result$predictions, df$outcome ) )
 #' max( cor( pred, df$outcome ) )
-#' tail( diag( cor( result$predictions, refpred ) ) )
+#' tail( diag( cor( result$predictions, pred ) ) )
 #'
 #' @seealso \code{\link{ilr}}
 #' @export ilr.predict
