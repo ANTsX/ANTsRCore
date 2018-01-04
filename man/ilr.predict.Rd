@@ -30,10 +30,11 @@ covar = rnorm( nsub )
 mat = replicate( nsub, rnorm( nsub ) )
 mat2 = replicate( nsub, rnorm( nsub ) )
 outcome = mat[ , 2 ]
-myform = " outcome ~ covar + vox + vox2 "
+myform = " vox ~ covar + vox2 "
+# also try outcome ~ covar + vox + vox2
 df = data.frame( outcome = outcome, covar = covar )
 result = ilr( df, list( vox = mat, vox2 = mat2 ), myform)
-df2 = data.frame(  covar = covar )
+df2 = data.frame(  covar = covar, vox2 = mat2 )
 pred = ilr.predict(  result, df2, list( vox = mat, vox2=mat2 ), myform )
 max( cor( result$predictions, df$outcome ) )
 max( cor( pred, df$outcome ) )
