@@ -489,12 +489,13 @@ antsRegistration <- function(
         if ( length( iwarpfns ) == 0 ) iwarpfns = ""
         alltx = Sys.glob( file.path( paste( outprefix, '*',"[0-9]*", sep='' ) ) )
         findinv = grepl( "[0-9]InverseWarp.nii.gz", alltx )
+        findaff = grepl( "[0-9]GenericAffine.mat", alltx )
         findfwd = grepl( "[0-9]Warp.nii.gz", alltx )
         # this will make it so other file naming don't mess this up
-        alltx = alltx[ findinv | findfwd]
+        alltx = alltx[ findinv | findfwd | findaff]
         # converting back to numeric for negative indexing below
-        findinv = which(findinv)
-        findfwd = which(findfwd)
+        findinv = which(findinv | findaff)
+        findfwd = which(findfwd | findaff)
         
         if ( length( findinv ) > 0 ) {
           fwdtransforms = rev( alltx[ -findinv ] )
