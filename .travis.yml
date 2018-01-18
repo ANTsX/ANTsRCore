@@ -6,7 +6,7 @@ cache:
 warnings_are_errors: true
 bioc_required: false
 cran: http://cran.rstudio.com
-dist: precise
+# dist: precise
 
 os:
   - linux
