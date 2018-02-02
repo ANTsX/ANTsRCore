@@ -55,8 +55,8 @@ echo "Dependency;GitTag" > ../data/antsVersions.csv
 echo "ANTs;${antstag}" >> ../data/antsVersions.csv
 echo "ANTsRCore;${antsrtag}" >> ../data/antsVersions.csv
 cd ants
-git checkout master;  
-git pull;  
+git checkout master;
+git pull;
 git checkout $antstag
 cd ../
 mkdir antb
@@ -65,13 +65,16 @@ cp -r ants/Examples/include/* ../inst/include/
 cp -r ants/Utilities/* ../inst/include/
 cp -r ants/Examples/*  ../inst/include/
 cp -r ants/Tensor/*  ../inst/include/
+cp -r ants/ImageRegistration/* ../inst/include/
+cp -r ants/ImageSegmentation/* ../inst/include/
+cp -r ants/Temporary/* ../inst/include
 cd ./antb
 
 cmaker=`${R_HOME}/bin/Rscript.exe -e "x=Sys.which('cmake'); cat(x)"`
 if [ -z "${cmaker}" ]; then
     res=`${R_HOME}/bin/Rscript.exe -e "cat(('cmaker' %in% installed.packages())*1)"`
-    if [ $res -eq 0 ]; 
-    then     
+    if [ $res -eq 0 ];
+    then
         git clone https://github.com/stnava/cmaker
         R CMD INSTALL cmaker
         rm -rf cmaker
@@ -80,7 +83,7 @@ if [ -z "${cmaker}" ]; then
     # cmake_path=`dirname cmaker`
     # export PATH=${PATH}:${cmake_path}
     # cmaker="cmake"
-else 
+else
     cmaker="cmake"
 fi
 
