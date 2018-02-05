@@ -1,6 +1,6 @@
 language: r
 sudo: false
-cache: 
+cache:
   - packages
   - ccache
 warnings_are_errors: true
@@ -25,16 +25,16 @@ env:
 
 before_install:
   - export CCACHE=ccache
-  - export PROJ_DIR=`basename ${TRAVIS_BUILD_DIR}`  
+  - export PROJ_DIR=`basename ${TRAVIS_BUILD_DIR}`
   - export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
   - fname=travis_helpers.sh
   - wget -O ${fname} http://bit.ly/travis_helpers
-  - cat ${fname}; source ${fname}; rm ${fname}  
-  - remove_neuroc_packages  
+  - cat ${fname}; source ${fname}; rm ${fname}
+#  - remove_neuroc_packages  
   # does all the clang exports
   - x=`export_clang_cxx`; eval ${x}
   - echo "CC=${CC}, CXX=${CXX}, CXX1X=${CXX1X}"
-  - echo "CXX1XSTD=${CXX1XSTD}, CXX11=${CXX11}"  
+  - echo "CXX1XSTD=${CXX1XSTD}, CXX11=${CXX11}"
   - clang_cxx
   - cat ~/.R/Makevars
   - export cmake_version="3.4"
@@ -45,17 +45,17 @@ before_install:
   - export ants_user=stnava
   - install_missing_remote_deps ${ants_user}/ITKR ${ants_user}/ANTsRCore ${ants_user}/ANTsR
   - echo "Done Installing Missing Deps"
-  - cat DESCRIPTION  
+  - cat DESCRIPTION
   - gh_binary_install ${ants_user}/ITKR
   - install_remotes_no_dep
   - cat DESCRIPTION
   - export PACKAGE_NAME=`package_name`
-  - export RCHECK_DIR=${PACKAGE_NAME}.Rcheck  
+  - export RCHECK_DIR=${PACKAGE_NAME}.Rcheck
   # - export PATH=$HOME/bin/:$PATH
   - echo $PATH ;
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; 
-    then 
-      brew install ccache; 
+  - if [ "$TRAVIS_OS_NAME" == "osx" ];
+    then
+      brew install ccache;
       export PATH="/usr/local/opt/ccache/libexec:$PATH";
     fi
 
@@ -70,19 +70,19 @@ jobs:
       - x=`export_clang_cxx`; eval ${x}
       - cd ..
       - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
-      - rm -f travis_wait*.log      
+      - rm -f travis_wait*.log
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
       - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
       - rm -f travis_wait*.log
       - check_fail
-      - check_warnings       
+      - check_warnings
       os: linux
     - script:
       - cat ~/.R/Makevars
       # - source ~/.R/Makevars
       - x=`export_clang_cxx`; eval ${x}
       - echo "CC=${CC}, CXX=${CXX}, CXX1X=${CXX1X}"
-      - echo "CXX1XSTD=${CXX1XSTD}, CXX11=${CXX11}"        
+      - echo "CXX1XSTD=${CXX1XSTD}, CXX11=${CXX11}"
       - cd ..
       - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
       - rm -f travis_wait*.log
@@ -90,7 +90,7 @@ jobs:
       - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
       - rm -f travis_wait*.log
       - check_fail
-      - check_warnings       
+      - check_warnings
       os: osx
     - stage: "Deployment"
       script:
@@ -102,7 +102,7 @@ jobs:
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
       - if [[ ${#TRAVIS_TAG} -gt 0 ]];
         then
-          R CMD INSTALL --debug --build ${PROJ_DIR}; 
+          R CMD INSTALL --debug --build ${PROJ_DIR};
           PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
           if [ "$TRAVIS_OS_NAME" == "osx" ];
             then
@@ -131,7 +131,7 @@ jobs:
       - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
       - if [[ ${#TRAVIS_TAG} -gt 0 ]];
         then
-          R CMD INSTALL --debug --build ${PROJ_DIR}; 
+          R CMD INSTALL --debug --build ${PROJ_DIR};
           PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
           if [ "$TRAVIS_OS_NAME" == "osx" ];
             then
