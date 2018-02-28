@@ -82,7 +82,7 @@ jobs:
     - stage: "Deployment"
       if: tag IS present
       script:
-        - R CMD INSTALL --debug --build ${PROJ_DIR};
+        - travis_wait 100 R CMD INSTALL --debug --build ${PROJ_DIR};
         - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
       deploy:
         provider: releases
@@ -99,7 +99,7 @@ jobs:
     - stage: "Deployment"
       if: tag IS present
       script:
-        - R CMD INSTALL --debug --build ${PROJ_DIR};
+        - travis_wait 100 R CMD INSTALL --debug --build ${PROJ_DIR};
         - PKG_FILE_NAME=$(ls -1t *.tgz | head -n 1);    
       deploy:
         provider: releases
