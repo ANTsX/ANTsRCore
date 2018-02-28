@@ -58,14 +58,16 @@ before_install:
       export PATH="/usr/local/opt/ccache/libexec:$PATH";
     fi
 
-script:
+before_script:
   - cat ~/.R/Makevars
   # - source ~/.R/Makevars
   - x=`export_clang_cxx`; eval ${x}
   - cd ..
+
+script:
   - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
   - rm -f travis_wait*.log
-  - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
+  - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)  
   - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
   - rm -f travis_wait*.log
   - check_fail
@@ -78,22 +80,10 @@ jobs:
     - name: "OSX"
       os: osx
     - stage: "Deployment"
+      if: tag IS present
       script:
-      - cat ~/.R/Makevars
-      # - source ~/.R/Makevars
-      - x=`export_clang_cxx`; eval ${x}
-      - cd ..
-      - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
-      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-      - if [[ ${#TRAVIS_TAG} -gt 0 ]];
-        then
-          R CMD INSTALL --debug --build ${PROJ_DIR};
-          PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
-          if [ "$TRAVIS_OS_NAME" == "osx" ];
-            then
-              PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);
-          fi;
-        fi
+        - R CMD INSTALL --debug --build ${PROJ_DIR};
+        - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
       deploy:
         provider: releases
         api_key:
@@ -107,22 +97,10 @@ jobs:
           all_branches: true
       os: linux
     - stage: "Deployment"
+      if: tag IS present
       script:
-      - cat ~/.R/Makevars
-      # - source ~/.R/Makevars
-      - x=`export_clang_cxx`; eval ${x}
-      - cd ..
-      - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
-      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-      - if [[ ${#TRAVIS_TAG} -gt 0 ]];
-        then
-          R CMD INSTALL --debug --build ${PROJ_DIR};
-          PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
-          if [ "$TRAVIS_OS_NAME" == "osx" ];
-            then
-              PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);
-          fi;
-        fi
+        - R CMD INSTALL --debug --build ${PROJ_DIR};
+        - PKG_FILE_NAME=$(ls -1t *.tgz | head -n 1);    
       deploy:
         provider: releases
         api_key:
