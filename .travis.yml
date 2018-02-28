@@ -61,55 +61,41 @@ before_install:
     fi
 
 script:
-  - echo "Overriding travis R script"
+  - cat ~/.R/Makevars
+  # - source ~/.R/Makevars
+  - x=`export_clang_cxx`; eval ${x}
+  - cd ..
+  - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
+  - rm -f travis_wait*.log
+  - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
+  - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
+  - rm -f travis_wait*.log
+  - check_fail
+  - check_warnings
 
 jobs:
   include:
-    - script:
-      - cat ~/.R/Makevars
-      # - source ~/.R/Makevars
-      - x=`export_clang_cxx`; eval ${x}
-      - cd ..
-      - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
-      - rm -f travis_wait*.log
-      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-      - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
-      - rm -f travis_wait*.log
-      - check_fail
-      - check_warnings
-      os: linux
-    - script:
-      - cat ~/.R/Makevars
-      # - source ~/.R/Makevars
-      - x=`export_clang_cxx`; eval ${x}
-      - echo "CC=${CC}, CXX=${CXX}, CXX1X=${CXX1X}"
-      - echo "CXX1XSTD=${CXX1XSTD}, CXX11=${CXX11}"
-      - cd ..
-      - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
-      - rm -f travis_wait*.log
-      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-      - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
-      - rm -f travis_wait*.log
-      - check_fail
-      - check_warnings
-      os: osx
+    - 
+      os: 
+        - linux
+        - osx
     - stage: "Deployment"
       script:
-      - cat ~/.R/Makevars
-      # - source ~/.R/Makevars
-      - x=`export_clang_cxx`; eval ${x}
-      - cd ..
-      - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
-      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-      - if [[ ${#TRAVIS_TAG} -gt 0 ]];
-        then
-          R CMD INSTALL --debug --build ${PROJ_DIR};
-          PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
-          if [ "$TRAVIS_OS_NAME" == "osx" ];
-            then
-              PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);
-          fi;
-        fi
+        - cat ~/.R/Makevars
+        # - source ~/.R/Makevars
+        - x=`export_clang_cxx`; eval ${x}
+        - cd ..
+        - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
+        - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
+        - if [[ ${#TRAVIS_TAG} -gt 0 ]];
+          then
+            R CMD INSTALL --debug --build ${PROJ_DIR};
+            PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
+            if [ "$TRAVIS_OS_NAME" == "osx" ];
+              then
+                PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);
+            fi;
+          fi
       deploy:
         provider: releases
         api_key:
@@ -121,36 +107,9 @@ jobs:
           repo: stnava/${PROJ_DIR}
           tags: true
           all_branches: true
-      os: linux
-    - stage: "Deployment"
-      script:
-      - cat ~/.R/Makevars
-      # - source ~/.R/Makevars
-      - x=`export_clang_cxx`; eval ${x}
-      - cd ..
-      - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
-      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-      - if [[ ${#TRAVIS_TAG} -gt 0 ]];
-        then
-          R CMD INSTALL --debug --build ${PROJ_DIR};
-          PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
-          if [ "$TRAVIS_OS_NAME" == "osx" ];
-            then
-              PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);
-          fi;
-        fi
-      deploy:
-        provider: releases
-        api_key:
-          secure: Hm3kbkCySSneOe8644MWudbNAphB4+YDpGhWCeeHuSiHoQU6+Qmx/f014iVM5JqZI72EGX21hSygqfD9jB8O78J4imO4xMUnNciA80pV/NlUnzwMiYVfpYAga3QQApvSJZuBA/4+kJXlFZkigWGXuzb8W5Qty0xY1KV9FuaUzo5bRxCPa4f3t3PP/Ikjhla2vH53UHo+YiRIfGlH5Rn3p2kDS5390cfdO5+1kn8p5UMZV7C1B2VAE2OO0QxtVmjZbpAxE/k+QGdeGMXBfu5bCfERO3Wr/sfITaTu9j5Oulv/fDfVe6kuIRhAkX0eUn+CEkEhBgSO6yp1+abcagxIRVYfF3hp5e6+cOeGC/QH0z9kSsCim3SdYvz+rFhtzS+vO4LTO8wgGzyMLalvH2Jopf4OrRbSwbmiLpQzR/fFrmx9IZt0o4lD9+KW9Nhj0o9+V6NHg+Usx1wbTVYDjh53op6AT5c6E4Zej0gLeG9gXXtICtcEE1pCLiK8EX11cCUpgRD0NcG+F/dcPY5kLtf4/Uw/krhwz8OagPk9Mt3aleu0iepkuwQoGNoy2XBzc0zcaGICC3Y23KW/VZRc0xZGjiUmQXyMlbuB/dOYr0V8VGVPanRgDksr+ML0B4nqdfbtqTC1FQl2ORtG7iCDuArAZo7bokisZ2GTSA2F85BpfRY=
-        file: ${PKG_FILE_NAME}
-        skip_cleanup: true
-        overwrite: true
-        on:
-          repo: stnava/${PROJ_DIR}
-          tags: true
-          all_branches: true
-      os: osx
+      os: 
+        - linux
+        - osx
   allow_failures:
     - os: osx
 
