@@ -4,7 +4,7 @@ cache:
   - packages
   - ccache
 cache:
-  timeout: 600  
+  timeout: 1000  
 warnings_are_errors: true
 bioc_required: false
 cran: http://cran.rstudio.com
