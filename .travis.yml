@@ -70,10 +70,10 @@ script:
   - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
   - rm -f travis_wait*.log
   - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)  
-  # - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
-  # - rm -f travis_wait*.log
-  # - check_fail
-  # - check_warnings
+  - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
+  - rm -f travis_wait*.log
+  - check_fail
+  - check_warnings
 
 jobs:
   include:
