@@ -59,6 +59,7 @@ before_install:
       brew install ccache;
       export PATH="/usr/local/opt/ccache/libexec:$PATH";
     fi
+  - travis_run_cache
 
 before_script:
   - cat ~/.R/Makevars
