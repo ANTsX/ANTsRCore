@@ -129,7 +129,7 @@ antsApplyTransforms <- function(
       }
       for (i in c(1:length(transformlist))) {
         ismat <- FALSE
-        if (grepl("\\.mat$", transformlist[i])) {
+        if (grepl("\\.mat$", transformlist[i]) || grepl("\\.txt$", transformlist[i])) {
           ismat <- TRUE
         }
         if (whichtoinvert[i] && !(ismat) ) {
