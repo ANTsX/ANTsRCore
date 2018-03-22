@@ -18,9 +18,13 @@ osx_image: xcode9
 
 env:
   global:
-  - R_BUILD_ARGS=" --no-build-vignettes --no-manual"
+  - R_BUILD_ARGS=" --no-build-vignettes --no-manual "
   - R_CHECK_ARGS=" --timings --as-cran --no-manual"
-  - _R_CHECK_FORCE_SUGGESTS_=0
+  - R_CHECK_TIME="TRUE"
+  - R_CHECK_TESTS="TRUE"
+  - _R_CHECK_TIMINGS_="0"
+  - _R_CHECK_FORCE_SUGGESTS_="0"
+  - BOOTSTRAP_LATEX=1
 # --install-args=--build
 
 before_install:
