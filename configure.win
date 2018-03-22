@@ -45,7 +45,7 @@ MAKER=mingw32-make
 echo "libs: ; cd antb && ${MAKER} && cd ANTS-build && ${MAKER} all install" >> Makevars.win
 
 # get / set up ANTs code
-antsgit=https://github.com/stnava/ANTs.git
+antsgit=https://github.com/ANTsX/ANTs.git
 antstag=6bc3e652d7628b428896ddaec837248a61d2af3b # for 4.12
 antsrtag=`git log --pretty=format:'%H' -n 1`
 git clone $antsbranch $antsgit ants

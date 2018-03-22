@@ -6,22 +6,22 @@ cache:
 warnings_are_errors: true
 bioc_required: false
 cran: http://cran.rstudio.com
-# dist: precise
-
-os:
-  - linux
-  - osx
+allow_failures:
+  - os: osx
 
 latex: false
 compiler: clang
-osx_image: xcode8.2
+osx_image: xcode9
 
 env:
   global:
-  - R_BUILD_ARGS=" --no-build-vignettes --no-manual"
+  - R_BUILD_ARGS=" --no-build-vignettes --no-manual "
   - R_CHECK_ARGS=" --timings --as-cran --no-manual"
-  - _R_CHECK_FORCE_SUGGESTS_=0
-# --install-args=--build
+  - R_CHECK_TIME="TRUE"
+  - R_CHECK_TESTS="TRUE"
+  - _R_CHECK_TIMINGS_="0"
+  - _R_CHECK_FORCE_SUGGESTS_="0"
+  - BOOTSTRAP_LATEX=1
 
 before_install:
   - export CCACHE=ccache
@@ -30,7 +30,6 @@ before_install:
   - fname=travis_helpers.sh
   - wget -O ${fname} http://bit.ly/travis_helpers
   - cat ${fname}; source ${fname}; rm ${fname}
-#  - remove_neuroc_packages  
   # does all the clang exports
   - x=`export_clang_cxx`; eval ${x}
   - echo "CC=${CC}, CXX=${CXX}, CXX1X=${CXX1X}"
@@ -42,117 +41,79 @@ before_install:
   - x=`cmake_setup`; echo "${x}"; eval ${x};
   - cmake --version
   - ./cleanup
-  - export ants_user=stnava
-  - install_missing_remote_deps ${ants_user}/ITKR ${ants_user}/ANTsRCore ${ants_user}/ANTsR
+  - export PACKAGE_NAME=`package_name`
+  - export RCHECK_DIR=${PACKAGE_NAME}.Rcheck  
+  - gh_binary_install stnava/ITKR
+  - export ants_user=ANTsX
+  - install_missing_remote_deps ${ants_user}/ANTsRCore
   - echo "Done Installing Missing Deps"
   - cat DESCRIPTION
-  - gh_binary_install ${ants_user}/ITKR
   - install_remotes_no_dep
   - cat DESCRIPTION
-  - export PACKAGE_NAME=`package_name`
-  - export RCHECK_DIR=${PACKAGE_NAME}.Rcheck
-  # - export PATH=$HOME/bin/:$PATH
   - echo $PATH ;
   - if [ "$TRAVIS_OS_NAME" == "osx" ];
     then
+      no_open_mp ;     
       brew install ccache;
       export PATH="/usr/local/opt/ccache/libexec:$PATH";
     fi
+  - travis_run_cache
+
+before_script:
+  - cat ~/.R/Makevars
+  # - source ~/.R/Makevars
+  - x=`export_clang_cxx`; eval ${x}
+  - cd ..
 
 script:
-  - echo "Overriding travis R script"
+  - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
+  - rm -f travis_wait*.log
+  - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)  
+  - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
+  - rm -f travis_wait*.log
+  - check_fail
+  - check_warnings
 
 jobs:
   include:
-    - script:
-      - cat ~/.R/Makevars
-      # - source ~/.R/Makevars
-      - x=`export_clang_cxx`; eval ${x}
-      - cd ..
-      - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
-      - rm -f travis_wait*.log
-      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-      - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
-      - rm -f travis_wait*.log
-      - check_fail
-      - check_warnings
+    - name: "linux"
       os: linux
-    - script:
-      - cat ~/.R/Makevars
-      # - source ~/.R/Makevars
-      - x=`export_clang_cxx`; eval ${x}
-      - echo "CC=${CC}, CXX=${CXX}, CXX1X=${CXX1X}"
-      - echo "CXX1XSTD=${CXX1XSTD}, CXX11=${CXX11}"
-      - cd ..
-      - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
-      - rm -f travis_wait*.log
-      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-      - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
-      - rm -f travis_wait*.log
-      - check_fail
-      - check_warnings
+    - name: "OSX"
       os: osx
     - stage: "Deployment"
+      if: tag IS present
       script:
-      - cat ~/.R/Makevars
-      # - source ~/.R/Makevars
-      - x=`export_clang_cxx`; eval ${x}
-      - cd ..
-      - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
-      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-      - if [[ ${#TRAVIS_TAG} -gt 0 ]];
-        then
-          R CMD INSTALL --debug --build ${PROJ_DIR};
-          PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
-          if [ "$TRAVIS_OS_NAME" == "osx" ];
-            then
-              PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);
-          fi;
-        fi
+        - travis_wait 100 R CMD INSTALL --debug --build ${PROJ_DIR};
       deploy:
         provider: releases
         api_key:
           secure: Hm3kbkCySSneOe8644MWudbNAphB4+YDpGhWCeeHuSiHoQU6+Qmx/f014iVM5JqZI72EGX21hSygqfD9jB8O78J4imO4xMUnNciA80pV/NlUnzwMiYVfpYAga3QQApvSJZuBA/4+kJXlFZkigWGXuzb8W5Qty0xY1KV9FuaUzo5bRxCPa4f3t3PP/Ikjhla2vH53UHo+YiRIfGlH5Rn3p2kDS5390cfdO5+1kn8p5UMZV7C1B2VAE2OO0QxtVmjZbpAxE/k+QGdeGMXBfu5bCfERO3Wr/sfITaTu9j5Oulv/fDfVe6kuIRhAkX0eUn+CEkEhBgSO6yp1+abcagxIRVYfF3hp5e6+cOeGC/QH0z9kSsCim3SdYvz+rFhtzS+vO4LTO8wgGzyMLalvH2Jopf4OrRbSwbmiLpQzR/fFrmx9IZt0o4lD9+KW9Nhj0o9+V6NHg+Usx1wbTVYDjh53op6AT5c6E4Zej0gLeG9gXXtICtcEE1pCLiK8EX11cCUpgRD0NcG+F/dcPY5kLtf4/Uw/krhwz8OagPk9Mt3aleu0iepkuwQoGNoy2XBzc0zcaGICC3Y23KW/VZRc0xZGjiUmQXyMlbuB/dOYr0V8VGVPanRgDksr+ML0B4nqdfbtqTC1FQl2ORtG7iCDuArAZo7bokisZ2GTSA2F85BpfRY=
-        file: ${PKG_FILE_NAME}
+        file_glob: true    
+        file: ${PROJ_DIR}*.t*gz
         skip_cleanup: true
         overwrite: true
         on:
-          repo: stnava/${PROJ_DIR}
+          repo: ANTsX/${PROJ_DIR}
           tags: true
           all_branches: true
       os: linux
     - stage: "Deployment"
+      if: tag IS present
       script:
-      - cat ~/.R/Makevars
-      # - source ~/.R/Makevars
-      - x=`export_clang_cxx`; eval ${x}
-      - cd ..
-      - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
-      - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
-      - if [[ ${#TRAVIS_TAG} -gt 0 ]];
-        then
-          R CMD INSTALL --debug --build ${PROJ_DIR};
-          PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1);
-          if [ "$TRAVIS_OS_NAME" == "osx" ];
-            then
-              PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);
-          fi;
-        fi
+        - travis_wait 100 R CMD INSTALL --debug --build ${PROJ_DIR};
       deploy:
         provider: releases
         api_key:
           secure: Hm3kbkCySSneOe8644MWudbNAphB4+YDpGhWCeeHuSiHoQU6+Qmx/f014iVM5JqZI72EGX21hSygqfD9jB8O78J4imO4xMUnNciA80pV/NlUnzwMiYVfpYAga3QQApvSJZuBA/4+kJXlFZkigWGXuzb8W5Qty0xY1KV9FuaUzo5bRxCPa4f3t3PP/Ikjhla2vH53UHo+YiRIfGlH5Rn3p2kDS5390cfdO5+1kn8p5UMZV7C1B2VAE2OO0QxtVmjZbpAxE/k+QGdeGMXBfu5bCfERO3Wr/sfITaTu9j5Oulv/fDfVe6kuIRhAkX0eUn+CEkEhBgSO6yp1+abcagxIRVYfF3hp5e6+cOeGC/QH0z9kSsCim3SdYvz+rFhtzS+vO4LTO8wgGzyMLalvH2Jopf4OrRbSwbmiLpQzR/fFrmx9IZt0o4lD9+KW9Nhj0o9+V6NHg+Usx1wbTVYDjh53op6AT5c6E4Zej0gLeG9gXXtICtcEE1pCLiK8EX11cCUpgRD0NcG+F/dcPY5kLtf4/Uw/krhwz8OagPk9Mt3aleu0iepkuwQoGNoy2XBzc0zcaGICC3Y23KW/VZRc0xZGjiUmQXyMlbuB/dOYr0V8VGVPanRgDksr+ML0B4nqdfbtqTC1FQl2ORtG7iCDuArAZo7bokisZ2GTSA2F85BpfRY=
-        file: ${PKG_FILE_NAME}
+        file_glob: true    
+        file: ${PROJ_DIR}*.t*gz
         skip_cleanup: true
         overwrite: true
         on:
-          repo: stnava/${PROJ_DIR}
+          repo: ANTsX/${PROJ_DIR}
           tags: true
           all_branches: true
       os: osx
-  allow_failures:
-    - os: osx
-
 
 after_failure:
   - cat ${PACKAGE_NAME}.Rcheck/00install.out
