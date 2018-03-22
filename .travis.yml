@@ -1,16 +1,18 @@
 language: r
 sudo: false
 cache:
+  - timeout: 1000  
   - packages
   - ccache
-cache:
-  timeout: 1000  
 warnings_are_errors: true
 bioc_required: false
 cran: http://cran.rstudio.com
-# dist: precise
 allow_failures:
   - os: osx
+
+os:
+  - linux
+  - osx
 
 latex: false
 compiler: clang
@@ -25,7 +27,6 @@ env:
   - _R_CHECK_TIMINGS_="0"
   - _R_CHECK_FORCE_SUGGESTS_="0"
   - BOOTSTRAP_LATEX=1
-# --install-args=--build
 
 before_install:
   - export CCACHE=ccache
@@ -34,7 +35,6 @@ before_install:
   - fname=travis_helpers.sh
   - wget -O ${fname} http://bit.ly/travis_helpers
   - cat ${fname}; source ${fname}; rm ${fname}
-#  - remove_neuroc_packages  
   # does all the clang exports
   - x=`export_clang_cxx`; eval ${x}
   - echo "CC=${CC}, CXX=${CXX}, CXX1X=${CXX1X}"
@@ -46,17 +46,15 @@ before_install:
   - x=`cmake_setup`; echo "${x}"; eval ${x};
   - cmake --version
   - ./cleanup
-  - install_missing_remote_deps stnava/ITKR 
+  - export PACKAGE_NAME=`package_name`
+  - export RCHECK_DIR=${PACKAGE_NAME}.Rcheck  
+  - gh_binary_install stnava/ITKR
   - export ants_user=ANTsX
   - install_missing_remote_deps ${ants_user}/ANTsRCore
   - echo "Done Installing Missing Deps"
   - cat DESCRIPTION
-  - gh_binary_install stnava/ITKR
   - install_remotes_no_dep
   - cat DESCRIPTION
-  - export PACKAGE_NAME=`package_name`
-  - export RCHECK_DIR=${PACKAGE_NAME}.Rcheck
-  # - export PATH=$HOME/bin/:$PATH
   - echo $PATH ;
   - if [ "$TRAVIS_OS_NAME" == "osx" ];
     then
@@ -119,10 +117,7 @@ jobs:
           repo: ANTsX/${PROJ_DIR}
           tags: true
           all_branches: true
-      os: osx        
-
-
-
+      os: osx
 
 after_failure:
   - cat ${PACKAGE_NAME}.Rcheck/00install.out
