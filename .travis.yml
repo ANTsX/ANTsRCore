@@ -43,12 +43,12 @@ before_install:
   - ./cleanup
   - export PACKAGE_NAME=`package_name`
   - export RCHECK_DIR=${PACKAGE_NAME}.Rcheck  
-  # - gh_binary_install stnava/ITKR
-  # - export ants_user=ANTsX
-  # - install_missing_remote_deps ${ants_user}/ANTsRCore
-  # - echo "Done Installing Missing Deps"
-  # - cat DESCRIPTION
-  # - install_remotes_no_dep
+  - gh_binary_install stnava/ITKR
+  - export ants_user=ANTsX
+  - install_missing_remote_deps ${ants_user}/ANTsRCore
+  - echo "Done Installing Missing Deps"
+  - cat DESCRIPTION
+  - install_remotes_no_dep
   - cat DESCRIPTION
   - echo $PATH ;
   - if [ "$TRAVIS_OS_NAME" == "osx" ];
