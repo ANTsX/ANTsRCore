@@ -4,7 +4,7 @@
 \alias{randomMask}
 \title{Get a random mask}
 \usage{
-randomMask(img, nsamples, perLabel = F)
+randomMask(img, nsamples, perLabel = F, seed)
 }
 \arguments{
 \item{img}{an antsImage, either continuous or mask-like. This will
@@ -17,6 +17,8 @@ voxels.}
 \item{perLabel}{logical, if true the input image must be multi-label
 and the the output will have nsamples from each label (i.e., 200
 samples from each label)}
+
+\item{seed}{random seed}
 }
 \value{
 binary antsImage with random voxels set to 1
