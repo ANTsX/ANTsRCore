@@ -40,18 +40,22 @@
 #'   \item{"TRSAA": }{translation, rigid, similarity, affine (twice). please set
 #'     \code{regIterations} if using this option.  this would be used in cases
 #'     where you want a really high quality affine mapping (perhaps with mask).}
-#'   \item{"ElasticSyN": }{Symmetric normalization: Affine + deformable transformation,
-#'     with mutual information as optimization metric and elastic regularization.}
-#'   \item{"SyN": }{Symmetric normalization: Affine + deformable transformation,
-#'     with mutual information as optimization metric.}
-#'   \item{"SyNRA": }{Symmetric normalization: Rigid + Affine + deformable transformation,
-#'     with mutual information as optimization metric.}
-#'   \item{"SyNOnly": }{Symmetric normalization: no initial transformation,
-#'     with mutual information as optimization metric.  Assumes images are
+#'   \item{"ElasticSyN": }{Symmetric normalization: Affine + deformable transformation.
+#'     Uses \code{synMetric} as optimization metric and elastic regularization.}
+#'   \item{"SyN": }{Symmetric normalization: Affine + deformable transformation.
+#'     Uses \code{synMetric} as optimization metric.}
+#'   \item{"SyNRA": }{Symmetric normalization: Rigid + Affine + deformable transformation.
+#'     Uses \code{synMetric} as optimization metric.}
+#'   \item{"SyNOnly": }{Symmetric normalization: no initial transformation.
+#'     Uses \code{synMetric} as optimization metric.  Assumes images are
 #'     aligned by an inital transformation. Can be useful if you want to run
 #'     an unmasked affine followed by masked deformable registration.}
-#'   \item{"SyNCC": }{SyN, but with cross-correlation as the metric.}
-#'   \item{"SyNabp": }{SyN optimized for abpBrainExtraction.}
+#'   \item{"SyNCC": }{SyN, but with cross-correlation as the metric.
+#'     Note, the default or chosen parameters will be replaced with 
+#'     \code{synMetric="CC", synSampling=4, synits="2100x1200x1200x20",
+#'          smoothingsigmas="3x2x1x0", shrinkfactors="4x3x2x1"}. }
+#'   \item{"SyNabp": }{SyN optimized for abpBrainExtraction, forces mutual information
+#'     as optimization metric.}
 #'   \item{"SyNBold": }{SyN, but optimized for registrations between
 #'     BOLD and T1 images.}
 #'   \item{"SyNBoldAff": }{SyN, but optimized for registrations between

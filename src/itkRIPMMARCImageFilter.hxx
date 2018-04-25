@@ -372,7 +372,8 @@ void RIPMMARCImageFilter<TInputImage, TOutputImage, TComputation>
 				" points out of " << inputSize << " possible points." << std::endl;
 	  }
 
-	srand( time( NULL) );
+//    srand( time( NULL) );
+	srand( 99 );
 	while( patchSeedIterator < this->m_NumberOfSamplePatches )
 	  {
 		for( int i = 0; i < ImageDimension; ++i)

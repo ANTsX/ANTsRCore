@@ -194,7 +194,7 @@ ripmmarcPop <- function(
       boundary.condition = 'image' )
     ripmat = cbind( ripmat, locmat )
   }
-  ripsvd = svd( scale( ripmat, center=meanCenter, scale=F ) )
+  ripsvd = svd( antsrimpute( scale( ripmat, center=meanCenter, scale=F ) ) )
   frameMask = thresholdImage(  abs( ripped$canonicalFrame ), 1.e-8, Inf )
   sel = as.numeric( frameMask )  > 0
   coreFrame = ripmmarcBasisImage( ripped$canonicalFrame, ripsvd$u[ sel, 2 ] )
