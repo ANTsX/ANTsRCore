@@ -7,16 +7,16 @@ compflags=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
 ITKDIR=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkDir(); cat(a)'`
 
 # get a version of cmake
-cmaker=`Rscript -e "x=Sys.which('cmake'); cat(x)"`
+cmaker=`${R_HOME}/bin/Rscript -e "x=Sys.which('cmake'); cat(x)"`
 if [[ -z "${cmaker}" ]]; then
-	res=`Rscript -e "cat(('cmaker' %in% installed.packages())*1)"`
+	res=`${R_HOME}/bin/Rscript -e "cat(('cmaker' %in% installed.packages())*1)"`
 	if [[ $res -eq 0 ]];
 		then
 	    git clone https://github.com/stnava/cmaker ;
 	    R CMD INSTALL cmaker ;
 	    rm -rf cmaker ;
 	fi
-    cmaker=`Rscript -e "x=cmaker::cmake()"`
+    cmaker=`${R_HOME}/bin/Rscript -e "x=cmaker::cmake()"`
 else
 	cmaker="cmake"
 fi
