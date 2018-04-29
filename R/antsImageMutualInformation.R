@@ -23,5 +23,8 @@ antsImageMutualInformation <- function(in_image1, in_image2) {
     print("input images must have float pixeltype")
     return(NA)
   }
+  if ( ! antsImagePhysicalSpaceConsistency( in_image1, in_image2 ) )
+    stop("images do not occupy the same physical space as checked in antsImagePhysicalSpaceConsistency.")
+
   .Call("antsImageMutualInformation", in_image1, in_image2, PACKAGE = "ANTsRCore")
 }

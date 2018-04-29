@@ -22,7 +22,7 @@
 #' Similarity2DTransform, Similarity3DTransform
 #' @slot pointer to the memory location of the itk object
 ## #' @param parameters transformation parameters to send to
-## #' \code{\link{setAntsrTransformParameters}} 
+## #' \code{\link{setAntsrTransformParameters}}
 ## #' @param precision string e.g. "float" or "double"
 setClass(Class = "antsrMetric",
          representation(precision= "character", dimension = "integer",
@@ -332,8 +332,8 @@ antsrMetricCreate <- function(
 #' metricValue = antsrMetricGetValue(metric)
 #' @return image similarity value
 #' @export
-  antsrMetricGetValue = function( metric ) {
-    return( .Call("antsrMetric_GetValue", metric, PACKAGE = "ANTsRCore" ) )
+antsrMetricGetValue = function( metric ) {
+  return( .Call("antsrMetric_GetValue", metric, PACKAGE = "ANTsRCore" ) )
   }
 
 #' @title antsrMetricGetDerivative
