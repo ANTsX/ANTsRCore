@@ -530,7 +530,8 @@ catch( itk::ExceptionObject & err )
   {
   Rcpp::Rcout << "ITK ExceptionObject caught !" << std::endl;
   Rcpp::Rcout << err << std::endl;
-  Rcpp::stop("ITK exception caught");
+  return Rcpp::wrap(NA_REAL);
+  //Rcpp::stop("ITK exception caught");
   }
 catch( const std::exception& exc )
   {
