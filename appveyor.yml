@@ -27,6 +27,9 @@ build_script:
   - set TMP=C:/
   - set TMPDIR=C:/
   - set TEMP=C:/
+  - git clone https://github.com/stnava/ITKR
+  - R CMD INSTALL ITKR
+  - Rscript.exe -e 'x = read.dcf("DESCRIPTION"); x$Remotes = NULL; write.dcf(x, "DESCRIPTION")'
   # need to move to higher dir because CMake path req
   - mkdir C:\run
   - cp -avr * C:\run
