@@ -27,8 +27,11 @@ build_script:
   - set TMP=C:/
   - set TMPDIR=C:/
   - set TEMP=C:/
-  - git clone https://github.com/stnava/ITKR
-  - R CMD INSTALL ITKR
+  - ps: Invoke-WebRequest https://github.com/neuroconductor/ITKR/releases/download/0.4.12.4.s/ITKR_0.4.12.4.zip -OutFile ".\ITKR.zip"
+  - Rscript -e "install.packages('ITKR.zip', repos = NULL)"  
+  - rm ITKR.zip  
+  # - git clone https://github.com/stnava/ITKR
+  # - R CMD INSTALL ITKR
   - Rscript.exe -e 'x = read.dcf("DESCRIPTION"); x$Remotes = NULL; write.dcf(x, "DESCRIPTION")'
   # need to move to higher dir because CMake path req
   - mkdir C:\run
