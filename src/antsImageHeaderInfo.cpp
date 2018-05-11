@@ -75,7 +75,7 @@ try
     case itk::ImageIOBase::IOComponentType::LONG: // LONG
       pixeltype = "long";
       break;
-    case itk::ImageIOBase::IOComponentType::LONGLONG: // LONG
+    case itk::ImageIOBase::IOComponentType::LONGLONG: // LONGLONG
       pixeltype = "longlong";
       break;
     case itk::ImageIOBase::IOComponentType::FLOAT: // FLOAT
