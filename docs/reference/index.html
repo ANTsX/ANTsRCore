@@ -18,13 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Function reference" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,12 +53,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">ANTsRCore</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">ANTsRCore</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -65,6 +75,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -72,767 +83,798 @@
       
       </header>
 
-      <div class="row">
-  <div class="col-md-9">
+<div class="row">
+  <div class="contents col-md-9">
     <div class="page-header">
-      <h1>
-        Reference
-        <small>version&nbsp;0.4.2.1</small>
-      </h1>
+      <h1>Reference</h1>
     </div>
 
-    <div class="contents">
-      <table class="ref-index">
+    <table class="ref-index">
 
-      <colgroup>
-        <col class="alias" />
-        <col class="title" />
-      </colgroup>
+    <colgroup>
+      <col class="alias" />
+      <col class="title" />
+    </colgroup>
 
-      <tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="accessor-methods.html">pixeltype</a></code> <code><a href="accessor-methods.html">pixeltype<-</a></code> <code><a href="accessor-methods.html">components</a></code> <code><a href="accessor-methods.html">components<-</a></code> <code><a href="accessor-methods.html">spacing</a></code> <code><a href="accessor-methods.html">spacing<-</a></code> <code><a href="accessor-methods.html">direction</a></code> <code><a href="accessor-methods.html">direction<-</a></code> <code><a href="accessor-methods.html">origin</a></code> <code><a href="accessor-methods.html">origin<-</a></code> </p>
-          </td>
-          <td><p>Extract Image Attributes <code>pixeltype</code> from antsImages</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsApplyTransforms.html">antsApplyTransforms</a></code> </p>
-          </td>
-          <td><p>Apply transforms to images.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsApplyTransformsToPoints.html">antsApplyTransformsToPoints</a></code> </p>
-          </td>
-          <td><p>Apply transforms to points.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsCompileFlags.html">antsCompileFlags</a></code> </p>
-          </td>
-          <td><p>return ants compile flags</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsCopyImageInfo.html">antsCopyImageInfo</a></code> </p>
-          </td>
-          <td><p>Copy header info</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsDir.html">antsDir</a></code> </p>
-          </td>
-          <td><p>return ANTs binary directory information</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImage.html">show</a></code> <code><a href="antsImage.html">initialize</a></code> </p>
-          </td>
-          <td><p>An S4 class for an antsImage</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageClone.html">antsImageClone</a></code> </p>
-          </td>
-          <td><p>Clone an <code>antsImage</code>.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageGetSet.html">antsGetSpacing</a></code> <code><a href="antsImageGetSet.html">antsSetSpacing</a></code> <code><a href="antsImageGetSet.html">antsGetOrigin</a></code> <code><a href="antsImageGetSet.html">antsSetOrigin</a></code> <code><a href="antsImageGetSet.html">antsGetDirection</a></code> <code><a href="antsImageGetSet.html">antsSetDirection</a></code> </p>
-          </td>
-          <td><p>antsImageGetSet</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageHeaderInfo.html">antsImageHeaderInfo</a></code> </p>
-          </td>
-          <td><p>Read file info from image header</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageIterator_class.html">show</a></code> <code><a href="antsImageIterator_class.html">initialize</a></code> </p>
-          </td>
-          <td><p>An S4 class for an antsImageIterator</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageIterator.html">antsImageIterator</a></code> </p>
-          </td>
-          <td><p>antsImageIterator</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageIteratorGet.html">antsImageIteratorGet</a></code> </p>
-          </td>
-          <td><p>antsImageIteratorGet</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageIteratorGetIndex.html">antsImageIteratorGetIndex</a></code> </p>
-          </td>
-          <td><p>antsImageIteratorGetIndex</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageIteratorGoToBegin.html">antsImageIteratorGoToBegin</a></code> </p>
-          </td>
-          <td><p>antsImageIteratorGoToBegin</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageIteratorGoToReverseBegin.html">antsImageIteratorGoToReverseBegin</a></code> </p>
-          </td>
-          <td><p>antsImageIteratorGoToReverseBegin</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageIteratorIsAtEnd.html">antsImageIteratorIsAtEnd</a></code> </p>
-          </td>
-          <td><p>antsImageIteratorIsAtEnd</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageIteratorIsAtReverseEnd.html">antsImageIteratorIsAtReverseEnd</a></code> </p>
-          </td>
-          <td><p>antsImageIteratorIsAtReverseEnd</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageIteratorNext.html">antsImageIteratorNext</a></code> </p>
-          </td>
-          <td><p>antsImageIteratorNext</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageIteratorPrevious.html">antsImageIteratorPrevious</a></code> </p>
-          </td>
-          <td><p>antsImageIteratorPrevious</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageIteratorRemaining.html">antsImageIteratorRemaining</a></code> </p>
-          </td>
-          <td><p>antsImageIteratorRemaining</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageIteratorSet.html">antsImageIteratorSet</a></code> </p>
-          </td>
-          <td><p>antsImageIteratorSet</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageIteratorSetIndex.html">antsImageIteratorSetIndex</a></code> </p>
-          </td>
-          <td><p>antsImageIteratorSetIndex</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImagemath.html">Math</a></code> <code><a href="antsImagemath.html">abs</a></code> <code><a href="antsImagemath.html">sign</a></code> <code><a href="antsImagemath.html">sqrt</a></code> <code><a href="antsImagemath.html">ceiling</a></code> <code><a href="antsImagemath.html">floor</a></code> <code><a href="antsImagemath.html">trunc</a></code> <code><a href="antsImagemath.html">log</a></code> <code><a href="antsImagemath.html">log10</a></code> <code><a href="antsImagemath.html">log2</a></code> <code><a href="antsImagemath.html">acos</a></code> <code><a href="antsImagemath.html">asin</a></code> <code><a href="antsImagemath.html">atan</a></code> <code><a href="antsImagemath.html">acosh</a></code> <code><a href="antsImagemath.html">asinh</a></code> <code><a href="antsImagemath.html">atanh</a></code> <code><a href="antsImagemath.html">cos</a></code> <code><a href="antsImagemath.html">sin</a></code> <code><a href="antsImagemath.html">tan</a></code> <code><a href="antsImagemath.html">cosh</a></code> <code><a href="antsImagemath.html">sinh</a></code> <code><a href="antsImagemath.html">tanh</a></code> <code><a href="antsImagemath.html">cospi</a></code> <code><a href="antsImagemath.html">sinpi</a></code> <code><a href="antsImagemath.html">tanpi</a></code> <code><a href="antsImagemath.html">exp</a></code> <code><a href="antsImagemath.html">gamma</a></code> <code><a href="antsImagemath.html">lgamma</a></code> <code><a href="antsImagemath.html">!</a></code> </p>
-          </td>
-          <td><p>Math for antsImage Objects</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageMutualInformation.html">antsImageMutualInformation</a></code> </p>
-          </td>
-          <td><p>mutual information between two images</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p></p>
-          </td>
-          <td><p>Operations for antsImage Objects</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImagePhysicalSpaceConsistency.html">antsImagePhysicalSpaceConsistency</a></code> </p>
-          </td>
-          <td><p>Check for physical space consistency</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageRead.html">antsImageRead</a></code> </p>
-          </td>
-          <td><p>Image Read</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageSummary.html">Summary</a></code> <code><a href="antsImageSummary.html">max</a></code> <code><a href="antsImageSummary.html">min</a></code> <code><a href="antsImageSummary.html">range</a></code> <code><a href="antsImageSummary.html">prod</a></code> <code><a href="antsImageSummary.html">sum</a></code> <code><a href="antsImageSummary.html">any</a></code> <code><a href="antsImageSummary.html">all</a></code> </p>
-          </td>
-          <td><p>Summary for antsImage Objects</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageTypeCast.html">antsImageTypeCast</a></code> </p>
-          </td>
-          <td><p>Cast images to either a passed pixeltype or the most precise of the inputs</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsImageWrite.html">antsImageWrite</a></code> </p>
-          </td>
-          <td><p>Image Write</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsIncludes.html">antsIncludes</a></code> </p>
-          </td>
-          <td><p>return ANTs installation information</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsLibs.html">antsLibs</a></code> </p>
-          </td>
-          <td><p>return ants library location</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsMatrix_class.html">initialize</a></code> </p>
-          </td>
-          <td><p>antsMatrix Class</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p></p>
-          </td>
-          <td><p>An S4 class to hold a region of an antsImage</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsRegistration.html">antsRegistration</a></code> </p>
-          </td>
-          <td><p>Perform registration between two images.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsrGetPointerName.html">antsrGetPointerName</a></code> </p>
-          </td>
-          <td><p>Return the antsImage pointer string</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsrImageToImageMetric.Create.html">antsrImageToImageMetric.Create</a></code> </p>
-          </td>
-          <td><p>antsrImageToImageMetric.Create</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsrImageToImageMetric.GetValue.html">antsrImageToImageMetric.GetValue</a></code> </p>
-          </td>
-          <td><p>antsrImageToImageMetric.GetValue</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsrImageToImageMetric.Initialize.html">antsrImageToImageMetric.Initialize</a></code> </p>
-          </td>
-          <td><p>antsrImageToImageMetric.Initialize</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p></p>
-          </td>
-          <td><p>An S4 class for image metrics between two antsImages</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsrImageToImageMetric.SetFixedImage.html">antsrImageToImageMetric.SetFixedImage</a></code> </p>
-          </td>
-          <td><p>antsrImageToImageMetric.SetFixedImage</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsrImageToImageMetric.SetFixedImageMask.html">antsrImageToImageMetric.SetFixedImageMask</a></code> </p>
-          </td>
-          <td><p>antsrImageToImageMetric.SetFixedImageMask</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsrImageToImageMetric.SetMovingImage.html">antsrImageToImageMetric.SetMovingImage</a></code> </p>
-          </td>
-          <td><p>antsrImageToImageMetric.SetMovingImage</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsrImageToImageMetric.SetMovingImageMask.html">antsrImageToImageMetric.SetMovingImageMask</a></code> </p>
-          </td>
-          <td><p>antsrImageToImageMetric.SetMovingImageMask</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsrImageToImageMetric.SetSampling.html">antsrImageToImageMetric.SetSampling</a></code> </p>
-          </td>
-          <td><p>antsrImageToImageMetric.SetSampling</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsrTransform.html">show</a></code> <code><a href="antsrTransform.html">initialize</a></code> </p>
-          </td>
-          <td><p>An S4 class for an antsrTransform</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsrTransformFromDisplacementField.html">antsrTransformFromDisplacementField</a></code> </p>
-          </td>
-          <td><p>getAntsrTransformParameters</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsSetPixels.html">antsSetPixels</a></code> </p>
-          </td>
-          <td><p>Set a pixel value at an index</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsTransformIndexToPhysicalPoint.html">antsTransformIndexToPhysicalPoint</a></code> </p>
-          </td>
-          <td><p>Get Spatial Point from Index</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsTransformPhysicalPointToIndex.html">antsTransformPhysicalPointToIndex</a></code> </p>
-          </td>
-          <td><p>Get Index from Spatial Point</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="antsVersions.html">antsVersions</a></code> </p>
-          </td>
-          <td><p>antsVersions</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="apply.html">apply</a></code> </p>
-          </td>
-          <td><p>Extension of apply to allow input of antsImage</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="applyAntsrTransform.html">applyAntsrTransform</a></code> </p>
-          </td>
-          <td><p>applyAntsrTransform</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="applyAntsrTransformToImage.html">applyAntsrTransformToImage</a></code> </p>
-          </td>
-          <td><p>applyAntsrTransformToImage</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="applyAntsrTransformToPoint.html">applyAntsrTransformToPoint</a></code> </p>
-          </td>
-          <td><p>applyAntsrTransformToPoint</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="applyAntsrTransformToVector.html">applyAntsrTransformToVector</a></code> </p>
-          </td>
-          <td><p>applyAntsrTransformToVector</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="as.antsImage.html">as.antsImage</a></code> </p>
-          </td>
-          <td><p>Convert Objects into antsImage objects</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="as.antsMatrix.html">as.antsMatrix</a></code> </p>
-          </td>
-          <td><p>Coerce Object to as.antsMatrix</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="as.array.html">dim</a></code> <code><a href="as.array.html">is.na</a></code> <code><a href="as.array.html">as.numeric</a></code> <code><a href="as.array.html">as.matrix</a></code> <code><a href="as.array.html">as.array</a></code> <code><a href="as.array.html">as.data.frame</a></code> <code><a href="as.array.html">as.list</a></code> </p>
-          </td>
-          <td><p>Coerce antsImage objects to array</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="atropos.html">atropos</a></code> </p>
-          </td>
-          <td><p>FMM Segmentation</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="bigLMStats.html">bigLMStats</a></code> </p>
-          </td>
-          <td><p>Efficiently compute basic statistical inference from regressions with
+    <tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="accessor-methods.html">pixeltype()</a></code> <code><a href="accessor-methods.html">`pixeltype<-`()</a></code> <code><a href="accessor-methods.html">components()</a></code> <code><a href="accessor-methods.html">`components<-`()</a></code> <code><a href="accessor-methods.html">spacing()</a></code> <code><a href="accessor-methods.html">`spacing<-`()</a></code> <code><a href="accessor-methods.html">direction()</a></code> <code><a href="accessor-methods.html">`direction<-`()</a></code> <code><a href="accessor-methods.html">origin()</a></code> <code><a href="accessor-methods.html">`origin<-`()</a></code> </p>
+        </td>
+        <td><p>Extract Image Attributes <code>pixeltype</code> from antsImages</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsApplyTransforms.html">antsApplyTransforms()</a></code> </p>
+        </td>
+        <td><p>Apply transforms to images.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsApplyTransformsToPoints.html">antsApplyTransformsToPoints()</a></code> </p>
+        </td>
+        <td><p>Apply transforms to points.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsCompileFlags.html">antsCompileFlags()</a></code> </p>
+        </td>
+        <td><p>return ants compile flags</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsCopyImageInfo.html">antsCopyImageInfo()</a></code> </p>
+        </td>
+        <td><p>Copy header info</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsDir.html">antsDir()</a></code> </p>
+        </td>
+        <td><p>return ANTs binary directory information</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImage.html">show(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImage.html">initialize(<i>&lt;antsImage&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>An S4 class for an antsImage</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageClone.html">antsImageClone()</a></code> </p>
+        </td>
+        <td><p>Clone an <code>antsImage</code>.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageGetSet.html">antsGetSpacing()</a></code> <code><a href="antsImageGetSet.html">antsSetSpacing()</a></code> <code><a href="antsImageGetSet.html">antsGetOrigin()</a></code> <code><a href="antsImageGetSet.html">antsSetOrigin()</a></code> <code><a href="antsImageGetSet.html">antsGetDirection()</a></code> <code><a href="antsImageGetSet.html">antsSetDirection()</a></code> </p>
+        </td>
+        <td><p>antsImageGetSet</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageHeaderInfo.html">antsImageHeaderInfo()</a></code> </p>
+        </td>
+        <td><p>Read file info from image header</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageIterator.html">antsImageIterator()</a></code> </p>
+        </td>
+        <td><p>antsImageIterator</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageIteratorGet.html">antsImageIteratorGet()</a></code> </p>
+        </td>
+        <td><p>antsImageIteratorGet</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageIteratorGetIndex.html">antsImageIteratorGetIndex()</a></code> </p>
+        </td>
+        <td><p>antsImageIteratorGetIndex</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageIteratorGoToBegin.html">antsImageIteratorGoToBegin()</a></code> </p>
+        </td>
+        <td><p>antsImageIteratorGoToBegin</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageIteratorGoToReverseBegin.html">antsImageIteratorGoToReverseBegin()</a></code> </p>
+        </td>
+        <td><p>antsImageIteratorGoToReverseBegin</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageIteratorIsAtEnd.html">antsImageIteratorIsAtEnd()</a></code> </p>
+        </td>
+        <td><p>antsImageIteratorIsAtEnd</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageIteratorIsAtReverseEnd.html">antsImageIteratorIsAtReverseEnd()</a></code> </p>
+        </td>
+        <td><p>antsImageIteratorIsAtReverseEnd</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageIteratorNext.html">antsImageIteratorNext()</a></code> </p>
+        </td>
+        <td><p>antsImageIteratorNext</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageIteratorPrevious.html">antsImageIteratorPrevious()</a></code> </p>
+        </td>
+        <td><p>antsImageIteratorPrevious</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageIteratorRemaining.html">antsImageIteratorRemaining()</a></code> </p>
+        </td>
+        <td><p>antsImageIteratorRemaining</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageIteratorSet.html">antsImageIteratorSet()</a></code> </p>
+        </td>
+        <td><p>antsImageIteratorSet</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageIteratorSetIndex.html">antsImageIteratorSetIndex()</a></code> </p>
+        </td>
+        <td><p>antsImageIteratorSetIndex</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageIterator_class.html">show(<i>&lt;antsImageIterator&gt;</i>)</a></code> <code><a href="antsImageIterator_class.html">initialize(<i>&lt;antsImageIterator&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>An S4 class for an antsImageIterator</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageMutualInformation.html">antsImageMutualInformation()</a></code> </p>
+        </td>
+        <td><p>mutual information between two images</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImagePhysicalSpaceConsistency.html">antsImagePhysicalSpaceConsistency()</a></code> </p>
+        </td>
+        <td><p>Check for physical space consistency</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageRead.html">antsImageRead()</a></code> </p>
+        </td>
+        <td><p>Image Read</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageSummary.html">Summary(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageSummary.html">max()</a></code> <code><a href="antsImageSummary.html">min()</a></code> <code><a href="antsImageSummary.html">range()</a></code> <code><a href="antsImageSummary.html">prod()</a></code> <code><a href="antsImageSummary.html">sum()</a></code> <code><a href="antsImageSummary.html">any()</a></code> <code><a href="antsImageSummary.html">all()</a></code> </p>
+        </td>
+        <td><p>Summary for antsImage Objects</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageTypeCast.html">antsImageTypeCast()</a></code> </p>
+        </td>
+        <td><p>Cast images to either a passed pixeltype or the most precise of the inputs</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageWrite.html">antsImageWrite()</a></code> </p>
+        </td>
+        <td><p>Image Write</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImagemath.html">Math(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">abs(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">sign(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">sqrt(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">ceiling(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">floor(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">trunc(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">log(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">log10(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">log2(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">acos(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">asin(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">atan(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">acosh(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">asinh(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">atanh(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">cos(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">sin(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">tan(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">cosh(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">sinh(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">tanh(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">cospi(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">sinpi(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">tanpi(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">exp(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">gamma(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">lgamma(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImagemath.html">`!`(<i>&lt;antsImage&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Math for antsImage Objects</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsImageops.html">Arith(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`+`(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`-`(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`*`(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`/`(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`^`(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`%%`(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`%/%`(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">Arith(<i>&lt;antsImage&gt;</i>,<i>&lt;numeric&gt;</i>)</a></code> <code><a href="antsImageops.html">`+`(<i>&lt;antsImage&gt;</i>,<i>&lt;numeric&gt;</i>)</a></code> <code><a href="antsImageops.html">`-`(<i>&lt;antsImage&gt;</i>,<i>&lt;numeric&gt;</i>)</a></code> <code><a href="antsImageops.html">`*`(<i>&lt;antsImage&gt;</i>,<i>&lt;numeric&gt;</i>)</a></code> <code><a href="antsImageops.html">`/`(<i>&lt;antsImage&gt;</i>,<i>&lt;numeric&gt;</i>)</a></code> <code><a href="antsImageops.html">`^`(<i>&lt;antsImage&gt;</i>,<i>&lt;numeric&gt;</i>)</a></code> <code><a href="antsImageops.html">`%%`(<i>&lt;antsImage&gt;</i>,<i>&lt;numeric&gt;</i>)</a></code> <code><a href="antsImageops.html">`%/%`(<i>&lt;antsImage&gt;</i>,<i>&lt;numeric&gt;</i>)</a></code> <code><a href="antsImageops.html">`+`(<i>&lt;numeric&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`-`(<i>&lt;numeric&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`*`(<i>&lt;numeric&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`/`(<i>&lt;numeric&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`^`(<i>&lt;numeric&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`%%`(<i>&lt;numeric&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`%/%`(<i>&lt;numeric&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">Arith(<i>&lt;antsImage&gt;</i>,<i>&lt;missing&gt;</i>)</a></code> <code><a href="antsImageops.html">Arith(<i>&lt;numeric&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">Arith(<i>&lt;antsImage&gt;</i>,<i>&lt;logical&gt;</i>)</a></code> <code><a href="antsImageops.html">Arith(<i>&lt;logical&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">Arith(<i>&lt;antsImage&gt;</i>,<i>&lt;array&gt;</i>)</a></code> <code><a href="antsImageops.html">Arith(<i>&lt;array&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">Arith(<i>&lt;list&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">Arith(<i>&lt;antsImage&gt;</i>,<i>&lt;list&gt;</i>)</a></code> <code><a href="antsImageops.html">`==`(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`==`(<i>&lt;antsImage&gt;</i>,<i>&lt;list&gt;</i>)</a></code> <code><a href="antsImageops.html">`==`(<i>&lt;antsImage&gt;</i>,<i>&lt;array&gt;</i>)</a></code> <code><a href="antsImageops.html">`==`(<i>&lt;array&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`==`(<i>&lt;antsImage&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="antsImageops.html">`==`(<i>&lt;ANY&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`>`(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`>`(<i>&lt;antsImage&gt;</i>,<i>&lt;list&gt;</i>)</a></code> <code><a href="antsImageops.html">`>`(<i>&lt;antsImage&gt;</i>,<i>&lt;array&gt;</i>)</a></code> <code><a href="antsImageops.html">`>`(<i>&lt;array&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`>`(<i>&lt;antsImage&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="antsImageops.html">`>`(<i>&lt;ANY&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`<`(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`<`(<i>&lt;antsImage&gt;</i>,<i>&lt;list&gt;</i>)</a></code> <code><a href="antsImageops.html">`<`(<i>&lt;antsImage&gt;</i>,<i>&lt;array&gt;</i>)</a></code> <code><a href="antsImageops.html">`<`(<i>&lt;array&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`<`(<i>&lt;antsImage&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="antsImageops.html">`<`(<i>&lt;ANY&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`!=`(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`!=`(<i>&lt;antsImage&gt;</i>,<i>&lt;list&gt;</i>)</a></code> <code><a href="antsImageops.html">`!=`(<i>&lt;antsImage&gt;</i>,<i>&lt;array&gt;</i>)</a></code> <code><a href="antsImageops.html">`!=`(<i>&lt;array&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`!=`(<i>&lt;antsImage&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="antsImageops.html">`!=`(<i>&lt;ANY&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`<=`(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`<=`(<i>&lt;antsImage&gt;</i>,<i>&lt;list&gt;</i>)</a></code> <code><a href="antsImageops.html">`<=`(<i>&lt;antsImage&gt;</i>,<i>&lt;array&gt;</i>)</a></code> <code><a href="antsImageops.html">`<=`(<i>&lt;array&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`<=`(<i>&lt;antsImage&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="antsImageops.html">`<=`(<i>&lt;ANY&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`>=`(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`>=`(<i>&lt;antsImage&gt;</i>,<i>&lt;list&gt;</i>)</a></code> <code><a href="antsImageops.html">`>=`(<i>&lt;antsImage&gt;</i>,<i>&lt;array&gt;</i>)</a></code> <code><a href="antsImageops.html">`>=`(<i>&lt;array&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`>=`(<i>&lt;antsImage&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="antsImageops.html">`>=`(<i>&lt;ANY&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`&`(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`|`(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">Logic(<i>&lt;antsImage&gt;</i>,<i>&lt;array&gt;</i>)</a></code> <code><a href="antsImageops.html">Logic(<i>&lt;array&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">`&`(<i>&lt;antsImage&gt;</i>,<i>&lt;logical&gt;</i>)</a></code> <code><a href="antsImageops.html">`|`(<i>&lt;antsImage&gt;</i>,<i>&lt;logical&gt;</i>)</a></code> <code><a href="antsImageops.html">Logic(<i>&lt;logical&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">Logic(<i>&lt;antsImage&gt;</i>,<i>&lt;numeric&gt;</i>)</a></code> <code><a href="antsImageops.html">Logic(<i>&lt;numeric&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">Logic(<i>&lt;antsImage&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="antsImageops.html">Logic(<i>&lt;ANY&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">Logic(<i>&lt;list&gt;</i>,<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="antsImageops.html">Logic(<i>&lt;antsImage&gt;</i>,<i>&lt;list&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Operations for antsImage Objects</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsIncludes.html">antsIncludes()</a></code> </p>
+        </td>
+        <td><p>return ANTs installation information</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsLibs.html">antsLibs()</a></code> </p>
+        </td>
+        <td><p>return ants library location</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsMatrix_class.html">initialize(<i>&lt;antsMatrix&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>antsMatrix Class</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsRegion-class.html">antsRegion-class</a></code> </p>
+        </td>
+        <td><p>An S4 class to hold a region of an antsImage</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsRegistration.html">antsRegistration()</a></code> </p>
+        </td>
+        <td><p>Perform registration between two images.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsSetPixels.html">antsSetPixels()</a></code> </p>
+        </td>
+        <td><p>Set a pixel value at an index</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsTransformIndexToPhysicalPoint.html">antsTransformIndexToPhysicalPoint()</a></code> </p>
+        </td>
+        <td><p>Get Spatial Point from Index</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsTransformPhysicalPointToIndex.html">antsTransformPhysicalPointToIndex()</a></code> </p>
+        </td>
+        <td><p>Get Index from Spatial Point</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsVersions.html">antsVersions</a></code> </p>
+        </td>
+        <td><p>antsVersions</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsrGetPointerName.html">antsrGetPointerName()</a></code> </p>
+        </td>
+        <td><p>Return the antsImage pointer string</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsrMetric.html">show(<i>&lt;antsrMetric&gt;</i>)</a></code> <code><a href="antsrMetric.html">initialize(<i>&lt;antsrMetric&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>An S4 class for image metrics between two antsImages</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsrMetricCreate.html">antsrMetricCreate()</a></code> </p>
+        </td>
+        <td><p>antsrMetricCreate</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsrMetricGetDerivative.html">antsrMetricGetDerivative()</a></code> </p>
+        </td>
+        <td><p>antsrMetricGetDerivative</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsrMetricGetValue.html">antsrMetricGetValue()</a></code> </p>
+        </td>
+        <td><p>antsrMetricGetValue</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsrMetricInitialize.html">antsrMetricInitialize()</a></code> </p>
+        </td>
+        <td><p>antsrMetricInitialize</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsrMetricSetFixedImage.html">antsrMetricSetFixedImage()</a></code> </p>
+        </td>
+        <td><p>antsrMetricSetFixedImage</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsrMetricSetFixedImageMask.html">antsrMetricSetFixedImageMask()</a></code> </p>
+        </td>
+        <td><p>antsrMetricSetFixedImageMask</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsrMetricSetFixedTransform.html">antsrMetricSetFixedTransform()</a></code> </p>
+        </td>
+        <td><p>antsrMetricSetFixedTransform</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsrMetricSetMovingImage.html">antsrMetricSetMovingImage()</a></code> </p>
+        </td>
+        <td><p>antsrMetricSetMovingImage</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsrMetricSetMovingImageMask.html">antsrMetricSetMovingImageMask()</a></code> </p>
+        </td>
+        <td><p>antsrMetricSetMovingImageMask</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsrMetricSetMovingTransform.html">antsrMetricSetMovingTransform()</a></code> </p>
+        </td>
+        <td><p>antsrMetricSetMovingTransform</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsrMetricSetNumberOfHistogramBins.html">antsrMetricSetNumberOfHistogramBins()</a></code> </p>
+        </td>
+        <td><p>antsrMetricSetNumberOfHistogramBins</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsrMetricSetRadius.html">antsrMetricSetRadius()</a></code> </p>
+        </td>
+        <td><p>antsrMetricSetRadius</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsrMetricSetSampling.html">antsrMetricSetSampling()</a></code> </p>
+        </td>
+        <td><p>antsrMetricSetSampling</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsrTransform.html">show(<i>&lt;antsrTransform&gt;</i>)</a></code> <code><a href="antsrTransform.html">initialize(<i>&lt;antsrTransform&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>An S4 class for an antsrTransform</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="antsrTransformFromDisplacementField.html">antsrTransformFromDisplacementField()</a></code> </p>
+        </td>
+        <td><p>getAntsrTransformParameters</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="apply.html">apply()</a></code> </p>
+        </td>
+        <td><p>Extension of apply to allow input of antsImage</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="applyAntsrTransform.html">applyAntsrTransform()</a></code> </p>
+        </td>
+        <td><p>applyAntsrTransform</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="applyAntsrTransformToImage.html">applyAntsrTransformToImage()</a></code> </p>
+        </td>
+        <td><p>applyAntsrTransformToImage</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="applyAntsrTransformToPoint.html">applyAntsrTransformToPoint()</a></code> </p>
+        </td>
+        <td><p>applyAntsrTransformToPoint</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="applyAntsrTransformToVector.html">applyAntsrTransformToVector()</a></code> </p>
+        </td>
+        <td><p>applyAntsrTransformToVector</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="as.antsImage.html">as.antsImage()</a></code> </p>
+        </td>
+        <td><p>Convert Objects into antsImage objects</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="as.antsMatrix.html">as.antsMatrix()</a></code> </p>
+        </td>
+        <td><p>Coerce Object to as.antsMatrix</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="as.array.html">dim(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="as.array.html">is.na(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="as.array.html">as.numeric(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="as.array.html">as.matrix(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="as.array.html">as.matrix(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="as.array.html">as.array(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="as.array.html">as.array(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="as.array.html">as.data.frame(<i>&lt;antsMatrix&gt;</i>)</a></code> <code><a href="as.array.html">as.data.frame(<i>&lt;antsMatrix&gt;</i>)</a></code> <code><a href="as.array.html">as.matrix(<i>&lt;antsMatrix&gt;</i>)</a></code> <code><a href="as.array.html">as.list(<i>&lt;antsMatrix&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Coerce antsImage objects to array</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="atropos.html">atropos()</a></code> </p>
+        </td>
+        <td><p>FMM Segmentation</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="bigLMStats.html">bigLMStats()</a></code> </p>
+        </td>
+        <td><p>Efficiently compute basic statistical inference from regressions with
 multiple outcomes</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="bigLMStats2.html">bigLMStats2</a></code> </p>
-          </td>
-          <td><p>Efficiently compute a voxel-wise varying linear regression model</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="boxplot.antsImage.html">boxplot</a></code> </p>
-          </td>
-          <td><p>Boxplot of Values in an Image</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p></p>
-          </td>
-          <td><p>Extract or Replace Parts of antsImage Object</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="coerce_mask.html">coerce_mask</a></code> </p>
-          </td>
-          <td><p>Simple Mask Maker</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="composeAntsrTransforms.html">composeAntsrTransforms</a></code> </p>
-          </td>
-          <td><p>composeAntsrTransforms</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="createAntsrTransform.html">createAntsrTransform</a></code> </p>
-          </td>
-          <td><p>createAntsrTransform</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="cropImage.html">cropImage</a></code> </p>
-          </td>
-          <td><p>crop a sub-image via a mask</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="cropIndices.html">cropIndices</a></code> </p>
-          </td>
-          <td><p>crop a sub-image by image indices</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="cut.antsImage.html">cut</a></code> </p>
-          </td>
-          <td><p>Perform Cut on an image</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="decropImage.html">decropImage</a></code> </p>
-          </td>
-          <td><p>decrop a sub-image back into the full image</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="denoiseImage.html">denoiseImage</a></code> </p>
-          </td>
-          <td><p>Denoise an image</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="density.antsImage.html">density</a></code> </p>
-          </td>
-          <td><p>Density of Values in an Image</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="extractSlice.html">extractSlice</a></code> </p>
-          </td>
-          <td><p>extract a slice from an image</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getANTsRData.html">getANTsRData</a></code> </p>
-          </td>
-          <td><p>getANTsRData</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getAntsrTransformFixedParameters.html">getAntsrTransformFixedParameters</a></code> </p>
-          </td>
-          <td><p>getAntsrTransformParameters</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getAntsrTransformParameters.html">getAntsrTransformParameters</a></code> </p>
-          </td>
-          <td><p>getAntsrTransformParameters</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getMask.html">getMask</a></code> </p>
-          </td>
-          <td><p>Get Mask</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getNeighborhoodAtVoxel.html">getNeighborhoodAtVoxel</a></code> </p>
-          </td>
-          <td><p>Get a hypercube neighborhood at a voxel</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getNeighborhoodInMask.html">getNeighborhoodInMask</a></code> </p>
-          </td>
-          <td><p>Get neighborhoods for voxels within mask</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getPixels.html">getPixels</a></code> </p>
-          </td>
-          <td><p>Get Pixels</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="grapes-greater-than-grapes.html">%&gt;%</a></code> </p>
-          </td>
-          <td><p>Pipe an object forward</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="hist.antsImage.html">hist</a></code> </p>
-          </td>
-          <td><p>Histogram of Values in an Image</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="iBind.html">iBind</a></code> </p>
-          </td>
-          <td><p>iBind</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="imageFileNames2ImageList.html">imageFileNames2ImageList</a></code> </p>
-          </td>
-          <td><p>Simple imageFileNames2ImageListing function.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="imageSimilarity.html">imageSimilarity</a></code> </p>
-          </td>
-          <td><p>imageSimilarity</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="iMath.html">iMath</a></code> </p>
-          </td>
-          <td><p>iMath</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="iMathOps.html">iMathOps</a></code> </p>
-          </td>
-          <td><p>Operations for iMath Operator</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="invertAntsrTransform.html">invertAntsrTransform</a></code> </p>
-          </td>
-          <td><p>invertAntsrTransform</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="is.antsImage.html">is.antsImage</a></code> </p>
-          </td>
-          <td><p>is.antsImage</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="kmeansSegmentation.html">kmeansSegmentation</a></code> </p>
-          </td>
-          <td><p>k means image segmentation.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="labelClusters.html">labelClusters</a></code> </p>
-          </td>
-          <td><p>Simple labelClustering function.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="labelStats.html">labelStats</a></code> </p>
-          </td>
-          <td><p>labelStats</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lappend.html">lappend</a></code> </p>
-          </td>
-          <td><p>Simple list append tool</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="makeImage.html">makeImage</a></code> </p>
-          </td>
-          <td><p>Simple makeImage function.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="mask_values.html">mask_values</a></code> </p>
-          </td>
-          <td><p>Simple Value extractor for antsImage Values</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="mean.html">mean</a></code> <code><a href="mean.html">sd.antsImage</a></code> </p>
-          </td>
-          <td><p>Mean for antsImage Objects</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="median.html">median</a></code> </p>
-          </td>
-          <td><p>Median for antsImage Objects</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="mergeChannels.html">mergeChannels</a></code> </p>
-          </td>
-          <td><p>merge images into a multiChannel antsImage</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="morphology.html">morphology</a></code> </p>
-          </td>
-          <td><p>Morphological image operations</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="n3BiasFieldCorrection.html">n3BiasFieldCorrection</a></code> </p>
-          </td>
-          <td><p>Bias Field Correction</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="n4BiasFieldCorrection.html">n4BiasFieldCorrection</a></code> </p>
-          </td>
-          <td><p>Bias Field Correction</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="plot.antsImage.html">plot</a></code> </p>
-          </td>
-          <td><p>Plotting an image slice or multi-slice with optional color overlay.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="quantile.antsImage.html">quantile</a></code> </p>
-          </td>
-          <td><p>Sample Quantiles</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="randomMask.html">randomMask</a></code> </p>
-          </td>
-          <td><p>Get a random mask</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="readAntsrTransform.html">readAntsrTransform</a></code> </p>
-          </td>
-          <td><p>readAntsrTransform</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="resampleImage.html">resampleImage</a></code> </p>
-          </td>
-          <td><p>resampleImage</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="resampleImageToTarget.html">resampleImageToTarget</a></code> </p>
-          </td>
-          <td><p>resampleImageToTarget</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ripmmarc.html">ripmmarc</a></code> </p>
-          </td>
-          <td><p>Rotation Invariant Patch-based Multi-Modality Analysis aRChitecture</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ripmmarcBasisImage.html">ripmmarcBasisImage</a></code> </p>
-          </td>
-          <td><p>Generate an antsImage from ripmmarc basis data</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ripmmarcPop.html">ripmmarcPop</a></code> </p>
-          </td>
-          <td><p>RIPMMARC population basis</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="setAntsrTransformFixedParameters.html">setAntsrTransformFixedParameters</a></code> </p>
-          </td>
-          <td><p>setAntsrTransformParameters</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="setAntsrTransformParameters.html">setAntsrTransformParameters</a></code> </p>
-          </td>
-          <td><p>setAntsrTransformParameters</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="smoothImage.html">smoothImage</a></code> </p>
-          </td>
-          <td><p>Smooth image</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="splitChannels.html">splitChannels</a></code> </p>
-          </td>
-          <td><p>split a multichannel antsImage</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="subset.html">subset</a></code> </p>
-          </td>
-          <td><p>Subsetting antsImage Objects</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="thresholdImage.html">thresholdImage</a></code> </p>
-          </td>
-          <td><p>Threshold Image</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="unique.html">unique</a></code> </p>
-          </td>
-          <td><p>Unique for antsImage Objects</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="usePkg.html">usePkg</a></code> </p>
-          </td>
-          <td><p>Use any package.  If package is not installed, this will install from CRAN.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="var.html">var</a></code> </p>
-          </td>
-          <td><p>Variance generic</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="writeAntsrTransform.html">writeAntsrTransform</a></code> </p>
-          </td>
-          <td><p>writeAntsrTransform</p></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="boxplot.antsImage.html">boxplot(<i>&lt;antsImage&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Boxplot of Values in an Image</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="brackets.html">`[<-`(<i>&lt;antsImage&gt;</i>,<i>&lt;NULL&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[<-`(<i>&lt;antsImage&gt;</i>,<i>&lt;logical&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[<-`(<i>&lt;antsImage&gt;</i>,<i>&lt;array&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[<-`(<i>&lt;antsImage&gt;</i>,<i>&lt;matrix&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[<-`(<i>&lt;antsImage&gt;</i>,<i>&lt;list&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[<-`(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[<-`(<i>&lt;antsImage&gt;</i>,<i>&lt;NULL&gt;</i>,<i>&lt;antsRegion&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[<-`(<i>&lt;antsImage&gt;</i>,<i>&lt;logical&gt;</i>,<i>&lt;antsRegion&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[<-`(<i>&lt;antsImage&gt;</i>,<i>&lt;array&gt;</i>,<i>&lt;antsRegion&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[<-`(<i>&lt;antsImage&gt;</i>,<i>&lt;matrix&gt;</i>,<i>&lt;antsRegion&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[<-`(<i>&lt;antsImage&gt;</i>,<i>&lt;NULL&gt;</i>,<i>&lt;NULL&gt;</i>,<i>&lt;numeric&gt;</i>)</a></code> <code><a href="brackets.html">`[<-`(<i>&lt;antsImage&gt;</i>,<i>&lt;numeric&gt;</i>,<i>&lt;numeric&gt;</i>,<i>&lt;numeric&gt;</i>)</a></code> <code><a href="brackets.html">`[<-`(<i>&lt;antsImage&gt;</i>,<i>&lt;numeric&gt;</i>,<i>&lt;NULL&gt;</i>,<i>&lt;numeric&gt;</i>)</a></code> <code><a href="brackets.html">`[<-`(<i>&lt;antsImage&gt;</i>,<i>&lt;NULL&gt;</i>,<i>&lt;numeric&gt;</i>,<i>&lt;numeric&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;antsImage&gt;</i>,<i>&lt;NULL&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;antsImage&gt;</i>,<i>&lt;antsImage&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;ANY&gt;</i>,<i>&lt;antsImage&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;antsImage&gt;</i>,<i>&lt;logical&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;antsImage&gt;</i>,<i>&lt;logical&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;antsImage&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;antsImage&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;antsImage&gt;</i>,<i>&lt;NULL&gt;</i>,<i>&lt;NULL&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;antsImage&gt;</i>,<i>&lt;NULL&gt;</i>,<i>&lt;NULL&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;antsImage&gt;</i>,<i>&lt;numeric&gt;</i>,<i>&lt;numeric&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;antsImage&gt;</i>,<i>&lt;numeric&gt;</i>,<i>&lt;numeric&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;antsImage&gt;</i>,<i>&lt;numeric&gt;</i>,<i>&lt;NULL&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;antsImage&gt;</i>,<i>&lt;numeric&gt;</i>,<i>&lt;NULL&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;antsImage&gt;</i>,<i>&lt;NULL&gt;</i>,<i>&lt;numeric&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;antsImage&gt;</i>,<i>&lt;NULL&gt;</i>,<i>&lt;numeric&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;antsImage&gt;</i>,<i>&lt;missing&gt;</i>,<i>&lt;numeric&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;antsImage&gt;</i>,<i>&lt;numeric&gt;</i>,<i>&lt;missing&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> <code><a href="brackets.html">`[`(<i>&lt;antsImage&gt;</i>,<i>&lt;missing&gt;</i>,<i>&lt;missing&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Extract or Replace Parts of antsImage Object</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="coerce_mask.html">coerce_mask()</a></code> </p>
+        </td>
+        <td><p>Simple Mask Maker</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="composeAntsrTransforms.html">composeAntsrTransforms()</a></code> </p>
+        </td>
+        <td><p>composeAntsrTransforms</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="createAntsrTransform.html">createAntsrTransform()</a></code> </p>
+        </td>
+        <td><p>createAntsrTransform</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="cropImage.html">cropImage()</a></code> </p>
+        </td>
+        <td><p>crop a sub-image via a mask</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="cropIndices.html">cropIndices()</a></code> </p>
+        </td>
+        <td><p>crop a sub-image by image indices</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="cut.antsImage.html">cut(<i>&lt;antsImage&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Perform Cut on an image</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="decropImage.html">decropImage()</a></code> </p>
+        </td>
+        <td><p>decrop a sub-image back into the full image</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="denoiseImage.html">denoiseImage()</a></code> </p>
+        </td>
+        <td><p>Denoise an image</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="density.antsImage.html">density(<i>&lt;antsImage&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Density of Values in an Image</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="extractSlice.html">extractSlice()</a></code> </p>
+        </td>
+        <td><p>extract a slice from an image</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="getANTsRData.html">getANTsRData()</a></code> </p>
+        </td>
+        <td><p>getANTsRData</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="getAntsrTransformFixedParameters.html">getAntsrTransformFixedParameters()</a></code> </p>
+        </td>
+        <td><p>getAntsrTransformParameters</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="getAntsrTransformParameters.html">getAntsrTransformParameters()</a></code> </p>
+        </td>
+        <td><p>getAntsrTransformParameters</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="getMask.html">getMask()</a></code> </p>
+        </td>
+        <td><p>Get Mask</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="getNeighborhoodAtVoxel.html">getNeighborhoodAtVoxel()</a></code> </p>
+        </td>
+        <td><p>Get a hypercube neighborhood at a voxel</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="getNeighborhoodInMask.html">getNeighborhoodInMask()</a></code> </p>
+        </td>
+        <td><p>Get neighborhoods for voxels within mask</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="getPixels.html">getPixels()</a></code> </p>
+        </td>
+        <td><p>Get Pixels</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="grapes-greater-than-grapes.html">`%>%`()</a></code> </p>
+        </td>
+        <td><p>Pipe an object forward</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="hist.antsImage.html">hist(<i>&lt;antsImage&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Histogram of Values in an Image</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="iBind.html">iBind()</a></code> </p>
+        </td>
+        <td><p>iBind</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="iMath.html">iMath()</a></code> </p>
+        </td>
+        <td><p>iMath</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="iMathOps.html">iMathOps</a></code> </p>
+        </td>
+        <td><p>Operations for iMath Operator</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ilr.html">ilr()</a></code> </p>
+        </td>
+        <td><p>Efficiently compute an image-based linear regression model (ilr)</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ilr.predict.html">ilr.predict()</a></code> </p>
+        </td>
+        <td><p>Predict from ilr output</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="imageFileNames2ImageList.html">imageFileNames2ImageList()</a></code> </p>
+        </td>
+        <td><p>Simple imageFileNames2ImageListing function.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="imageSimilarity.html">imageSimilarity()</a></code> </p>
+        </td>
+        <td><p>imageSimilarity</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="invertAntsrTransform.html">invertAntsrTransform()</a></code> </p>
+        </td>
+        <td><p>invertAntsrTransform</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="is.antsImage.html">is.antsImage()</a></code> </p>
+        </td>
+        <td><p>is.antsImage</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="kmeansSegmentation.html">kmeansSegmentation()</a></code> </p>
+        </td>
+        <td><p>k means image segmentation.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="labelClusters.html">labelClusters()</a></code> </p>
+        </td>
+        <td><p>Simple labelClustering function.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="labelStats.html">labelStats()</a></code> </p>
+        </td>
+        <td><p>labelStats</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="lappend.html">lappend()</a></code> </p>
+        </td>
+        <td><p>Simple list append tool</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="makeImage.html">makeImage()</a></code> </p>
+        </td>
+        <td><p>Simple makeImage function.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="mask_values.html">mask_values()</a></code> </p>
+        </td>
+        <td><p>Simple Value extractor for antsImage Values</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="mean.html">mean(<i>&lt;antsImage&gt;</i>)</a></code> <code><a href="mean.html">sd.antsImage()</a></code> </p>
+        </td>
+        <td><p>Mean for antsImage Objects</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="median.html">median(<i>&lt;antsImage&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Median for antsImage Objects</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="mergeChannels.html">mergeChannels()</a></code> </p>
+        </td>
+        <td><p>merge images into a multiChannel antsImage</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="morphology.html">morphology()</a></code> </p>
+        </td>
+        <td><p>Morphological image operations</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="n3BiasFieldCorrection.html">n3BiasFieldCorrection()</a></code> </p>
+        </td>
+        <td><p>Bias Field Correction</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="n4BiasFieldCorrection.html">n4BiasFieldCorrection()</a></code> </p>
+        </td>
+        <td><p>Bias Field Correction</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="plot.antsImage.html">plot(<i>&lt;antsImage&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Plotting an image slice or multi-slice with optional color overlay.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="quantile.antsImage.html">quantile(<i>&lt;antsImage&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Sample Quantiles</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="randomMask.html">randomMask()</a></code> </p>
+        </td>
+        <td><p>Get a random mask</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="readAntsrTransform.html">readAntsrTransform()</a></code> </p>
+        </td>
+        <td><p>readAntsrTransform</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="resampleImage.html">resampleImage()</a></code> </p>
+        </td>
+        <td><p>resampleImage</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="resampleImageToTarget.html">resampleImageToTarget()</a></code> </p>
+        </td>
+        <td><p>resampleImageToTarget</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ripmmarc.html">ripmmarc()</a></code> </p>
+        </td>
+        <td><p>Rotation Invariant Patch-based Multi-Modality Analysis aRChitecture</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ripmmarcBasisImage.html">ripmmarcBasisImage()</a></code> </p>
+        </td>
+        <td><p>Generate an antsImage from ripmmarc basis data</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ripmmarcPop.html">ripmmarcPop()</a></code> </p>
+        </td>
+        <td><p>RIPMMARC population basis</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="setAntsrTransformFixedParameters.html">setAntsrTransformFixedParameters()</a></code> </p>
+        </td>
+        <td><p>setAntsrTransformParameters</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="setAntsrTransformParameters.html">setAntsrTransformParameters()</a></code> </p>
+        </td>
+        <td><p>setAntsrTransformParameters</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="smoothImage.html">smoothImage()</a></code> </p>
+        </td>
+        <td><p>Smooth image</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="splitChannels.html">splitChannels()</a></code> </p>
+        </td>
+        <td><p>split a multichannel antsImage</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="subset.html">subset(<i>&lt;antsImage&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Subsetting antsImage Objects</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="thresholdImage.html">thresholdImage()</a></code> </p>
+        </td>
+        <td><p>Threshold Image</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="unique.html">unique(<i>&lt;antsImage&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Unique for antsImage Objects</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="usePkg.html">usePkg()</a></code> </p>
+        </td>
+        <td><p>Use any package.  If package is not installed, this will install from CRAN.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="var.html">var()</a></code> </p>
+        </td>
+        <td><p>Variance generic</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="writeAntsrTransform.html">writeAntsrTransform()</a></code> </p>
+        </td>
+        <td><p>writeAntsrTransform</p></td>
+      </tr>
+    </tbody>
+    </table>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -849,11 +891,14 @@ multiple outcomes</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+
