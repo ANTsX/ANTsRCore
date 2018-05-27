@@ -17,6 +17,8 @@
 #' @param affSampling the nbins or radius parameter for the syn metric
 #' @param synMetric the metric for the syn part (CC, mattes, meansquares, demons)
 #' @param synSampling the nbins or radius parameter for the syn metric
+#' @param affIterations vector of iterations for low-dimensional registration.  we will set the smoothing
+#' and multi-resolution parameters based on the length of this vector.
 #' @param regIterations vector of iterations for syn.  we will set the smoothing
 #' and multi-resolution parameters based on the length of this vector.
 #' @param verbose request verbose output (useful for debugging)
@@ -51,7 +53,7 @@
 #'     aligned by an inital transformation. Can be useful if you want to run
 #'     an unmasked affine followed by masked deformable registration.}
 #'   \item{"SyNCC": }{SyN, but with cross-correlation as the metric.
-#'     Note, the default or chosen parameters will be replaced with 
+#'     Note, the default or chosen parameters will be replaced with
 #'     \code{synMetric="CC", synSampling=4, synits="2100x1200x1200x20",
 #'          smoothingsigmas="3x2x1x0", shrinkfactors="4x3x2x1"}. }
 #'   \item{"SyNabp": }{SyN optimized for abpBrainExtraction, forces mutual information
@@ -117,6 +119,7 @@ antsRegistration <- function(
   affSampling=32,
   synMetric = "mattes",
   synSampling=32,
+  affIterations,
   regIterations = c(40,20,0),
   verbose=FALSE, ... ) {
   numargs <- nargs()
@@ -129,14 +132,14 @@ antsRegistration <- function(
   if (nchar(outprefix) == 0 || length(outprefix) == 0) {
     outprefix = tempfile()
   }
-  
+
   find_tx = function(outprefix) {
     alltx = Sys.glob( paste0( outprefix, "*", "[0-9]*") )
     findinv = grepl( "[0-9]InverseWarp.nii.gz", alltx )
     findaff = grepl( "[0-9]GenericAffine.mat", alltx )
     findfwd = grepl( "[0-9]Warp.nii.gz", alltx )
     L = list(alltx = alltx,
-             findinv = findinv, 
+             findinv = findinv,
              findfwd = findfwd,
              findaff = findaff)
     return(L)
@@ -144,7 +147,7 @@ antsRegistration <- function(
   all_tx = find_tx(outprefix)
   pre_transform = all_tx$alltx[ all_tx$findinv | all_tx$findfwd | all_tx$findaff]
   rm(list = "all_tx")
-  
+
   if ( numargs < 1 | missing(fixed) | missing(moving)
        | missing(typeofTransform) | missing(outprefix) )
   {
@@ -163,6 +166,20 @@ antsRegistration <- function(
   mysAff = "3x2x1x0"
   metsam = 0.2
   myiterations <- "2100x1200x1200x10"
+  if ( ! missing( affIterations ) ) {
+    myiterations = paste0( affIterations, collapse='x' )
+    itlen = length( affIterations )-1
+    if ( itlen == 0 ) {
+      mysAff = 0
+      myfAff   = 1
+      myiterations = affIterations
+    } else {
+      mysAff = itlen:0
+      myfAff   = 2^mysAff
+      mysAff = paste( mysAff, collapse='x' )
+      myfAff = paste( myfAff, collapse='x' )
+    }
+   }
   if ( typeofTransform == "AffineFast" ) {
     typeofTransform <- "Affine"
     myiterations <- "2100x1200x0x0"
@@ -371,7 +388,7 @@ antsRegistration <- function(
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
-        
+
         if (typeofTransform == "TRSAA") {
           itlen  = length( regIterations )
           itlenlow  = round( itlen/2 + 0.0001 )
@@ -415,7 +432,7 @@ antsRegistration <- function(
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
-        
+
         if (typeofTransform == "SyNabp") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
                        "-m", paste("mattes[", f, ",", m, ",1,32,regular,0.25]", sep = ""),
@@ -433,7 +450,7 @@ antsRegistration <- function(
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
-        
+
         if (typeofTransform == "SyNLessAggro") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.2]", sep = ""),
@@ -494,7 +511,7 @@ antsRegistration <- function(
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
-        
+
         args[[ length(args)+1]]="--float"
         args[[ length(args)+1]]="1"
         if ( verbose ) {
@@ -503,11 +520,11 @@ antsRegistration <- function(
         }
         args = .int_antsProcessArguments(c(args))
         .Call("antsRegistration", args, PACKAGE = "ANTsRCore")
-        
-        
-        
-        
-        
+
+
+
+
+
         all_tx = find_tx(outprefix)
         alltx = all_tx$alltx
         findinv = all_tx$findinv
@@ -516,13 +533,13 @@ antsRegistration <- function(
         rm(list = "all_tx")
         # this will make it so other file naming don't mess this up
         alltx = alltx[ findinv | findfwd | findaff]
-        
+
         if ( any( findinv )) {
           fwdtransforms = rev( alltx[ findfwd | findaff ] )
           invtransforms = alltx[ findinv | findaff ]
           if ( length( fwdtransforms ) != length( invtransforms ) ) {
-            message(paste0("transform composite list may not be ", 
-                           "invertible - return all transforms and ", 
+            message(paste0("transform composite list may not be ",
+                           "invertible - return all transforms and ",
                            "leave it to user to figure it out"))
             invtransforms = alltx
           }

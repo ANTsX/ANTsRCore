@@ -7,8 +7,8 @@
 antsRegistration(fixed = NA, moving = NA, typeofTransform = "SyN",
   initialTransform = NA, outprefix = "", mask = NA, gradStep = 0.2,
   flowSigma = 3, totalSigma = 0, affMetric = "mattes", affSampling = 32,
-  synMetric = "mattes", synSampling = 32, regIterations = c(40, 20, 0),
-  verbose = FALSE, ...)
+  synMetric = "mattes", synSampling = 32, affIterations,
+  regIterations = c(40, 20, 0), verbose = FALSE, ...)
 }
 \arguments{
 \item{fixed}{fixed image to which we register the moving image.}
@@ -37,6 +37,9 @@ information metric by default. See \code{Details.}}
 \item{synMetric}{the metric for the syn part (CC, mattes, meansquares, demons)}
 
 \item{synSampling}{the nbins or radius parameter for the syn metric}
+
+\item{affIterations}{vector of iterations for low-dimensional registration.  we will set the smoothing
+and multi-resolution parameters based on the length of this vector.}
 
 \item{regIterations}{vector of iterations for syn.  we will set the smoothing
 and multi-resolution parameters based on the length of this vector.}
@@ -78,18 +81,22 @@ typeofTransform can be one of:
   \item{"TRSAA": }{translation, rigid, similarity, affine (twice). please set
     \code{regIterations} if using this option.  this would be used in cases
     where you want a really high quality affine mapping (perhaps with mask).}
-  \item{"ElasticSyN": }{Symmetric normalization: Affine + deformable transformation,
-    with mutual information as optimization metric and elastic regularization.}
-  \item{"SyN": }{Symmetric normalization: Affine + deformable transformation,
-    with mutual information as optimization metric.}
-  \item{"SyNRA": }{Symmetric normalization: Rigid + Affine + deformable transformation,
-    with mutual information as optimization metric.}
-  \item{"SyNOnly": }{Symmetric normalization: no initial transformation,
-    with mutual information as optimization metric.  Assumes images are
+  \item{"ElasticSyN": }{Symmetric normalization: Affine + deformable transformation.
+    Uses \code{synMetric} as optimization metric and elastic regularization.}
+  \item{"SyN": }{Symmetric normalization: Affine + deformable transformation.
+    Uses \code{synMetric} as optimization metric.}
+  \item{"SyNRA": }{Symmetric normalization: Rigid + Affine + deformable transformation.
+    Uses \code{synMetric} as optimization metric.}
+  \item{"SyNOnly": }{Symmetric normalization: no initial transformation.
+    Uses \code{synMetric} as optimization metric.  Assumes images are
     aligned by an inital transformation. Can be useful if you want to run
     an unmasked affine followed by masked deformable registration.}
-  \item{"SyNCC": }{SyN, but with cross-correlation as the metric.}
-  \item{"SyNabp": }{SyN optimized for abpBrainExtraction.}
+  \item{"SyNCC": }{SyN, but with cross-correlation as the metric.
+    Note, the default or chosen parameters will be replaced with
+    \code{synMetric="CC", synSampling=4, synits="2100x1200x1200x20",
+         smoothingsigmas="3x2x1x0", shrinkfactors="4x3x2x1"}. }
+  \item{"SyNabp": }{SyN optimized for abpBrainExtraction, forces mutual information
+    as optimization metric.}
   \item{"SyNBold": }{SyN, but optimized for registrations between
     BOLD and T1 images.}
   \item{"SyNBoldAff": }{SyN, but optimized for registrations between
