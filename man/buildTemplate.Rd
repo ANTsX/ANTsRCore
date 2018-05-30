@@ -29,11 +29,11 @@ better to use official \code{antsMultivariateTemplateConstruction*} in ANTs.
 However, this code can be useful for smaller problems/populations.
 }
 \examples{
-
+\dontrun{
 pop = getANTsRData( "population" )
-avg = antsAverageImages( pop )
+avg = antsAverageImages( pop ) # this is in ANTsR
 template = buildTemplate( avg, pop, 'SyN' )
-
+}
 }
 \author{
 Avants BB

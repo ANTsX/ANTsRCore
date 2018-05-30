@@ -668,11 +668,11 @@ antsrGetPointerName <- function(img) {
 #' @return template antsImage
 #' @author Avants BB
 #' @examples
-#'
+#' \dontrun{
 #' pop = getANTsRData( "population" )
-#' avg = antsAverageImages( pop )
+#' avg = antsAverageImages( pop ) # this is in ANTsR
 #' template = buildTemplate( avg, pop, 'SyN' )
-#'
+#' }
 #' @export buildTemplate
 buildTemplate <- function(
   initialTemplate,
