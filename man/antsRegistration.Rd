@@ -8,7 +8,8 @@ antsRegistration(fixed = NA, moving = NA, typeofTransform = "SyN",
   initialTransform = NA, outprefix = "", mask = NA, gradStep = 0.2,
   flowSigma = 3, totalSigma = 0, affMetric = "mattes", affSampling = 32,
   synMetric = "mattes", synSampling = 32, affIterations,
-  regIterations = c(40, 20, 0), verbose = FALSE, ...)
+  regIterations = c(40, 20, 0), multivariateExtras, restrictTransformation,
+  verbose = FALSE, ...)
 }
 \arguments{
 \item{fixed}{fixed image to which we register the moving image.}
@@ -43,6 +44,10 @@ and multi-resolution parameters based on the length of this vector.}
 
 \item{regIterations}{vector of iterations for syn.  we will set the smoothing
 and multi-resolution parameters based on the length of this vector.}
+
+\item{multivariateExtras}{list of additional images and metrics which will trigger the use of multiple metrics in the registration process in the deformable stage. Multivariate metrics needs 5 entries: name of metric, fixed, moving, weight, samplingParam.  the list should be of the form \code{ list( list( "nameOfMetric2", img, img, weight, metricParam ) ) }.  Another example would be \code{ list( list( "MeanSquares", f2, m2, 0.5, 0 ), list( "CC", f2, m2, 0.5, 2 ) ) }.  This is only compatible with the \code{SyNOnly} transformation.}
+
+\item{restrictTransformation}{This option allows the user to restrict the optimization of the displacement field, translation, rigid or affine transform on a per-component basis. For example, if one wants to limit the deformation or rotation of 3-D volume to the first two dimensions, this is possible by specifying a weight vector of \code{c(1,1,0)} for a 3D deformation field or \code{c(1,1,0,1,1,0)} for a rigid transformation. Restriction currently only works if there are no preceding transformations.}
 
 \item{verbose}{request verbose output (useful for debugging)}
 

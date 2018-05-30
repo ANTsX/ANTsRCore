@@ -21,6 +21,8 @@
 #' and multi-resolution parameters based on the length of this vector.
 #' @param regIterations vector of iterations for syn.  we will set the smoothing
 #' and multi-resolution parameters based on the length of this vector.
+#' @param multivariateExtras list of additional images and metrics which will trigger the use of multiple metrics in the registration process in the deformable stage. Multivariate metrics needs 5 entries: name of metric, fixed, moving, weight, samplingParam.  the list should be of the form \code{ list( list( "nameOfMetric2", img, img, weight, metricParam ) ) }.  Another example would be \code{ list( list( "MeanSquares", f2, m2, 0.5, 0 ), list( "CC", f2, m2, 0.5, 2 ) ) }.  This is only compatible with the \code{SyNOnly} transformation.
+#' @param restrictTransformation This option allows the user to restrict the optimization of the displacement field, translation, rigid or affine transform on a per-component basis. For example, if one wants to limit the deformation or rotation of 3-D volume to the first two dimensions, this is possible by specifying a weight vector of \code{c(1,1,0)} for a 3D deformation field or \code{c(1,1,0,1,1,0)} for a rigid transformation. Restriction currently only works if there are no preceding transformations.
 #' @param verbose request verbose output (useful for debugging)
 #' @param ... additional options see antsRegistration in ANTs
 #' @details
@@ -121,6 +123,8 @@ antsRegistration <- function(
   synSampling=32,
   affIterations,
   regIterations = c(40,20,0),
+  multivariateExtras,
+  restrictTransformation,
   verbose=FALSE, ... ) {
   numargs <- nargs()
   if (numargs == 1 & typeof(fixed) == "list") {
@@ -231,13 +235,13 @@ antsRegistration <- function(
       if (ttexists) {
         initx = initialTransform
         if ( class( initx ) == "antsrTransform" )
-        {
+          {
           tempTXfilename = tempfile( fileext = ".mat" )
           initx = invertAntsrTransform( initialTransform )
           initx = invertAntsrTransform( initx )
           writeAntsrTransform( initx, tempTXfilename )
           initx = tempTXfilename
-        }
+          }
         moving <- antsImageClone(moving, "float")
         fixed <- antsImageClone(fixed, "float")
         warpedfixout <- antsImageClone(moving)
@@ -342,7 +346,32 @@ antsRegistration <- function(
                        "-c", paste("[",synits,",1e-7,8]",collapse=''),
                        "-s", smoothingsigmas, "-f", shrinkfactors,
                        "-u","1", "-z", "1", "-l", myl, "-o", paste("[", outprefix, ",",
-                                                                   wmo, ",", wfo, "]", sep = ""))
+                       wmo, ",", wfo, "]", sep = ""))
+          if ( ! missing( multivariateExtras ) ) {
+            args0 <- list("-d", as.character(fixed@dimension), "-r", initx,
+                         "-m", paste(synMetric,"[", f, ",", m,
+                         ",1,",synSampling,"]", sep = "") )
+            args1 = list( )
+            for ( mm in 1:length( multivariateExtras ) ) {
+              if ( length( multivariateExtras[[mm]] ) != 5 )
+                stop("multivariate metric needs 5 entries: name of metric, fixed, moving, weight, samplingParam")
+              args1 <- lappend( args1, list(
+                "-m", paste(
+                  as.character(multivariateExtras[[mm]][[1]]),"[",
+                antsrGetPointerName(multivariateExtras[[mm]][[2]]), ",",
+                antsrGetPointerName(multivariateExtras[[mm]][[3]]), ",",
+                as.character(multivariateExtras[[mm]][[4]]), ",",
+                as.character(multivariateExtras[[mm]][[5]]),"]", sep = "") ) )
+              }
+            args2 <- list(
+                         "-t", mysyn,
+                         "-c", paste("[",synits,",1e-7,8]",collapse=''),
+                         "-s", smoothingsigmas, "-f", shrinkfactors,
+                         "-u","1", "-z", "1", "-l", myl, "-o", paste("[", outprefix, ",",
+                         wmo, ",", wfo, "]", sep = ""))
+            args=lappend(args0,args1)
+            args=lappend(args,args2)
+          }
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
@@ -512,12 +541,19 @@ antsRegistration <- function(
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
 
+        if ( !missing( restrictTransformation ) ) {
+          args[[ length(args)+1]]="-g"
+          args[[ length(args)+1]]=paste( restrictTransformation, collapse='x')
+        }
+
+
         args[[ length(args)+1]]="--float"
         args[[ length(args)+1]]="1"
         if ( verbose ) {
           args[[ length(args)+1]]="-v"
           args[[ length(args)+1]]="1"
         }
+
         args = .int_antsProcessArguments(c(args))
         .Call("antsRegistration", args, PACKAGE = "ANTsRCore")
 
