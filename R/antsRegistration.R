@@ -609,3 +609,59 @@ antsrGetPointerName <- function(img) {
   pname <- strsplit(splitptrname, ">")
   return(pname[[1]])
 }
+
+
+
+
+
+
+
+#' ANTs template building.
+#'
+#' Iteratively estimate a population shape and intensity average image.  This
+#' can be computationally intensive and currently is not parallelized.  Perhaps
+#' better to use official \code{antsMultivariateTemplateConstruction*} in ANTs.
+#' However, this code can be useful for smaller problems/populations.
+#'
+#' @param initialTemplate fixed image to which we register the population.
+#' @param imgList moving image list from which template will be built.
+#' @param typeofTransform A linear or non-linear registration type.  Mutual
+#' information metric by default. See \code{antsRegistration.}
+#' @param iterations should be greater than 1 less than 10.
+#' @param gradientStep should be less than 1, speed of shape update step.
+#' @return template antsImage
+#' @author Avants BB
+#' @examples
+#'
+#' pop = getANTsRData( "population" )
+#' avg = antsAverageImages( pop )
+#' template = buildTemplate( avg, pop, 'SyN' )
+#'
+#' @export buildTemplate
+buildTemplate <- function(
+  initialTemplate,
+  imgList,
+  typeofTransform,
+  iterations = 3,
+  gradientStep = 0.25
+   ) {
+  template = antsImageClone( initialTemplate )
+  for ( i in 1:iterations ) {
+    avgIlist = list()
+    avgWlist = c()
+    for ( k in 1:length( imgList ) ) {
+      w1 = antsRegistration( template,
+        imgList[[k]], typeofTransform = typeofTransform )
+      avgIlist[[k]] = w1$warpedmovout
+      avgWlist[ k ] = antsApplyTransforms(  initialTemplate, imgList[[k]],
+        w1$fwdtransforms, compose = w1$fwdtransforms[1] )
+      }
+    template = antsAverageImages( avgIlist )
+    wavg = antsAverageImages( avgWlist ) * ( -1.0 * gradientStep )
+    wavgfn = tempfile( fileext='.nii.gz' )
+    antsImageWrite( wavg, wavgfn )
+    template = antsApplyTransforms( template, template, wavgfn )
+    template = template * 0.5 + iMath( template, "Sharpen" ) * 0.5
+    }
+  return( template )
+  }
