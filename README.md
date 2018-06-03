@@ -31,6 +31,8 @@ NeedsCompilation:	yes
 
 Travis checks:	[ANTsRCore results](https://travis-ci.org/stnava/ANTsRCore)
 
+Documentation: [https://antsx.github.io/ANTsRCore/](https://antsx.github.io/ANTsRCore/).
+
 
 Install the binary, after downloading, via command line:
 

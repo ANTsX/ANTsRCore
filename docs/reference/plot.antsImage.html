@@ -18,13 +18,24 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Plotting an image slice or multi-slice with optional color overlay. — plot.antsImage" />
+
+<meta property="og:description" content="This is a plotting utility for antsImage types with a background and color
+overlay option.  Useful for displaying statistical results overlaid on a
+background image." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,12 +58,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">ANTsRCore</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">ANTsRCore</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -65,6 +80,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -72,17 +88,21 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plotting an image slice or multi-slice with optional color overlay.</h1>
+    
+    <div class="hidden name"><code>plot.antsImage.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>This is a plotting utility for antsImage types with a background and color
 overlay option.  Useful for displaying statistical results overlaid on a
 background image.</p>
     
+    </div>
 
     <pre class="usage"><span class='co'># S3 method for antsImage</span>
 <span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>color.img</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='kw'>color.overlay</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"jet"</span>,
@@ -91,9 +111,9 @@ background image.</p>
   <span class='kw'>title.line</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>color.colorbar</span>, <span class='no'>window.img</span>, <span class='no'>window.overlay</span>, <span class='kw'>quality</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>outname</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>newwindow</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>nslices</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>domainImageMap</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>ncolumns</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>useAbsoluteScale</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>doCropping</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>doCropping</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>text</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -195,6 +215,11 @@ when visualizing overlays</p></td>
       <td><p>apply cropping, defaults to <code>TRUE</code></p></td>
     </tr>
     <tr>
+      <th>text</th>
+      <td><p>vector containing x, y, label, cex and color values passed to
+text command, e.g. <code>txt=list(x=0,y=0,label='my text',cex=2,col='red')</code></p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>other parameters</p></td>
     </tr>
@@ -213,7 +238,9 @@ when visualizing overlays</p></td>
             <span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,
             <span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,
             <span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>), <span class='kw'>nrow</span><span class='kw'>=</span><span class='fl'>4</span>))
-<span class='fu'>plot</span>(<span class='no'>img</span>, <span class='fu'>list</span>(<span class='no'>mask</span>))</div><div class='img'><img src='plot.antsImage-1.png' alt='' width='700' height='432.632880098887' /></div><div class='output co'>#&gt; NULL</div><span class='co'># NOT RUN {</span>
+<span class='fu'>plot</span>(<span class='no'>img</span>, <span class='fu'>list</span>(<span class='no'>mask</span>))</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='no'>txt</span><span class='kw'>=</span><span class='fu'>list</span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fl'>2.5</span>,<span class='kw'>y</span><span class='kw'>=</span><span class='fl'>1.5</span>,<span class='kw'>label</span><span class='kw'>=</span><span class='st'>'my text'</span>,<span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>4</span>,<span class='kw'>col</span><span class='kw'>=</span><span class='st'>'red'</span>)
+<span class='fu'>plot</span>(<span class='no'>img</span>, <span class='fu'>list</span>(<span class='no'>mask</span>), <span class='kw'>text</span><span class='kw'>=</span><span class='no'>txt</span>)</div><div class='img'><img src='plot.antsImage-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; NULL</div><div class='input'>
+</div><span class='co'># NOT RUN {</span>
   <span class='no'>img</span> <span class='kw'>=</span> <span class='fu'><a href='antsImageRead.html'>antsImageRead</a></span>( <span class='fu'><a href='getANTsRData.html'>getANTsRData</a></span>( <span class='st'>'r16'</span> ) )
   <span class='no'>betaVals</span> <span class='kw'>=</span> <span class='fu'>rnorm</span>( <span class='fu'><a href='antsImageSummary.html'>prod</a></span>( <span class='fu'>dim</span>( <span class='no'>img</span> ) ), <span class='fl'>0</span>, <span class='fl'>20</span> )
   <span class='no'>betaImg</span> <span class='kw'>=</span> <span class='fu'><a href='makeImage.html'>makeImage</a></span>( <span class='fu'>dim</span>( <span class='no'>img</span> ), <span class='no'>betaVals</span> )  <span class='kw'>%&gt;%</span> <span class='fu'><a href='smoothImage.html'>smoothImage</a></span>( <span class='fl'>3.5</span> )
@@ -260,11 +287,14 @@ Avants BB
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

@@ -18,13 +18,23 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Density of Values in an Image — density.antsImage" />
+
+<meta property="og:description" content="Computes the density of values
+of an image with the option for a mask." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,12 +57,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">ANTsRCore</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">ANTsRCore</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -65,6 +79,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -72,21 +87,25 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Density of Values in an Image</h1>
+    
+    <div class="hidden name"><code>density.antsImage.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Computes the density of values
 of an image with the option for a mask.</p>
     
+    </div>
 
     <pre class="usage"><span class='co'># S3 method for antsImage</span>
 <span class='fu'>density</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='no'>mask</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -116,15 +135,15 @@ values of the image are plotted.</p></td>
 #&gt; Call:
 #&gt; 	density.default(x = x)
 #&gt; 
-#&gt; Data: x (48 obs.);	Bandwidth 'bw' = 0.2622
+#&gt; Data: x (53 obs.);	Bandwidth 'bw' = 0.2312
 #&gt; 
 #&gt;        x                 y            
-#&gt;  Min.   :-0.7438   Min.   :0.0003571  
-#&gt;  1st Qu.: 0.3769   1st Qu.:0.0382183  
-#&gt;  Median : 1.4976   Median :0.1104565  
-#&gt;  Mean   : 1.4976   Mean   :0.2228233  
-#&gt;  3rd Qu.: 2.6183   3rd Qu.:0.4035692  
-#&gt;  Max.   : 3.7390   Max.   :0.6587804  </div></pre>
+#&gt;  Min.   :-0.6733   Min.   :0.0003663  
+#&gt;  1st Qu.: 0.3331   1st Qu.:0.0370838  
+#&gt;  Median : 1.3396   Median :0.1779671  
+#&gt;  Mean   : 1.3396   Mean   :0.2481252  
+#&gt;  3rd Qu.: 2.3460   3rd Qu.:0.4669908  
+#&gt;  Max.   : 3.3525   Max.   :0.6781022  </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -145,11 +164,14 @@ values of the image are plotted.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

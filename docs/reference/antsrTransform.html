@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>An S4 class for an antsrTransform — show,antsrImageToImageMetric-method • ANTsRCore</title>
+<title>An S4 class for an antsrTransform — antsrTransform-class • ANTsRCore</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,13 +18,22 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="An S4 class for an antsrTransform — antsrTransform-class" />
+
+<meta property="og:description" content="C++ type used to represent an ITK image transform." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,12 +56,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">ANTsRCore</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">ANTsRCore</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -65,6 +78,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -72,31 +86,28 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>An S4 class for an antsrTransform</h1>
+    
+    <div class="hidden name"><code>antsrTransform.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>C++ type used to represent an ITK image transform.</p>
     
+    </div>
 
-    <pre class="usage"><span class='co'># S4 method for antsrImageToImageMetric</span>
-<span class='fu'>show</span>(<span class='no'>object</span>)
-
-<span class='co'># S4 method for antsrImageToImageMetric</span>
-<span class='fu'>initialize</span>(<span class='no'>.Object</span>, <span class='kw'>dimension</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"MeanSquares"</span>)
-
-<span class='co'># S4 method for antsrTransform</span>
+    <pre class="usage"><span class='co'># S4 method for antsrTransform</span>
 <span class='fu'>show</span>(<span class='no'>object</span>)
 
 <span class='co'># S4 method for antsrTransform</span>
 <span class='fu'>initialize</span>(<span class='no'>.Object</span>, <span class='kw'>precision</span> <span class='kw'>=</span> <span class='st'>"float"</span>,
   <span class='kw'>dimension</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"AffineTransform"</span>, <span class='kw'>parameters</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -108,6 +119,10 @@
       <td><p>input object to convert</p></td>
     </tr>
     <tr>
+      <th>precision</th>
+      <td><p>string e.g. "float" or "double"</p></td>
+    </tr>
+    <tr>
       <th>dimension</th>
       <td><p>dimensionality of the transform (2,3,or 4)</p></td>
     </tr>
@@ -115,10 +130,6 @@
       <th>type</th>
       <td><p>type of transform'
 etc noting that short is not supported</p></td>
-    </tr>
-    <tr>
-      <th>precision</th>
-      <td><p>string e.g. "float" or "double"</p></td>
     </tr>
     <tr>
       <th>parameters</th>
@@ -160,11 +171,14 @@ Similarity2DTransform, Similarity3DTransform</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

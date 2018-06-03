@@ -18,13 +18,23 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Sample Quantiles — quantile.antsImage" />
+
+<meta property="og:description" content="Computes sample
+quantiles for an image, with the option of a mask." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,12 +57,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">ANTsRCore</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">ANTsRCore</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -65,6 +79,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -72,21 +87,25 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Sample Quantiles</h1>
+    
+    <div class="hidden name"><code>quantile.antsImage.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Computes sample
 quantiles for an image, with the option of a mask.</p>
     
+    </div>
 
     <pre class="usage"><span class='co'># S3 method for antsImage</span>
 <span class='fu'>quantile</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='no'>mask</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -113,7 +132,7 @@ values of the image are used</p></td>
     <pre class="examples"><div class='input'><span class='no'>img</span> <span class='kw'>=</span> <span class='fu'><a href='makeImage.html'>makeImage</a></span>(<span class='fu'>c</span>(<span class='fl'>10</span>,<span class='fl'>10</span>),<span class='fu'>rnorm</span>(<span class='fl'>100</span>))
 <span class='no'>mask</span> <span class='kw'>=</span> <span class='no'>img</span> <span class='kw'>&gt;</span> <span class='fl'>0</span>
 <span class='fu'>quantile</span>(<span class='no'>img</span>, <span class='kw'>mask</span> <span class='kw'>=</span> <span class='no'>mask</span>)</div><div class='output co'>#&gt;         0%        25%        50%        75%       100% 
-#&gt; 0.01118686 0.19359565 0.81649739 1.18774781 1.99907684 </div></pre>
+#&gt; 0.02154367 0.32714844 0.61060572 1.15674984 2.09321880 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -134,11 +153,14 @@ values of the image are used</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+
