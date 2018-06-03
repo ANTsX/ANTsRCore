@@ -38,7 +38,7 @@ public:
   static void Finalize( ImagePointerType* ptr)
   {
     Rcpp::Rcout << "itkImageFinalizer::Finalize" << std::endl;
-    (*ptr) = NULL;
+    (*ptr) = nullptr;
     delete ptr;
   }
 };
@@ -279,7 +279,7 @@ template <class InputImageType, class OutputImageType>
 typename OutputImageType::Pointer castSEXP( SEXP itkImageR )
 {
   typedef itk::CastImageFilter<InputImageType,OutputImageType> FilterType;
-  typename OutputImageType::Pointer output = NULL;
+  typename OutputImageType::Pointer output = nullptr;
 
   Rcpp::S4 itkImageObject( itkImageR );
 
@@ -289,7 +289,7 @@ typename OutputImageType::Pointer castSEXP( SEXP itkImageR )
     filter->SetInput( img );
     filter->Update();
     output = filter->GetOutput();
-    filter = NULL;
+    filter = nullptr;
   }
   else {
     XPtr<typename OutputImageType::Pointer> xptr( static_cast<SEXP>( itkImageObject.slot("pointer") ));
@@ -333,7 +333,7 @@ itk::Image<double,2>::Pointer as( SEXP itkImageR )
   // never reached
   Rcpp::Rcout << "Unsupported pixeltype: " <<
     Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) << std::endl;
-  return NULL;
+  return nullptr;
 
 }
 
@@ -372,7 +372,7 @@ itk::Image<double,3>::Pointer as( SEXP itkImageR )
   // never reached
   Rcpp::Rcout << "Unsupported pixeltype: " <<
     Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) << std::endl;
-  return NULL;
+  return nullptr;
 }
 
 template <> inline
@@ -408,7 +408,7 @@ itk::Image<double,4>::Pointer as( SEXP itkImageR )
   // never reached
   Rcpp::Rcout << "Unsupported pixeltype: " <<
     Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) << std::endl;
-  return NULL;
+  return nullptr;
 
 }
 
@@ -445,7 +445,7 @@ itk::Image<float,2>::Pointer as( SEXP itkImageR )
   // never reached
   Rcpp::Rcout << "Unsupported pixeltype: " <<
     Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) << std::endl;
-  return NULL;
+  return nullptr;
 }
 
 template <> inline
@@ -481,7 +481,7 @@ itk::Image<float,3>::Pointer as( SEXP itkImageR )
   // never reached
   Rcpp::Rcout << "Unsupported pixeltype: " <<
     Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) << std::endl;
-  return NULL;
+  return nullptr;
 }
 
 template <> inline
@@ -517,7 +517,7 @@ itk::Image<float,4>::Pointer as( SEXP itkImageR )
   // never reached
   Rcpp::Rcout << "Unsupported pixeltype: " <<
     Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) << std::endl;
-  return NULL;
+  return nullptr;
 }
 
 template <> inline
@@ -553,7 +553,7 @@ itk::Image<unsigned int,2>::Pointer as( SEXP itkImageR )
   // never reached
   Rcpp::Rcout << "Unsupported pixeltype: " <<
     Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) << std::endl;
-  return NULL;
+  return nullptr;
 }
 
 template <> inline
@@ -589,7 +589,7 @@ itk::Image<unsigned int,3>::Pointer as( SEXP itkImageR )
   // never reached
   Rcpp::Rcout << "Unsupported pixeltype: " <<
     Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) << std::endl;
-  return NULL;
+  return nullptr;
 }
 
 template <> inline
@@ -625,7 +625,7 @@ itk::Image<unsigned int,4>::Pointer as( SEXP itkImageR )
   // never reached
   Rcpp::Rcout << "Unsupported pixeltype: " <<
     Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) << std::endl;
-  return NULL;
+  return nullptr;
 }
 
 template <> inline
@@ -661,7 +661,7 @@ itk::Image<unsigned char,2>::Pointer as( SEXP itkImageR )
   // never reached
   Rcpp::Rcout << "Unsupported pixeltype: " <<
     Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) << std::endl;
-  return NULL;
+  return nullptr;
 }
 
 template <> inline
@@ -697,7 +697,7 @@ itk::Image<unsigned char,3>::Pointer as( SEXP itkImageR )
   // never reached
   Rcpp::Rcout << "Unsupported pixeltype: " <<
     Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) << std::endl;
-  return NULL;
+  return nullptr;
 }
 
 template <> inline
@@ -734,7 +734,7 @@ itk::Image<unsigned char,4>::Pointer as( SEXP itkImageR )
   // never reached
   Rcpp::Rcout << "Unsupported pixeltype: " <<
     Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) << std::endl;
-  return NULL;
+  return nullptr;
 }
 
 }

@@ -210,7 +210,7 @@ typename ImageType::Pointer antsImage_Arith(
 {
   if ( ! image1.IsNotNull() || ! image2.IsNotNull()  )
     {
-    return NULL;
+    return nullptr;
     }
   if ( arithOp.compare("+") == 0 )
     {
@@ -230,7 +230,7 @@ typename ImageType::Pointer antsImage_Arith(
     arither->Update();
     return arither->GetOutput();
     }
-  return NULL;
+  return nullptr;
 }
 
 
