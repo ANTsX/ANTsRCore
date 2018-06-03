@@ -362,7 +362,7 @@ SEXP iMathTruncateIntensity( Rcpp::List args )
   double upperQ = (PixelType) Rcpp::as<double>( args[3] );
   int nBins = (PixelType) Rcpp::as<int>( args[4] );
 
-  MaskImagePointerType mask=NULL;
+  MaskImagePointerType mask = nullptr;
 
   if ( args.size() > 5 )
     {

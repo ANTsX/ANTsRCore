@@ -51,7 +51,7 @@ typename ImageType::Pointer cropImageHelper(
     cropper->GetOutput()->SetOrigin( neworig );
     return cropper->GetOutput();
     }
-  return NULL;
+  return nullptr;
 }
 
 
@@ -66,7 +66,7 @@ typename ImageType::Pointer cropIndHelper(
   if( lindv.size() != Dimension || uindv.size() != Dimension )
     {
     Rcpp::Rcout << "indices do not match the image in dimensions" << std::endl;
-    return NULL;
+    return nullptr;
     }
   typename ImageType::RegionType region;
   typename ImageType::RegionType::SizeType size;
@@ -110,7 +110,7 @@ typename ImageType::Pointer cropIndHelper(
     cropper->GetOutput()->SetOrigin( neworig );
     return cropper->GetOutput();
     }
-  return NULL;
+  return nullptr;
 }
 
 template< class ImageType >
@@ -141,7 +141,7 @@ typename ImageType::Pointer decropImageHelper(
     pasteFilter->Update();
     return pasteFilter->GetOutput();
     }
-  return NULL;
+  return nullptr;
 }
 
 RcppExport SEXP cropImage( SEXP r_in_image1 ,
