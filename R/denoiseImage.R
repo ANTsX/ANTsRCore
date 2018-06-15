@@ -6,11 +6,12 @@
 #' Journal of Magnetic Resonance Imaging, 31:192-203, June 2010.
 #'
 #' @param img scalar image to denoise.
-#' @param mask to limit the denoise region.
+#' @param mask optional to limit the denoise region.
 #' @param shrinkFactor downsampling level performed within the algorithm.
 #' @param p patch radius for local sample.
 #' @param r search radius from which to choose extra local samples.
 #' @param noiseModel either Rician or Gaussian.
+#' @param verbose boolean
 #' @return antsImage denoised version of image
 #' @author N Tustison, B Avants
 #' @examples
@@ -25,21 +26,37 @@ denoiseImage <- function(
   shrinkFactor = 1,
   p = 1,
   r = 3,
-  noiseModel = c("Rician","Gaussian") )
+  noiseModel = c("Rician","Gaussian"),
+  verbose = FALSE )
   {
   outimg = antsImageClone( img )
   mydim = img@dimension
-  myargs <- list(
-    d = mydim,
-    i = img,
-    n = noiseModel[1],
-    x = antsImageClone( mask, 'unsigned char'),
-    s = as.numeric( shrinkFactor ),
-    p = p,
-    r = r,
-    o = outimg,
-    v = 0
-    )
+  if (  ! missing( mask ) ) {
+    mskIn = antsImageClone( mask, 'unsigned char')
+    mskIn = antsCopyImageInfo( img, mskIn )
+    myargs <- list(
+      d = mydim,
+      i = img,
+      n = noiseModel[1],
+      x = mskIn,
+      s = as.numeric( shrinkFactor ),
+      p = p,
+      r = r,
+      o = outimg,
+      v = as.numeric( verbose )
+      )
+    } else {
+      myargs <- list(
+        d = mydim,
+        i = img,
+        n = noiseModel[1],
+        s = as.numeric( shrinkFactor ),
+        p = p,
+        r = r,
+        o = outimg,
+        v = as.numeric( verbose )
+        )
+    }
   .Call("DenoiseImage", .int_antsProcessArguments( c( myargs ) ), PACKAGE = "ANTsRCore")
   return( outimg )
 }
