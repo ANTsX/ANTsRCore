@@ -5,12 +5,12 @@
 \title{Denoise an image}
 \usage{
 denoiseImage(img, mask, shrinkFactor = 1, p = 1, r = 3,
-  noiseModel = c("Rician", "Gaussian"))
+  noiseModel = c("Rician", "Gaussian"), verbose = FALSE)
 }
 \arguments{
 \item{img}{scalar image to denoise.}
 
-\item{mask}{to limit the denoise region.}
+\item{mask}{optional to limit the denoise region.}
 
 \item{shrinkFactor}{downsampling level performed within the algorithm.}
 
@@ -19,6 +19,8 @@ denoiseImage(img, mask, shrinkFactor = 1, p = 1, r = 3,
 \item{r}{search radius from which to choose extra local samples.}
 
 \item{noiseModel}{either Rician or Gaussian.}
+
+\item{verbose}{boolean}
 }
 \value{
 antsImage denoised version of image
