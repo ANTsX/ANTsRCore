@@ -6,6 +6,7 @@
 #' @param k integer number of classes
 #' @param kmask segment inside this mask
 #' @param mrf smoothness, higher is smoother
+#' @param verbose boolean
 #' @return segmentation and probability images
 #' @author Brian B. Avants
 #' @examples
@@ -15,7 +16,7 @@
 #' seg<-kmeansSegmentation( fi, 3 )
 #'
 #' @export kmeansSegmentation
-kmeansSegmentation <- function(img, k, kmask = NA, mrf = 0.1) {
+kmeansSegmentation <- function(img, k, kmask = NA, mrf = 0.1, verbose=FALSE ) {
   dim <- img@dimension
   kmimg = iMath(img, "Normalize")
   if (is.na(kmask))
@@ -24,7 +25,10 @@ kmeansSegmentation <- function(img, k, kmask = NA, mrf = 0.1) {
   nhood <- paste(rep(1, dim), collapse = "x")
   mrf <- paste("[", mrf, ",", nhood, "]", sep = "")
   kmimg <- atropos( a = kmimg, m = mrf, c = "[5,0]",
-    i = paste("kmeans[",k, "]", sep = ""), x = kmask)
+    i = paste("kmeans[",k, "]", sep = ""),
+    v = as.numeric(verbose),
+    x = kmask)
+
   kmimg$segmentation <- antsImageClone(kmimg$segmentation, img@pixeltype)
   return(kmimg)
 }

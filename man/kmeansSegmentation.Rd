@@ -4,7 +4,7 @@
 \alias{kmeansSegmentation}
 \title{k means image segmentation.}
 \usage{
-kmeansSegmentation(img, k, kmask = NA, mrf = 0.1)
+kmeansSegmentation(img, k, kmask = NA, mrf = 0.1, verbose = FALSE)
 }
 \arguments{
 \item{img}{input image}
@@ -14,6 +14,8 @@ kmeansSegmentation(img, k, kmask = NA, mrf = 0.1)
 \item{kmask}{segment inside this mask}
 
 \item{mrf}{smoothness, higher is smoother}
+
+\item{verbose}{boolean}
 }
 \value{
 segmentation and probability images
