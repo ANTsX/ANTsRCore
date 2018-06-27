@@ -88,7 +88,7 @@ echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build &&
 
 # get / set up ANTs code
 antsgit=https://github.com/ANTsX/ANTs.git
-antstag=6a9625996d470b1169dca5897b8f7a0b6bf849c6 # bc direct
+antstag=4367a819a1b00edd108ff33856d476253e7fc3f5 # irregular time spacing
 antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants
