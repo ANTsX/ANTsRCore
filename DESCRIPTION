@@ -1,8 +1,8 @@
 Package: ANTsRCore
 Type: Package
 Title: Core Software Infrastructure for ANTsR
-Version: 0.5.1.1
-Date: 2018-02-28
+Version: 0.5.1.9000
+Date: 2018-07-09
 Authors@R: c(
     person(given = "Brian B.", family = "Avants", role = "cre", 
     email = "stnava@gmail.com"),
