@@ -23,6 +23,7 @@
 #' the full \code{numberOfIterations}, otherwise Atropos tests convergence by comparing the mean maximum posterior
 #' probability over the whole region of interest defined by the mask \code{x}.
 #' @param priorweight usually 0 (priors used for initialization only), 0.25 or 0.5.
+#' @param verbose boolean
 #' @param ... more parameters, see Atropos help in ANTs
 #' @return 0 -- Success\cr 1 -- Failure
 #' @author Shrinidhi KL, B Avants
@@ -49,13 +50,15 @@ atropos <- function( a, x,
   m = "[0.2,1x1]",
   c = "[5,0]",
   priorweight = 0.25,
+  verbose = FALSE,
   ...) {
   if ( missing(x)) {
     .Call("Atropos", .int_antsProcessArguments(c(a)), PACKAGE = "ANTsRCore")
     return(NULL)
   }
+  verbose = as.numeric( verbose )
   # define the output temp files
-  tdir <- tempdir()
+  tdir <- tempdir( check = TRUE )
   probs <- tempfile(pattern = "antsr", tmpdir = tdir, fileext = "prob%02d.nii.gz")
   probsbase <- basename(probs)
   searchpattern <- sub("%02d", "*", probsbase)
@@ -81,28 +84,28 @@ atropos <- function( a, x,
   outs <- paste("[", antsrGetPointerName(outimg), ",", probs, "]", sep = "")
   mymask <- antsImageClone(x, "unsigned int")
   if (length(a) == 1)
-    myargs <- list(d = mydim, a = a, m = m, o = outs, c = c, m = m, i = i, x = mymask,
+    myargs <- list(d = mydim, a = a, m = m, o = outs, c = c, m = m, i = i, x = mymask, v = verbose,
       ...)
   if (length(a) == 2)
     myargs <- list(d = mydim, a = a[[1]], a = a[[2]], m = m, o = outs, c = c, m = m,
-      i = i, x = mymask, ...)
+      i = i, x = mymask,  v = verbose, ...)
   if (length(a) == 3)
     myargs <- list(d = mydim, a = a[[1]], a = a[[2]], a = a[[3]], m = m, o = outs,
-      c = c, m = m, i = i, x = mymask, ...)
+      c = c, m = m, i = i, x = mymask, v = verbose,  ...)
   if (length(a) == 4) {
     myargs <- list(d = mydim, a = a[[1]], a = a[[2]], a = a[[3]],
       a = a[[4]], m = m, o = outs,
-      c = c, m = m, i = i, x = mymask, ...)
+      c = c, m = m, i = i, x = mymask, v = verbose,  ...)
   }
   if (length(a) == 5) {
     myargs <- list(d = mydim, a = a[[1]], a = a[[2]], a = a[[3]],
       a = a[[4]], a = a[[5]], m = m, o = outs,
-      c = c, m = m, i = i, x = mymask, ...)
+      c = c, m = m, i = i, x = mymask, v = verbose,  ...)
   }
   if (length(a) >= 6) {
     myargs <- list(d = mydim, a = a[[1]], a = a[[2]], a = a[[3]],
       a = a[[4]], a = a[[5]], a = a[[6]], m = m, o = outs,
-      c = c, m = m, i = i, x = mymask, ...)
+      c = c, m = m, i = i, x = mymask, v = verbose, ...)
   }
   if ( length(a) > 6)
     stop(" more than 6 input images not really supported, using first 6 ")
