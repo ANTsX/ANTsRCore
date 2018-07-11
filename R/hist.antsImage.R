@@ -6,6 +6,11 @@
 #' values of the image are plotted.
 #'
 #' @return Vector of values
+#' @export
+#' @examples
+#' img = makeImage(c(10,10),rnorm(100))
+#' mask = img > 0
+#' mask_values(img, mask)
 mask_values = function(x, mask) {
   if (!missing(mask)) {
     if (!is.null(mask)) { # need this for Summary

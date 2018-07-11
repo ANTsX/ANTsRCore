@@ -62,9 +62,9 @@ ibasis   = scale( ripped$basisMat )
 k = 5
 kk = lm( ipatches[k,] ~ t( ibasis[1:10,] ) )
 rimg = ripmmarcBasisImage( ripped$canonicalFrame, ipatches[k,] )
-# plot( rimg, doCropping=F )
+# plot( rimg, doCropping=FALSE )
 bimg = ripmmarcBasisImage( ripped$canonicalFrame, ibasis[5,] )
-# plot( bimg, doCropping=F )
+# plot( bimg, doCropping=FALSE )
 
 rippedTest <- ripmmarc( img, thresholdImage(mskTestTrain,1,1), patchRadius=pr,
   evecBasis = ripped$basisMat, canonicalFrame = ripped$canonicalFrame,

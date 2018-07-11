@@ -5,6 +5,11 @@
 #' @param error should the function error if the mask as not binary?
 #'
 #' @return Array, logical if all values within 0, 1, \code{NA}, and \code{NaN}
+#' @examples
+#' img = makeImage(c(10,10),rnorm(100))
+#' mask = img > 0
+#' coerce_mask(mask, error = TRUE)
+#' coerce_mask(mask + 1, error = FALSE)
 #' @export
 coerce_mask = function(x, error = TRUE) {
   if (typeof(x) == "logical") {
@@ -14,7 +19,7 @@ coerce_mask = function(x, error = TRUE) {
   # checking if zeroes and ones
   # we can change this when | and || are implemented in C++
   one = x == 1
-  check = (x == 0 || one)
+  check = all(x == 0 | one)
   if (check) {
     return(one)
   } else {

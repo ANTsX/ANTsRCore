@@ -665,6 +665,7 @@ antsrGetPointerName <- function(img) {
 #' information metric by default. See \code{antsRegistration.}
 #' @param iterations should be greater than 1 less than 10.
 #' @param gradientStep should be less than 1, speed of shape update step.
+#' Passed to \code{\link{antsRegistration}}
 #' @return template antsImage
 #' @author Avants BB
 #' @examples
@@ -687,7 +688,8 @@ buildTemplate <- function(
     avgWlist = c()
     for ( k in 1:length( imgList ) ) {
       w1 = antsRegistration( template,
-        imgList[[k]], typeofTransform = typeofTransform )
+        imgList[[k]], typeofTransform = typeofTransform,
+        gradStep = gradientStep)
       avgIlist[[k]] = w1$warpedmovout
       avgWlist[ k ] = antsApplyTransforms(  initialTemplate, imgList[[k]],
         w1$fwdtransforms, compose = w1$fwdtransforms[1] )

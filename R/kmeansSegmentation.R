@@ -26,7 +26,7 @@ kmeansSegmentation <- function(img, k, kmask = NA, mrf = 0.1, verbose=FALSE ) {
   mrf <- paste("[", mrf, ",", nhood, "]", sep = "")
   kmimg <- atropos( a = kmimg, m = mrf, c = "[5,0]",
     i = paste("kmeans[",k, "]", sep = ""),
-    v = as.numeric(verbose),
+    verbose = verbose,
     x = kmask)
 
   kmimg$segmentation <- antsImageClone(kmimg$segmentation, img@pixeltype)

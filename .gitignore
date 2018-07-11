@@ -7,6 +7,7 @@ zzz_Comparison2\.R
 # things to ignore in directory ANTsR/src
 src/Makevars
 src/*.o
+src/*.gcno
 src/*.o-*
 src/*.so
 src/symbols.rds
@@ -24,6 +25,7 @@ obsolete/*
 R/.Rhistory
 .DS_Store
 .Rproj.user
+inst/include/*
 inst/include/ANTS.cxx
 inst/include/ANTSConformalMapping.cxx
 inst/include/ANTSConformalMapping.h

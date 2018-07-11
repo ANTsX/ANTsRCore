@@ -17,7 +17,8 @@ information metric by default. See \code{antsRegistration.}}
 
 \item{iterations}{should be greater than 1 less than 10.}
 
-\item{gradientStep}{should be less than 1, speed of shape update step.}
+\item{gradientStep}{should be less than 1, speed of shape update step.
+Passed to \code{\link{antsRegistration}}}
 }
 \value{
 template antsImage

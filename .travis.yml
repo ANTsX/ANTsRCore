@@ -36,7 +36,7 @@ before_install:
   - echo "CXX1XSTD=${CXX1XSTD}, CXX11=${CXX11}"
   - clang_cxx
   - cat ~/.R/Makevars
-  - export cmake_version="3.4"
+  - export cmake_version="3.11"
   - cmake --version
   - x=`cmake_setup`; echo "${x}"; eval ${x};
   - cmake --version
@@ -69,10 +69,16 @@ script:
   - travis_wait 100 R CMD build ${PROJ_DIR} ${R_BUILD_ARGS}
   - rm -f travis_wait*.log
   - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)  
-  - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";
+  - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_FILE_NAME}";  CHECK_RET=$? ;
   - rm -f travis_wait*.log
-  - check_fail
-  - check_warnings
+  - if [[ $CHECK_RET -ne 0 ]];
+    then
+      echo "R CMD check failed"; 
+      check_fail; 
+      dump_logs; 
+      check_warnings ;      
+      travis_terminate 1;
+    fi 
 
 jobs:
   include:

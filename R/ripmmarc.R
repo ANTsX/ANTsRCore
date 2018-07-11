@@ -37,9 +37,9 @@
 #' k = 5
 #' kk = lm( ipatches[k,] ~ t( ibasis[1:10,] ) )
 #' rimg = ripmmarcBasisImage( ripped$canonicalFrame, ipatches[k,] )
-#' # plot( rimg, doCropping=F )
+#' # plot( rimg, doCropping=FALSE )
 #' bimg = ripmmarcBasisImage( ripped$canonicalFrame, ibasis[5,] )
-#' # plot( bimg, doCropping=F )
+#' # plot( bimg, doCropping=FALSE )
 #'
 #' rippedTest <- ripmmarc( img, thresholdImage(mskTestTrain,1,1), patchRadius=pr,
 #'   evecBasis = ripped$basisMat, canonicalFrame = ripped$canonicalFrame,
@@ -149,13 +149,13 @@ ripmmarcBasisImage <- function( canonicalFrame,
 #' @seealso \code{\link{ripmmarc}}
 #' @examples
 #'
-#' \dontrun{
 #' pop = getANTsRData( "population" ) # list of example images
 #' popmasks = list( )
 #' for ( i in 1:length( pop ) )
 #'   popmasks[[ i ]] = getMask( pop[[ i ]] )
 #' rp = ripmmarcPop( pop, popmasks, patchRadius=3,
 #'   meanCenter = TRUE, patchSamples=1000 )
+#' \dontrun{
 #' nv = 15
 #' rippedTest <- ripmmarc( pop[[3]], popmasks[[3]], patchRadius = 3,
 #'   evecBasis = rp$basisMat[1:nv,], patchVarEx = nv, meanCenter = TRUE,

@@ -19,12 +19,10 @@ Append an item to a list , creating a new list or combine two lists
 }
 \examples{
 
-\dontrun{
 mat<-replicate(100, rnorm(20))
 mat2<-replicate(100, rnorm(20))
 mylist<-list(mat)
 mylist<-lappend( mylist, mat2 )
-}
 
 }
 \author{

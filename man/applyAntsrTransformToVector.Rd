@@ -18,7 +18,7 @@ array of coordinates
 Apply transform to spatial vector
 }
 \examples{
-\dontrun{
+transform = new("antsrTransform", precision="float", 
+type="AffineTransform", dimension=2 )
 vec2 = applyAntsrTransformToVector(transform, c(1,2,3))
-}
 }
