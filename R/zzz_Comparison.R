@@ -1,5 +1,8 @@
 #' @rdname antsImageops
 #' @aliases ==,antsImage,antsImage-method
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' is.antsImage(img01 == img01)
 setMethod("==", signature(e1 = "antsImage", e2 = "antsImage"),
           function(e1, e2) {
             operator = "=="

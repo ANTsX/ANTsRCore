@@ -73,3 +73,20 @@ origin(object) <- value
 Methods that act on the \code{slots} of the
 antsImage object
 }
+\examples{
+img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+stopifnot(is.character(pixeltype(img01)))
+pixeltype(img01) = "float"
+img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+stopifnot(components(img01) == 1)
+components(img01) = 1L
+img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+stopifnot(spacing(img01) == rep(1, 4))
+spacing(img01) = rep(1, 4)
+img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+stopifnot(is.matrix(direction(img01)))
+direction(img01) = diag(4)
+img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+stopifnot(all(origin(img01) == rep(0, 4)))
+origin(img01) = rep(0, 4)
+}

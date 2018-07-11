@@ -5,8 +5,11 @@
 #' @docType methods 
 #' @param object is an object of class \code{antsImage}.
 #' @param value is the value to assign to the slot.  
-
 #' @export
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' stopifnot(is.character(pixeltype(img01)))
+#' pixeltype(img01) = "float"
 setGeneric("pixeltype", function(object) {
   standardGeneric("pixeltype")
   })
@@ -52,6 +55,10 @@ setGeneric("components", function(object) {
 #' @rdname accessor-methods
 #' @aliases components,antsImage-method
 #' @export
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' stopifnot(components(img01) == 1)
+#' components(img01) = 1L
 setMethod("components", "antsImage", function(object) { 
   object@"components" 
 })
@@ -90,6 +97,10 @@ setGeneric("spacing", function(object) {
 #' @rdname accessor-methods
 #' @aliases spacing,antsImage-method
 #' @export
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' stopifnot(spacing(img01) == rep(1, 4))
+#' spacing(img01) = rep(1, 4)
 setMethod("spacing", "antsImage", function(object) { 
   antsGetSpacing(object)
 })
@@ -124,6 +135,10 @@ setGeneric("direction", function(object) {
 #' @rdname accessor-methods
 #' @aliases direction,antsImage-method
 #' @export
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' stopifnot(is.matrix(direction(img01)))
+#' direction(img01) = diag(4)
 setMethod("direction", "antsImage", function(object) { 
   antsGetDirection(object)
 })
@@ -158,6 +173,10 @@ setGeneric("origin", function(object) {
 #' @rdname accessor-methods
 #' @aliases origin,antsImage-method
 #' @export
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' stopifnot(all(origin(img01) == rep(0, 4)))
+#' origin(img01) = rep(0, 4)
 setMethod("origin", "antsImage", function(object) { 
   antsGetOrigin(object)
 })

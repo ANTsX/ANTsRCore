@@ -15,6 +15,9 @@
 #'
 #' @export antsImageMutualInformation
 antsImageMutualInformation <- function(in_image1, in_image2) {
+  error_not_antsImage(in_image1, "in_image1")
+  error_not_antsImage(in_image2, "in_image2")
+  
   if (length(dim(in_image1)) == 1)
     if (dim(in_image1)[1] == 1)
       return(NULL)

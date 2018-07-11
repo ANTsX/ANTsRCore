@@ -9,12 +9,10 @@
 #' @author Avants BB, the internet
 #' @examples
 #'
-#' \dontrun{
 #' mat<-replicate(100, rnorm(20))
 #' mat2<-replicate(100, rnorm(20))
 #' mylist<-list(mat)
 #' mylist<-lappend( mylist, mat2 )
-#' }
 #'
 #' @export lappend
 lappend <- function(lst, obj) {

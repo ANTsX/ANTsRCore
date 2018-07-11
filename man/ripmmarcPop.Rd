@@ -34,13 +34,13 @@ implementation is more efficient for building a basis from image populations.
 }
 \examples{
 
-\dontrun{
 pop = getANTsRData( "population" ) # list of example images
 popmasks = list( )
 for ( i in 1:length( pop ) )
   popmasks[[ i ]] = getMask( pop[[ i ]] )
 rp = ripmmarcPop( pop, popmasks, patchRadius=3,
   meanCenter = TRUE, patchSamples=1000 )
+\dontrun{
 nv = 15
 rippedTest <- ripmmarc( pop[[3]], popmasks[[3]], patchRadius = 3,
   evecBasis = rp$basisMat[1:nv,], patchVarEx = nv, meanCenter = TRUE,

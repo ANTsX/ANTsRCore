@@ -286,6 +286,14 @@ img02 <- as.antsImage(array(64:1, c(4,4,4,1)))
 is.antsImage(img01 + img02)
 is.antsImage(sqrt(2) * img01)
 is.antsImage(img02 / pi)
+img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+is.antsImage(img01 == img01)
+img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+mask1 = img01 == 1
+mask2 = img01 == 2
+is.antsImage(mask1 & mask2)
+is.antsImage(mask1 | mask2)
+is.antsImage(as.array(mask2) | mask1)
 }
 \author{
 John Muschellli \email{muschellij2@gmail.com}

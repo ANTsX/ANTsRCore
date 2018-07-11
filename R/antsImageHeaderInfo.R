@@ -21,10 +21,17 @@
 #'   \item{pixelclass: }{Spatial directions of image axes.}
 #' }
 #' @export antsImageHeaderInfo
-
+#' @examples 
+#' img <- antsImageRead(getANTsRData("r16"))
+#' antsImageHeaderInfo(img)
+#' antsImageHeaderInfo(getANTsRData("r16"))
 antsImageHeaderInfo <- function( filename )
 {
-
+  if (is.antsImage(filename)) {
+    tfile = tempfile(fileext = ".nii.gz")
+    antsImageWrite(filename, tfile)
+    filename = tfile
+  }
   if ( !file.exists(filename) )
   {
     stop("File does not exist")

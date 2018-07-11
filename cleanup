@@ -2,5 +2,6 @@
 ############### still a WIP ###############
 rm -f -r src/*.o src/*.so */*~ *~  src/ants src/antb src/itks src/itkb
 rm -f -r src/*.o-*
+rm -f -r src/*.gcno
 rm -f -r ants
 rm -f src/Makevars
