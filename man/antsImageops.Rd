@@ -276,6 +276,13 @@
 \S4method{Logic}{antsImage,list}(e1, e2)
 }
 \arguments{
+\item{x}{a logical vector or array.}
+
+\item{arr.ind}{logical; should array indices be returned when x is an array?}
+
+\item{useNames}{logical indicating if the value of arrayInd() 
+should have (non-null) dimnames at all.}
+
 \item{e1}{is an object of class \code{antsImage}.}
 
 \item{e2}{is an object of class \code{antsImage}.}
