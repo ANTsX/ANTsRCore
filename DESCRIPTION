@@ -42,3 +42,4 @@ NeedsCompilation: yes
 RoxygenNote: 6.0.1.9000
 VignetteBuilder: knitr
 Encoding: UTF-8
+

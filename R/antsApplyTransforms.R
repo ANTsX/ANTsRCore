@@ -81,7 +81,7 @@ antsApplyTransforms <- function(
     return( NA )
   }
   interpolator[1] = paste( tolower( substring( interpolator[1], 1, 1 ) ),
-    substring( interpolator[1], 2 ),sep="", collapse=" ")
+    substring( interpolator[1], 2 ), sep="", collapse=" ")
   interpOpts = c(
     "linear",
     "nearestNeighbor",
@@ -94,6 +94,14 @@ antsApplyTransforms <- function(
     "lanczosWindowedSinc",
     "genericLabel" )
   interpolator <- match.arg( interpolator, interpOpts )
+  
+  if (is.antsImage(moving)) {
+    moving = antsImageClone(moving)
+  }
+  if (is.antsImage(fixed)) {
+    fixed = antsImageClone(fixed)
+  }  
+  
   args <- list(fixed, moving, transformlist, interpolator, ...)
   if (!is.character(fixed)) {
     if (fixed@class[[1]] == "antsImage" & moving@class[[1]] == "antsImage") {
@@ -104,12 +112,12 @@ antsApplyTransforms <- function(
       }
       inpixeltype <- fixed@pixeltype
       warpedmovout <- antsImageClone(moving)
-      f <- fixed
-      m <- moving
+      f <- antsImageClone(fixed)
+      m <- antsImageClone(moving)
       if ( ( moving@dimension == 4 ) & ( fixed@dimension == 3 ) &
            ( imagetype == 0 ) )
           stop( "Set imagetype 3 to transform time series images." )
-      wmo <- warpedmovout
+      wmo <- antsImageClone(warpedmovout)
       mytx <- list()
       # If whichtoinvert is NA, then attempt to guess the right thing to do
       #
@@ -118,10 +126,10 @@ antsApplyTransforms <- function(
       # else whichtoinvert = rep("F", length(transformlist))
       if (all(is.na(whichtoinvert))) {
         if ( length(transformlist) == 2 & grepl("\\.mat$", transformlist[1]) & !(grepl("\\.mat$", transformlist[2])) ) {
-          whichtoinvert <- c(T, F)
+          whichtoinvert <- c(TRUE, FALSE)
         }
         else {
-          whichtoinvert <- rep(F, length(transformlist))
+          whichtoinvert <- rep(FALSE, length(transformlist))
         }
       }
       if (length(whichtoinvert) != length(transformlist)) {
