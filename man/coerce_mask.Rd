@@ -21,4 +21,5 @@ Creates a logical array from an antsImage object
 img = makeImage(c(10,10),rnorm(100))
 mask = img > 0
 coerce_mask(mask, error = TRUE)
+coerce_mask(mask + 1, error = FALSE)
 }

@@ -20,6 +20,10 @@ setClass(Class = "antsMatrix", representation(
 
 #' @rdname antsMatrix_class
 #' @aliases initialize,antsMatrix-method
+#' @examples
+#' mat = as.antsMatrix(matrix(rnorm(10), nrow=2)) 
+#' as.data.frame(mat)
+#' as.matrix(mat)
 setMethod(f = "initialize", signature(.Object = "antsMatrix"), definition = function(.Object,
   elementtype) {
   .Call("antsMatrix", elementtype, PACKAGE = "ANTsRCore")
