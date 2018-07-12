@@ -48,13 +48,15 @@
 #' fixed <- antsImageRead( getANTsRData("r16") ,2)
 #' moving <- antsImageRead( getANTsRData("r64") ,2)
 #' fixed <- resampleImage(fixed,c(64,64),1,0)
-#' moving <- resampleImage(moving,c(64,64),1,0)
+#' moving <- resampleImage(moving,c(68,68),1,0)
 #' mytx <- antsRegistration(fixed=fixed , moving=moving ,
 #'   typeofTransform = c("SyN") )
 #' mywarpedimage <- antsApplyTransforms( fixed=fixed,moving=moving,
 #'   transformlist=mytx$fwdtransforms )
-#' mywarpedimage <- antsApplyTransforms( fixed=moving,moving=fixed,
+#' testthat::expect_true(antsImagePhysicalSpaceConsistency(mywarpedimage, fixed))
+#' invwarped_image <- antsApplyTransforms( fixed=moving,moving=fixed,
 #'   transformlist=mytx$invtransforms )
+#' testthat::expect_true(antsImagePhysicalSpaceConsistency(invwarped_image, moving))
 #' # full access via listing the inputs in standard ANTs format
 #'
 #' @seealso \code{\link{antsRegistration}}
@@ -95,12 +97,12 @@ antsApplyTransforms <- function(
     "genericLabel" )
   interpolator <- match.arg( interpolator, interpOpts )
   
-  if (is.antsImage(moving)) {
-    moving = antsImageClone(moving)
-  }
-  if (is.antsImage(fixed)) {
-    fixed = antsImageClone(fixed)
-  }  
+  # if (is.antsImage(moving)) {
+    # moving = antsImageClone(moving)
+  # }
+  # if (is.antsImage(fixed)) {
+    # fixed = antsImageClone(fixed)
+  # }
   
   args <- list(fixed, moving, transformlist, interpolator, ...)
   if (!is.character(fixed)) {
@@ -112,12 +114,11 @@ antsApplyTransforms <- function(
       }
       inpixeltype <- fixed@pixeltype
       warpedmovout <- antsImageClone(moving)
-      f <- antsImageClone(fixed)
-      m <- antsImageClone(moving)
+      f <- fixed
+      m <- moving
       if ( ( moving@dimension == 4 ) & ( fixed@dimension == 3 ) &
            ( imagetype == 0 ) )
           stop( "Set imagetype 3 to transform time series images." )
-      wmo <- antsImageClone(warpedmovout)
       mytx <- list()
       # If whichtoinvert is NA, then attempt to guess the right thing to do
       #
@@ -154,7 +155,7 @@ antsApplyTransforms <- function(
 
       }
       if ( is.na( compose ) )
-        args <- list(d = fixed@dimension, i = m, o = wmo, r = f, n = interpolator,
+        args <- list(d = fixed@dimension, i = m, o = warpedmovout, r = f, n = interpolator,
                    unlist(mytx))
       tfn <- paste( compose, "comptx.nii.gz", sep='' )
       if ( !is.na( compose ) ) {
@@ -183,6 +184,9 @@ antsApplyTransforms <- function(
     }
     # Get here if fixed, moving, transformlist are not missing, fixed is not of type character,
     # and fixed and moving are not both of type antsImage
+    stop(paste0('fixed, moving, transformlist are not missing,', 
+      ' fixed is not of type character,', 
+      ' and fixed and moving are not both of type antsImage'))
     return(1)
   }
   # if ( Sys.info()['sysname'] == 'XXX' ) { mycmd<-.antsrParseListToString( c(args)

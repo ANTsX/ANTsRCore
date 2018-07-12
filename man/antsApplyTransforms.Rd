@@ -70,13 +70,15 @@ antsApplyTransforms("-h")
 fixed <- antsImageRead( getANTsRData("r16") ,2)
 moving <- antsImageRead( getANTsRData("r64") ,2)
 fixed <- resampleImage(fixed,c(64,64),1,0)
-moving <- resampleImage(moving,c(64,64),1,0)
+moving <- resampleImage(moving,c(68,68),1,0)
 mytx <- antsRegistration(fixed=fixed , moving=moving ,
   typeofTransform = c("SyN") )
 mywarpedimage <- antsApplyTransforms( fixed=fixed,moving=moving,
   transformlist=mytx$fwdtransforms )
-mywarpedimage <- antsApplyTransforms( fixed=moving,moving=fixed,
+testthat::expect_true(antsImagePhysicalSpaceConsistency(mywarpedimage, fixed))
+invwarped_image <- antsApplyTransforms( fixed=moving,moving=fixed,
   transformlist=mytx$invtransforms )
+testthat::expect_true(antsImagePhysicalSpaceConsistency(invwarped_image, moving))
 # full access via listing the inputs in standard ANTs format
 
 }
