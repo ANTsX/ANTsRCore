@@ -186,6 +186,23 @@ as.array.antsImage = function(x, ..., mask = logical(),
   return(.Call("antsImage_asVector", x, mask, region, PACKAGE = "ANTsRCore"))
 }
 
+#' @rdname as.array
+#' @export
+#' @method as.character antsImage
+#' @examples 
+#' img <- antsImageRead( getANTsRData( "r16" ) )
+#' img[img > 5] = 0
+#' sort(unique(as.character(img)))
+#' factor(img)
+#' table(img, img) 
+as.character.antsImage = function(x, ..., mask = logical(),
+                              region = new("antsRegion", index = integer(),
+                                           size = integer())) {
+  arr = as.array(x, ..., mask = mask, 
+                 region = region)
+  return(as.character(arr))
+}
+
 #' Get Pixels
 #'
 #' Get pixel values from an 'antsImage'.

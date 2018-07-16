@@ -13,6 +13,10 @@
 #'  b <- r*0
 #'  rgbImage = mergeChannels( list(r,g,b) )
 #'  imgList = splitChannels( rgbImage )
+#' testthat::expect_length(imgList, 3)
+#' sapply(imgList, function(x) {
+#' testthat::expect_s4_class(x, class = "antsImage")
+#' })
 #'
 #' @export splitChannels
 splitChannels <- function(image) {

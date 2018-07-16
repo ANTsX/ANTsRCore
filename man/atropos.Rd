@@ -5,7 +5,7 @@
 \title{FMM Segmentation}
 \usage{
 atropos(a, x, i = "KMeans[3]", m = "[0.2,1x1]", c = "[5,0]",
-  priorweight = 0.25, verbose = FALSE, ...)
+  priorweight = 0.25, verbose = FALSE, use_random_seed = FALSE, ...)
 }
 \arguments{
 \item{a}{One or more scalar images to segment. If priors are not used, the intensities
@@ -30,6 +30,10 @@ probability over the whole region of interest defined by the mask \code{x}.}
 \item{priorweight}{usually 0 (priors used for initialization only), 0.25 or 0.5.}
 
 \item{verbose}{boolean}
+
+\item{use_random_seed}{Initialize internal random number generator with a random seed. 
+Otherwise, initialize with a constant seed number.  If this is \code{TRUE},
+the results are not fully reproducible.}
 
 \item{...}{more parameters, see Atropos help in ANTs}
 }

@@ -20,3 +20,7 @@ var(x, ...)
 \description{
 Calculates the variance of an image
 }
+\examples{
+img <- antsImageRead( getANTsRData( "r16" ) )
+var(img)
+}

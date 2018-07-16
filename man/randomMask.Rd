@@ -4,7 +4,7 @@
 \alias{randomMask}
 \title{Get a random mask}
 \usage{
-randomMask(img, nsamples, perLabel = F, seed)
+randomMask(img, nsamples, perLabel = FALSE, seed)
 }
 \arguments{
 \item{img}{an antsImage, either continuous or mask-like. This will

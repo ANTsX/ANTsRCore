@@ -23,7 +23,7 @@
 #' randmask<-randomMask(img,200)
 #'
 #' @export
-randomMask = function(img, nsamples, perLabel=F, seed ) {
+randomMask = function(img, nsamples, perLabel=FALSE, seed ) {
   # set empty output image
   randmask = as.antsImage( array(0, dim = dim(img)), reference = img)
 

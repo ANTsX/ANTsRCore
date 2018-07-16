@@ -22,25 +22,25 @@ antsrimpute <- function(mydat, FUN = mean, ...) {
   if (is.null(dim(mydat))) {
     mydat2 <- mydat
     if ( class( mydat ) == 'numeric' | class( mydat ) == 'integer' )
-      mydat2[is.na(mydat)] <- FUN((mydat), na.rm = T, ...) else
-        mydat2[is.na(mydat)] <- mostrepeated((mydat), na.rm = T, ...)
+      mydat2[is.na(mydat)] <- FUN((mydat), na.rm = TRUE, ...) else
+        mydat2[is.na(mydat)] <- mostrepeated((mydat), na.rm = TRUE, ...)
     mydat2
   } else {
     mydat2 <- mydat
     for (x in 1:ncol(mydat)) {
       if ( class( mydat[, x] ) == 'numeric' | class( mydat[, x] ) == 'integer' )
         mydat2[is.na(mydat[, x]), x] <-
-          FUN((mydat[, x]), na.rm = T, ...) else
+          FUN((mydat[, x]), na.rm = TRUE, ...) else
           mydat2[is.na(mydat[, x]), x] <-
-            mostrepeated((mydat[, x]), na.rm = T, ...)
+            mostrepeated((mydat[, x]), na.rm = TRUE, ...)
       }
     return( mydat2 )
     mydat3=mydat2
     for (x in 1:nrow(mydat))
     if ( class( mydat2[x, ] ) == 'numeric' | class( mydat2[x,] ) == 'integer' )
       mydat3[x,is.na(mydat2[x, ])] <-
-        FUN((mydat2[x,]), na.rm = T, ...) else mydat3[x,is.na(mydat2[x, ])] <-
-          mostrepeated((mydat2[x,]), na.rm = T, ...)
+        FUN((mydat2[x,]), na.rm = TRUE, ...) else mydat3[x,is.na(mydat2[x, ])] <-
+          mostrepeated((mydat2[x,]), na.rm = TRUE, ...)
     mydat3
   }
 }

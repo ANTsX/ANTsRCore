@@ -30,3 +30,7 @@ setMethod(f = "xor", signature(x = "antsImage",
   !a2
 })
 }
+\examples{
+img <- antsImageRead( getANTsRData( "r16" ) )
+sd(img)
+}

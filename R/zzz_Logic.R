@@ -4,9 +4,11 @@
 #' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
 #' mask1 = img01 == 1
 #' mask2 = img01 == 2
-#' is.antsImage(mask1 & mask2)
-#' is.antsImage(mask1 | mask2)
-#' is.antsImage(as.array(mask2) | mask1)
+#' testthat::expect_true(is.antsImage(mask1))
+#' testthat::expect_true(is.antsImage(mask2))
+#' testthat::expect_true(is.antsImage(mask1 & mask2))
+#' testthat::expect_true(is.antsImage(mask1 | mask2))
+#' testthat::expect_true(is.antsImage(as.array(mask2) | mask1))
 #' @export
 setMethod("&", signature(e1 = "antsImage", e2 = "antsImage"),
           function(e1, e2) {

@@ -11,8 +11,10 @@
 #' @return antsImage
 #' @author Shrinidhi KL
 #' @examples
+#' set.seed(1234)
 #' img <- makeImage(c(5,5), rnorm(25)+0.5)
 #' imgt<-thresholdImage( img, 0.5, Inf )
+#' testthat::expect_equal(sum(imgt), 9)
 #' @export thresholdImage
 thresholdImage <- function(inimg,
   lothresh, hithresh, inval=1, outval=0) {

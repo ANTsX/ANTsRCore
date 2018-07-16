@@ -143,6 +143,9 @@ ripmmarcBasisImage <- function( canonicalFrame,
 #' greater than one, then it defines the number of eigenvectors.  Otherwise, it
 #' defines the target variance explained.
 #' @param meanCenter boolean whether we mean center the patches.
+#' @param seed seed to pass to \code{\link{randomMask}}.  This behavior is 
+#' different than setting the seed globally and running as \code{\link{randomMask}}
+#' is called multiple times and that runs \code{\link{set.seed}}
 #' @return list including the canonical frame, the matrix basis and its
 #' eigenvalues
 #' @author Kandel BM, Avants BB
@@ -153,8 +156,16 @@ ripmmarcBasisImage <- function( canonicalFrame,
 #' popmasks = list( )
 #' for ( i in 1:length( pop ) )
 #'   popmasks[[ i ]] = getMask( pop[[ i ]] )
+#' set.seed(1234)
 #' rp = ripmmarcPop( pop, popmasks, patchRadius=3,
 #'   meanCenter = TRUE, patchSamples=1000 )
+#' set.seed(1234)
+#' rp2 = ripmmarcPop( pop, popmasks, patchRadius=3,
+#'   meanCenter = TRUE, patchSamples=1000 )
+#'   testthat::expect_equal(rp, rp2)
+#' rp3 = ripmmarcPop( pop, popmasks, patchRadius=3,
+#'   meanCenter = TRUE, patchSamples=1000, seed = 1234 )
+#' testthat::expect_failure(testthat::expect_equal(rp, rp3))
 #' \dontrun{
 #' nv = 15
 #' rippedTest <- ripmmarc( pop[[3]], popmasks[[3]], patchRadius = 3,
@@ -170,12 +181,14 @@ ripmmarcPop <- function(
   patchRadius=3,
   patchSamples=1000,
   patchVarEx=0.95,
-  meanCenter=TRUE )
+  meanCenter=TRUE,
+  seed)
   {
   maskIsList = class( mask ) == "list"
   if ( maskIsList ) {
-    randMask = randomMask( mask[[1]], patchSamples, perLabel = TRUE )
-  } else randMask = randomMask( mask, patchSamples, perLabel = TRUE )
+    randMask = randomMask( mask[[1]], patchSamples, perLabel = TRUE, 
+                           seed = seed)
+  } else randMask = randomMask( mask, patchSamples, perLabel = TRUE, seed = seed)
   ripped <- ripmmarc( ilist[[1]], randMask, patchRadius = patchRadius,
     patchSamples = patchSamples, patchVarEx = patchVarEx,
     rotationInvariant = FALSE )
@@ -188,13 +201,14 @@ ripmmarcPop <- function(
     boundary.condition = 'image' )
   for ( i in 2:length( ilist ) ) {
     if ( maskIsList ) {
-      randMask = randomMask( mask[[i]], patchSamples, perLabel = TRUE )
+      randMask = randomMask( mask[[i]], patchSamples, perLabel = TRUE,
+                             seed = seed)
     }
     locmat = getNeighborhoodInMask( ilist[[ i ]], randMask, radius = myrad,
       boundary.condition = 'image' )
     ripmat = cbind( ripmat, locmat )
   }
-  ripsvd = svd( antsrimpute( scale( ripmat, center=meanCenter, scale=F ) ) )
+  ripsvd = svd( antsrimpute( scale( ripmat, center=meanCenter, scale=FALSE ) ) )
   frameMask = thresholdImage(  abs( ripped$canonicalFrame ), 1.e-8, Inf )
   sel = as.numeric( frameMask )  > 0
   coreFrame = ripmmarcBasisImage( ripped$canonicalFrame, ripsvd$u[ sel, 2 ] )

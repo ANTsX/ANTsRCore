@@ -3,6 +3,7 @@
 S3method(apply,antsImage)
 S3method(apply,default)
 S3method(as.array,antsImage)
+S3method(as.character,antsImage)
 S3method(as.data.frame,antsMatrix)
 S3method(as.matrix,antsImage)
 S3method(boxplot,antsImage)

@@ -17,8 +17,15 @@
 #' myimg <- antsImageRead(getANTsRData("r16"))
 #' mask <- getMask(myimg)
 #' myimg.mask <- maskImage(myimg, mask, 3)
+#' testthat::expect_equal(sum(myimg.mask), 0)
+#' myimg.mask <- maskImage(myimg, mask)
+#' testthat::expect_equal(sum(myimg.mask), 3295494)
+#' ants.set.seed(20180716)
+#'  Sys.setenv(ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS = 1)
 #' seg <- kmeansSegmentation(myimg, 3)
 #' myimg.mask <- maskImage(myimg, seg$segmentation, c(1,3))
+#' check = myimg * (seg$segmentation == 1 | seg$segmentation == 3)
+#' testthat::expect_equal(myimg.mask, check)
 #'
 #' @export maskImage
 maskImage <- function(img.in, img.mask, level = 1, binarize = FALSE) {

@@ -18,3 +18,9 @@
 \description{
 Overloaded uniqueness operation for antsImage objects
 }
+\examples{
+img <- antsImageRead( getANTsRData( "r16" ) )
+img[img > 5] = 0
+sort(unique(img))
+
+}

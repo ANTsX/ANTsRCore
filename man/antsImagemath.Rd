@@ -104,5 +104,9 @@ Overloaded math for antsImage objects
 }
 \examples{
 img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
-abs(img01)
+testthat::expect_true(is.antsImage(abs(img01)))
+testthat::expect_true(is.antsImage(sign(img01)))
+testthat::expect_true(is.antsImage(sqrt(img01)))
+testthat::expect_true(is.antsImage(ceiling(img01)))
+testthat::expect_true(is.antsImage(floor(img01)))
 }

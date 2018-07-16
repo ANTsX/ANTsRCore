@@ -11,6 +11,7 @@
 \alias{as.matrix.antsImage}
 \alias{as.array,antsImage-method}
 \alias{as.array.antsImage}
+\alias{as.character.antsImage}
 \alias{as.data.frame,antsMatrix-method}
 \alias{as.data.frame.antsMatrix}
 \alias{as.matrix,antsMatrix-method}
@@ -34,6 +35,9 @@
   region = new("antsRegion", index = integer(), size = integer()))
 
 \method{as.array}{antsImage}(x, ..., mask = logical(),
+  region = new("antsRegion", index = integer(), size = integer()))
+
+\method{as.character}{antsImage}(x, ..., mask = logical(),
   region = new("antsRegion", index = integer(), size = integer()))
 
 \S4method{as.data.frame}{antsMatrix}(x)
@@ -61,4 +65,11 @@ data frame.}
 }
 \description{
 Converts antsImage, antsImage object to different data types
+}
+\examples{
+img <- antsImageRead( getANTsRData( "r16" ) )
+img[img > 5] = 0
+sort(unique(as.character(img)))
+factor(img)
+table(img, img) 
 }

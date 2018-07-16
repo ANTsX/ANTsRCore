@@ -7,18 +7,42 @@
 #' @param kmask segment inside this mask
 #' @param mrf smoothness, higher is smoother
 #' @param verbose boolean
+#' @param ... additional arguments to pass to \code{\link{atropos}}
 #' @return segmentation and probability images
+#' @note This function will likely give different results on multiple runs.
+
 #' @author Brian B. Avants
 #' @examples
-#'
+#' 
 #' fi<-antsImageRead( getANTsRData("r16") ,2)
+#' orig = antsImageClone(fi)
 #' fi<-n3BiasFieldCorrection(fi,4)
 #' seg<-kmeansSegmentation( fi, 3 )
 #' seg2<-kmeansSegmentation( fi, 3 )
-#' testthat::expect_equal(seg, seg2)
-#'
+#' arr1 = as.array(seg$segmentation)
+#' arr2 = as.array(seg2$segmentation) 
+#' testthat::expect_equal(arr1, arr2)
+#' 
+#' set.seed(2)
+#' Sys.setenv(ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS = 1,
+#' ANTS_RANDOM_SEED = 20180716)
+#' orig <-antsImageRead( getANTsRData("r16") ,2)
+#' seg<-kmeansSegmentation( orig, 3 , use_random_seed = TRUE)
+#' seg2<-kmeansSegmentation( orig, 3, use_random_seed = TRUE )
+#' arr1 = as.array(seg$segmentation)
+#' arr2 = as.array(seg2$segmentation)
+#' tab = table(arr1, arr2)
+#' tab
+#' identical(arr1, arr2)
+#' seg<-kmeansSegmentation( orig, 3, use_random_seed = FALSE )
+#' seg2<-kmeansSegmentation( orig, 3, use_random_seed = FALSE ) 
+#' arr1 = as.array(seg$segmentation)
+#' arr2 = as.array(seg2$segmentation)
+#' tab = table(arr1, arr2)
+#' tab
 #' @export kmeansSegmentation
-kmeansSegmentation <- function(img, k, kmask = NA, mrf = 0.1, verbose=FALSE ) {
+kmeansSegmentation <- function(img, k, kmask = NA, mrf = 0.1, verbose=FALSE,
+                               ...) {
   dim <- img@dimension
   kmimg = iMath(img, "Normalize")
   if (is.na(kmask)) {
@@ -30,7 +54,8 @@ kmeansSegmentation <- function(img, k, kmask = NA, mrf = 0.1, verbose=FALSE ) {
   kmimg <- atropos( a = kmimg, m = mrf, c = "[5,0]",
     i = paste("kmeans[",k, "]", sep = ""),
     verbose = verbose,
-    x = kmask)
+    x = kmask,
+    ...)
 
   kmimg$segmentation <- antsImageClone(kmimg$segmentation, img@pixeltype)
   return(kmimg)

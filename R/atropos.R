@@ -24,6 +24,9 @@
 #' probability over the whole region of interest defined by the mask \code{x}.
 #' @param priorweight usually 0 (priors used for initialization only), 0.25 or 0.5.
 #' @param verbose boolean
+#' @param use_random_seed Initialize internal random number generator with a random seed. 
+#' Otherwise, initialize with a constant seed number.  If this is \code{TRUE},
+#' the results are not fully reproducible.
 #' @param ... more parameters, see Atropos help in ANTs
 #' @return 0 -- Success\cr 1 -- Failure
 #' @author Shrinidhi KL, B Avants
@@ -51,11 +54,14 @@ atropos <- function( a, x,
   c = "[5,0]",
   priorweight = 0.25,
   verbose = FALSE,
+  use_random_seed = FALSE,
   ...) {
   if ( missing(x)) {
     .Call("Atropos", .int_antsProcessArguments(c(a)), PACKAGE = "ANTsRCore")
     return(NULL)
   }
+  use_random_seed = as.integer(as.logical(use_random_seed))
+  
   verbose = as.numeric( verbose )
   # define the output temp files
   tdir <- tempdir( check = TRUE )
@@ -85,27 +91,38 @@ atropos <- function( a, x,
   mymask <- antsImageClone(x, "unsigned int")
   if (length(a) == 1)
     myargs <- list(d = mydim, a = a, m = m, o = outs, c = c, m = m, i = i, x = mymask, v = verbose,
+                   r = use_random_seed,
       ...)
   if (length(a) == 2)
     myargs <- list(d = mydim, a = a[[1]], a = a[[2]], m = m, o = outs, c = c, m = m,
-      i = i, x = mymask,  v = verbose, ...)
+      i = i, x = mymask,  v = verbose, 
+      r = use_random_seed,
+      ...)
   if (length(a) == 3)
     myargs <- list(d = mydim, a = a[[1]], a = a[[2]], a = a[[3]], m = m, o = outs,
-      c = c, m = m, i = i, x = mymask, v = verbose,  ...)
+      c = c, m = m, i = i, x = mymask, v = verbose,  
+      r = use_random_seed,
+      ...)
   if (length(a) == 4) {
     myargs <- list(d = mydim, a = a[[1]], a = a[[2]], a = a[[3]],
       a = a[[4]], m = m, o = outs,
-      c = c, m = m, i = i, x = mymask, v = verbose,  ...)
+      c = c, m = m, i = i, x = mymask, v = verbose,  
+      r = use_random_seed,
+      ...)
   }
   if (length(a) == 5) {
     myargs <- list(d = mydim, a = a[[1]], a = a[[2]], a = a[[3]],
       a = a[[4]], a = a[[5]], m = m, o = outs,
-      c = c, m = m, i = i, x = mymask, v = verbose,  ...)
+      c = c, m = m, i = i, x = mymask, v = verbose,  
+      r = use_random_seed,
+      ...)
   }
   if (length(a) >= 6) {
     myargs <- list(d = mydim, a = a[[1]], a = a[[2]], a = a[[3]],
       a = a[[4]], a = a[[5]], a = a[[6]], m = m, o = outs,
-      c = c, m = m, i = i, x = mymask, v = verbose, ...)
+      c = c, m = m, i = i, x = mymask, v = verbose, 
+      r = use_random_seed,
+      ...)
   }
   if ( length(a) > 6)
     stop(" more than 6 input images not really supported, using first 6 ")

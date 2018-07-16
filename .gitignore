@@ -9,6 +9,7 @@ src/Makevars
 src/*.o
 src/*.gcno
 src/*.o-*
+src/*.o.macbook*
 src/*.so
 src/symbols.rds
 # things to ignore in ANTsR/src/ANTsR

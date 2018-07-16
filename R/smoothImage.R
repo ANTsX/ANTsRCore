@@ -13,8 +13,10 @@
 #' @return antsImage smoothed image
 #' @author Kandel BM, Avants BB
 #' @examples
+#' set.seed(1234)
 #' img <- makeImage(c(5,5), rnorm(25))
 #' simg <- smoothImage(img, c(1.2,1.5))
+#' testthat::expect_equal(sum(simg), -5.59352651424706)
 #' @export smoothImage
 smoothImage <- function(inimg, sigma, sigmaInPhysicalCoordinates=TRUE,
     FWHM=FALSE, max_kernel_width = 70) {

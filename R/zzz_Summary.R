@@ -30,11 +30,17 @@
 #' @param ... further arguments passed to summary methods
 #' @param na.rm logical: should missing values be removed?
 #' @examples
-#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' vec = 1:64
+#' img01 <- as.antsImage(array(vec, c(4,4,4,1)))
+#' testthat::expect_equal(max(img01), max(vec))
 #' max(img01)
+#' testthat::expect_equal(min(img01), min(vec))
 #' min(img01)
+#' testthat::expect_equal(sum(img01), sum(vec))
 #' range(img01)
-#' prod(img01)
+#' testthat::expect_equal(range(img01), range(vec))
+#' prod(img01/25)
+#' testthat::expect_equal(prod(img01/25), prod(vec/25), tolerance = 1e-5)
 #' @aliases Summary,antsImage-method
 #' @export
 setMethod("Summary", "antsImage",
@@ -164,6 +170,12 @@ median.antsImage = function(x, na.rm = FALSE, ...) {
 #' @param ... additional arguments passed to \code{\link{unique}}
 #' @param mask binary mask of values to subset
 #' @rdname unique
+#' 
+#' @examples 
+#' img <- antsImageRead( getANTsRData( "r16" ) )
+#' img[img > 5] = 0
+#' sort(unique(img))
+#' 
 #' @export
 unique.antsImage = function(x, incomparables = FALSE, ..., mask) {
   x = mask_values(x, mask)
@@ -172,6 +184,9 @@ unique.antsImage = function(x, incomparables = FALSE, ..., mask) {
 
 
 #' @rdname mean
+#' @examples
+#' img <- antsImageRead( getANTsRData( "r16" ) )
+#' sd(img)
 #' @export
 sd.antsImage = function(x, ...) {
   args = list(...)
@@ -203,6 +218,9 @@ var.default = function(x, ...){
 
 #' @rdname var
 #' @export
+#' @examples 
+#' img <- antsImageRead( getANTsRData( "r16" ) )
+#' var(img)
 #' @method var antsImage
 var.antsImage = function(x, ...) {
   args = list(...)
