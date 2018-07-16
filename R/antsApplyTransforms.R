@@ -103,7 +103,17 @@ antsApplyTransforms <- function(
   # if (is.antsImage(fixed)) {
     # fixed = antsImageClone(fixed)
   # }
-  
+  if (is.antsImage(transformlist)) {
+    warning("transformlist is an antsImage, creating a temporary file")
+    tfile = tempfile(fileext = ".nii.gz")
+    antsImageWrite(transformlist, filename = tfile)
+    transformlist = tfile
+  }
+
+  if (!is.character(transformlist)) {
+    warning("transformlist is not a character vector")
+  }
+    
   args <- list(fixed, moving, transformlist, interpolator, ...)
   if (!is.character(fixed)) {
     if (fixed@class[[1]] == "antsImage" & moving@class[[1]] == "antsImage") {
@@ -204,7 +214,7 @@ antsApplyTransforms <- function(
   outimg <- ""
   outdim <- 11
   for (x in 1:len) {
-    if (class(mylist[[x]])[1] == "antsImage") {
+    if (is.antsImage(mylist[[x]])) {
       tfn <- paste(tempdir(), "img", x, ".nii.gz", sep = "")
       antsImageWrite(mylist[[x]], tfn)
       mystr <- paste(mystr, tfn)
@@ -232,7 +242,7 @@ antsApplyTransforms <- function(
   len <- length(mylist)
   for (x in 1:len) {
     mystr <- paste(mystr, " -", names(mylist)[x], " ", sep = "")
-    if (class(mylist[[x]])[1] == "antsImage") {
+    if (is.antsImage(mylist[[x]])) {
       tfn <- paste(tempdir(), "img", x, ".nii.gz", sep = "")
       antsImageWrite(mylist[[x]], tfn)
       mystr <- paste(mystr, tfn)
