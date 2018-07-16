@@ -117,10 +117,14 @@ typeofTransform can be one of:
 fi <- antsImageRead(getANTsRData("r16") )
 mi <- antsImageRead(getANTsRData("r64") )
 fi<-resampleImage(fi,c(60,60),1,0)
-mi<-resampleImage(mi,c(60,60),1,0) # speed up
+mi<-resampleImage(mi,c(50, 50),1,0) # speed up
 mytx <- antsRegistration(fixed=fi, moving=mi, typeofTransform = c('SyN') )
 mywarpedimage <- antsApplyTransforms( fixed=fi, moving=mi,
   transformlist=mytx$fwdtransforms )
+mytx2 <- antsRegistration(fixed=fi, moving=mi, typeofTransform = c('SyN') )
+mywarpedimage2 <- antsApplyTransforms( fixed=fi, moving=mi,
+  transformlist=mytx2$fwdtransforms )   
+testthat::expect_equal(mywarpedimage, mywarpedimage2)
 
 \dontrun{ # quick visualization fix for images with odd orientation
 mni = antsImageRead( getANTsRData( "mni" ) )

@@ -28,6 +28,8 @@ k means image segmentation that is a wrapper around atropos
 fi<-antsImageRead( getANTsRData("r16") ,2)
 fi<-n3BiasFieldCorrection(fi,4)
 seg<-kmeansSegmentation( fi, 3 )
+seg2<-kmeansSegmentation( fi, 3 )
+testthat::expect_equal(seg, seg2)
 
 }
 \author{

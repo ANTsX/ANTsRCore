@@ -14,13 +14,16 @@
 #' fi<-antsImageRead( getANTsRData("r16") ,2)
 #' fi<-n3BiasFieldCorrection(fi,4)
 #' seg<-kmeansSegmentation( fi, 3 )
+#' seg2<-kmeansSegmentation( fi, 3 )
+#' testthat::expect_equal(seg, seg2)
 #'
 #' @export kmeansSegmentation
 kmeansSegmentation <- function(img, k, kmask = NA, mrf = 0.1, verbose=FALSE ) {
   dim <- img@dimension
   kmimg = iMath(img, "Normalize")
-  if (is.na(kmask))
+  if (is.na(kmask)) {
     kmask <- getMask(kmimg, 0.01, 1, cleanup = 2)
+  }
   kmask = iMath(kmask, "FillHoles")
   nhood <- paste(rep(1, dim), collapse = "x")
   mrf <- paste("[", mrf, ",", nhood, "]", sep = "")
