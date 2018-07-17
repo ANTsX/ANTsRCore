@@ -308,7 +308,7 @@ applyAntsrTransformToPoint <- function(transform, points) {
 #' @param vectors a matrix where each row is a vector to transform
 #' @return array of coordinates
 #' @examples
-#' transform = new("antsrTransform", precision="float", 
+#' transform = new("antsrTransform", precision="float",
 #' type="AffineTransform", dimension=2 )
 #' vec2 = applyAntsrTransformToVector(transform, c(1,2,3))
 #' @export
@@ -359,10 +359,10 @@ applyAntsrTransformToImage <- function(transform, image, reference, interpolatio
 #' trans= c(3,4,5)
 #' tx = createAntsrTransform( type="Euler3DTransform", translation=trans )
 #' txfile = tempfile(fileext = ".mat")
-#' writeAntsrTransform(tx, txfile) 
+#' writeAntsrTransform(tx, txfile)
 #' tx = readAntsrTransform(txfile)
 #' @export
-readAntsrTransform <- function( filename, dimension=3, precision="float" )  {
+readAntsrTransform <- function( filename, dimension=NA, precision="float" )  {
   return(.Call("antsrTransform_Read", filename, dimension, precision, PACKAGE="ANTsRCore"))
 }
 
