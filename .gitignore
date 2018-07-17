@@ -8,6 +8,7 @@ zzz_Comparison2\.R
 src/Makevars
 src/*.o
 src/*.gcno
+src/*.gcda
 src/*.o-*
 src/*.o.macbook*
 src/*.so
