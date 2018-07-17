@@ -16,6 +16,7 @@
 #'
 #' outimg<-makeImage( c(2,10) , 1)
 #' outimg<-makeImage( outimg ,  c(2,10) )
+#' testthat::expect_error(makeImage(outimg, c(2,10), components = 2))
 #'
 #' @export makeImage
 makeImage <- function(imagesize, voxval = 0, spacing=c(NA), origin=c(NA), 

@@ -31,6 +31,7 @@ antsImageHeaderInfo( getANTsRData("r16") )
 img <- antsImageRead(getANTsRData("r16"))
 antsImageHeaderInfo(img)
 antsImageHeaderInfo(getANTsRData("r16"))
+testthat::expect_error(antsImageHeaderInfo(""))
 }
 \author{
 Duda JT

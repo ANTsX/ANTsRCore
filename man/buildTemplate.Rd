@@ -5,7 +5,7 @@
 \title{ANTs template building.}
 \usage{
 buildTemplate(initialTemplate, imgList, typeofTransform, iterations = 3,
-  gradientStep = 0.25)
+  gradientStep = 0.25, verbose = TRUE, ...)
 }
 \arguments{
 \item{initialTemplate}{fixed image to which we register the population.}
@@ -19,6 +19,8 @@ information metric by default. See \code{antsRegistration.}}
 
 \item{gradientStep}{should be less than 1, speed of shape update step.
 Passed to \code{\link{antsRegistration}}}
+
+\item{...}{Additional options to pass to \code{\link{antsRegistration}}}
 }
 \value{
 template antsImage
@@ -30,11 +32,9 @@ better to use official \code{antsMultivariateTemplateConstruction*} in ANTs.
 However, this code can be useful for smaller problems/populations.
 }
 \examples{
-\dontrun{
 pop = getANTsRData( "population" )
 avg = antsAverageImages( pop ) # this is in ANTsR
-template = buildTemplate( avg, pop, 'SyN' )
-}
+template = buildTemplate( avg, pop, 'SyN', iterations = 1)
 }
 \author{
 Avants BB

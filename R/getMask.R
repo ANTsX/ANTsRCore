@@ -26,6 +26,9 @@
 #'
 #' img<-antsImageRead( getANTsRData("r16"))
 #' mask<-getMask( img )
+#' testthat::expect_error(getMask( img , lowThresh = "hey"))
+#' pixeltype(img) = "unsigned int"
+#' mask2<-getMask( img )
 #'
 #' @export getMask
 getMask <- function(img, lowThresh, highThresh, cleanup = 2) {

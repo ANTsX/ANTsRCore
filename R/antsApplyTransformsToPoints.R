@@ -76,7 +76,7 @@ antsApplyTransformsToPoints <- function(
       mytx <- list()
     if (all(is.na(whichtoinvert)))
       {
-      whichtoinvert <- rep(F, length(transformlist))
+      whichtoinvert <- rep(FALSE, length(transformlist))
       }
     for (i in c(1:length(transformlist)))
       {

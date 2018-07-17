@@ -30,4 +30,5 @@ Cuts a numeric image into an integer factor,
 img = makeImage(c(10,10),rnorm(100))
 mask = img > 0
 cut(img, mask = mask, breaks = 4)
+cut(img, breaks = 4)
 }

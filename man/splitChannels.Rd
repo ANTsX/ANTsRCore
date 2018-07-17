@@ -21,6 +21,7 @@ split a multichannel antsImage into a list of scalar antsImages
  r <- as.antsImage(r)
  g <- r*0
  b <- r*0
+testthat::expect_error(splitChannels(r, 3))
  rgbImage = mergeChannels( list(r,g,b) )
  imgList = splitChannels( rgbImage )
 testthat::expect_length(imgList, 3)

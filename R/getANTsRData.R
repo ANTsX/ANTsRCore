@@ -34,7 +34,8 @@ getANTsRData <- function(fileid,
                 "mni","mnia","mnib","mnit","mninat","mnijhu1","mnijhu2","mnidfn","mniyeo",
                 "atroposseg","simple","fmrinetworks",
                 "rsbold", "rsboldmask", "rsboldseg", "rsboldpts", "decslice", "dtislice",
-                "adfmri", "population", "surf", "blob", "rand", "show" )
+                "adfmri", "population", "surf", "blob", "rand", "show",
+                "multi_component_image")
   if (  sum( validlist == fileid ) == 0 )
     stop("no data with that id - try show to get list of valid ids")
   if ( fileid == "show" )
@@ -109,6 +110,12 @@ getANTsRData <- function(fileid,
     x = system.file("extdata", "rand.jpg", package="ANTsRCore")
     if ( nchar( x ) == 0 ) x = maketmpimg()
     return(  x )
+  }
+  
+  if ( fileid == "multi_component_image") {
+    fname = system.file("extdata", "multi_component_image.nii.gz", 
+                        package = "ANTsRCore")  
+    return(fname)
   }
   
   # ch2b = brodmann ch2a = aal mnib = brodmann mnia = all mnit = tracts

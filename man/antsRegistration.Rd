@@ -39,15 +39,30 @@ information metric by default. See \code{Details.}}
 
 \item{synSampling}{the nbins or radius parameter for the syn metric}
 
-\item{affIterations}{vector of iterations for low-dimensional registration.  we will set the smoothing
-and multi-resolution parameters based on the length of this vector.}
+\item{affIterations}{vector of iterations for low-dimensional registration.
+we will set the smoothing and multi-resolution parameters based on the 
+length of this vector.}
 
 \item{regIterations}{vector of iterations for syn.  we will set the smoothing
 and multi-resolution parameters based on the length of this vector.}
 
-\item{multivariateExtras}{list of additional images and metrics which will trigger the use of multiple metrics in the registration process in the deformable stage. Multivariate metrics needs 5 entries: name of metric, fixed, moving, weight, samplingParam.  the list should be of the form \code{ list( list( "nameOfMetric2", img, img, weight, metricParam ) ) }.  Another example would be \code{ list( list( "MeanSquares", f2, m2, 0.5, 0 ), list( "CC", f2, m2, 0.5, 2 ) ) }.  This is only compatible with the \code{SyNOnly} transformation.}
+\item{multivariateExtras}{list of additional images and metrics which will 
+trigger the use of multiple metrics in the registration process 
+in the deformable stage. Multivariate metrics needs 5 entries: 
+name of metric, fixed, moving, weight, samplingParam.  
+the list should be of the form 
+\code{ list( list( "nameOfMetric2", img, img, weight, metricParam ) ) }.  
+Another example would be \code{ list( list( "MeanSquares", f2, m2, 0.5, 0 ), 
+list( "CC", f2, m2, 0.5, 2 ) ) }.  This is only compatible with the 
+\code{SyNOnly} transformation.}
 
-\item{restrictTransformation}{This option allows the user to restrict the optimization of the displacement field, translation, rigid or affine transform on a per-component basis. For example, if one wants to limit the deformation or rotation of 3-D volume to the first two dimensions, this is possible by specifying a weight vector of \code{c(1,1,0)} for a 3D deformation field or \code{c(1,1,0,1,1,0)} for a rigid transformation. Restriction currently only works if there are no preceding transformations.}
+\item{restrictTransformation}{This option allows the user to restrict the 
+optimization of the displacement field, translation, rigid or affine 
+transform on a per-component basis. For example, if one wants to limit 
+the deformation or rotation of 3-D volume to the first two dimensions, 
+this is possible by specifying a weight vector of \code{c(1,1,0)} for a 
+3D deformation field or \code{c(1,1,0,1,1,0)} for a rigid transformation. 
+Restriction currently only works if there are no preceding transformations.}
 
 \item{verbose}{request verbose output (useful for debugging)}
 
@@ -72,7 +87,8 @@ typeofTransform can be one of:
 \itemize{
   \item{"Translation": }{Translation transformation.}
   \item{"Rigid": }{Rigid transformation: Only rotation and translation.}
-  \item{"Similarity": }{Similarity transformation: scaling, rotation and translation.}
+  \item{"Similarity": }{Similarity transformation: scaling, rotation and 
+  translation.}
   \item{"QuickRigid": }{Rigid transformation: Only rotation and translation.
   May be useful for quick visualization fixes.'}
   \item{"DenseRigid": }{Rigid transformation: Only rotation and translation.
@@ -109,7 +125,8 @@ typeofTransform can be one of:
   \item{"SyNAggro": }{SyN, but with more aggressive registration
     (fine-scale matching and more deformation).  Takes more time than \code{SyN}.}
   \item{"TVMSQ": }{time-varying diffeomorphism with mean square metric}
-  \item{"TVMSQC": }{time-varying diffeomorphism with mean square metric for very large deformation}
+  \item{"TVMSQC": }{time-varying diffeomorphism with mean square metric 
+  for very large deformation}
 }
 }
 \examples{
@@ -118,7 +135,7 @@ fi <- antsImageRead(getANTsRData("r16") )
 mi <- antsImageRead(getANTsRData("r64") )
 mytx2 <- antsRegistration(fixed=fi,  typeofTransform = '')
 rig <- antsRegistration(fixed=fi, moving = mi,
- typeofTransform = 'Rigid')
+ typeofTransform = 'Rigid', verbose = TRUE)
 trans = readAntsrTransform(rig$fwdtransforms, 2)
 postrig <- antsRegistration(fixed=fi, moving=mi,
 typeofTransform = "Affine", initialTransform = trans) 
@@ -127,6 +144,12 @@ for (itype in c("AffineFast", "BOLDAffine", "QuickRigid",
 mytx2 <- antsRegistration(fixed=fi, moving=mi,
 typeofTransform = itype)
 } 
+mytx2 <- antsRegistration(fixed=fi, moving=mi,
+typeofTransform = "SyNOnly", 
+multivariateExtras = list(list( "MeanSquares", fi, mi, 0.5, 0 )) )
+testthat::expect_error(
+antsRegistration(fixed=fi, moving=mi, typeofTransform = "sdf")
+)
 bad <- antsRegistration(fixed=fi, moving=mi, regIterations = 40)
 
 

@@ -25,5 +25,10 @@ img <- resampleImage( img, c(64,64), 1, 0 )
 mask <- getMask(img)
 segs1 = kmeansSegmentation( img, 3 )
 labelStats(img, segs1$segmentation)
+testthat::expect_error(labelStats(img, as.array(segs1$segmentation)))
+testthat::expect_error(labelStats(img, as.array(segs1$segmentation)))
+sub_seg = segs1$segmentation
+sub_seg = as.antsImage(sub_seg[1:62, 1:62], reference = sub_seg)
+testthat::expect_error(labelStats(img, sub_seg))
 
 }

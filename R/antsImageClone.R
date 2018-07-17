@@ -15,9 +15,15 @@
 #' img <- antsImageRead(getANTsRData("r16"), 2)
 #' img2 <- antsImageClone(img)
 #' img.int <- antsImageClone(img , "unsigned int")
+#' multi = antsImageRead(getANTsRData("multi_component_image"))
+#' img <- antsImageRead(getANTsRData("r16"), 2)
+#' m2 = antsImageClone(multi)
 #'
 #' @export antsImageClone
 antsImageClone <- function(in_image, out_pixeltype = in_image@pixeltype) {
+  # this condition I believe is impossible
+  # if in_image = NULL, then first condition is FALSE (it's 0, not 1)
+  # if in_image is vector, still condition false
   if (length(dim(in_image)) == 1)
     if (dim(in_image)[1] == 1)
       return(NULL)
