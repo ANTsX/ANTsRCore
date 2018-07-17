@@ -306,6 +306,26 @@ is.antsImage(sqrt(2) * img01)
 is.antsImage(img02 / pi)
 img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
 is.antsImage(img01 == img01)
+is.antsImage(img01 == as.array(img01))
+is.antsImage(img01 == 1)
+is.antsImage(as.array(img01) == img01)
+
+is.antsImage(img01 >= img01)
+is.antsImage(img01 >= as.array(img01))
+is.antsImage(img01 >= 1)
+is.antsImage(as.array(img01) >= img01) 
+
+
+is.antsImage(img01 <= img01)
+is.antsImage(img01 <= as.array(img01))
+is.antsImage(img01 <= 1)
+is.antsImage(as.array(img01) <= img01)  
+
+is.antsImage(img01 != img01)
+is.antsImage(img01 != as.array(img01))
+is.antsImage(img01 != 1)
+is.antsImage(as.array(img01) != img01) 
+
 img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
 mask1 = img01 == 1
 mask2 = img01 == 2
@@ -314,6 +334,14 @@ testthat::expect_true(is.antsImage(mask2))
 testthat::expect_true(is.antsImage(mask1 & mask2))
 testthat::expect_true(is.antsImage(mask1 | mask2))
 testthat::expect_true(is.antsImage(as.array(mask2) | mask1))
+testthat::expect_true(is.antsImage(as.array(mask2) & mask1))
+testthat::expect_true(is.antsImage(mask2 | as.array(mask1)))
+testthat::expect_true(is.antsImage(mask2 & as.array(mask1)))
+
+testthat::expect_true(is.antsImage(mask2 | 1))
+testthat::expect_true(is.antsImage(mask2 | TRUE))
+testthat::expect_true(is.antsImage(mask2 & 1))
+testthat::expect_true(is.antsImage(mask2 & TRUE)) 
 }
 \author{
 John Muschellli \email{muschellij2@gmail.com}

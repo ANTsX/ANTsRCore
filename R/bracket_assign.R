@@ -13,23 +13,45 @@ setMethod(
     mask <- logical(0)
     region <-
       new("antsRegion", index = integer(), size = integer())
-    return(.Call("antsImage_SetRegion", x, mask, region, value, PACKAGE = "ANTsRCore"))
+    return(.Call("antsImage_SetRegion", x, mask, 
+                 region, value, PACKAGE = "ANTsRCore"))
   }
 )
 
 #' @rdname brackets
 #' @aliases [<-,antsImage,logical-method
+#' @examples
+#' fi <- antsImageRead(getANTsRData( "r16" ))
+#' l = prod(dim(fi))
+#' sub = sample(c(TRUE, FALSE), size = l, replace = TRUE)
+#' fi[sub] = rnorm(sum(sub))
+#' 
 setMethod(
   f = "[<-",
   signature(x = "antsImage", i = "logical"),
   definition = function(x, i, j, ..., value) {
     region <- new("antsRegion", index = integer(), size = integer())
-    return(.Call("antsImage_SetRegion", x, i, region, value, PACKAGE = "ANTsRCore"))
+    return(.Call("antsImage_SetRegion", x, 
+                 i, region, value, PACKAGE = "ANTsRCore"))
   }
 )
 
 #' @rdname brackets
 #' @aliases [<-,antsImage,array-method
+#' @examples
+#' fi <- antsImageRead(getANTsRData( "ch2" ))
+#' fi[2, 1, 2]
+#' fi[, 1, 2]
+#' fi[2, , 2]
+#' # fi[2, 1, ]
+#' # fi[, 1, ]
+#' # fi[2, , ]
+#' fi[, , 2]
+#' 
+#' l = prod(dim(fi))
+#' sub = sample(c(TRUE, FALSE), size = l, replace = TRUE)
+#' sub = array(sub, dim = dim(fi))
+#' fi[sub] = rnorm(sum(sub))
 setMethod(
   f = "[<-",
   signature(x = "antsImage", i = "array"),
@@ -39,13 +61,20 @@ setMethod(
     }
     region <-
       new("antsRegion", index = integer(), size = integer())
-    return(.Call("antsImage_SetRegion", x, i, region, value, PACKAGE = "ANTsRCore"))
+    return(.Call("antsImage_SetRegion", x, 
+                 i, region, value, PACKAGE = "ANTsRCore"))
   }
 )
 
 
 #' @rdname brackets
 #' @aliases [<-,antsImage,matrix-method
+#' @examples
+#' fi <- antsImageRead(getANTsRData( "r16" ))
+#' l = prod(dim(fi))
+#' sub = sample(c(TRUE, FALSE), size = l, replace = TRUE)
+#' sub = array(sub, dim = dim(fi))
+#' fi[sub] = rnorm(sum(sub))
 setMethod(
   f = "[<-",
   signature(x = "antsImage", i = "matrix"),
@@ -55,7 +84,8 @@ setMethod(
     }
     region <-
       new("antsRegion", index = integer(), size = integer())
-    return(.Call("antsImage_SetRegion", x, i, region, value, PACKAGE = "ANTsRCore"))
+    return(.Call("antsImage_SetRegion", x, 
+                 i, region, value, PACKAGE = "ANTsRCore"))
   }
 )
 
@@ -73,12 +103,16 @@ setMethod(
     if (class(i$region) != "antsRegion") {
       stop("'region' provided is not of class 'antsRegion'")
     }
-    return(.Call("antsImage_SetRegion", x, i$mask, i$region, value, PACKAGE = "ANTsRCore"))
+    return(.Call("antsImage_SetRegion", x, 
+                 i$mask, i$region, value, PACKAGE = "ANTsRCore"))
   }
 )
 
 #' @rdname brackets
 #' @aliases [<-,antsImage,antsImage-method
+#' @examples
+#' fi <- antsImageRead(getANTsRData( "r16" ))
+#' fi[ fi > 200 ] = 200
 setMethod(
   f = "[<-",
   signature(x = "antsImage", i = "antsImage"),
@@ -86,7 +120,8 @@ setMethod(
     if ( i@pixeltype != "unsigned char") {
       i = antsImageClone(i, out_pixeltype="unsigned char")
     }
-    return(.Call("antsImage_SetByImage", x, i, value, PACKAGE = "ANTsRCore"))
+    return(.Call("antsImage_SetByImage", 
+                 x, i, value, PACKAGE = "ANTsRCore"))
   }
 )
 
@@ -98,7 +133,8 @@ setMethod(
   signature(x = "antsImage", i = "NULL", j = "antsRegion"),
   definition = function(x, i, j, ..., value) {
     mask <- logical(0)
-    return(.Call("antsImage_SetRegion", x, mask, j, value, PACKAGE = "ANTsRCore"))
+    return(.Call("antsImage_SetRegion", 
+                 x, mask, j, value, PACKAGE = "ANTsRCore"))
   }
 )
 
@@ -108,7 +144,8 @@ setMethod(
   f = "[<-",
   signature(x = "antsImage", i = "logical", j = "antsRegion"),
   definition = function(x, i, j, ..., value) {
-    return(.Call("antsImage_SetRegion", x, i, j, value, PACKAGE = "ANTsRCore"))
+    return(.Call("antsImage_SetRegion", 
+                 x, i, j, value, PACKAGE = "ANTsRCore"))
   }
 )
 
@@ -122,7 +159,8 @@ setMethod(
     if (typeof(i) != "logical") {
       stop("'mask' provided is not of type 'logical'")
     }
-    return(.Call("antsImage_SetRegion", x, i, j, value, PACKAGE = "ANTsRCore"))
+    return(.Call("antsImage_SetRegion", 
+                 x, i, j, value, PACKAGE = "ANTsRCore"))
   }
 )
 
@@ -135,7 +173,8 @@ setMethod(
     if (typeof(i) != "logical") {
       stop("'mask' provided is not of type 'logical'")
     }
-    return(.Call("antsImage_SetRegion", x, i, j, value, PACKAGE = "ANTsRCore"))
+    return(.Call("antsImage_SetRegion", 
+                 x, i, j, value, PACKAGE = "ANTsRCore"))
   }
 )
 
@@ -158,6 +197,12 @@ setMethod(
 
 #' @rdname brackets
 #' @aliases [<-,antsImage,numeric,numeric,numeric-method
+#' @examples
+#' fi <- antsImageRead(getANTsRData( "r16" ))
+#' i = sample(seq(nrow(fi)), 5)
+#' i = as.numeric(i)
+#' j = i
+#' fi[ i, j ] = 26.2
 setMethod(
   f = "[<-",
   signature(

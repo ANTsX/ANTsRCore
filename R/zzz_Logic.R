@@ -9,6 +9,15 @@
 #' testthat::expect_true(is.antsImage(mask1 & mask2))
 #' testthat::expect_true(is.antsImage(mask1 | mask2))
 #' testthat::expect_true(is.antsImage(as.array(mask2) | mask1))
+#' testthat::expect_true(is.antsImage(as.array(mask2) & mask1))
+#' testthat::expect_true(is.antsImage(mask2 | as.array(mask1)))
+#' testthat::expect_true(is.antsImage(mask2 & as.array(mask1)))
+#' 
+#' testthat::expect_true(is.antsImage(mask2 | 1))
+#' testthat::expect_true(is.antsImage(mask2 | TRUE))
+#' testthat::expect_true(is.antsImage(mask2 & 1))
+#' testthat::expect_true(is.antsImage(mask2 & TRUE)) 
+
 #' @export
 setMethod("&", signature(e1 = "antsImage", e2 = "antsImage"),
           function(e1, e2) {

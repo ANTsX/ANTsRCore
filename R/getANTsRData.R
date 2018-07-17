@@ -8,6 +8,8 @@
 #' @param verbose optional boolean
 #' @param method Method to be used for downloading files,
 #' passed to \code{\link{download.file}}
+#' @param quiet If \code{TRUE}, suppress status messages 
+#' (if any), and the progress bar.
 #' @return filename string
 #' @author Avants BB
 #' @examples
@@ -20,7 +22,8 @@ getANTsRData <- function(fileid,
                          verbose=FALSE,
                          method = ifelse( 
                            Sys.info()['sysname'] == 'Linux',
-                           'wget', 'auto')) {
+                           'wget', 'auto'),
+                         quiet = FALSE) {
   myusage <- "usage: getANTsRData(fileid = whatever , usefixedlocation = TRUE )"
   if (missing(fileid)) {
     print(myusage)

@@ -116,6 +116,20 @@ typeofTransform can be one of:
 
 fi <- antsImageRead(getANTsRData("r16") )
 mi <- antsImageRead(getANTsRData("r64") )
+mytx2 <- antsRegistration(fixed=fi,  typeofTransform = '')
+rig <- antsRegistration(fixed=fi, moving = mi,
+ typeofTransform = 'Rigid')
+trans = readAntsrTransform(rig$fwdtransforms, 2)
+postrig <- antsRegistration(fixed=fi, moving=mi,
+typeofTransform = "Affine", initialTransform = trans) 
+for (itype in c("AffineFast", "BOLDAffine", "QuickRigid",
+"DenseRigid", "BOLDRigid")) {
+mytx2 <- antsRegistration(fixed=fi, moving=mi,
+typeofTransform = itype)
+} 
+bad <- antsRegistration(fixed=fi, moving=mi, regIterations = 40)
+
+
 fi<-resampleImage(fi,c(60,60),1,0)
 mi<-resampleImage(mi,c(50, 50),1,0) # speed up
 mytx <- antsRegistration(fixed=fi, moving=mi, typeofTransform = c('SyN') )

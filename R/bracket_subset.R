@@ -15,6 +15,10 @@
 #' @param value value to assign to the subset in assignment operator
 #'
 #' @aliases [,antsImage,NULL,ANY,ANY-method
+#' @examples
+#' fi <- antsImageRead(getANTsRData( "r16" ))
+#' fi[, 1]
+#' fi[, 2:5]
 setMethod(
   "[",
   c("antsImage", "NULL", "ANY", "ANY"),
@@ -29,6 +33,9 @@ setMethod(
 
 #' @rdname brackets
 #' @aliases [,antsImage,antsImage,ANY,ANY-method
+#' @examples
+#' fi <- antsImageRead(getANTsRData( "r16" ))
+#' fi[ fi > 45]
 setMethod(
   f = "[",
   signature(x = "antsImage", i = "antsImage", j = "ANY", "ANY"),
@@ -63,6 +70,12 @@ setMethod(
 
 #' @rdname brackets
 #' @aliases [,antsImage,logical,ANY,ANY-method
+#' @examples
+#' fi <- antsImageRead(getANTsRData( "r16" ))
+#' arr = c(as.array(fi) > 45)
+#' fi[arr]
+#' fi[ 1:10, 2:14]
+#' fi[ 1:10*1.0, 2:14*1.0]
 setMethod(
   f = "[",
   signature(x = "antsImage", i = "logical", j = "ANY", "ANY"),
