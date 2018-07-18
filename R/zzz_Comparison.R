@@ -87,10 +87,10 @@ setMethod("==", signature(e1 = "antsImage", e2 = "antsImage"),
           })
 
 #' @rdname antsImageops
+#' @aliases ==,antsImage,list-method
 #' @examples
 #' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
-#' testthat::expect_error(img01 == list()) 
-#' @aliases ==,antsImage,list-method
+#' testthat::expect_error(img01 == list())  
 setMethod("==", signature(e1 = "antsImage", e2 = "list"),
           function(e1, e2) {
             stop("antsRegions not done yet!")
@@ -164,6 +164,9 @@ setMethod(">", signature(e1 = "antsImage", e2 = "antsImage"),
 
 #' @rdname antsImageops
 #' @aliases >,antsImage,list-method
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' testthat::expect_error(img01 > list())  
 setMethod(">", signature(e1 = "antsImage", e2 = "list"),
           function(e1, e2) {
             stop("antsRegions not done yet!")
@@ -237,6 +240,9 @@ setMethod("<", signature(e1 = "antsImage", e2 = "antsImage"),
 
 #' @rdname antsImageops
 #' @aliases <,antsImage,list-method
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' testthat::expect_error(img01 < list())   
 setMethod("<", signature(e1 = "antsImage", e2 = "list"),
           function(e1, e2) {
             stop("antsRegions not done yet!")
@@ -310,6 +316,9 @@ setMethod("!=", signature(e1 = "antsImage", e2 = "antsImage"),
 
 #' @rdname antsImageops
 #' @aliases !=,antsImage,list-method
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' testthat::expect_error(img01 != list())  
 setMethod("!=", signature(e1 = "antsImage", e2 = "list"),
           function(e1, e2) {
             stop("antsRegions not done yet!")
@@ -383,6 +392,9 @@ setMethod("<=", signature(e1 = "antsImage", e2 = "antsImage"),
 
 #' @rdname antsImageops
 #' @aliases <=,antsImage,list-method
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' testthat::expect_error(img01 <= list())  
 setMethod("<=", signature(e1 = "antsImage", e2 = "list"),
           function(e1, e2) {
             stop("antsRegions not done yet!")
@@ -456,6 +468,9 @@ setMethod(">=", signature(e1 = "antsImage", e2 = "antsImage"),
 
 #' @rdname antsImageops
 #' @aliases >=,antsImage,list-method
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' testthat::expect_error(img01 >= list())  
 setMethod(">=", signature(e1 = "antsImage", e2 = "list"),
           function(e1, e2) {
             stop("antsRegions not done yet!")

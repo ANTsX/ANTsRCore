@@ -376,7 +376,17 @@ x <- is.antsImage(as.array(img01) != img01)
 et(x)
 
 img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
-testthat::expect_error(img01 == list()) 
+testthat::expect_error(img01 == list())  
+img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+testthat::expect_error(img01 > list())  
+img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+testthat::expect_error(img01 < list())   
+img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+testthat::expect_error(img01 != list())  
+img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+testthat::expect_error(img01 <= list())  
+img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+testthat::expect_error(img01 >= list())  
 img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
 mask1 = img01 == 1
 mask2 = img01 == 2
