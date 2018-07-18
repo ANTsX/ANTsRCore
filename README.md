@@ -5,6 +5,11 @@
 # ANTsRCore
 
 [![Travis Build Status](https://travis-ci.org/ANTsX/ANTsRCore.png?branch=master)](https://travis-ci.org/ANTsX/ANTsRCore)
+[![Coverage status](https://codecov.io/gh/ANTsX/ANTsRCore/branch/master/graph/badge.svg)](https://codecov.io/github/ANTsX/ANTsRCore?branch=master)
+
+muschellij2 coverage badge:
+[![Coverage status](https://codecov.io/gh/muschellij2/ANTsRCore/branch/master/graph/badge.svg)](https://codecov.io/github/muschellij2/ANTsRCore?branch=master)  
+
 A package providing core features for [ANTsR](http://stnava.github.io/ANTsR/).
 
 ## Description

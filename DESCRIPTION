@@ -35,7 +35,8 @@ Suggests:
     viridis,
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    covr
 SystemRequirements: cmake, git, clang
 Remotes: stnava/ITKR
 NeedsCompilation: yes

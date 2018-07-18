@@ -61,7 +61,7 @@ antsImagePhysicalSpaceConsistency <- function(img1, img2, coordinate.tolerance=1
   }
 
   # Image dimension check
-  if ( !all.equal(dim(img1), dim(img2)) )
+  if ( !isTRUE(all.equal(dim(img1), dim(img2)) ))
   {
     #print( "Images are of different size")
     return(FALSE)
