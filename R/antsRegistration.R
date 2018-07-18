@@ -106,7 +106,11 @@
 #' postrig <- antsRegistration(fixed=fi, moving=mi,
 #' typeofTransform = "Affine", initialTransform = trans) 
 #' for (itype in c("AffineFast", "BOLDAffine", "QuickRigid",
-#' "DenseRigid", "BOLDRigid")) {
+#' "DenseRigid", "BOLDRigid", "Translation","Rigid", "Similarity", 
+#' "Affine", "TRSAA", "SyN","SyNRA","SyNOnly","SyNCC","SyNabp", 
+#' "SyNBold", "SyNBoldAff", "SyNAggro", "SyNLessAggro", 
+#' "TVMSQ","TVMSQC","ElasticSyN")) {
+#' print(itype)
 #' mytx2 <- antsRegistration(fixed=fi, moving=mi,
 #' typeofTransform = itype)
 #' } 
@@ -722,6 +726,8 @@ antsrGetPointerName <- function(img) {
 #' @param iterations should be greater than 1 less than 10.
 #' @param gradientStep should be less than 1, speed of shape update step.
 #' Passed to \code{\link{antsRegistration}}
+#' @param verbose print diagnostic messages, 
+#' passed to \code{\link{antsRegistration}}
 #' @param ... Additional options to pass to \code{\link{antsRegistration}}
 #' @return template antsImage
 #' @author Avants BB

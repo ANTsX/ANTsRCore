@@ -140,7 +140,11 @@ trans = readAntsrTransform(rig$fwdtransforms, 2)
 postrig <- antsRegistration(fixed=fi, moving=mi,
 typeofTransform = "Affine", initialTransform = trans) 
 for (itype in c("AffineFast", "BOLDAffine", "QuickRigid",
-"DenseRigid", "BOLDRigid")) {
+"DenseRigid", "BOLDRigid", "Translation","Rigid", "Similarity", 
+"Affine", "TRSAA", "SyN","SyNRA","SyNOnly","SyNCC","SyNabp", 
+"SyNBold", "SyNBoldAff", "SyNAggro", "SyNLessAggro", 
+"TVMSQ","TVMSQC","ElasticSyN")) {
+print(itype)
 mytx2 <- antsRegistration(fixed=fi, moving=mi,
 typeofTransform = itype)
 } 

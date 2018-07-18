@@ -16,10 +16,15 @@ averaging}
 Calculate the mean of a list of antsImages
 }
 \examples{
-r16 <- antsImageRead(getANTsRData('r16'))
-r64 <- antsImageRead(getANTsRData('r64'))
+f1 = getANTsRData('r16')
+f2 = getANTsRData('r64')
+r16 <- antsImageRead(f1)
+r64 <- antsImageRead(f2)
 mylist <- list(r16, r64)
 antsAverageImages(mylist)
+bad = resampleImage(r16, c(2, 2), useVoxels = FALSE)
+antsAverageImages(mylist, normalize = TRUE)
+antsAverageImages(c(f1, f2))
 }
 \author{
 Avants BB, Pustina D

@@ -240,6 +240,20 @@ getPixels <- function(x, i = NA, j = NA, k = NA, l = NA) {
     }
   }
   
+  # should fix the subsetting
+  dx = dim(x)
+  ndim = length(dx)
+  if (ndim > 2) {
+    if (missing(k)) {
+      k = seq(dx[3])
+    }
+  }
+  if (ndim > 3) {
+    if (missing(l)) {
+      l = seq(dx[4])
+    }
+  } 
+  
   if (length(k) != 1 || !is.na(k)) {
     if (is.null(k)) {
       lst <- c(lst, list(integer(0)))

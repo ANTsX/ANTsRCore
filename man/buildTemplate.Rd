@@ -20,6 +20,9 @@ information metric by default. See \code{antsRegistration.}}
 \item{gradientStep}{should be less than 1, speed of shape update step.
 Passed to \code{\link{antsRegistration}}}
 
+\item{verbose}{print diagnostic messages, 
+passed to \code{\link{antsRegistration}}}
+
 \item{...}{Additional options to pass to \code{\link{antsRegistration}}}
 }
 \value{

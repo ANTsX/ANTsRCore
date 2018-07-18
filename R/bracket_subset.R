@@ -173,6 +173,18 @@ setMethod(
                         l = NA,
                         ...,
                         drop) {
+    dx = dim(x)
+    ndim = length(dx)
+    if (ndim > 2) {
+      if (missing(k) || is.na(k)) {
+        k = seq(dx[3])
+      }
+    }
+    if (ndim > 3) {
+      if (missing(l) || is.na(l)) {
+        l = seq(dx[4])
+      }
+    }    
     return(getPixels(x, i, j, k, l))
   }
 )
@@ -189,6 +201,18 @@ setMethod(
                         l = NA,
                         ...,
                         drop) {
+    dx = dim(x)
+    ndim = length(dx)
+    if (ndim > 2) {
+      if (missing(k) || is.na(k)) {
+        k = seq(dx[3])
+      }
+    }
+    if (ndim > 3) {
+      if (missing(l) || is.na(l)) {
+        l = seq(dx[4])
+      }
+    }       
     return(getPixels(x, i, j, k, l))
   }
 )
@@ -205,6 +229,18 @@ setMethod(
                         l = NA,
                         ...,
                         drop) {
+    dx = dim(x)
+    ndim = length(dx)
+    if (ndim > 2) {
+      if (missing(k) || is.na(k)) {
+        k = seq(dx[3])
+      }
+    }
+    if (ndim > 3) {
+      if (missing(l) || is.na(l)) {
+        l = seq(dx[4])
+      }
+    }         
     return(getPixels(x, i, j, k, l))
   }
 )
@@ -221,6 +257,18 @@ setMethod(
                         l = NA,
                         ...,
                         drop) {
+    dx = dim(x)
+    ndim = length(dx)
+    if (ndim > 2) {
+      if (missing(k) || is.na(k)) {
+        k = seq(dx[3])
+      }
+    }
+    if (ndim > 3) {
+      if (missing(l) || is.na(l)) {
+        l = seq(dx[4])
+      }
+    }         
     return(getPixels(x, i, j, k, l))
   }
 )
@@ -237,6 +285,18 @@ setMethod(
                         l = NA,
                         ...,
                         drop) {
+    dx = dim(x)
+    ndim = length(dx)
+    if (ndim > 2) {
+      if (missing(k) || is.na(k)) {
+        k = seq(dx[3])
+      }
+    }
+    if (ndim > 3) {
+      if (missing(l) || is.na(l)) {
+        l = seq(dx[4])
+      }
+    }        
     return(getPixels(x, i, j, k, l))
   }
 )
@@ -253,6 +313,18 @@ setMethod(
                         l = NA,
                         ...,
                         drop) {
+    dx = dim(x)
+    ndim = length(dx)
+    if (ndim > 2) {
+      if (missing(k) || is.na(k)) {
+        k = seq(dx[3])
+      }
+    }
+    if (ndim > 3) {
+      if (missing(l) || is.na(l)) {
+        l = seq(dx[4])
+      }
+    }         
     return(getPixels(x, i, j, k, l))
   }
 )
@@ -269,7 +341,19 @@ setMethod(
                         l = NA,
                         ...,
                         drop) {
-    i <- 1:(dim(x)[1])
+    i <- seq(dim(x)[1])
+    dx = dim(x)
+    ndim = length(dx)
+    if (ndim > 2) {
+      if (missing(k) || is.na(k)) {
+        k = seq(dx[3])
+      }
+    }
+    if (ndim > 3) {
+      if (missing(l) || is.na(l)) {
+        l = seq(dx[4])
+      }
+    }         
     return(getPixels(x, i, j, k, l))
   }
 )
@@ -286,13 +370,28 @@ setMethod(
                         l = NA,
                         ...,
                         drop) {
-    j <- 1:(dim(x)[2])
+    j <- seq(dim(x)[2])
+    dx = dim(x)
+    ndim = length(dx)
+    if (ndim > 2) {
+      if (missing(k) || is.na(k)) {
+        k = seq(dx[3])
+      }
+    }
+    if (ndim > 3) {
+      if (missing(l) || is.na(l)) {
+        l = seq(dx[4])
+      }
+    }        
     return(getPixels(x, i, j, k, l))
   }
 )
 
 #' @rdname brackets
 #' @aliases [,antsImage,missing,missing-method
+#' @examples 
+#' fi <- antsImageRead(getANTsRData( "ch2" ))
+#' fi[, , 2] 
 setMethod(
   f = "[",
   signature(x = "antsImage", i = "missing", j = "missing"),
@@ -303,8 +402,22 @@ setMethod(
                         l = NA,
                         ...,
                         drop) {
-    i <- 1:(dim(x)[1])
-    j <- 1:(dim(x)[2])
+    i <- seq(dim(x)[1])
+    j <- seq(dim(x)[2])
+    
+    # should fix the subsetting
+    dx = dim(x)
+    ndim = length(dx)
+    if (ndim > 2) {
+      if (missing(k) || is.na(k)) {
+        k = seq(dx[3])
+      }
+    }
+    if (ndim > 3) {
+      if (missing(l) || is.na(l)) {
+        l = seq(dx[4])
+      }
+    }  
     return(getPixels(x, i, j, k, l))
   }
 )
