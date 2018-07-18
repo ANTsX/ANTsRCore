@@ -70,8 +70,8 @@ testthat::expect_error(getNeighborhoodInMask(r16,as.numeric(mask),radius),
 "mask must be")
 testthat::expect_error(getNeighborhoodInMask(r16,mask,as.character(radius)), 
 "radius must be")
-testthat::expect_error(getNeighborhoodInMask(r16,mask,c(radius, 3)),
-"Radius must") 
+# testthat::expect_error(getNeighborhoodInMask(r16,mask,c(radius, 3)),
+# "Radius must") 
 
 }
 \author{
