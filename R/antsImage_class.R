@@ -309,19 +309,19 @@ getPixels <- function(x, i = NA, j = NA, k = NA, l = NA) {
 #' @export
 #' @examples
 #' img <- makeImage(c(5,5), rnorm(25))
-#' antsGetSpacing(outimg)
+#' antsGetSpacing(img)
 #' antsSetSpacing(img, c(2.0, 2.0))
-#' antsGetOrigin(outimg)
+#' antsGetOrigin(img)
 #' antsSetOrigin(img, c(0.5, 0.5))
-#' testthat::expect_error(antsGetSpacing(as.array(outimg) ) )
-#' testthat::expect_error(antsSetSpacing(as.array(outimg), c(2,2) ), "class" )
-#' testthat::expect_error(antsSetSpacing(outimg, c("2",2) ), "numeric" )
-#' testthat::expect_error(antsSetSpacing(outimg, c(3,3,3) ), "dimensions" )
+#' testthat::expect_error(antsGetSpacing(as.array(img) ) )
+#' testthat::expect_error(antsSetSpacing(as.array(img), c(2,2) ), "class" )
+#' testthat::expect_error(antsSetSpacing(img, c("2",2) ), "numeric" )
+#' testthat::expect_error(antsSetSpacing(img, c(3,3,3) ), "dimensions" )
 #' 
-#' testthat::expect_error(antsGetOrigin(as.array(outimg) ) )
-#' testthat::expect_error(antsSetOrigin(as.array(outimg), c(0.5, 0.5) ) )
-#' testthat::expect_error(antsSetOrigin(outimg, c("0.5", 0.5) ) )
-#' testthat::expect_error(antsSetOrigin(outimg, c(0.5, 0.5, 0.5) ) )
+#' testthat::expect_error(antsGetOrigin(as.array(img) ) )
+#' testthat::expect_error(antsSetOrigin(as.array(img), c(0.5, 0.5) ) )
+#' testthat::expect_error(antsSetOrigin(img, c("0.5", 0.5) ) )
+#' testthat::expect_error(antsSetOrigin(img, c(0.5, 0.5, 0.5) ) )
 antsGetSpacing <- function(x) {
   if (class(x)[1] != "antsImage") {
     stop("Input must be of class 'antsImage'")
@@ -381,8 +381,8 @@ antsSetOrigin <- function(x, origin) {
 #' @export
 #' @examples
 #' img <- makeImage(c(5,5), rnorm(25))
-#' antsGetDirection(outimg)
-#' testthat::expect_error(antsGetDirection(as.array(outimg) ) )
+#' antsGetDirection(img)
+#' testthat::expect_error(antsGetDirection(as.array(img) ) )
 
 antsGetDirection <- function(x) {
   if (class(x)[1] != "antsImage") {
@@ -396,7 +396,7 @@ antsGetDirection <- function(x) {
 #' @param direction matrix of size \code{d * d}.
 #' @export
 #' @examples
-#' img <- makeImage(c(5,5), rnorm(25))
+#' outimg <- makeImage(c(5,5), rnorm(25))
 #' antsGetDirection(outimg)
 #' direct = antsGetDirection(outimg)
 #' antsSetDirection(outimg, direct)
