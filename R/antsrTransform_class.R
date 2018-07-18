@@ -360,7 +360,8 @@ applyAntsrTransformToImage <- function(transform, image, reference, interpolatio
 #' tx = createAntsrTransform( type="Euler3DTransform", translation=trans )
 #' txfile = tempfile(fileext = ".mat")
 #' writeAntsrTransform(tx, txfile)
-#' tx = readAntsrTransform(txfile)
+#' tx2 = readAntsrTransform(txfile)
+#' testthat::expect_error(readAntsrTransform(txfile, 2), "space dim")
 #' @export
 readAntsrTransform <- function( filename, dimension=NA, precision="float" )  {
   return(.Call("antsrTransform_Read", filename, dimension, precision, PACKAGE="ANTsRCore"))
