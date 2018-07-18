@@ -20,4 +20,5 @@ Stop if not an antsImage object
 \examples{
 img = antsImageRead(getANTsRData('r16'), 2)
 error_not_antsImage(img) 
+testthat::expect_error(error_not_antsImage(as.array(img)))
 }

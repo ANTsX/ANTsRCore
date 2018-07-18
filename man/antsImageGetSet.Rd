@@ -40,6 +40,27 @@ Get and set methods for image header information
 }
 \examples{
 img <- makeImage(c(5,5), rnorm(25))
+antsGetSpacing(outimg)
 antsSetSpacing(img, c(2.0, 2.0))
+antsGetOrigin(outimg)
 antsSetOrigin(img, c(0.5, 0.5))
+testthat::expect_error(antsGetSpacing(as.array(outimg) ) )
+testthat::expect_error(antsSetSpacing(as.array(outimg), c(2,2) ), "class" )
+testthat::expect_error(antsSetSpacing(outimg, c("2",2) ), "numeric" )
+testthat::expect_error(antsSetSpacing(outimg, c(3,3,3) ), "dimensions" )
+
+testthat::expect_error(antsGetOrigin(as.array(outimg) ) )
+testthat::expect_error(antsSetOrigin(as.array(outimg), c(0.5, 0.5) ) )
+testthat::expect_error(antsSetOrigin(outimg, c("0.5", 0.5) ) )
+testthat::expect_error(antsSetOrigin(outimg, c(0.5, 0.5, 0.5) ) )
+img <- makeImage(c(5,5), rnorm(25))
+antsGetDirection(outimg)
+testthat::expect_error(antsGetDirection(as.array(outimg) ) )
+img <- makeImage(c(5,5), rnorm(25))
+antsGetDirection(outimg)
+direct = antsGetDirection(outimg)
+antsSetDirection(outimg, direct)
+testthat::expect_error(antsSetDirection(as.array(outimg), direct) ) 
+testthat::expect_error(antsSetDirection(outimg, as.numeric(direct)) ) 
+testthat::expect_error(antsSetDirection(outimg, diag(length(dim(outimg))+1) ))
 }

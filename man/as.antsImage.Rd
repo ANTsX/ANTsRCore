@@ -45,3 +45,8 @@ as.antsImage(object, pixeltype = "float", spacing = as.numeric(seq.int(from
 \description{
 Convert types to antsImage
 }
+\examples{
+arr = array(rnorm(10^3), dim = rep(10, 3))
+img = as.antsImage(arr)
+i2 = as.antsImage(arr, reference = img)
+}

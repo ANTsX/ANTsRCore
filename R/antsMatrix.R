@@ -87,6 +87,11 @@ setGeneric(name = "as.antsMatrix", def = function(object,
 
 #' @rdname as.antsMatrix
 #' @aliases as.antsMatrix,list-method
+#' @examples
+#' mat = matrix(rnorm(10), nrow=2)
+#' df = as.data.frame(mat)
+#' as.antsMatrix(df)
+#' as.antsMatrix(as.list(df))
 setMethod(f = "as.antsMatrix", signature(object = "list"),
   definition = function(object, elementtype="float") {
   return(.Call("antsMatrix_asantsMatrix", object, elementtype, PACKAGE = "ANTsRCore"))

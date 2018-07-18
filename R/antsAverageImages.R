@@ -15,6 +15,11 @@
 #' bad = resampleImage(r16, c(2, 2), useVoxels = FALSE)
 #' antsAverageImages(mylist, normalize = TRUE)
 #' antsAverageImages(c(f1, f2))
+#' testthat::expect_error(antsAverageImages(list(f1, "")))
+#' testthat::expect_error(antsAverageImages(list(r64, bad)))
+#' diff_size = as.antsImage(r64[1:10, 1:10], ref = r64)
+#' testthat::expect_error(antsAverageImages(list(r64, diff_size)))
+#' 
 #' @export
 antsAverageImages <- function( imageList, normalize = FALSE)
   {

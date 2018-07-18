@@ -1264,8 +1264,9 @@ try
 
   if ( radius.size() != dimension )
     {
-    Rcpp::Rcout << "Radius must have same dimension as image" << std::endl ;
-    return Rcpp::wrap( NA_REAL );
+    Rcpp::stop("Radius must have same dimension as image");
+    // Rcpp::Rcout << "Radius must have same dimension as image" << std::endl ;
+    //return Rcpp::wrap( NA_REAL );
     }
 
   if ( pixeltype == "double")

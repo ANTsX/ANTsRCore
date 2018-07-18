@@ -96,6 +96,9 @@ setMethod(f = "dim", signature(x = "antsImage"), definition = function(x) {
 #' @rdname as.array
 #' @aliases is.na,antsImage-method .
 #' @export
+#' @examples 
+#' outimg<-makeImage( c(2,10) , 1)
+#' is.na(outimg)
 setMethod(f = "is.na", signature(x = "antsImage"), definition = function(x) {
   val <- .Call("antsImage_isna", x, PACKAGE = "ANTsRCore")
   if (val > 0) {
@@ -109,6 +112,12 @@ setMethod(f = "is.na", signature(x = "antsImage"), definition = function(x) {
 #' @param mask a logical vector/array or binary antsImage object
 #' @param region a \code{antsRegion} object
 #' @export
+#' @examples 
+#' outimg<-makeImage( c(2,10) , rnorm(20))
+#' as.numeric(outimg) 
+#' as.numeric(outimg, mask = outimg > 1) 
+#'  testthat::expect_error(as.numeric(outimg, mask = outimg))
+#' 
 setMethod(f = "as.numeric", signature(x = "antsImage"),
           definition = function(x,
                                 mask = logical(),
@@ -127,6 +136,13 @@ setMethod(f = "as.numeric", signature(x = "antsImage"),
 #' @rdname as.array
 #' @aliases as.matrix,antsImage-method
 #' @export
+#' @examples 
+#' outimg<-makeImage( c(2,10) , rnorm(20))
+#' as.matrix(outimg) 
+#' as.matrix(outimg, mask = outimg > 1)  
+#' testthat::expect_error(as.matrix(outimg, mask = outimg) )
+#' outimg<-makeImage( c(2,10,2) , rnorm(40))
+#' testthat::expect_error(as.matrix(outimg) )
 setMethod(f = "as.matrix", signature(x = "antsImage"),
           definition = function(x, mask = logical(),
                                 region = new("antsRegion", index = integer(), size = integer())) {
@@ -176,6 +192,12 @@ setMethod(f = "as.array", signature(x = "antsImage"),
 #' @rdname as.array
 #' @export
 #' @method as.array antsImage
+#' @examples 
+#' outimg<-makeImage( c(2,10) , rnorm(20))
+#' as.matrix(outimg) 
+#' as.matrix(outimg, mask = outimg > 1)  
+#' outimg<-makeImage( c(2,10,2) , rnorm(40))
+#' testthat::expect_error(as.matrix(outimg) ) 
 as.array.antsImage = function(x, ..., mask = logical(),
                               region = new("antsRegion", index = integer(),
                                            size = integer())) {
@@ -287,8 +309,19 @@ getPixels <- function(x, i = NA, j = NA, k = NA, l = NA) {
 #' @export
 #' @examples
 #' img <- makeImage(c(5,5), rnorm(25))
+#' antsGetSpacing(outimg)
 #' antsSetSpacing(img, c(2.0, 2.0))
+#' antsGetOrigin(outimg)
 #' antsSetOrigin(img, c(0.5, 0.5))
+#' testthat::expect_error(antsGetSpacing(as.array(outimg) ) )
+#' testthat::expect_error(antsSetSpacing(as.array(outimg), c(2,2) ), "class" )
+#' testthat::expect_error(antsSetSpacing(outimg, c("2",2) ), "numeric" )
+#' testthat::expect_error(antsSetSpacing(outimg, c(3,3,3) ), "dimensions" )
+#' 
+#' testthat::expect_error(antsGetOrigin(as.array(outimg) ) )
+#' testthat::expect_error(antsSetOrigin(as.array(outimg), c(0.5, 0.5) ) )
+#' testthat::expect_error(antsSetOrigin(outimg, c("0.5", 0.5) ) )
+#' testthat::expect_error(antsSetOrigin(outimg, c(0.5, 0.5, 0.5) ) )
 antsGetSpacing <- function(x) {
   if (class(x)[1] != "antsImage") {
     stop("Input must be of class 'antsImage'")
@@ -346,6 +379,11 @@ antsSetOrigin <- function(x, origin) {
 #' @rdname antsImageGetSet
 #' @usage antsGetDirection(x)
 #' @export
+#' @examples
+#' img <- makeImage(c(5,5), rnorm(25))
+#' antsGetDirection(outimg)
+#' testthat::expect_error(antsGetDirection(as.array(outimg) ) )
+
 antsGetDirection <- function(x) {
   if (class(x)[1] != "antsImage") {
     stop("Input must be of class 'antsImage'")
@@ -357,6 +395,14 @@ antsGetDirection <- function(x) {
 #' @usage antsSetDirection(x, direction)
 #' @param direction matrix of size \code{d * d}.
 #' @export
+#' @examples
+#' img <- makeImage(c(5,5), rnorm(25))
+#' antsGetDirection(outimg)
+#' direct = antsGetDirection(outimg)
+#' antsSetDirection(outimg, direct)
+#' testthat::expect_error(antsSetDirection(as.array(outimg), direct) ) 
+#' testthat::expect_error(antsSetDirection(outimg, as.numeric(direct)) ) 
+#' testthat::expect_error(antsSetDirection(outimg, diag(length(dim(outimg))+1) ))
 antsSetDirection <- function(x, direction) {
   if (class(x)[1] != "antsImage") {
     stop("Input must be of class 'antsImage'")
@@ -394,6 +440,14 @@ antsSetDirection <- function(x, direction) {
 #' kernel <- 1*(rnorm(49)>0)
 #' dim(kernel) <- c(7,7)
 #' randlist <- getNeighborhoodAtVoxel(img,center,kernel)
+#' randlist <- getNeighborhoodAtVoxel(img,center,kernel, 
+#' physical.coordinates = TRUE)
+#' arr = as.array(img)
+#' testthat::expect_error(getNeighborhoodAtVoxel(arr,center,kernel), "class")
+#' testthat::expect_error(getNeighborhoodAtVoxel(img,as.character(center),kernel), 
+#' "center must be")
+#' testthat::expect_error(getNeighborhoodAtVoxel(img,center,c(radius, 3)),
+#' "kernel must have same") 
 #' 
 #' @export
 getNeighborhoodAtVoxel <- function(image, center, kernel, physical.coordinates = FALSE ) {
@@ -472,7 +526,20 @@ getNeighborhoodAtVoxel <- function(image, center, kernel, physical.coordinates =
 #' mask <- getMask(r16,lowThresh=mean(r16),cleanup=1)
 #' radius <- rep(2,2)
 #' mat <- getNeighborhoodInMask(r16,mask,radius)
-#'
+#' mat <- getNeighborhoodInMask(r16,mask,radius,
+#' boundary.condition ="image")
+#' mat <- getNeighborhoodInMask(r16,mask,radius,
+#' boundary.condition ="mean") 
+#' randlist <- getNeighborhoodInMask(r16,mask,radius,
+#' physical.coordinates = TRUE)
+#' arr = as.array(r16)
+#' testthat::expect_error(getNeighborhoodInMask(arr,mask,radius), "antsImage")
+#' testthat::expect_error(getNeighborhoodInMask(r16,as.numeric(mask),radius), 
+#' "mask must be")
+#' testthat::expect_error(getNeighborhoodInMask(r16,mask,as.character(radius)), 
+#' "radius must be")
+#' testthat::expect_error(getNeighborhoodInMask(r16,mask,c(radius, 3)),
+#' "Radius must") 
 #'
 #' @export
 getNeighborhoodInMask <- function(image, mask, radius, physical.coordinates = FALSE,
@@ -483,7 +550,7 @@ getNeighborhoodInMask <- function(image, mask, radius, physical.coordinates = FA
   }
   
   if ((class(mask) != "antsImage")) {
-    stop("center must be of class 'antsImage'")
+    stop("mask must be of class 'antsImage'")
   }
   
   if ((class(radius) != "numeric")) {
@@ -545,7 +612,13 @@ getNeighborhoodInMask <- function(image, mask, radius, physical.coordinates = FA
 #' @examples
 #' img <- makeImage(c(10,10),rnorm(100))
 #' pt <- antsTransformIndexToPhysicalPoint(img, c(2,2))
-#'
+#' arr = as.array(img)
+#' testthat::expect_error(
+#' antsTransformIndexToPhysicalPoint(arr,c(2,2)), "antsImage")
+#' testthat::expect_error(
+#' antsTransformIndexToPhysicalPoint(img,c("2",2)), "index must be") 
+#' testthat::expect_error(
+#' antsTransformIndexToPhysicalPoint(img,c(2,2,2)), "matrix must be of")  
 #'
 #' @export
 antsTransformIndexToPhysicalPoint <- function(x, index) {
@@ -581,7 +654,13 @@ antsTransformIndexToPhysicalPoint <- function(x, index) {
 #' @examples
 #' img<-makeImage(c(10,10),rnorm(100))
 #' pt<-antsTransformPhysicalPointToIndex(img,c(2,2))
-#'
+#' arr = as.array(img)
+#' testthat::expect_error(
+#' antsTransformPhysicalPointToIndex(arr,c(2,2)), "antsImage")
+#' testthat::expect_error(
+#' antsTransformPhysicalPointToIndex(img,c("2",2)), "point must be") 
+#' testthat::expect_error(
+#' antsTransformPhysicalPointToIndex(img,c(2,2,2)), "matrix must be of")
 #'
 #' @export
 antsTransformPhysicalPointToIndex <- function(x, point) {
@@ -717,6 +796,10 @@ setMethod(f = "as.antsImage", signature(object = "matrix"), definition = functio
 
 #' @rdname as.antsImage
 #' @aliases as.antsImage,array-method
+#' @examples 
+#' arr = array(rnorm(10^3), dim = rep(10, 3))
+#' img = as.antsImage(arr)
+#' i2 = as.antsImage(arr, reference = img)
 setMethod(f = "as.antsImage", signature(object = "array"), definition = function(object,
                                                                                  pixeltype = "float", spacing = as.numeric(seq.int(from = 1, by = 0, length.out = length(dim(object)))),
                                                                                  origin = as.numeric(seq.int(from = 0, by = 0, length.out = length(dim(object)))),
@@ -757,6 +840,7 @@ is.antsImage <- function(x){
 #' @examples
 #' img = antsImageRead(getANTsRData('r16'), 2)
 #' error_not_antsImage(img) 
+#' testthat::expect_error(error_not_antsImage(as.array(img)))
 error_not_antsImage = function(x, argname = "") {
   if (!is.antsImage(x)) {
     stop(paste("Object", argname, "is not an antsImage object!"))

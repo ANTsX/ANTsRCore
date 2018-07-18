@@ -18,6 +18,7 @@
 #'
 #' img <- antsImageRead( getANTsRData("rand")  ) %>% resampleImage( c(32, 32) )
 #' dimg <- denoiseImage( img, img * 0 + 1 )
+#' dimg2 <- denoiseImage( img)
 #'
 #' @export denoiseImage
 denoiseImage <- function(
@@ -30,6 +31,7 @@ denoiseImage <- function(
   verbose = FALSE )
   {
   outimg = antsImageClone( img )
+  noiseModel = match.arg(noiseModel)
   mydim = img@dimension
   if (  ! missing( mask ) ) {
     mskIn = antsImageClone( mask, 'unsigned char')
