@@ -1270,6 +1270,45 @@ catch(...)
 return Rcpp::wrap(NA_REAL); //not reached
 }
 
+template<class PrecisionType>
+unsigned int antsrTransform_GetDimensionFromFile( SEXP r_filename )
+{
+  std::string filename = Rcpp::as<std::string>( r_filename );
+
+  typedef itk::TransformFileReaderTemplate<PrecisionType> TransformReaderType;
+  typename TransformReaderType::Pointer reader = TransformReaderType::New();
+  reader->SetFileName( filename );
+  reader->Update();
+
+  typedef typename TransformReaderType::TransformListType TransformListType;
+  const typename TransformReaderType::TransformListType * transformList = reader->GetTransformList();
+
+  unsigned int dim = 0;
+  unsigned int count = 0;
+
+  typedef typename TransformListType::const_iterator TransformIteratorType;
+  for (TransformIteratorType i = transformList->begin(); i != transformList->end(); ++i)
+  {
+    unsigned int inDim = (*i)->GetInputSpaceDimension();
+    unsigned int outDim = (*i)->GetOutputSpaceDimension();
+    if (count == 0 ) {
+      dim = inDim;
+    }
+    else {
+      if (inDim != dim ) {
+        Rcpp::stop( "All transforms must have the same dimension");
+      }
+    }
+
+    if ( inDim != outDim ) {
+      Rcpp::stop( "Must have same input and output dimensions");
+    }
+
+    ++count;
+  }
+
+  return(dim);
+}
 
 template< class PrecisionType, unsigned int Dimension >
 SEXP antsrTransform_Read( SEXP r_filename, SEXP r_precision )
@@ -1289,7 +1328,20 @@ SEXP antsrTransform_Read( SEXP r_filename, SEXP r_precision )
   reader->Update();
 
   const typename TransformReaderType::TransformListType * transformList = reader->GetTransformList();
-  //Rcpp::Rcout << "Number of transforms = " << transformList->size() << std::endl;
+
+  typedef typename TransformListType::const_iterator TransformIteratorType;
+  for (TransformIteratorType i = transformList->begin(); i != transformList->end(); ++i)
+  {
+    unsigned int inDim = (*i)->GetInputSpaceDimension();
+    unsigned int outDim = (*i)->GetOutputSpaceDimension();
+    if ( inDim != Dimension ) {
+      Rcpp::stop( "Invalid input space dimension");
+    }
+    if ( outDim != Dimension ) {
+      Rcpp::stop( "Invalid output space dimension");
+    }
+  }
+
 
   Rcpp::S4 antsrTransform( "antsrTransform" );
   antsrTransform.slot("dimension") = Dimension;
@@ -1300,7 +1352,7 @@ SEXP antsrTransform_Read( SEXP r_filename, SEXP r_precision )
   if ( transformList->size() > 1 )
   {
     typename CompositeTransformType::Pointer comp_transform = CompositeTransformType::New();
-    typedef typename TransformListType::const_iterator TransformIteratorType;
+
     for (TransformIteratorType i = transformList->begin(); i != transformList->end(); ++i)
     {
       comp_transform->AddTransform( dynamic_cast<TransformBaseType *>( i->GetPointer()) );
@@ -1329,6 +1381,19 @@ try
 {
   unsigned int dimension = Rcpp::as<int>( r_dimension );
   std::string precision = Rcpp::as<std::string>( r_precision );
+
+  if (dimension == NA_INTEGER) {
+    if ( precision=="float" ) {
+      dimension = antsrTransform_GetDimensionFromFile<float>( r_filename );
+    }
+    else if (precision == "double" ) {
+      dimension = antsrTransform_GetDimensionFromFile<float>( r_filename );
+    }
+    else {
+      Rcpp::stop("Unsupported PrecisionType");
+    }
+  }
+
 
   if ( precision == "float")
   {
