@@ -12,7 +12,7 @@ validlist = c(
   "adfmri", "population", "surf", "blob", "rand")
 
 
-test_that("Comparisons give back antsImages", {
+test_that("All data can be read antsImages", {
   
   for (ilist in validlist) {
     suppressMessages({
