@@ -373,6 +373,10 @@ antsSetOrigin <- function(x, origin) {
     stop("spacing must be of same dimensions as image")
   }
   
+  # res = .Call("antsImage_SetOrigin", x, origin, PACKAGE = "ANTsRCore")
+  # if (res != 0) {
+  #   warning("Setting origin did not have result 0, results may be wrong")
+  # }
   return(.Call("antsImage_SetOrigin", x, origin, PACKAGE = "ANTsRCore"))
 }
 

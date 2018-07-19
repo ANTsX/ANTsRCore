@@ -97,6 +97,8 @@
 #' @author Shrinidhi KL, Tustison NJ, Avants BB
 #' @examples
 #'
+#' #print help
+#' antsRegistration()
 #' fi <- antsImageRead(getANTsRData("r16") )
 #' mi <- antsImageRead(getANTsRData("r64") )
 #' mytx2 <- antsRegistration(fixed=fi,  typeofTransform = '')
@@ -121,6 +123,9 @@
 #' antsRegistration(fixed=fi, moving=mi, typeofTransform = "sdf")
 #' )
 #' bad <- antsRegistration(fixed=fi, moving=mi, regIterations = 40)
+#' affIterations = c(3, 2, 1, 0)
+#' mytx2 <- antsRegistration(fixed=fi, moving=mi, 
+#' affIterations = affIterations)
 #' 
 #' 
 #' fi<-resampleImage(fi,c(60,60),1,0)

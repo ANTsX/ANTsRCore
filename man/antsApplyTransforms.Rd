@@ -81,6 +81,27 @@ invwarped_image <- antsApplyTransforms( fixed=moving,moving=fixed,
 testthat::expect_true(antsImagePhysicalSpaceConsistency(invwarped_image, moving))
 # full access via listing the inputs in standard ANTs format
 
+res1 <- antsApplyTransforms( fixed=fixed,moving=moving,
+  transformlist=mytx$fwdtransforms[2],
+  whichtoinvert =1, verbose = TRUE)   
+cfile <- antsApplyTransforms( fixed=fixed,moving=moving,
+  transformlist=mytx$fwdtransforms,
+  compose = tempfile() ) 
+cimg = antsImageRead(cfile)
+cout <- antsApplyTransforms( fixed=fixed,moving=moving,
+  transformlist=cimg)
+testthat::expect_error(
+antsApplyTransforms( fixed=fixed,moving=moving,
+  transformlist=cimg, whichtoinvert =1), "nnot invert transform"   
+)
+testthat::expect_error(
+antsApplyTransforms( fixed=fixed,moving=moving,
+  transformlist=cimg, whichtoinvert =c(1,2)), "same length"
+) 
+testthat::expect_error(antsApplyTransforms( fixed=fixed,moving=moving,
+  transformlist= "")   
+ )
+
 }
 \seealso{
 \code{\link{antsRegistration}}

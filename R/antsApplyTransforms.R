@@ -59,6 +59,27 @@
 #' testthat::expect_true(antsImagePhysicalSpaceConsistency(invwarped_image, moving))
 #' # full access via listing the inputs in standard ANTs format
 #'
+#' res1 <- antsApplyTransforms( fixed=fixed,moving=moving,
+#'   transformlist=mytx$fwdtransforms[2],
+#'   whichtoinvert =1, verbose = TRUE)   
+#' cfile <- antsApplyTransforms( fixed=fixed,moving=moving,
+#'   transformlist=mytx$fwdtransforms,
+#'   compose = tempfile() ) 
+#' cimg = antsImageRead(cfile)
+#' cout <- antsApplyTransforms( fixed=fixed,moving=moving,
+#'   transformlist=cimg)
+#' testthat::expect_error(
+#' antsApplyTransforms( fixed=fixed,moving=moving,
+#'   transformlist=cimg, whichtoinvert =1), "nnot invert transform"   
+#' )
+#' testthat::expect_error(
+#' antsApplyTransforms( fixed=fixed,moving=moving,
+#'   transformlist=cimg, whichtoinvert =c(1,2)), "same length"
+#' ) 
+#' testthat::expect_error(antsApplyTransforms( fixed=fixed,moving=moving,
+#'   transformlist= "")   
+#'  )
+#'
 #' @seealso \code{\link{antsRegistration}}
 #' @export antsApplyTransforms
 antsApplyTransforms <- function(
@@ -78,8 +99,16 @@ antsApplyTransforms <- function(
     "genericLabel" ),
   imagetype = 0, whichtoinvert = NA,
   compose = NA, verbose = FALSE, ... ) {
+  if (is.character(fixed)) {
+    if (fixed == "-h") {
+      .Call("antsApplyTransforms",
+            .int_antsProcessArguments(
+              list("-h")), PACKAGE = "ANTsRCore")
+      return()
+    }
+  }
   if (missing(fixed) | missing(moving) | missing(transformlist)) {
-    print("missig inputs")
+    print("missing inputs")
     return( NA )
   }
   interpolator[1] = paste( tolower( substring( interpolator[1], 1, 1 ) ),
@@ -208,52 +237,52 @@ antsApplyTransforms <- function(
 }
 
 
-.antsrParseListToString <- function(mylist, outimg = NA, outdim = NA) {
-  mystr <- ""
-  len <- length(mylist)
-  outimg <- ""
-  outdim <- 11
-  for (x in 1:len) {
-    if (is.antsImage(mylist[[x]])) {
-      tfn <- paste(tempdir(), "img", x, ".nii.gz", sep = "")
-      antsImageWrite(mylist[[x]], tfn)
-      mystr <- paste(mystr, tfn)
-      outdim <- mylist[[x]]@dimension
-      if (typeof(mylist[[x - 1]]) == "character") {
-        if (mylist[[x - 1]] == "-o")
-          outimg <- tfn
-      }
-      if (typeof(mylist[[x - 1]]) != "S4")
-        if (mylist[[x - 1]] == "-o")
-          outimg <- tfn
-    } else mystr <- paste(mystr, toString(mylist[[x]]))
-  }
-  mystr <- sub(",", " ", mystr)
-  mystr <- sub(" - ", " ", mystr)
-  mystr <- sub("-t,", "-t ", mystr)
-  mystr <- sub(", ", " ", mystr)
-  return(list(mystr = mystr, outimg = outimg, outdim = outdim))
-}
-
-..antsrParseListToString2 <- function(mylist, outimg = NA, outdim = NA) {
-  mystr <- ""
-  outimg <- ""
-  outdim <- 11
-  len <- length(mylist)
-  for (x in 1:len) {
-    mystr <- paste(mystr, " -", names(mylist)[x], " ", sep = "")
-    if (is.antsImage(mylist[[x]])) {
-      tfn <- paste(tempdir(), "img", x, ".nii.gz", sep = "")
-      antsImageWrite(mylist[[x]], tfn)
-      mystr <- paste(mystr, tfn)
-      outdim <- mylist[[x]]@dimension
-      if (names(mylist)[x] == "o")
-        outimg <- tfn
-    } else mystr <- paste(mystr, toString(mylist[[x]]))
-  }
-  mystr <- sub(",", " ", mystr)
-  mystr <- sub(" - ", " ", mystr)
-  mystr <- sub("-t,", "-t ", mystr)
-  mystr <- sub(", ", " ", mystr)
-  return(list(mystr = mystr, outimg = outimg, outdim = outdim))
-}
+# .antsrParseListToString <- function(mylist, outimg = NA, outdim = NA) {
+#   mystr <- ""
+#   len <- length(mylist)
+#   outimg <- ""
+#   outdim <- 11
+#   for (x in 1:len) {
+#     if (is.antsImage(mylist[[x]])) {
+#       tfn <- paste(tempdir(), "img", x, ".nii.gz", sep = "")
+#       antsImageWrite(mylist[[x]], tfn)
+#       mystr <- paste(mystr, tfn)
+#       outdim <- mylist[[x]]@dimension
+#       if (typeof(mylist[[x - 1]]) == "character") {
+#         if (mylist[[x - 1]] == "-o")
+#           outimg <- tfn
+#       }
+#       if (typeof(mylist[[x - 1]]) != "S4")
+#         if (mylist[[x - 1]] == "-o")
+#           outimg <- tfn
+#     } else mystr <- paste(mystr, toString(mylist[[x]]))
+#   }
+#   mystr <- sub(",", " ", mystr)
+#   mystr <- sub(" - ", " ", mystr)
+#   mystr <- sub("-t,", "-t ", mystr)
+#   mystr <- sub(", ", " ", mystr)
+#   return(list(mystr = mystr, outimg = outimg, outdim = outdim))
+# }
+# 
+# ..antsrParseListToString2 <- function(mylist, outimg = NA, outdim = NA) {
+#   mystr <- ""
+#   outimg <- ""
+#   outdim <- 11
+#   len <- length(mylist)
+#   for (x in 1:len) {
+#     mystr <- paste(mystr, " -", names(mylist)[x], " ", sep = "")
+#     if (is.antsImage(mylist[[x]])) {
+#       tfn <- paste(tempdir(), "img", x, ".nii.gz", sep = "")
+#       antsImageWrite(mylist[[x]], tfn)
+#       mystr <- paste(mystr, tfn)
+#       outdim <- mylist[[x]]@dimension
+#       if (names(mylist)[x] == "o")
+#         outimg <- tfn
+#     } else mystr <- paste(mystr, toString(mylist[[x]]))
+#   }
+#   mystr <- sub(",", " ", mystr)
+#   mystr <- sub(" - ", " ", mystr)
+#   mystr <- sub("-t,", "-t ", mystr)
+#   mystr <- sub(", ", " ", mystr)
+#   return(list(mystr = mystr, outimg = outimg, outdim = outdim))
+# }

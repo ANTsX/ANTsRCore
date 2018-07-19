@@ -122,7 +122,7 @@ jobs:
       os: osx
     - stage: "Coverage"
       script:
-        - travis_wait 100 Rscript -e 'covr::codecov(type = "all")'    
+        - travis_wait 100 Rscript -e 'covr::codecov(type = "all", quiet = FALSE)'    
       os: linux  
         
 
