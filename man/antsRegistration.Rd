@@ -5,7 +5,7 @@
 \title{Perform registration between two images.}
 \usage{
 antsRegistration(fixed = NA, moving = NA, typeofTransform = "SyN",
-  initialTransform = NA, outprefix = "", mask = NA, gradStep = 0.2,
+  initialTransform = NA, outprefix = NULL, mask = NA, gradStep = 0.2,
   flowSigma = 3, totalSigma = 0, affMetric = "mattes", affSampling = 32,
   synMetric = "mattes", synSampling = 32, affIterations,
   regIterations = c(40, 20, 0), multivariateExtras, restrictTransformation,

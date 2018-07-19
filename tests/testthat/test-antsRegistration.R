@@ -1,6 +1,5 @@
 context("antsRegistration from Exmaples")
 #print help
-antsRegistration()
 fi <- antsImageRead(getANTsRData("r16"))
 mi <- antsImageRead(getANTsRData("r64"))
 
@@ -20,6 +19,8 @@ test_that({
     typeofTransform = "Affine",
     initialTransform = trans
   )
+  # "TVMSQC",
+  
   for (itype in c(
     "AffineFast",
     "BOLDAffine",
@@ -41,7 +42,6 @@ test_that({
     "SyNAggro",
     "SyNLessAggro",
     "TVMSQ",
-    # "TVMSQC",
     "ElasticSyN"
   )) {
     print(itype)
@@ -91,3 +91,4 @@ test_that({
   )
   testthat::expect_equal(mywarpedimage, mywarpedimage2)
 }, "all registrations work")
+

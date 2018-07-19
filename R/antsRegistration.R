@@ -158,7 +158,7 @@ antsRegistration <- function(
   moving = NA,
   typeofTransform = "SyN",
   initialTransform = NA,
-  outprefix = "",
+  outprefix = NULL,
   mask = NA,
   gradStep=0.2,
   flowSigma=3,
@@ -180,7 +180,8 @@ antsRegistration <- function(
   }
   if (nchar(typeofTransform) == 0)
     typeofTransform = "SyN"
-  if (nchar(outprefix) == 0 || length(outprefix) == 0) {
+  if (nchar(outprefix) == 0 || length(outprefix) == 0
+      || is.null(outprefix)) {
     outprefix = tempfile()
   }
 
@@ -199,8 +200,7 @@ antsRegistration <- function(
   pre_transform = all_tx$alltx[ all_tx$findinv | all_tx$findfwd | all_tx$findaff]
   rm(list = "all_tx")
 
-  if ( numargs < 1 | missing(fixed) | missing(moving)
-       | missing(typeofTransform) | missing(outprefix) )
+  if ( numargs < 1 | missing(fixed) | missing(moving) )
   {
     cat("for simplified mode: \n")
     cat(paste0(" antsRegistration( fixed , moving , ", 
