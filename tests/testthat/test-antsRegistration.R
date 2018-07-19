@@ -41,7 +41,7 @@ test_that({
     "SyNAggro",
     "SyNLessAggro",
     "TVMSQ",
-    "TVMSQC",
+    # "TVMSQC",
     "ElasticSyN"
   )) {
     print(itype)
