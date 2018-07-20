@@ -1,5 +1,4 @@
 Sys.setenv(ANTS_RANDOM_SEED = "")
-library(ANTsRCore)
 testthat::test_that("running syn twice gives exact same result", {
   
   Sys.setenv(ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS = 1)
