@@ -123,7 +123,8 @@
 #' mytx2 <- antsRegistration(fixed=fi, moving=mi, 
 #' affIterations = affIterations)
 #' 
-#' 
+#'   Sys.setenv(ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS = 1)
+#'   Sys.setenv(ANTS_RANDOM_SEED = 20180716)
 #' fi<-resampleImage(fi,c(60,60),1,0)
 #' mi<-resampleImage(mi,c(50, 50),1,0) # speed up
 #' mytx <- antsRegistration(fixed=fi, moving=mi, typeofTransform = c('SyN') )
@@ -132,7 +133,7 @@
 #' mytx2 <- antsRegistration(fixed=fi, moving=mi, typeofTransform = c('SyN') )
 #' mywarpedimage2 <- antsApplyTransforms( fixed=fi, moving=mi,
 #'   transformlist=mytx2$fwdtransforms )   
-#' testthat::expect_equal(mywarpedimage, mywarpedimage2)
+#' testthat::expect_equal(as.array(mywarpedimage), as.array(mywarpedimage2))
 #'
 #' \dontrun{ # quick visualization fix for images with odd orientation
 #' mni = antsImageRead( getANTsRData( "mni" ) )
