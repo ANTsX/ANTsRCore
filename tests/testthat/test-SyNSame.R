@@ -1,7 +1,8 @@
+Sys.setenv(ANTS_RANDOM_SEED = "")
 test_that("running syn twice gives exact same result", {
   
-  Sys.setenv(ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS = 1,
-             ANTS_RANDOM_SEED = 20180716)
+  Sys.setenv(ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS = 1)
+  Sys.setenv(ANTS_RANDOM_SEED = 20180716)
   fi <- antsImageRead(getANTsRData("r16"))
   mi <- antsImageRead(getANTsRData("r64"))
   fi <- resampleImage(fi, c(60, 60), 1, 0)
