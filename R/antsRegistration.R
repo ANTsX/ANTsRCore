@@ -125,6 +125,8 @@
 #' 
 #'   Sys.setenv(ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS = 1)
 #'   Sys.setenv(ANTS_RANDOM_SEED = 20180716)
+#' fi <- antsImageRead(getANTsRData("r16") )
+#' mi <- antsImageRead(getANTsRData("r64") )   
 #' fi<-resampleImage(fi,c(60,60),1,0)
 #' mi<-resampleImage(mi,c(50, 50),1,0) # speed up
 #' mytx <- antsRegistration(fixed=fi, moving=mi, typeofTransform = c('SyN') )
