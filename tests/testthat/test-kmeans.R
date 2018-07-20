@@ -1,6 +1,6 @@
 context("Kmeans Segmentation gives same result")
 
-test_that({
+test_that( "Should give same result with same seed", {
   fi <- antsImageRead(getANTsRData("r16") , 2)
   orig = antsImageClone(fi)
   fi <- n3BiasFieldCorrection(fi, 4)
@@ -18,8 +18,8 @@ test_that({
   seg2 <- kmeansSegmentation(orig, 3, use_random_seed = FALSE)
   arr1 = as.array(seg$segmentation)
   arr2 = as.array(seg2$segmentation)
-  testthat::expect_identical(arr1, arr2)
+  testthat::expect_equal(arr1, arr2)
 
-}, "Should give same result with same seed")
+})
 
 Sys.setenv(ANTS_RANDOM_SEED = "")

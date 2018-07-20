@@ -6,7 +6,7 @@ outimg <- makeImage(c(2, 10) , rnorm(20))
 as.numeric(outimg)
 as.numeric(outimg, mask = outimg > 1)
 
-test_that({
+test_that("all the conversions work", {
 
   testthat::expect_error(as.numeric(outimg, mask = outimg))
   
@@ -22,7 +22,7 @@ test_that({
   outimg <- makeImage(c(2, 10, 2) , rnorm(40))
   testthat::expect_error(as.matrix(outimg))
 
-}, "all the conversions work")
+})
 
 img <- antsImageRead(getANTsRData("r16"))
 img[img > 5] = 0

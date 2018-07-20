@@ -3,7 +3,7 @@ fi <- antsImageRead(getANTsRData("r16"))
 l = prod(dim(fi))
 sub = sample(c(TRUE, FALSE), size = l, replace = TRUE)
 
-test_that({
+test_that( "all can do subsetting correctly", {
   fi[sub] = rnorm(sum(sub))
   fi[, 1] = array(10, dim = dim(fi[, 1]))
   
@@ -57,4 +57,4 @@ test_that({
   # fi[, , 2]
   
   
-}, "all can do subsetting correctly")
+})

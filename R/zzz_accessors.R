@@ -110,7 +110,7 @@ setGeneric("spacing", function(object) {
 #' @export
 #' @examples
 #' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
-#' stopifnot(spacing(img01) == rep(1, 4))
+#' stopifnot(all(spacing(img01) == rep(1, 4)))
 #' spacing(img01) = rep(1, 4)
 setMethod("spacing", "antsImage", function(object) { 
   antsGetSpacing(object)

@@ -12,7 +12,7 @@ mytx <- antsRegistration(fixed = fixed ,
                          moving = moving ,
                          typeofTransform = c("SyN"))
 
-test_that({
+test_that("Consistent spaces", {
 
   mywarpedimage <- antsApplyTransforms(
     fixed = fixed,
@@ -21,18 +21,18 @@ test_that({
   )
   testthat::expect_true(antsImagePhysicalSpaceConsistency(mywarpedimage, fixed))
 
-}, "Consistent spaces")
+})
 
-test_that({
+test_that("consistent inverse", {
   invwarped_image <- antsApplyTransforms(
     fixed = moving,
     moving = fixed,
     transformlist = mytx$invtransforms
   )
   testthat::expect_true(antsImagePhysicalSpaceConsistency(invwarped_image, moving))
-}, "consistent inverse")
+})
 
-test_that({
+test_that("inverse and compose", {
 
   res1 <- antsApplyTransforms(
     fixed = fixed,
@@ -48,11 +48,8 @@ test_that({
   )
   
   testthat::expect_true(file.exists(cfile))
-}, "inverse and compose")
-cimg = antsImageRead(cfile)
+  cimg = antsImageRead(cfile)
 
-
-test_that({
   cout <- antsApplyTransforms(fixed = fixed,
                               moving = moving,
                               transformlist = cimg)
@@ -74,13 +71,13 @@ test_that({
     ),
     "same length"
   )
-}, "inversion wrong")
+})
 
-test_that({
+test_that("blank transformlist", {
   testthat::expect_error(antsApplyTransforms(
     fixed = fixed,
     moving = moving,
     transformlist = ""
   ))
-}, "blank transformlist")
+})
 
