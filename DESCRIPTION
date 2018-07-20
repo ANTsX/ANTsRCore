@@ -1,6 +1,6 @@
 Package: ANTsRCore
 Type: Package
-Title: Core Software Infrastructure for ANTsR
+Title: Core Software Infrastructure for 'ANTsR'
 Version: 0.5.6.1
 Date: 2018-07-09
 Authors@R: c(
@@ -11,9 +11,9 @@ Authors@R: c(
     person(given = "Nicholas J.", family = "Tustison", role = "aut"),
     person(given = "John", family = "Muschelli", role = "ctb"))
 Maintainer: Brian B. Avants <stnava@gmail.com>
-Description: ANTsR interfaces state of the art image processing with R
-    statistical methods but relies on underlying ANTs C++. This package provides the
-    underlying C++ framework on which ANTsR depends.
+Description: 'ANTsR' interfaces state of the art image processing with R
+    statistical methods but relies on underlying 'ANTs' C++. This package provides the
+    underlying C++ framework on which 'ANTsR' depends.
 License: Apache License (>=2.0)
 LazyLoad: yes
 LazyData: true

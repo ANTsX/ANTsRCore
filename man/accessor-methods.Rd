@@ -87,7 +87,7 @@ testthat::expect_error({
 components(img01) = 1.5
 })
 img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
-stopifnot(spacing(img01) == rep(1, 4))
+stopifnot(all(spacing(img01) == rep(1, 4)))
 spacing(img01) = rep(1, 4)
 img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
 stopifnot(is.matrix(direction(img01)))
