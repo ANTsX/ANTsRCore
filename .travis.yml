@@ -8,7 +8,8 @@ bioc_required: false
 cran: http://cran.rstudio.com
 allow_failures:
   - os: osx
-
+  - stage: "Coverage"
+  
 latex: false
 compiler: clang
 osx_image: xcode9
@@ -122,7 +123,7 @@ jobs:
       os: osx
     - stage: "Coverage"
       script:
-        - travis_wait 100 Rscript -e "covr::codecov(type = \"all\", quiet = FALSE)"
+        - Rscript -e "covr::codecov(type = \"all\", quiet = FALSE)"
       os: linux  
         
 
