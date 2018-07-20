@@ -2,10 +2,11 @@ context("antsTransformIndexToPhysicalPoint")
 
 
 img <- makeImage(c(10, 10), rnorm(100))
+pt <- antsTransformIndexToPhysicalPoint(img, c(2, 2))
+arr = as.array(img)
 
 test_that({
-  pt <- antsTransformIndexToPhysicalPoint(img, c(2, 2))
-  arr = as.array(img)
+
   testthat::expect_error(antsTransformIndexToPhysicalPoint(arr, c(2, 2)),
                          "antsImage")
   testthat::expect_error(antsTransformIndexToPhysicalPoint(img, c("2", 2)),
@@ -16,10 +17,11 @@ test_that({
 }, "making sure antsTransformIndexToPhysicalPoint failures consistent")
 
 img <- makeImage(c(10, 10), rnorm(100))
+pt <- antsTransformPhysicalPointToIndex(img, c(2, 2))
+arr = as.array(img)
 
 test_that({
-  pt <- antsTransformPhysicalPointToIndex(img, c(2, 2))
-  arr = as.array(img)
+
   testthat::expect_error(antsTransformPhysicalPointToIndex(arr, c(2, 2)), 
                          "antsImage")
   testthat::expect_error(antsTransformPhysicalPointToIndex(img, c("2", 2)), 

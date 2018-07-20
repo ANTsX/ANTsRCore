@@ -12,18 +12,15 @@ validlist = c(
   "adfmri", "population", "surf", "blob", "rand")
 
 
-test_that("All data can be read antsImages", {
-  
-  for (ilist in validlist) {
-    suppressMessages({
-      res = getANTsRData(ilist, quiet = TRUE)
-    })
-    if (is.character(res)) {
-      print(res)
-      # res = antsImageRead(res)
-    }
-    # print(res)
-    # cloned = antsImageClone(res)
+for (ilist in validlist) {
+  suppressMessages({
+    res = getANTsRData(ilist, quiet = TRUE)
+  })
+  if (is.character(res)) {
+    print(res)
+    # res = antsImageRead(res)
   }
-  
-})
+  # print(res)
+  # cloned = antsImageClone(res)
+}
+

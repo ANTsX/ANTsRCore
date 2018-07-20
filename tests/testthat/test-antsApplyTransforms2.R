@@ -20,7 +20,7 @@ test_that({
     transformlist = mytx$fwdtransforms
   )
   testthat::expect_true(antsImagePhysicalSpaceConsistency(mywarpedimage, fixed))
-  
+
 }, "Consistent spaces")
 
 test_that({
@@ -31,15 +31,14 @@ test_that({
   )
   testthat::expect_true(antsImagePhysicalSpaceConsistency(invwarped_image, moving))
 }, "consistent inverse")
-  # full access via listing the inputs in standard ANTs format
-  
+
 test_that({
+
   res1 <- antsApplyTransforms(
     fixed = fixed,
     moving = moving,
     transformlist = mytx$fwdtransforms[2],
-    whichtoinvert = 1,
-    verbose = TRUE
+    whichtoinvert = 1
   )
   cfile <- antsApplyTransforms(
     fixed = fixed,
@@ -47,12 +46,14 @@ test_that({
     transformlist = mytx$fwdtransforms,
     compose = tempfile()
   )
-
-  cimg = antsImageRead(cfile)
+  
+  testthat::expect_true(file.exists(cfile))
 }, "inverse and compose")
+cimg = antsImageRead(cfile)
+
 
 test_that({
-    cout <- antsApplyTransforms(fixed = fixed,
+  cout <- antsApplyTransforms(fixed = fixed,
                               moving = moving,
                               transformlist = cimg)
   testthat::expect_error(
@@ -82,3 +83,4 @@ test_that({
     transformlist = ""
   ))
 }, "blank transformlist")
+

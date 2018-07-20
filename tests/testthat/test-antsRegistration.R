@@ -3,24 +3,16 @@ context("antsRegistration from Exmaples")
 fi <- antsImageRead(getANTsRData("r16"))
 mi <- antsImageRead(getANTsRData("r64"))
 
-
 test_that({
-  mytx2 <- antsRegistration(fixed = fi,  typeofTransform = '')
   rig <- antsRegistration(
     fixed = fi,
     moving = mi,
-    typeofTransform = 'Rigid',
-    verbose = TRUE
-  )
+    typeofTransform = 'Rigid')
   trans = readAntsrTransform(rig$fwdtransforms, 2)
-  postrig <- antsRegistration(
-    fixed = fi,
-    moving = mi,
-    typeofTransform = "Affine",
-    initialTransform = trans
-  )
-  # "TVMSQC",
-  
+}, "read in trans")
+# "TVMSQC",
+
+test_that({
   for (itype in c(
     "AffineFast",
     "BOLDAffine",
@@ -48,47 +40,60 @@ test_that({
     mytx2 <- antsRegistration(fixed = fi,
                               moving = mi,
                               typeofTransform = itype)
+    testthat::expect_true(all(file.exists(mytx2$fwdtransforms)))
   }
+}, "all the regs")
+
+test_that({
   mytx2 <- antsRegistration(
     fixed = fi,
     moving = mi,
     typeofTransform = "SyNOnly",
     multivariateExtras = list(list("MeanSquares", fi, mi, 0.5, 0))
   )
+  testthat::expect_true(all(file.exists(mytx2$fwdtransforms)))
+}, "multivariateExtras")
+
+test_that({
+  
   testthat::expect_error(antsRegistration(
     fixed = fi,
     moving = mi,
     typeofTransform = "sdf"
   ))
-  bad <- antsRegistration(fixed = fi,
+}, "bad type of Transform")
+
+bad <- antsRegistration(fixed = fi,
+                        moving = mi,
+                        regIterations = 40)
+affIterations = c(3, 2, 1, 0)
+mytx2 <- antsRegistration(fixed = fi,
                           moving = mi,
-                          regIterations = 40)
-  affIterations = c(3, 2, 1, 0)
-  mytx2 <- antsRegistration(fixed = fi,
-                            moving = mi,
-                            affIterations = affIterations)
-  
-  
-  fi <- resampleImage(fi, c(60, 60), 1, 0)
-  mi <- resampleImage(mi, c(50, 50), 1, 0) # speed up
-  mytx <-
-    antsRegistration(fixed = fi,
-                     moving = mi,
-                     typeofTransform = c('SyN'))
-  mywarpedimage <- antsApplyTransforms(
-    fixed = fi,
-    moving = mi,
-    transformlist = mytx$fwdtransforms
-  )
-  mytx2 <-
-    antsRegistration(fixed = fi,
-                     moving = mi,
-                     typeofTransform = c('SyN'))
-  mywarpedimage2 <- antsApplyTransforms(
-    fixed = fi,
-    moving = mi,
-    transformlist = mytx2$fwdtransforms
-  )
+                          affIterations = affIterations)
+
+
+fi <- resampleImage(fi, c(60, 60), 1, 0)
+mi <- resampleImage(mi, c(50, 50), 1, 0) # speed up
+mytx <-
+  antsRegistration(fixed = fi,
+                   moving = mi,
+                   typeofTransform = c('SyN'))
+mywarpedimage <- antsApplyTransforms(
+  fixed = fi,
+  moving = mi,
+  transformlist = mytx$fwdtransforms
+)
+mytx2 <-
+  antsRegistration(fixed = fi,
+                   moving = mi,
+                   typeofTransform = c('SyN'))
+mywarpedimage2 <- antsApplyTransforms(
+  fixed = fi,
+  moving = mi,
+  transformlist = mytx2$fwdtransforms
+)
+
+test_that({  
   testthat::expect_equal(mywarpedimage, mywarpedimage2)
 }, "all registrations work")
 
