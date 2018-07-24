@@ -135,7 +135,7 @@
 #' mytx2 <- antsRegistration(fixed=fi, moving=mi, typeofTransform = c('SyN') )
 #' mywarpedimage2 <- antsApplyTransforms( fixed=fi, moving=mi,
 #'   transformlist=mytx2$fwdtransforms )   
-#' testthat::expect_equal(as.array(mywarpedimage), as.array(mywarpedimage2))
+#' # testthat::expect_equal(as.array(mywarpedimage), as.array(mywarpedimage2))
 #'
 #' \dontrun{ # quick visualization fix for images with odd orientation
 #' mni = antsImageRead( getANTsRData( "mni" ) )
