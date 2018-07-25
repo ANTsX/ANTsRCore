@@ -14,6 +14,7 @@
 #'
 #' mydat <- data.frame(A=c(1,2,4,5), B=c(1,NA,4,5))
 #' mean.impute <- antsrimpute(mydat)
+#' mean.impute <- antsrimpute(mydat$B)
 #' median.impute <- antsrimpute(mydat, median)
 #'
 #' @export antsrimpute

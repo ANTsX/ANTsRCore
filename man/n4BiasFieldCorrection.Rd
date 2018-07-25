@@ -37,6 +37,10 @@ Perform Bias Field Correction on the given image
  dims = c(50, 50)
  img<-makeImage(imagesize = dims, rnorm(prod(dims)) )
  n4img<-n4BiasFieldCorrection(img)
+ testthat::expect_error(n4BiasFieldCorrection(img, weight_mask = "somepath"))
+ testthat::expect_error(n4BiasFieldCorrection(img, splineParam = rep(200, 3)))
+ n4img<-n4BiasFieldCorrection(img, splineParam = c(200, 20))
+ 
 
 }
 \author{

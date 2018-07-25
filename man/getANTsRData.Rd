@@ -5,7 +5,8 @@
 \title{getANTsRData}
 \usage{
 getANTsRData(fileid, usefixedlocation = FALSE, verbose = FALSE,
-  method = ifelse(Sys.info()["sysname"] == "Linux", "wget", "auto"))
+  method = ifelse(Sys.info()["sysname"] == "Linux", "wget", "auto"),
+  quiet = FALSE)
 }
 \arguments{
 \item{fileid}{one of the permitted file ids or pass "show" to list all
@@ -17,6 +18,9 @@ valid possibilities. Note that most require internet access to download.}
 
 \item{method}{Method to be used for downloading files,
 passed to \code{\link{download.file}}}
+
+\item{quiet}{If \code{TRUE}, suppress status messages 
+(if any), and the progress bar.}
 }
 \value{
 filename string

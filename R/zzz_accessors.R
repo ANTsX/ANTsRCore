@@ -10,6 +10,9 @@
 #' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
 #' stopifnot(is.character(pixeltype(img01)))
 #' pixeltype(img01) = "float"
+#' testthat::expect_error({
+#' pixeltype(img01) = 1.5
+#' }) 
 setGeneric("pixeltype", function(object) {
   standardGeneric("pixeltype")
   })
@@ -59,6 +62,10 @@ setGeneric("components", function(object) {
 #' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
 #' stopifnot(components(img01) == 1)
 #' components(img01) = 1L
+#' testthat::expect_error({
+#' components(img01) = 1.5
+#' })
+
 setMethod("components", "antsImage", function(object) { 
   object@"components" 
 })
@@ -76,9 +83,13 @@ setGeneric("components<-", function(object, value) {
 setMethod("components<-", 
           signature(object = "antsImage"), 
           function(object, value) { 
+            if (as.integer(value) == value) {
+              value = as.integer(value)
+            }
             if ( "components" %in% slotNames(object) ) {
               object@"components" <- value
             } else {
+              # don't think getting to this is possible with validation
               warning("components is not in slotNames of object")
             }
             return(object)
@@ -99,7 +110,7 @@ setGeneric("spacing", function(object) {
 #' @export
 #' @examples
 #' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
-#' stopifnot(spacing(img01) == rep(1, 4))
+#' stopifnot(all(spacing(img01) == rep(1, 4)))
 #' spacing(img01) = rep(1, 4)
 setMethod("spacing", "antsImage", function(object) { 
   antsGetSpacing(object)

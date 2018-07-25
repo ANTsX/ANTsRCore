@@ -26,7 +26,9 @@
 #' myimg.mask <- maskImage(myimg, seg$segmentation, c(1,3))
 #' check = myimg * (seg$segmentation == 1 | seg$segmentation == 3)
 #' testthat::expect_equal(myimg.mask, check)
-#'
+#' myimg.mask <- maskImage(myimg, seg$segmentation, c(1,3), binarize = TRUE)
+#' coerce_mask(myimg.mask, error = TRUE) # no error
+#' 
 #' @export maskImage
 maskImage <- function(img.in, img.mask, level = 1, binarize = FALSE) {
   level = as.numeric( level )

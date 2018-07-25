@@ -6,12 +6,16 @@
 #' @return A multiChannel antsImage object
 #' @author Duda, JT
 #' @examples
-#'  r <- floor( seq(1:(64*64)) / (64*64) * 255 )
-#'  dim(r) <- c(64,64)
+#' dims = c(30, 30)
+#' n = prod(dims)
+#'  r <- floor( seq(n) / (n) * 255 )
+#'  dim(r) <- dims
+#'  arr = r
 #'  r <- as.antsImage(r)
 #'  g <- r*0
 #'  b <- r*0
 #'  rgbImage = mergeChannels( list(r,g,b) )
+#'  testthat::expect_error(mergeChannels(list(arr, arr)))
 #'
 #' @export mergeChannels
 mergeChannels <- function(imageList) {

@@ -8,7 +8,8 @@ bioc_required: false
 cran: http://cran.rstudio.com
 allow_failures:
   - os: osx
-
+  - stage: "Coverage"
+  
 latex: false
 compiler: clang
 osx_image: xcode9
@@ -102,7 +103,7 @@ jobs:
           repo: ANTsX/${PROJ_DIR}
           tags: true
           all_branches: true
-      os: linux
+      os: linux   
     - stage: "Deployment"
       if: tag IS present
       script:
@@ -120,6 +121,12 @@ jobs:
           tags: true
           all_branches: true
       os: osx
+    - stage: "Coverage"
+      script:
+        - cd $PROJ_DIR;
+        - travis_wait 100 Rscript -e 'covr::codecov(type = "all", quiet = FALSE)'
+      os: linux  
+        
 
 after_failure:
   - cat ${PACKAGE_NAME}.Rcheck/00install.out

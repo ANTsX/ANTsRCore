@@ -11,6 +11,7 @@
 #' img = makeImage(c(10,10),rnorm(100))
 #' mask = img > 0
 #' mask_values(img, mask)
+#' mask_values(img)
 mask_values = function(x, mask) {
   if (!missing(mask)) {
     if (!is.null(mask)) { # need this for Summary
@@ -127,6 +128,7 @@ boxplot.antsImage = function(x, ..., mask) {
 #' img = makeImage(c(10,10),rnorm(100))
 #' mask = img > 0
 #' cut(img, mask = mask, breaks = 4)
+#' cut(img, breaks = 4)
 cut.antsImage = function(
   x,
   breaks,

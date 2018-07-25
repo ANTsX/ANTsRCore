@@ -11,12 +11,14 @@
 #'  r <- as.antsImage(r)
 #'  g <- r*0
 #'  b <- r*0
+#' testthat::expect_error(splitChannels(r))
 #'  rgbImage = mergeChannels( list(r,g,b) )
 #'  imgList = splitChannels( rgbImage )
 #' testthat::expect_length(imgList, 3)
 #' sapply(imgList, function(x) {
 #' testthat::expect_s4_class(x, class = "antsImage")
 #' })
+#' testthat::expect_error(splitChannels("hey"))
 #'
 #' @export splitChannels
 splitChannels <- function(image) {

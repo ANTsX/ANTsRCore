@@ -62,7 +62,12 @@ erodedBox = morphology( mask, operation="erode", radius=3,
 type="binary", shape="box")
 openedAnnulus = morphology( mask, operation="open", radius=5, 
 type="binary", shape="annulus", thickness=2)
-
+out = morphology(mask, operation="open", radius=5, type = "binary", shape = "polygon")
+out = morphology(mask, operation="open", radius=5, type = "binary", shape = "cross")
+out = morphology(mask, operation="close", radius=5, type = "binary", shape = "polygon")
+out = morphology(mask, operation="erode", radius=5, type = "binary", shape = "polygon")
+out = morphology(mask, operation="dilate", radius=5, type = "binary", shape = "polygon")
+testthat::expect_error(morphology(mask, operation = "open", radius = 5, shape = "hey"))
 }
 \author{
 Avants BB

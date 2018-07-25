@@ -52,6 +52,7 @@
 #' plot(img, list(mask))
 #' txt=list(x=2.5,y=1.5,label='my text',cex=4,col='red')
 #' plot(img, list(mask), text=txt)
+#' testthat::expect_error(plot(multi_component_image))
 #'
 #' \dontrun{
 #'

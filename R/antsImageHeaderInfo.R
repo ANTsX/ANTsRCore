@@ -25,6 +25,7 @@
 #' img <- antsImageRead(getANTsRData("r16"))
 #' antsImageHeaderInfo(img)
 #' antsImageHeaderInfo(getANTsRData("r16"))
+#' testthat::expect_error(antsImageHeaderInfo(""))
 antsImageHeaderInfo <- function( filename )
 {
   if (is.antsImage(filename)) {

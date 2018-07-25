@@ -13,6 +13,9 @@
 #' mat2<-replicate(100, rnorm(20))
 #' mylist<-list(mat)
 #' mylist<-lappend( mylist, mat2 )
+#' mylist<-lappend( mat2, mylist)
+#' mylist<-lappend( mylist, mylist)
+#' lappend( 1, 1)
 #'
 #' @export lappend
 lappend <- function(lst, obj) {

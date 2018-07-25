@@ -42,109 +42,142 @@
 #' type="binary", shape="box")
 #' openedAnnulus = morphology( mask, operation="open", radius=5, 
 #' type="binary", shape="annulus", thickness=2)
-#'
+#' out = morphology(mask, operation="open", radius=5, type = "binary", shape = "polygon")
+#' out = morphology(mask, operation="open", radius=5, type = "binary", shape = "cross")
+#' out = morphology(mask, operation="close", radius=5, type = "binary", shape = "polygon")
+#' out = morphology(mask, operation="erode", radius=5, type = "binary", shape = "polygon")
+#' out = morphology(mask, operation="dilate", radius=5, type = "binary", shape = "polygon")
+#' testthat::expect_error(morphology(mask, operation = "open", radius = 5, shape = "hey"))
 #' @export morphology
 morphology <- function(input, operation, radius, type="binary", value=1, shape="ball",
                        radiusIsParametric=FALSE, thickness=1, lines=3,
                        includeCenter=FALSE) {
-
+  
   if ( input@components > 1 )
-    {
+  {
     stop("Multichannel images not yet supported")
+  }
+  
+  shapes = c("ball", "box", "cross", "annulus", "polygon")
+  shape = match.arg(shape, choices = shapes)
+  
+  sFlag = switch( 
+    shape,
+    ball = 1,
+    box = 2,
+    cross = 3,
+    annulus = 4,
+    polygon = 5)
+  
+  ops = c("dilate", "erode", "open", "close")
+  operation = match.arg(operation, choices = ops)
+  second_letter = substr(operation, 1, 1)
+  second_letter = toupper(second_letter)
+  
+  types = c("binary", "grayscale", "greyscale")
+  type = match.arg(type, choices = types)
+  first_letter = switch(
+    type,
+    binary = "M",
+    grayscale = "G",
+    greyscale = "G")
+  imath_op = paste0(first_letter, second_letter)
+  
+  if (first_letter == "G") {
+    ret = iMath(input, imath_op, radius)
+  }
+  if (first_letter == "M") {
+    args = list(input, imath_op, radius, value, 
+                sFlag, radiusIsParametric, 
+                thickness, includeCenter)
+    # polygon is different
+    if ( sFlag == 5 ) {
+      args = list(input, imath_op, radius, value, 
+                  sFlag, lines)
     }
-
-  sFlag = switch( shape,
-          ball = 1,
-          box = 2,
-          cross = 3,
-          annulus = 4,
-          polygon = 5,
-          0)
-
-  if ( sFlag == 0 )
-    {
-    stop("Invalid element shape")
-    }
-
-  if ( type == "binary" )
-    {
-    if (operation == "dilate" )
-      {
-      if ( sFlag==5 )
-        {
-        ret = iMath(input, "MD", radius, value, sFlag, lines)
-        }
-      else
-        {
-        ret = iMath(input, "MD", radius, value, sFlag, radiusIsParametric, thickness, includeCenter)
-        }
-      }
-    else if ( operation == "erode" )
-      {
-      if ( sFlag==5 )
-        {
-        ret = iMath(input, "ME", radius, value, sFlag, lines)
-        }
-      else
-        {
-        ret = iMath(input, "ME", radius, value, sFlag, radiusIsParametric, thickness, includeCenter)
-        }
-      }
-    else if (operation == "open" )
-      {
-      if ( sFlag==5)
-        {
-        ret = iMath(input, "MO", radius, value, sFlag, lines)
-        }
-      else
-        {
-        ret = iMath(input, "MO", radius, value, sFlag, radiusIsParametric, thickness, includeCenter)
-        }
-      }
-    else if (operation == "close" )
-      {
-      if ( sFlag==5 )
-        {
-        ret = iMath(input, "MC", radius, value, sFlag, lines)
-        }
-      else
-        {
-        ret = iMath(input, "MC", radius, value, sFlag, radiusIsParametric, thickness, includeCenter)
-        }
-      }
-    else
-      {
-      stop( "Invalid morphology operation")
-      }
-    }
-  else if ( type == "grayscale" )
-    {
-    if (operation == "dilate" )
-      {
-      ret = iMath(input, "GD", radius)
-      }
-    else if ( operation == "erode" )
-      {
-      ret = iMath(input, "GE", radius)
-      }
-    else if (operation == "open" )
-      {
-      ret = iMath(input, "GO", radius)
-      }
-    else if (operation == "close" )
-      {
-      ret = iMath(input, "GC", radius)
-      }
-    else
-      {
-      stop( "Invalid morphology operation")
-      }
-    }
-  else
-    {
-    stop("Invalid morphology type")
-    }
-
+    ret = do.call("iMath", args = args)
+  }    
+  
   return(ret)
-
+  # if ( type == "binary" )
+  #   {
+  #   if (operation == "dilate" )
+  #     {
+  #     if ( sFlag==5 )
+  #       {
+  #       ret = iMath(input, "MD", radius, value, sFlag, lines)
+  #       }
+  #     else
+  #       {
+  #       ret = iMath(input, "MD", radius, value, sFlag, radiusIsParametric, thickness, includeCenter)
+  #       }
+  #     }
+  #   else if ( operation == "erode" )
+  #     {
+  #     if ( sFlag==5 )
+  #       {
+  #       ret = iMath(input, "ME", radius, value, sFlag, lines)
+  #       }
+  #     else
+  #       {
+  #       ret = iMath(input, "ME", radius, value, sFlag, radiusIsParametric, thickness, includeCenter)
+  #       }
+  #     }
+  #   else if (operation == "open" )
+  #     {
+  #     if ( sFlag==5)
+  #       {
+  #       ret = iMath(input, "MO", radius, value, sFlag, lines)
+  #       }
+  #     else
+  #       {
+  #       ret = iMath(input, "MO", radius, value, sFlag, radiusIsParametric, thickness, includeCenter)
+  #       }
+  #     }
+  #   else if (operation == "close" )
+  #     {
+  #     if ( sFlag==5 )
+  #       {
+  #       ret = iMath(input, "MC", radius, value, sFlag, lines)
+  #       }
+  #     else
+  #       {
+  #       ret = iMath(input, "MC", radius, value, sFlag, radiusIsParametric, thickness, includeCenter)
+  #       }
+  #     }
+  #   else
+  #     {
+  #     stop( "Invalid morphology operation")
+  #     }
+  #   }
+  # else if ( type == "grayscale" )
+  #   {
+  #   if (operation == "dilate" )
+  #     {
+  #     ret = iMath(input, "GD", radius)
+  #     }
+  #   else if ( operation == "erode" )
+  #     {
+  #     ret = iMath(input, "GE", radius)
+  #     }
+  #   else if (operation == "open" )
+  #     {
+  #     ret = iMath(input, "GO", radius)
+  #     }
+  #   else if (operation == "close" )
+  #     {
+  #     ret = iMath(input, "GC", radius)
+  #     }
+  #   else
+  #     {
+  #     stop( "Invalid morphology operation")
+  #     }
+  #   }
+  # else
+  #   {
+  #   stop("Invalid morphology type")
+  #   }
+  
+  # return(ret)
+  
 }

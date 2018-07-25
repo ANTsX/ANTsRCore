@@ -4,7 +4,7 @@
 \alias{readAntsrTransform}
 \title{readAntsrTransform}
 \usage{
-readAntsrTransform(filename, dimension = 3, precision = "float")
+readAntsrTransform(filename, dimension = NA, precision = "float")
 }
 \arguments{
 \item{filename}{filename of transform}
@@ -23,6 +23,7 @@ read a transform from file
 trans= c(3,4,5)
 tx = createAntsrTransform( type="Euler3DTransform", translation=trans )
 txfile = tempfile(fileext = ".mat")
-writeAntsrTransform(tx, txfile) 
-tx = readAntsrTransform(txfile)
+writeAntsrTransform(tx, txfile)
+tx2 = readAntsrTransform(txfile)
+testthat::expect_error(readAntsrTransform(txfile, 2), "space dim")
 }

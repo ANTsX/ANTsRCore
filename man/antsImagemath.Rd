@@ -109,4 +109,32 @@ testthat::expect_true(is.antsImage(sign(img01)))
 testthat::expect_true(is.antsImage(sqrt(img01)))
 testthat::expect_true(is.antsImage(ceiling(img01)))
 testthat::expect_true(is.antsImage(floor(img01)))
+testthat::expect_true(is.antsImage(trunc(img01)))
+img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+testthat::expect_true(is.antsImage(log(img01)))
+testthat::expect_true(is.antsImage(exp(img01)))
+
+testthat::expect_true(is.antsImage(log(img01, base = exp(1)))) 
+testthat::expect_true(is.antsImage(log(img01, base = 2))) 
+testthat::expect_true(is.antsImage(log(img01, base = 10))) 
+testthat::expect_true(is.antsImage(log10(img01)))
+testthat::expect_true(is.antsImage(log2(img01)))
+
+testthat::expect_true(is.antsImage(gamma(img01)))
+testthat::expect_true(is.antsImage(lgamma(img01)))
+
+testthat::expect_true(is.antsImage(cos(img01)))
+testthat::expect_true(is.antsImage(cospi(img01)))
+testthat::expect_true(is.antsImage(acos(img01)))
+testthat::expect_true(is.antsImage(acosh(img01)))
+
+testthat::expect_true(is.antsImage(sin(img01)))
+testthat::expect_true(is.antsImage(sinpi(img01)))
+testthat::expect_true(is.antsImage(asin(img01)))
+testthat::expect_true(is.antsImage(asinh(img01)))
+
+testthat::expect_true(is.antsImage(tan(img01)))
+testthat::expect_true(is.antsImage(tanpi(img01)))
+testthat::expect_true(is.antsImage(atan(img01)))
+testthat::expect_true(is.antsImage(atanh(img01)))
 }

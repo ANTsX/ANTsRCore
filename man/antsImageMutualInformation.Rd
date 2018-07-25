@@ -21,7 +21,13 @@ compute mutual information between two images
 
 fi<-antsImageRead( getANTsRData("r16") ,2)
 mi<-antsImageRead( getANTsRData("r64") ,2)
-mival<-antsImageMutualInformation(fi,mi)
+testthat::expect_error(antsImageMutualInformation(fi,"hey"))
+testthat::expect_error(antsImageMutualInformation("hey", fi))
+fi3 = resampleImage(fi, c(2, 2))
+fi2 = antsImageClone(fi)
+pixeltype(fi2) = "unsigned int" 
+testthat::expect_error(antsImageMutualInformation(fi2,mi))
+testthat::expect_error(antsImageMutualInformation(fi3,mi))
 
 }
 \author{

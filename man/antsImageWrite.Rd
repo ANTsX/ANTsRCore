@@ -30,6 +30,15 @@ antsImageWrite( antsImageClone( fi, "float" ) ,
   tempfile( fileext = ".tif" )  )
 antsImageWrite( fi, tempfile( fileext = ".mrc" )  )
 antsImageWrite( fi, tempfile( fileext = ".hd5" )  )
+components(fi) = 0L
+antsImageWrite( fi, tempfile( fileext = ".nii.gz" )  )
+components(fi) = -1L
+testthat::expect_error(
+antsImageWrite( fi, tempfile( fileext = ".nii.gz" )), "nvalid S4"
+)  
+testthat::expect_error(
+antsImageWrite( "hey"), "not of class antsImage"
+) 
 
 }
 \seealso{

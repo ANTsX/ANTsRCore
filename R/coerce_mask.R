@@ -10,6 +10,8 @@
 #' mask = img > 0
 #' coerce_mask(mask, error = TRUE)
 #' coerce_mask(mask + 1, error = FALSE)
+#' testthat::expect_error(coerce_mask(mask + 1, error = TRUE))
+#' coerce_mask(as.array(mask) > 0, error = FALSE)
 #' @export
 coerce_mask = function(x, error = TRUE) {
   if (typeof(x) == "logical") {

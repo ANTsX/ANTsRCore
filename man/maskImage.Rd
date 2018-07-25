@@ -38,6 +38,8 @@ seg <- kmeansSegmentation(myimg, 3)
 myimg.mask <- maskImage(myimg, seg$segmentation, c(1,3))
 check = myimg * (seg$segmentation == 1 | seg$segmentation == 3)
 testthat::expect_equal(myimg.mask, check)
+myimg.mask <- maskImage(myimg, seg$segmentation, c(1,3), binarize = TRUE)
+coerce_mask(myimg.mask, error = TRUE) # no error
 
 }
 \author{

@@ -21,15 +21,23 @@
 #'   tempfile( fileext = ".tif" )  )
 #' antsImageWrite( fi, tempfile( fileext = ".mrc" )  )
 #' antsImageWrite( fi, tempfile( fileext = ".hd5" )  )
+#' components(fi) = 0L
+#' antsImageWrite( fi, tempfile( fileext = ".nii.gz" )  )
+#' components(fi) = -1L
+#' testthat::expect_error(
+#' antsImageWrite( fi, tempfile( fileext = ".nii.gz" )), "nvalid S4"
+#' )  
+#' testthat::expect_error(
+#' antsImageWrite( "hey"), "not of class antsImage"
+#' ) 
 #'
 #' @export antsImageWrite
 antsImageWrite <- function(image, filename) {
   if (class(image) != "antsImage") {
-    print("'image' argument provided is not of class 'antsImage'")
-    return(NULL)
+    stop("'image' argument provided is not of class antsImage")
   }
 
-  if (length(image@components) == 0)
+  if (length(image@components) == 0 || image@components == 0)
     {
     image@components = as.integer(1)
     }

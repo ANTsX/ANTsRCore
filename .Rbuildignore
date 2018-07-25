@@ -24,3 +24,5 @@ R/\.Rhistory
 .Rhistory
 zzz_Comparison2\.R
 ^docs$
+^data-raw$
+^codecov\.yml$

@@ -2,7 +2,76 @@
 #' @aliases ==,antsImage,antsImage-method
 #' @examples
 #' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
-#' is.antsImage(img01 == img01)
+#' et = function(x) {
+#' testthat::expect_true(x)
+#' }
+#' x <- is.antsImage(img01 == img01)
+#' et(x)
+#' x <- is.antsImage(img01 == as.array(img01))
+#' et(x)
+#' x <- is.antsImage(img01 == 1)
+#' et(x)
+#' x <- is.antsImage(1 == img01)
+#' et(x)
+#' x <- is.antsImage(as.array(img01) == img01)
+#' et(x)
+#' 
+#' x <- is.antsImage(img01 >= img01)
+#' et(x)
+#' x <- is.antsImage(img01 >= as.array(img01))
+#' et(x)
+#' x <- is.antsImage(img01 >= 1)
+#' et(x)
+#' x <- is.antsImage(1 >= img01)
+#' et(x)
+#' x <- is.antsImage(as.array(img01) >= img01) 
+#' et(x)
+#' 
+#' x <- is.antsImage(img01 > img01)
+#' et(x)
+#' x <- is.antsImage(img01 > as.array(img01))
+#' et(x)
+#' x <- is.antsImage(img01 > 1)
+#' et(x)
+#' x <- is.antsImage(1 > img01)
+#' et(x)
+#' x <- is.antsImage(as.array(img01) > img01) 
+#' et(x)
+#' 
+#' x <- is.antsImage(img01 < img01)
+#' et(x)
+#' x <- is.antsImage(img01 < as.array(img01))
+#' et(x)
+#' x <- is.antsImage(img01 < 1)
+#' et(x)
+#' x <- is.antsImage(1 < img01)
+#' et(x)
+#' x <- is.antsImage(as.array(img01) < img01) 
+#' et(x) 
+#' 
+#' 
+#' x <- is.antsImage(img01 <= img01)
+#' et(x)
+#' x <- is.antsImage(img01 <= as.array(img01))
+#' et(x)
+#' x <- is.antsImage(1 <= img01)
+#' et(x) 
+#' x <- is.antsImage(img01 <= 1)
+#' et(x)
+#' x <- is.antsImage(as.array(img01) <= img01)  
+#' et(x)
+#' 
+#' x <- is.antsImage(img01 != img01)
+#' et(x)
+#' x <- is.antsImage(img01 != as.array(img01))
+#' et(x)
+#' x <- is.antsImage(1 != img01)
+#' et(x)  
+#' x <- is.antsImage(img01 != 1)
+#' et(x)
+#' x <- is.antsImage(as.array(img01) != img01) 
+#' et(x)
+#' 
 setMethod("==", signature(e1 = "antsImage", e2 = "antsImage"),
           function(e1, e2) {
             operator = "=="
@@ -19,6 +88,9 @@ setMethod("==", signature(e1 = "antsImage", e2 = "antsImage"),
 
 #' @rdname antsImageops
 #' @aliases ==,antsImage,list-method
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' testthat::expect_error(img01 == list())  
 setMethod("==", signature(e1 = "antsImage", e2 = "list"),
           function(e1, e2) {
             stop("antsRegions not done yet!")
@@ -65,7 +137,8 @@ setMethod("==", signature(e1 = "ANY", e2 = "antsImage"),
           function(e1, e2) {
             a2 = as.array(e2)
             res = callGeneric(e1, a2)
-            return(res) # DOES NOT RETURN ANTsImage
+            res = as.antsImage(res, reference = e2)            
+            return(res) # Now returns antsImage
           })
 
 
@@ -91,6 +164,9 @@ setMethod(">", signature(e1 = "antsImage", e2 = "antsImage"),
 
 #' @rdname antsImageops
 #' @aliases >,antsImage,list-method
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' testthat::expect_error(img01 > list())  
 setMethod(">", signature(e1 = "antsImage", e2 = "list"),
           function(e1, e2) {
             stop("antsRegions not done yet!")
@@ -137,7 +213,8 @@ setMethod(">", signature(e1 = "ANY", e2 = "antsImage"),
           function(e1, e2) {
             a2 = as.array(e2)
             res = callGeneric(e1, a2)
-            return(res) # DOES NOT RETURN ANTsImage
+            res = as.antsImage(res, reference = e2)            
+            return(res) # Now returns antsImage
           })
 
 
@@ -163,6 +240,9 @@ setMethod("<", signature(e1 = "antsImage", e2 = "antsImage"),
 
 #' @rdname antsImageops
 #' @aliases <,antsImage,list-method
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' testthat::expect_error(img01 < list())   
 setMethod("<", signature(e1 = "antsImage", e2 = "list"),
           function(e1, e2) {
             stop("antsRegions not done yet!")
@@ -209,7 +289,8 @@ setMethod("<", signature(e1 = "ANY", e2 = "antsImage"),
           function(e1, e2) {
             a2 = as.array(e2)
             res = callGeneric(e1, a2)
-            return(res) # DOES NOT RETURN ANTsImage
+            res = as.antsImage(res, reference = e2)            
+            return(res) # Now returns antsImage            
           })
 
 
@@ -235,6 +316,9 @@ setMethod("!=", signature(e1 = "antsImage", e2 = "antsImage"),
 
 #' @rdname antsImageops
 #' @aliases !=,antsImage,list-method
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' testthat::expect_error(img01 != list())  
 setMethod("!=", signature(e1 = "antsImage", e2 = "list"),
           function(e1, e2) {
             stop("antsRegions not done yet!")
@@ -281,7 +365,8 @@ setMethod("!=", signature(e1 = "ANY", e2 = "antsImage"),
           function(e1, e2) {
             a2 = as.array(e2)
             res = callGeneric(e1, a2)
-            return(res) # DOES NOT RETURN ANTsImage
+            res = as.antsImage(res, reference = e2)            
+            return(res) # Now returns antsImage
           })
 
 
@@ -307,6 +392,9 @@ setMethod("<=", signature(e1 = "antsImage", e2 = "antsImage"),
 
 #' @rdname antsImageops
 #' @aliases <=,antsImage,list-method
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' testthat::expect_error(img01 <= list())  
 setMethod("<=", signature(e1 = "antsImage", e2 = "list"),
           function(e1, e2) {
             stop("antsRegions not done yet!")
@@ -353,7 +441,8 @@ setMethod("<=", signature(e1 = "ANY", e2 = "antsImage"),
           function(e1, e2) {
             a2 = as.array(e2)
             res = callGeneric(e1, a2)
-            return(res) # DOES NOT RETURN ANTsImage
+            res = as.antsImage(res, reference = e2)            
+            return(res) # Now returns antsImage
           })
 
 
@@ -379,6 +468,9 @@ setMethod(">=", signature(e1 = "antsImage", e2 = "antsImage"),
 
 #' @rdname antsImageops
 #' @aliases >=,antsImage,list-method
+#' @examples
+#' img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
+#' testthat::expect_error(img01 >= list())  
 setMethod(">=", signature(e1 = "antsImage", e2 = "list"),
           function(e1, e2) {
             stop("antsRegions not done yet!")
@@ -425,7 +517,8 @@ setMethod(">=", signature(e1 = "ANY", e2 = "antsImage"),
           function(e1, e2) {
             a2 = as.array(e2)
             res = callGeneric(e1, a2)
-            return(res) # DOES NOT RETURN ANTsImage
+            res = as.antsImage(res, reference = e2)            
+            return(res) # Now returns antsImage
           })
 
 

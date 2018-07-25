@@ -6,21 +6,31 @@
 #' averaging
 #' @author Avants BB, Pustina D
 #' @examples
-#' r16 <- antsImageRead(getANTsRData('r16'))
-#' r64 <- antsImageRead(getANTsRData('r64'))
+#' f1 = getANTsRData('r16')
+#' f2 = getANTsRData('r64')
+#' r16 <- antsImageRead(f1)
+#' r64 <- antsImageRead(f2)
 #' mylist <- list(r16, r64)
 #' antsAverageImages(mylist)
+#' bad = resampleImage(r16, c(2, 2), useVoxels = FALSE)
+#' antsAverageImages(mylist, normalize = TRUE)
+#' antsAverageImages(c(f1, f2))
+#' testthat::expect_error(antsAverageImages(list(f1, "")))
+#' testthat::expect_error(antsAverageImages(list(r64, bad)))
+#' diff_size = as.antsImage(r64[1:10, 1:10], ref = r64)
+#' testthat::expect_error(antsAverageImages(list(r64, diff_size)))
+#' 
 #' @export
 antsAverageImages <- function( imageList, normalize = FALSE)
   {
   
   # determine if input is list of images or filenames
-  isfile = F
+  isfile = FALSE
   if (class(imageList) == 'character') {
     if (any(!file.exists(imageList))) {
       stop('One or more files do not exist.')
     }
-    isfile = T
+    isfile = TRUE
   }
   
   # create empty average image

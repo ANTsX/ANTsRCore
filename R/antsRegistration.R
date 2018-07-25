@@ -17,12 +17,27 @@
 #' @param affSampling the nbins or radius parameter for the syn metric
 #' @param synMetric the metric for the syn part (CC, mattes, meansquares, demons)
 #' @param synSampling the nbins or radius parameter for the syn metric
-#' @param affIterations vector of iterations for low-dimensional registration.  we will set the smoothing
-#' and multi-resolution parameters based on the length of this vector.
+#' @param affIterations vector of iterations for low-dimensional registration.  
+#' we will set the smoothing and multi-resolution parameters based on the 
+#' length of this vector.
 #' @param regIterations vector of iterations for syn.  we will set the smoothing
 #' and multi-resolution parameters based on the length of this vector.
-#' @param multivariateExtras list of additional images and metrics which will trigger the use of multiple metrics in the registration process in the deformable stage. Multivariate metrics needs 5 entries: name of metric, fixed, moving, weight, samplingParam.  the list should be of the form \code{ list( list( "nameOfMetric2", img, img, weight, metricParam ) ) }.  Another example would be \code{ list( list( "MeanSquares", f2, m2, 0.5, 0 ), list( "CC", f2, m2, 0.5, 2 ) ) }.  This is only compatible with the \code{SyNOnly} transformation.
-#' @param restrictTransformation This option allows the user to restrict the optimization of the displacement field, translation, rigid or affine transform on a per-component basis. For example, if one wants to limit the deformation or rotation of 3-D volume to the first two dimensions, this is possible by specifying a weight vector of \code{c(1,1,0)} for a 3D deformation field or \code{c(1,1,0,1,1,0)} for a rigid transformation. Restriction currently only works if there are no preceding transformations.
+#' @param multivariateExtras list of additional images and metrics which will 
+#' trigger the use of multiple metrics in the registration process 
+#' in the deformable stage. Multivariate metrics needs 5 entries: 
+#' name of metric, fixed, moving, weight, samplingParam.  
+#' the list should be of the form 
+#' \code{ list( list( "nameOfMetric2", img, img, weight, metricParam ) ) }.  
+#' Another example would be \code{ list( list( "MeanSquares", f2, m2, 0.5, 0 ), 
+#' list( "CC", f2, m2, 0.5, 2 ) ) }.  This is only compatible with the 
+#' \code{SyNOnly} transformation.
+#' @param restrictTransformation This option allows the user to restrict the 
+#' optimization of the displacement field, translation, rigid or affine 
+#' transform on a per-component basis. For example, if one wants to limit 
+#' the deformation or rotation of 3-D volume to the first two dimensions, 
+#' this is possible by specifying a weight vector of \code{c(1,1,0)} for a 
+#' 3D deformation field or \code{c(1,1,0,1,1,0)} for a rigid transformation. 
+#' Restriction currently only works if there are no preceding transformations.
 #' @param verbose request verbose output (useful for debugging)
 #' @param ... additional options see antsRegistration in ANTs
 #' @details
@@ -30,7 +45,8 @@
 #' \itemize{
 #'   \item{"Translation": }{Translation transformation.}
 #'   \item{"Rigid": }{Rigid transformation: Only rotation and translation.}
-#'   \item{"Similarity": }{Similarity transformation: scaling, rotation and translation.}
+#'   \item{"Similarity": }{Similarity transformation: scaling, rotation and 
+#'   translation.}
 #'   \item{"QuickRigid": }{Rigid transformation: Only rotation and translation.
 #'   May be useful for quick visualization fixes.'}
 #'   \item{"DenseRigid": }{Rigid transformation: Only rotation and translation.
@@ -67,7 +83,8 @@
 #'   \item{"SyNAggro": }{SyN, but with more aggressive registration
 #'     (fine-scale matching and more deformation).  Takes more time than \code{SyN}.}
 #'   \item{"TVMSQ": }{time-varying diffeomorphism with mean square metric}
-#'   \item{"TVMSQC": }{time-varying diffeomorphism with mean square metric for very large deformation}
+#'   \item{"TVMSQC": }{time-varying diffeomorphism with mean square metric 
+#'   for very large deformation}
 #' }
 #' @return outputs a list containing:
 #' \itemize{
@@ -80,8 +97,36 @@
 #' @author Shrinidhi KL, Tustison NJ, Avants BB
 #' @examples
 #'
+#' #print help
+#' antsRegistration()
 #' fi <- antsImageRead(getANTsRData("r16") )
 #' mi <- antsImageRead(getANTsRData("r64") )
+#' mytx2 <- antsRegistration(fixed=fi,  typeofTransform = '')
+#' rig <- antsRegistration(fixed=fi, moving = mi,
+#'  typeofTransform = 'Rigid', verbose = TRUE)
+#' trans = readAntsrTransform(rig$fwdtransforms, 2)
+#' postrig <- antsRegistration(fixed=fi, moving=mi,
+#' typeofTransform = "Affine", initialTransform = trans) 
+#' for (itype in c("AffineFast", "BOLDAffine")) {
+#' print(itype)
+#' mytx2 <- antsRegistration(fixed=fi, moving=mi,
+#' typeofTransform = itype)
+#' } 
+#' mytx2 <- antsRegistration(fixed=fi, moving=mi,
+#' typeofTransform = "SyNOnly", 
+#' multivariateExtras = list(list( "MeanSquares", fi, mi, 0.5, 0 )) )
+#' testthat::expect_error(
+#' antsRegistration(fixed=fi, moving=mi, typeofTransform = "sdf")
+#' )
+#' bad <- antsRegistration(fixed=fi, moving=mi, regIterations = 40)
+#' affIterations = c(3, 2, 1, 0)
+#' mytx2 <- antsRegistration(fixed=fi, moving=mi, 
+#' affIterations = affIterations)
+#' 
+#'   Sys.setenv(ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS = 1)
+#'   Sys.setenv(ANTS_RANDOM_SEED = 20180716)
+#' fi <- antsImageRead(getANTsRData("r16") )
+#' mi <- antsImageRead(getANTsRData("r64") )   
 #' fi<-resampleImage(fi,c(60,60),1,0)
 #' mi<-resampleImage(mi,c(50, 50),1,0) # speed up
 #' mytx <- antsRegistration(fixed=fi, moving=mi, typeofTransform = c('SyN') )
@@ -90,7 +135,7 @@
 #' mytx2 <- antsRegistration(fixed=fi, moving=mi, typeofTransform = c('SyN') )
 #' mywarpedimage2 <- antsApplyTransforms( fixed=fi, moving=mi,
 #'   transformlist=mytx2$fwdtransforms )   
-#' testthat::expect_equal(mywarpedimage, mywarpedimage2)
+#' # testthat::expect_equal(as.array(mywarpedimage), as.array(mywarpedimage2))
 #'
 #' \dontrun{ # quick visualization fix for images with odd orientation
 #' mni = antsImageRead( getANTsRData( "mni" ) )
@@ -116,7 +161,7 @@ antsRegistration <- function(
   moving = NA,
   typeofTransform = "SyN",
   initialTransform = NA,
-  outprefix = "",
+  outprefix = NULL,
   mask = NA,
   gradStep=0.2,
   flowSigma=3,
@@ -132,12 +177,14 @@ antsRegistration <- function(
   verbose=FALSE, ... ) {
   numargs <- nargs()
   if (numargs == 1 & typeof(fixed) == "list") {
-    .Call("antsRegistration", .int_antsProcessArguments(c(fixed)), PACKAGE = "ANTsRCore")
+    .Call("antsRegistration", 
+          .int_antsProcessArguments(c(fixed)), PACKAGE = "ANTsRCore")
     return(0)
   }
   if (nchar(typeofTransform) == 0)
     typeofTransform = "SyN"
-  if (nchar(outprefix) == 0 || length(outprefix) == 0) {
+  if (nchar(outprefix) == 0 || length(outprefix) == 0
+      || is.null(outprefix)) {
     outprefix = tempfile()
   }
 
@@ -156,16 +203,21 @@ antsRegistration <- function(
   pre_transform = all_tx$alltx[ all_tx$findinv | all_tx$findfwd | all_tx$findaff]
   rm(list = "all_tx")
 
-  if ( numargs < 1 | missing(fixed) | missing(moving)
-       | missing(typeofTransform) | missing(outprefix) )
+  if ( numargs < 1 | missing(fixed) | missing(moving) )
   {
     cat("for simplified mode: \n")
-    cat(" antsRegistration( fixed , moving , typeofTransform = c(\"Rigid\",\"Affine\",\"AffineFast\",\"SyN\",\"SyNCC\"),  outputPrefix=\"./antsRegOut\" \n")
+    cat(paste0(" antsRegistration( fixed , moving , ", 
+               "typeofTransform = c(\"Rigid\",\"Affine\",\"AffineFast\",", 
+               "\"SyN\",\"SyNCC\"),  outputPrefix=\"./antsRegOut\" \n"))
     cat("")
     cat("For full mode: use standard ants call , e.g. : \n")
-    cat(" ANTsR::antsRegistration( list( d=2,m=\"mi[r16slice.nii.gz,r64slice.nii.gz,1,20,Regular,0.05]\", t=\"affine[1.0]\", c=\"2100x1200x1200x0\",  s=\"3x2x1x0\", f=\"4x3x2x1\", u=\"1\", o=\"[xtest,xtest.nii.gz,xtest_inv.nii.gz]\" ) )\n")
+    cat(paste0(" ANTsR::antsRegistration( list( d=2,m=\"mi[r16slice.nii.gz,", 
+               "r64slice.nii.gz,1,20,Regular,0.05]\", t=\"affine[1.0]\", ", 
+               "c=\"2100x1200x1200x0\",  s=\"3x2x1x0\", f=\"4x3x2x1\", ", 
+               "u=\"1\", o=\"[xtest,xtest.nii.gz,xtest_inv.nii.gz]\" ) )\n"))
     cat("full help: \n")
-    .Call("antsRegistration", .int_antsProcessArguments(c(list("--help"))), PACKAGE = "ANTsRCore")
+    .Call("antsRegistration", .int_antsProcessArguments(c(list("--help"))), 
+          PACKAGE = "ANTsRCore")
     return(0)
   }
   args <- list(fixed, moving, typeofTransform, outprefix, ...)
@@ -265,7 +317,8 @@ antsRegistration <- function(
         }
         if (typeofTransform == "SyNBold") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
-                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.2]", sep = ""),
+                       "-m", paste(affMetric,"[", f, ",", m, ",1,",
+                                   affSampling,",regular,0.2]", sep = ""),
                        "-t", "Rigid[0.25]", "-c", "[1200x1200x100,1e-6,5]", "-s", "2x1x0",
                        "-f", "4x2x1",
                        "-x", "[NA,NA]",
@@ -278,15 +331,18 @@ antsRegistration <- function(
         }
         if (typeofTransform == "SyNBoldAff") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
-                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.2]", sep = ""),
+                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,
+                                   ",regular,0.2]", sep = ""),
                        "-t", "Rigid[0.25]", "-c", "[1200x1200x100,1e-6,5]", "-s", "2x1x0",
                        "-f", "4x2x1",
                        "-x", "[NA,NA]",
-                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.2]", sep = ""),
+                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,
+                                   ",regular,0.2]", sep = ""),
                        "-t", "Affine[0.25]", "-c", "[200x20,1e-6,5]", "-s", "1x0",
                        "-f", "2x1",
                        "-x", "[NA,NA]",
-                       "-m", paste(synMetric,"[", f, ",", m, ",1,",synSampling,"]", sep = ""),
+                       "-m", paste(synMetric,"[", f, ",", m, ",1,",synSampling,
+                                   "]", sep = ""),
                        "-t", mysyn,
                        "-c", paste("[",synits,",1e-7,8]",collapse=''),
                        "-s", smoothingsigmas, "-f", shrinkfactors, "-u", "0", "-z", "1", "-l", myl,
@@ -358,7 +414,9 @@ antsRegistration <- function(
             args1 = list( )
             for ( mm in 1:length( multivariateExtras ) ) {
               if ( length( multivariateExtras[[mm]] ) != 5 )
-                stop("multivariate metric needs 5 entries: name of metric, fixed, moving, weight, samplingParam")
+                stop(paste0("multivariate metric needs 5 entries: ", 
+                            "name of metric, fixed, moving, weight, ", 
+                            "samplingParam"))
               args1 <- lappend( args1, list(
                 "-m", paste(
                   as.character(multivariateExtras[[mm]][[1]]),"[",
@@ -613,9 +671,11 @@ antsRegistration <- function(
   .Call("antsRegistration", args, PACKAGE = "ANTsRCore")
 }
 
-############################################################### .antsrmakeRandomString(n, length) function generates a random string random
-############################################################### string of the length (length), made up of numbers, small and capital letters
-############################################################### helper function
+################################ 
+# .antsrmakeRandomString(n, length) function generates a random string random
+# string of the length (length), made up of numbers, small and capital letters
+# helper function
+################################ 
 .antsrmakeRandomString <- function(n = 1, mylength = 12) {
   randomString <- c(1:n)  # initialize vector
   for (i in 1:n) {
@@ -670,40 +730,59 @@ antsrGetPointerName <- function(img) {
 #' @param iterations should be greater than 1 less than 10.
 #' @param gradientStep should be less than 1, speed of shape update step.
 #' Passed to \code{\link{antsRegistration}}
+#' @param verbose print diagnostic messages, 
+#' passed to \code{\link{antsRegistration}}
+#' @param ... Additional options to pass to \code{\link{antsRegistration}}
 #' @return template antsImage
 #' @author Avants BB
 #' @examples
-#' \dontrun{
 #' pop = getANTsRData( "population" )
 #' avg = antsAverageImages( pop ) # this is in ANTsR
-#' template = buildTemplate( avg, pop, 'SyN' )
-#' }
+#' template = buildTemplate( avg, pop, 'SyN', iterations = 1)
 #' @export buildTemplate
 buildTemplate <- function(
   initialTemplate,
   imgList,
   typeofTransform,
   iterations = 3,
-  gradientStep = 0.25
-   ) {
+  gradientStep = 0.25,
+  verbose = TRUE,
+  ...
+) {
   template = antsImageClone( initialTemplate )
-  for ( i in 1:iterations ) {
+  for (i in 1:iterations ) {
+    if (verbose) {
+      message(paste0("Iteration: ", i))
+    }
     avgIlist = list()
     avgWlist = c()
-    for ( k in 1:length( imgList ) ) {
-      w1 = antsRegistration( template,
+    for (k in 1:length( imgList ) ) {
+      w1 = antsRegistration( 
+        template,
         imgList[[k]], typeofTransform = typeofTransform,
-        gradStep = gradientStep)
+        gradStep = gradientStep,
+        verbose = verbose > 1,
+        ...)
       avgIlist[[k]] = w1$warpedmovout
-      avgWlist[ k ] = antsApplyTransforms(  initialTemplate, imgList[[k]],
+      avgWlist[ k ] = antsApplyTransforms(  
+        initialTemplate, imgList[[k]],
         w1$fwdtransforms, compose = w1$fwdtransforms[1] )
-      }
+    }
+    if (verbose) {
+      message("Averaging images")
+    }    
     template = antsAverageImages( avgIlist )
-    wavg = antsAverageImages( avgWlist ) * ( -1.0 * gradientStep )
-    wavgfn = tempfile( fileext='.nii.gz' )
+    if (verbose) {
+      message("Averaging warped composed transforms")
+    }        
+    wavg = antsAverageImages( avgWlist ) * (-1.0 * gradientStep)
+    wavgfn = tempfile( fileext = ".nii.gz" )
     antsImageWrite( wavg, wavgfn )
     template = antsApplyTransforms( template, template, wavgfn )
+    if (verbose) {
+      message("Sharpening template image")
+    }        
     template = template * 0.5 + iMath( template, "Sharpen" ) * 0.5
-    }
-  return( template )
   }
+  return( template )
+}
