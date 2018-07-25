@@ -20,6 +20,7 @@ Use any package.  If package is not installed, this will install from CRAN.
 \examples{
 
 usePkg("randomForest")
+usePkg("stats", allowInstall = TRUE)
 
 }
 \author{

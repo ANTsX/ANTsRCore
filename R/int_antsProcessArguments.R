@@ -1,3 +1,9 @@
+#' args = "hey"
+#' .int_antsProcessArguments(args)
+#' args = list(h = "hey")
+#' .int_antsProcessArguments(args)
+#' args = list(h = list("hey"))
+#' .int_antsProcessArguments(args)
 .int_antsProcessArguments <- function(args) {
   char_vect <- ""
   if (typeof(args) == "list") {
