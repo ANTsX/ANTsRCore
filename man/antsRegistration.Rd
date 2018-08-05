@@ -23,7 +23,7 @@ information metric by default. See \code{Details.}}
 
 \item{outprefix}{output will be named with this prefix.}
 
-\item{mask}{mask the registration.}
+\item{mask}{mask the registration.  can be a single mask or pair of the form \code{list(maskFixed,maskMoving)}}
 
 \item{gradStep}{gradient step size (not for all tx)}
 
@@ -40,28 +40,28 @@ information metric by default. See \code{Details.}}
 \item{synSampling}{the nbins or radius parameter for the syn metric}
 
 \item{affIterations}{vector of iterations for low-dimensional registration.
-we will set the smoothing and multi-resolution parameters based on the 
+we will set the smoothing and multi-resolution parameters based on the
 length of this vector.}
 
 \item{regIterations}{vector of iterations for syn.  we will set the smoothing
 and multi-resolution parameters based on the length of this vector.}
 
-\item{multivariateExtras}{list of additional images and metrics which will 
-trigger the use of multiple metrics in the registration process 
-in the deformable stage. Multivariate metrics needs 5 entries: 
-name of metric, fixed, moving, weight, samplingParam.  
-the list should be of the form 
-\code{ list( list( "nameOfMetric2", img, img, weight, metricParam ) ) }.  
-Another example would be \code{ list( list( "MeanSquares", f2, m2, 0.5, 0 ), 
-list( "CC", f2, m2, 0.5, 2 ) ) }.  This is only compatible with the 
+\item{multivariateExtras}{list of additional images and metrics which will
+trigger the use of multiple metrics in the registration process
+in the deformable stage. Multivariate metrics needs 5 entries:
+name of metric, fixed, moving, weight, samplingParam.
+the list should be of the form
+\code{ list( list( "nameOfMetric2", img, img, weight, metricParam ) ) }.
+Another example would be \code{ list( list( "MeanSquares", f2, m2, 0.5, 0 ),
+list( "CC", f2, m2, 0.5, 2 ) ) }.  This is only compatible with the
 \code{SyNOnly} transformation.}
 
-\item{restrictTransformation}{This option allows the user to restrict the 
-optimization of the displacement field, translation, rigid or affine 
-transform on a per-component basis. For example, if one wants to limit 
-the deformation or rotation of 3-D volume to the first two dimensions, 
-this is possible by specifying a weight vector of \code{c(1,1,0)} for a 
-3D deformation field or \code{c(1,1,0,1,1,0)} for a rigid transformation. 
+\item{restrictTransformation}{This option allows the user to restrict the
+optimization of the displacement field, translation, rigid or affine
+transform on a per-component basis. For example, if one wants to limit
+the deformation or rotation of 3-D volume to the first two dimensions,
+this is possible by specifying a weight vector of \code{c(1,1,0)} for a
+3D deformation field or \code{c(1,1,0,1,1,0)} for a rigid transformation.
 Restriction currently only works if there are no preceding transformations.}
 
 \item{verbose}{request verbose output (useful for debugging)}
@@ -87,7 +87,7 @@ typeofTransform can be one of:
 \itemize{
   \item{"Translation": }{Translation transformation.}
   \item{"Rigid": }{Rigid transformation: Only rotation and translation.}
-  \item{"Similarity": }{Similarity transformation: scaling, rotation and 
+  \item{"Similarity": }{Similarity transformation: scaling, rotation and
   translation.}
   \item{"QuickRigid": }{Rigid transformation: Only rotation and translation.
   May be useful for quick visualization fixes.'}
@@ -125,7 +125,7 @@ typeofTransform can be one of:
   \item{"SyNAggro": }{SyN, but with more aggressive registration
     (fine-scale matching and more deformation).  Takes more time than \code{SyN}.}
   \item{"TVMSQ": }{time-varying diffeomorphism with mean square metric}
-  \item{"TVMSQC": }{time-varying diffeomorphism with mean square metric 
+  \item{"TVMSQC": }{time-varying diffeomorphism with mean square metric
   for very large deformation}
 }
 }
@@ -140,27 +140,28 @@ rig <- antsRegistration(fixed=fi, moving = mi,
  typeofTransform = 'Rigid', verbose = TRUE)
 trans = readAntsrTransform(rig$fwdtransforms, 2)
 postrig <- antsRegistration(fixed=fi, moving=mi,
-typeofTransform = "Affine", initialTransform = trans) 
+typeofTransform = "Affine", initialTransform = trans)
 for (itype in c("AffineFast", "BOLDAffine")) {
 print(itype)
 mytx2 <- antsRegistration(fixed=fi, moving=mi,
 typeofTransform = itype)
-} 
+}
 mytx2 <- antsRegistration(fixed=fi, moving=mi,
-typeofTransform = "SyNOnly", 
+typeofTransform = "SyNOnly",
 multivariateExtras = list(list( "MeanSquares", fi, mi, 0.5, 0 )) )
 testthat::expect_error(
 antsRegistration(fixed=fi, moving=mi, typeofTransform = "sdf")
 )
 bad <- antsRegistration(fixed=fi, moving=mi, regIterations = 40)
 affIterations = c(3, 2, 1, 0)
-mytx2 <- antsRegistration(fixed=fi, moving=mi, 
+mytx2 <- antsRegistration(fixed=fi, moving=mi,
 affIterations = affIterations)
-
-  Sys.setenv(ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS = 1)
-  Sys.setenv(ANTS_RANDOM_SEED = 20180716)
+# set below for slower but numerically repeatable results
+# these should be set in .Renviron not by sys calls
+#  Sys.setenv(ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS = 1)
+#  Sys.setenv(ANTS_RANDOM_SEED = 20180716)
 fi <- antsImageRead(getANTsRData("r16") )
-mi <- antsImageRead(getANTsRData("r64") )   
+mi <- antsImageRead(getANTsRData("r64") )
 fi<-resampleImage(fi,c(60,60),1,0)
 mi<-resampleImage(mi,c(50, 50),1,0) # speed up
 mytx <- antsRegistration(fixed=fi, moving=mi, typeofTransform = c('SyN') )
@@ -168,7 +169,7 @@ mywarpedimage <- antsApplyTransforms( fixed=fi, moving=mi,
   transformlist=mytx$fwdtransforms )
 mytx2 <- antsRegistration(fixed=fi, moving=mi, typeofTransform = c('SyN') )
 mywarpedimage2 <- antsApplyTransforms( fixed=fi, moving=mi,
-  transformlist=mytx2$fwdtransforms )   
+  transformlist=mytx2$fwdtransforms )
 # testthat::expect_equal(as.array(mywarpedimage), as.array(mywarpedimage2))
 
 \dontrun{ # quick visualization fix for images with odd orientation
