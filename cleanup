@@ -6,3 +6,7 @@ rm -f -r src/*.gcno
 rm -f -r src/*.gcda
 rm -f -r ants
 rm -f src/Makevars
+
+cd inst/include
+mv README.md RcppANTsR.h antscore.h RcppANTsR/ ../ && rm -rf * && mv ../README.md ../RcppANTsR.h ../antscore.h ../RcppANTsR ./
+cd ../../
