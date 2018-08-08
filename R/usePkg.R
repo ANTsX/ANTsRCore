@@ -24,9 +24,7 @@ usePkg <- function(packageName, allowInstall=FALSE ) {
   } else {
     temp <- tryCatch({attachNamespace(packageName)},
       error = function(e) {
-        FALSE
       }, finally = {
-        TRUE
       })
   }
   return(success)
