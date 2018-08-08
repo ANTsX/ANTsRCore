@@ -1,5 +1,5 @@
 #include <RcppANTsR.h>
-#include "iMathFunctions1.h"
+#include "iMathFunctions.h"
 
 
 template <class ImageType>

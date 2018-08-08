@@ -1,5 +1,5 @@
 #include <RcppANTsR.h>
-#include "iMathFunctions3.h"
+#include "iMathFunctions.h"
 
 template <class ImageType>
 SEXP iMathGE( Rcpp::List args )
