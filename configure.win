@@ -2,9 +2,10 @@
 CMAKE_C_FLAGS="-O3"
 CMAKE_CXX_FLAGS="-O3"
 CMAKE_EXE_LINKER_FLAGS="-Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
-DLLFLAGS="${DLLFLAGS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
-PKG_CPPFLAGS="${PKG_CPPFLAGS} -Wl,--allow-multiple-definition,--enable-auto-import,--enable-runtime-pseudo-reloc,--verbose"
-
+# DLLFLAGS="${DLLFLAGS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
+DLLFLAGS="${DLLFLAGS} ${CMAKE_EXE_LINKER_FLAGS}"
+# PKG_CPPFLAGS="${PKG_CPPFLAGS} -Wl,--allow-multiple-definition,--enable-auto-import,--enable-runtime-pseudo-reloc,--verbose"
+PKG_CPPFLAGS="${PKG_CPPFLAGS} ${CMAKE_EXE_LINKER_FLAGS}"
 
 CXX_STD=CXX11
 ITKRCMAKE=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkIncludes(); cat(a)'`
@@ -27,7 +28,8 @@ echo "PKG_CPPFLAGS =${PKG_CPPFLAGS} -Wa,-mbig-obj -I\${ITK} -I\${PWD} -I\${myant
   -I\${myantssource}/Tensor/ " >> Makevars.win
 
 echo "CXX_STD=CXX11" >> Makevars.win
-echo "SHLIB_CXXLD =-Wl,--allow-multiple-definition,--enable-auto-import,--enable-runtime-pseudo-reloc,--verbose" >> Makevars.win
+# echo "SHLIB_CXXLD=-Wl,--allow-multiple-definition,--enable-auto-import,--enable-runtime-pseudo-reloc,--verbose" >> Makevars.win
+echo "SHLIB_CXXLD=${CMAKE_EXE_LINKER_FLAGS}"
 
 # echo "myantslib=\"\${PWD}/antb/lib/\"" >> Makevars.win
 echo "myantslib=\"./antb/lib/\"" >> Makevars.win
