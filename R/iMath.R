@@ -26,104 +26,94 @@
 #' # canny = ( iMath(myreg$warpedmovout,"Normalize")*255 ) %>% iMath("Canny",1,5,12)
 #'
 #' @export iMath
-iMath <- function( img, operation, param=NA, ... ) {
+iMath <- function(img, operation, param = NA, ...) {
   iMathOps <- NULL
+  list_0 = c("Canny", "D", "FillHoles", "GC", "GD")
+  list_1 = c("Laplacian",
+             "MC",
+             "MD",
+             "ME",
+             "MO",
+             "MaurerDistance",
+             "Normalize",
+             "PadImage",
+             "PeronaMalik",
+             "PropagateLabelsThroughMask",
+             "Sharpen",
+             "TruncateIntensity")
+  list_3 = c("GD",
+             "GE",
+             "GO",
+             "GetLargestComponent",
+             "Grad",
+             "HistogramEqualization")
   # input is usually an 'antsImage'
   if (is.na(img))
-    {
+  {
     stop("No input provided")
-    }
-  if ( is.na(operation) || (!is.character(operation)) )
-    {
-    stop("operation must be a character string")
-    }
-
-  data( "iMathOps", package="ANTsRCore", envir=environment() )
-
-  if ( operation == "GetOperations" | operation == "GetOperationsFull")
-    {
-
-    if ( operation == "GetOperationsFull")
-      {
-      return( iMathOps )
-      }
-    else
-      {
-      return( iMathOps$Operation)
-      }
-    }
-  else
-    {
-
-    # Temp fix for backward compat
-    if ( operation == "TruncateImageIntensity")
-      {
-      print(paste(operation, "is moving to TruncateIntensity. Please update your code"))
-      operation = "TruncateIntensity"
-      }
-
-    if ( ! ( operation  %in% iMathOps$Operation ) )
-      {
-      stop(paste("'operation'",operation," not recognized"))
-      }
-
-    args = list()
-    if ( is.na(param) )
-      {
-      args = list(img, operation, ...)
-      }
-    else
-      {
-      args =  list(img, operation, param, ...)
-      }
-    retval = .Call( "iMathInterface", args )
-    }
-
-    return( retval )
-
-}
-
-
-
-#' iBind
-#'
-#' bind two images along their edge
-#'
-#' @param img1 input object, an antsImage
-#' @param img2 second antsImage, same size as first
-#' @param along dimension to bind along
-#' @author BB Avants
-#' @examples
-#' fi<-antsImageRead( getANTsRData("r16") , 2 )
-#' mi<-antsImageRead( getANTsRData("r62") , 2 )
-#' bi<-iBind( fi, mi , 1 )
-#' multismoo<- fi %>% iBind( smoothImage(fi,2) ) %>% iBind( smoothImage(fi,4) )
-#'
-#' @export iBind
-iBind<-function( img1, img2, along=NA ) {
-  if(!usePkg("abind")){
-    print("Need package 'abind' to use function 'iBind.'")
-    invisible(return())
   }
-  if ( is.na(along) ) along=img1@dimension
-  if ( along > img1@dimension | along < 1 ) along=img1@dimensions
-  if ( dim(img1)[along] != dim(img1)[along] )
-    stop("cant bind images along sides of different size")
-  imgbind<-as.antsImage( abind::abind(as.array(img1), as.array(img2),
-    along=along ) )
-  antsCopyImageInfo(img1,imgbind)
+  if (is.na(operation) || (!is.character(operation)))
+  {
+    stop("operation must be a character string")
+  }
+  
+  data("iMathOps", package = "ANTsRCore", envir = environment())
+  
+  if (operation == "GetOperations" |
+      operation == "GetOperationsFull")
+  {
+    if (operation == "GetOperationsFull")
+    {
+      return(iMathOps)
+    }
+    else
+    {
+      return(iMathOps$Operation)
+    }
+  }
+  else
+  {
+    # Temp fix for backward compat
+    if (operation == "TruncateImageIntensity")
+    {
+      print(paste(
+        operation,
+        "is moving to TruncateIntensity. Please update your code"
+      ))
+      operation = "TruncateIntensity"
+    }
+    
+    if (!(operation  %in% iMathOps$Operation))
+    {
+      stop(paste("'operation'", operation, " not recognized"))
+    }
+    
+    args = list()
+    if (is.na(param))
+    {
+      args = list(img, operation, ...)
+    }
+    else
+    {
+      args =  list(img, operation, param, ...)
+    }
+    
+    if (operation %in% list_0) {
+      # print("yes in 0")
+      retval = .Call("iMathInterface", args)
+    } else if (operation %in% list_1) {
+      # print("yes in 1")
+      retval = .Call("iMathInterface1", args)
+    } else if (operation %in% list_3) {
+      # print("yes in 3")
+      retval = .Call("iMathInterface3", args)
+    } else {
+      print("No match")
+    }
+    
+    
+  }
+  
+  return(retval)
+  
 }
-
-#' Pipe an object forward
-#'
-#' The \code{\%>>\%} operator pipes the object on the left-hand side to the
-#' right-hand side according to the syntax.
-#'
-#' @importFrom magrittr %>%
-#' @name %>%
-#' @description Chain operators together
-#' @param lhs input from left side
-#' @param rhs additional params
-#' @export
-#' @usage lhs \%>\% rhs
-NULL
