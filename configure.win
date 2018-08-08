@@ -116,6 +116,7 @@ ${cmaker} \
     -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE \
     -DWINDOWS_BUILD=1 \
     -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}" \
+    -DVNL_CONFIG_ENABLE_SSE2_ROUNDING:BOOL=OFF \
     ../ants
 cd ../
 # needed for warning
