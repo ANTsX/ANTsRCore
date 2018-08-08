@@ -55,8 +55,10 @@ MAKER=mingw32-make
 echo "libs: ; cd antb && ${MAKER} ${PKG_CPPFLAGS} && cd ANTS-build && ${MAKER} all install" >> Makevars.win
 
 # get / set up ANTs code
-antsgit=https://github.com/ANTsX/ANTs.git
-antstag=6bc3e652d7628b428896ddaec837248a61d2af3b # for 4.12
+# antsgit=https://github.com/ANTsX/ANTs.git
+# antstag=e1893f746f7126331a4c31f917538f914c175dfa # wrong parser call
+antsgit=https://github.com/muschellij2/ANTs.git
+antstag=72bbf64b62673289b51482bc6f83574fc966a0a4 # muschellij2 tag
 antsrtag=`git log --pretty=format:'%H' -n 1`
 git clone $antsbranch $antsgit ants
 mkdir -p ../data
