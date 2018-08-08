@@ -141,7 +141,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsImageComparisonImageNumeric",         (DL_FUNC) &antsImageComparisonImageNumeric,          3},
     {"antsImageClone",                          (DL_FUNC) &antsImageClone,                           2},
     {"antsImageHeaderInfo",                     (DL_FUNC) &antsImageHeaderInfo,                      1},
-    {"antsImageIterator",                       (DL_FUNC) &antsImageIterator,                        1},
+    // {"antsImageIterator",                       (DL_FUNC) &antsImageIterator,                        1},
     {"antsImageIterator",                       (DL_FUNC) &antsImageIterator,                        3},
     {"antsImageIterator_Get",                   (DL_FUNC) &antsImageIterator_Get,                    1},
     {"antsImageIterator_GetIndex",              (DL_FUNC) &antsImageIterator_GetIndex,               1},
