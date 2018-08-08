@@ -1,6 +1,6 @@
 #!/bin/bash -xv
-CMAKE_C_FLAGS="-O3"
-CMAKE_CXX_FLAGS="-O3"
+CMAKE_C_FLAGS="-O3 -msse"
+CMAKE_CXX_FLAGS="-O3 -msse"
 CMAKE_EXE_LINKER_FLAGS="-Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
 # DLLFLAGS="${DLLFLAGS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
 DLLFLAGS="${DLLFLAGS} ${CMAKE_EXE_LINKER_FLAGS}"
@@ -117,6 +117,8 @@ ${cmaker} \
     -DWINDOWS_BUILD=1 \
     -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}" \
     -DVNL_CONFIG_ENABLE_SSE2_ROUNDING:BOOL=OFF \
+    -DVNL_CONFIG_ENABLE_SSE2:BOOL=OFF \
+    -DITK_COMPILER_SUPPORTS_SSE2_64:BOOL=OFF \
     ../ants
 cd ../
 # needed for warning
