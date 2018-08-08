@@ -7,7 +7,6 @@
   The following name(s) appear with different usages
   e.g., with different numbers of arguments:
 
-    antsImageIterator
     antsrMetric
 
   This needs to be resolved in the tables and any declarations.
@@ -47,7 +46,6 @@ extern SEXP antsImageComparisonImageImage(SEXP, SEXP, SEXP);
 extern SEXP antsImageComparisonImageNumeric(SEXP, SEXP, SEXP);
 extern SEXP antsImageHeaderInfo(SEXP);
 extern SEXP antsImageIterator(SEXP);
-extern SEXP antsImageIterator(SEXP, SEXP, SEXP);
 extern SEXP antsImageIterator_Get(SEXP);
 extern SEXP antsImageIterator_GetIndex(SEXP);
 extern SEXP antsImageIterator_GoToBegin(SEXP);

@@ -158,7 +158,7 @@ SEXP antsrTransform_MatrixOffset( SEXP r_type, SEXP r_precision, SEXP r_dimensio
   typedef itk::Transform<PrecisionType,Dimension,Dimension>                    TransformBaseType;
   typedef typename TransformBaseType::Pointer                                  TransformBasePointerType;
 
-  MatrixOffsetBasePointerType matrixOffset = NULL;
+  MatrixOffsetBasePointerType matrixOffset = nullptr;
 
   // Initialize transform by type
   if ( type == "AffineTransform" )
