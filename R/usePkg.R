@@ -22,7 +22,7 @@ usePkg <- function(packageName, allowInstall=FALSE ) {
     success <- requireNamespace(packageName, quietly=TRUE)
     attachNamespace(packageName)
   } else {
-    success <- tryCatch({attachNamespace(packageName)},
+    temp <- tryCatch({attachNamespace(packageName)},
       error = function(e) {
       }, finally = {
       })
