@@ -45,7 +45,7 @@ extern SEXP antsImageClone(SEXP, SEXP);
 extern SEXP antsImageComparisonImageImage(SEXP, SEXP, SEXP);
 extern SEXP antsImageComparisonImageNumeric(SEXP, SEXP, SEXP);
 extern SEXP antsImageHeaderInfo(SEXP);
-extern SEXP antsImageIterator(SEXP);
+extern SEXP antsImageIterator(SEXP, SEXP, SEXP);
 extern SEXP antsImageIterator_Get(SEXP);
 extern SEXP antsImageIterator_GetIndex(SEXP);
 extern SEXP antsImageIterator_GoToBegin(SEXP);
@@ -67,7 +67,7 @@ extern SEXP antsMatrix(SEXP);
 extern SEXP antsMatrix_asantsMatrix(SEXP, SEXP);
 extern SEXP antsMatrix_asList(SEXP);
 extern SEXP antsRegistration(SEXP);
-extern SEXP antsrMetric(SEXP, SEXP, SEXP);
+// extern SEXP antsrMetric(SEXP, SEXP, SEXP);
 extern SEXP antsrMetric(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP antsrMetric_GetDerivative(SEXP);
 extern SEXP antsrMetric_GetValue(SEXP);
@@ -138,7 +138,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsImageComparisonImageImage",           (DL_FUNC) &antsImageComparisonImageImage,            3},
     {"antsImageComparisonImageNumeric",         (DL_FUNC) &antsImageComparisonImageNumeric,          3},
     {"antsImageHeaderInfo",                     (DL_FUNC) &antsImageHeaderInfo,                      1},
-    {"antsImageIterator",                       (DL_FUNC) &antsImageIterator,                        1},
+    // {"antsImageIterator",                       (DL_FUNC) &antsImageIterator,                        1},
     {"antsImageIterator",                       (DL_FUNC) &antsImageIterator,                        3},
     {"antsImageIterator_Get",                   (DL_FUNC) &antsImageIterator_Get,                    1},
     {"antsImageIterator_GetIndex",              (DL_FUNC) &antsImageIterator_GetIndex,               1},
@@ -161,7 +161,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsMatrix_asantsMatrix",                 (DL_FUNC) &antsMatrix_asantsMatrix,                  2},
     {"antsMatrix_asList",                       (DL_FUNC) &antsMatrix_asList,                        1},
     {"antsRegistration",                        (DL_FUNC) &antsRegistration,                         1},
-    {"antsrMetric",                             (DL_FUNC) &antsrMetric,                              3},
+    // {"antsrMetric",                             (DL_FUNC) &antsrMetric,                              3},
     {"antsrMetric",                             (DL_FUNC) &antsrMetric,                              6},
     {"antsrMetric_GetDerivative",               (DL_FUNC) &antsrMetric_GetDerivative,                1},
     {"antsrMetric_GetValue",                    (DL_FUNC) &antsrMetric_GetValue,                     1},
