@@ -1,5 +1,5 @@
 #include <RcppANTsR.h>
-#include <iMathFunctions.h>
+#include <iMathFunctions2.h>
 
 template <class ImageType>
 SEXP iMathGE( Rcpp::List args )
@@ -82,7 +82,7 @@ SEXP iMathGD( Rcpp::List args )
   return Rcpp::wrap(output);
 }
  
-RcppExport SEXP iMathInterface3( SEXP r_args )
+RcppExport SEXP iMathInterface2( SEXP r_args )
 {
 try
 {

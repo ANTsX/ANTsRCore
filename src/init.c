@@ -97,7 +97,7 @@ extern SEXP DenoiseImage(SEXP);
 extern SEXP extractSlice(SEXP, SEXP, SEXP);
 extern SEXP iMathInterface(SEXP);
 extern SEXP iMathInterface1(SEXP);
-extern SEXP iMathInterface3(SEXP);
+extern SEXP iMathInterface2(SEXP);
 extern SEXP LabelClustersUniquely(SEXP);
 extern SEXP labelStats(SEXP, SEXP);
 extern SEXP mergeChannels(SEXP, SEXP);
@@ -191,7 +191,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"extractSlice",                            (DL_FUNC) &extractSlice,                             3},
     {"iMathInterface",                          (DL_FUNC) &iMathInterface,                           1},
     {"iMathInterface1",                         (DL_FUNC) &iMathInterface1,                          1},
-    {"iMathInterface3",                         (DL_FUNC) &iMathInterface3,                          1},
+    {"iMathInterface2",                         (DL_FUNC) &iMathInterface2,                          1},
     {"LabelClustersUniquely",                   (DL_FUNC) &LabelClustersUniquely,                    1},
     {"labelStats",                              (DL_FUNC) &labelStats,                               2},
     {"mergeChannels",                           (DL_FUNC) &mergeChannels,                            2},

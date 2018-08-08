@@ -41,7 +41,7 @@ iMath <- function(img, operation, param = NA, ...) {
              "PropagateLabelsThroughMask",
              "Sharpen",
              "TruncateIntensity")
-  list_3 = c("GD",
+  list_2 = c("GD",
              "GE",
              "GO",
              "GetLargestComponent",
@@ -104,9 +104,9 @@ iMath <- function(img, operation, param = NA, ...) {
     } else if (operation %in% list_1) {
       # print("yes in 1")
       retval = .Call("iMathInterface1", args)
-    } else if (operation %in% list_3) {
+    } else if (operation %in% list_2) {
       # print("yes in 3")
-      retval = .Call("iMathInterface3", args)
+      retval = .Call("iMathInterface2", args)
     } else {
       print("No match")
     }
