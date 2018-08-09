@@ -80,6 +80,7 @@ test_script:
   - travis-tool.sh run_tests
   - ls
   - cp -r C:/run/* %APPVEYOR_BUILD_FOLDER%
+  - cp C:/run/.Rbuildignore %APPVEYOR_BUILD_FOLDER%  
   - cd %APPVEYOR_BUILD_FOLDER%
   - ls
 
