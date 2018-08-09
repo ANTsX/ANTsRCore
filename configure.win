@@ -115,7 +115,7 @@ echo ${cmaker}
 # -DCMAKE_EXE_LINKER_FLAGS="${CMAKE_EXE_LINKER_FLAGS}" \
 
 ${cmaker} \
-    -G "Unix Makefiles" \
+    -G "MSYS Makefiles" \
     -DITK_DIR:PATH="${ITKDIR}" \
     -DCMAKE_SH="CMAKE_SH-NOTFOUND" \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${CMAKE_EXE_LINKER_FLAGS} ${compflags} -DNDEBUG  "\
