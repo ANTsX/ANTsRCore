@@ -55,7 +55,15 @@ echo "all: \$(SHLIB)" >> Makevars.win
 echo "\$(SHLIB): libs" >> Makevars.win
 # MAKER=c:/Rtools/mingw_64/bin/mingw32-make.exe
 MAKER=mingw32-make
-echo "libs: ; cd antb && ${MAKER} && cd ANTS-build && ${MAKER} all install" >> Makevars.win
+CMAKE_MAKE_PROGRAM=`which ${MAKER}`
+if [ -z "${CMAKE_MAKE_PROGRAM}" ]; then
+	CMAKE_MAKE_PROGRAM=`which ${MAKER}.exe` ;
+fi
+if [ -z "${CMAKE_MAKE_PROGRAM}" ]; then
+	CMAKE_MAKE_PROGRAM="make.exe" ;
+fi
+
+echo "libs: ; cd \${PWD}/antb && ls && ${MAKER} && cd \${PWD}/antb/ANTS-build && ${MAKER} all install" >> Makevars.win
 
 # get / set up ANTs code
 # antsgit=https://github.com/ANTsX/ANTs.git
@@ -104,8 +112,10 @@ fi
 
 echo ${cmaker}
 
+# -DCMAKE_EXE_LINKER_FLAGS="${CMAKE_EXE_LINKER_FLAGS}" \
+
 ${cmaker} \
-    -G "MinGW Makefiles" \
+    -G "Unix Makefiles" \
     -DITK_DIR:PATH="${ITKDIR}" \
     -DCMAKE_SH="CMAKE_SH-NOTFOUND" \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${CMAKE_EXE_LINKER_FLAGS} ${compflags} -DNDEBUG  "\
@@ -119,6 +129,7 @@ ${cmaker} \
     -DCMAKE_INSTALL_PREFIX:PATH="${R_PACKAGE_DIR}/libs/" \
     -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE \
     -DWINDOWS_BUILD=1 \
+    -DCMAKE_MAKE_PROGRAM="${CMAKE_MAKE_PROGRAM}" \
     -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}" \
     -DVNL_CONFIG_ENABLE_SSE2_ROUNDING:BOOL=ON \
     -DVNL_CONFIG_ENABLE_SSE2:BOOL=ON \
