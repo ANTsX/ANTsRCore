@@ -104,7 +104,7 @@ echo ${cmaker}
 ${cmaker} \
     -G "MinGW Makefiles" \
     -DITK_DIR:PATH="${ITKDIR}" \
-    -DCMAKE_SH="CMAKE_SH-NOTFOUND" \
+    -DCMAKE_SH=OFF \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${CMAKE_EXE_LINKER_FLAGS} ${compflags} -DNDEBUG  "\
     -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${CMAKE_EXE_LINKER_FLAGS} ${compflags} -DNDEBUG  "\
     -DBUILD_SHARED_LIBS=OFF \
