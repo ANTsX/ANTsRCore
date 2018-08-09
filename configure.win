@@ -1,6 +1,6 @@
 #!/bin/bash -xv
-CMAKE_C_FLAGS="-O3 -m32"
-CMAKE_CXX_FLAGS="-O3 -m32"
+CMAKE_C_FLAGS="-O3"
+CMAKE_CXX_FLAGS="-O3"
 CMAKE_EXE_LINKER_FLAGS="-m32 -shared -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
 # DLLFLAGS="${DLLFLAGS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
 DLLFLAGS="${DLLFLAGS} ${CMAKE_EXE_LINKER_FLAGS}"
