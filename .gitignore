@@ -28,6 +28,7 @@ R/.Rhistory
 .DS_Store
 .Rproj.user
 inst/include/*
+inst/include/include/*
 inst/include/ANTS.cxx
 inst/include/ANTSConformalMapping.cxx
 inst/include/ANTSConformalMapping.h

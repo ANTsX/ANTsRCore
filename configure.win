@@ -58,7 +58,7 @@ echo "libs: ; cd antb && ${MAKER} ${PKG_CPPFLAGS} && cd ANTS-build && ${MAKER} a
 # antsgit=https://github.com/ANTsX/ANTs.git
 # antstag=e1893f746f7126331a4c31f917538f914c175dfa # wrong parser call
 antsgit=https://github.com/muschellij2/ANTs.git
-antstag=0c8050d5d29343f69ea0206f5d9faae033d32662 # muschellij2 tag
+antstag=aa95aab8d546ad5a6f3c1d5922abf03c504ea1bc # muschellij2 tag
 antsrtag=`git log --pretty=format:'%H' -n 1`
 git clone $antsbranch $antsgit ants
 mkdir -p ../data
