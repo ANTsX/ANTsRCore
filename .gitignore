@@ -29,6 +29,10 @@ R/.Rhistory
 .Rproj.user
 inst/include/*
 inst/include/include/*
+inst/include/CustomColormaps/*
+inst/include/Hooks/*
+inst/include/Testing/*
+inst/include/DevelopmentSetupScripts/*
 inst/include/ANTS.cxx
 inst/include/ANTSConformalMapping.cxx
 inst/include/ANTSConformalMapping.h
