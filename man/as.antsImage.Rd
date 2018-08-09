@@ -7,23 +7,26 @@
 \alias{as.antsImage,array-method}
 \title{Convert Objects into antsImage objects}
 \usage{
-as.antsImage(object, pixeltype = "float", spacing = as.numeric(seq.int(from
-  = 1, by = 0, length.out = length(dim(object)))),
-  origin = as.numeric(seq.int(from = 0, by = 0, length.out =
-  length(dim(object)))), direction = diag(length(dim(object))),
-  components = FALSE, reference = NA, ...)
+as.antsImage(object, pixeltype = "float",
+  spacing = as.numeric(seq.int(from = 1, by = 0, length.out =
+  length(dim(object)))), origin = as.numeric(seq.int(from = 0, by = 0,
+  length.out = length(dim(object)))),
+  direction = diag(length(dim(object))), components = FALSE,
+  reference = NA, ...)
 
 \S4method{as.antsImage}{matrix}(object, pixeltype = "float",
   spacing = as.numeric(seq.int(from = 1, by = 0, length.out =
   length(dim(object)))), origin = as.numeric(seq.int(from = 0, by = 0,
-  length.out = length(dim(object)))), direction = diag(length(dim(object))),
-  components = FALSE, reference = NA)
+  length.out = length(dim(object)))),
+  direction = diag(length(dim(object))), components = FALSE,
+  reference = NA)
 
 \S4method{as.antsImage}{array}(object, pixeltype = "float",
   spacing = as.numeric(seq.int(from = 1, by = 0, length.out =
   length(dim(object)))), origin = as.numeric(seq.int(from = 0, by = 0,
-  length.out = length(dim(object)))), direction = diag(length(dim(object))),
-  components = FALSE, reference = NA)
+  length.out = length(dim(object)))),
+  direction = diag(length(dim(object))), components = FALSE,
+  reference = NA)
 }
 \arguments{
 \item{object}{An object}

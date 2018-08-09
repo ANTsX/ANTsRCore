@@ -90,7 +90,7 @@ echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build &&
 # antsgit=https://github.com/ANTsX/ANTs.git
 # antstag=e1893f746f7126331a4c31f917538f914c175dfa # wrong parser call
 antsgit=https://github.com/muschellij2/ANTs.git
-antstag=33ec363778241f881247980185d1e8fb6b31cec5 # muschellij2 tag
+antstag=8c3a051f5911e67dcecd69a3518daa5808554892 # muschellij2 tag
 antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants

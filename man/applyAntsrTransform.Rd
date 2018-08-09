@@ -4,8 +4,8 @@
 \alias{applyAntsrTransform}
 \title{applyAntsrTransform}
 \usage{
-applyAntsrTransform(transform, data, dataType = "point", reference = NA,
-  ...)
+applyAntsrTransform(transform, data, dataType = "point",
+  reference = NA, ...)
 }
 \arguments{
 \item{transform}{antsrTransform}

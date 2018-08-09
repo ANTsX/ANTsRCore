@@ -7,8 +7,8 @@
 antsrMetricCreate(fixed, moving, type = c("MeanSquares",
   "MattesMutualInformation", "ANTSNeighborhoodCorrelation", "Correlation",
   "Demons", "JointHistogramMutualInformation"), fixed.mask = NA,
-  moving.mask = NA, sampling.strategy = "none", sampling.percentage = 1,
-  nBins = 32, radius = 3)
+  moving.mask = NA, sampling.strategy = "none",
+  sampling.percentage = 1, nBins = 32, radius = 3)
 }
 \arguments{
 \item{fixed}{the fixed antsImage}
