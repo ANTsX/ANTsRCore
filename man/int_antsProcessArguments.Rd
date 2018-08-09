@@ -15,11 +15,3 @@ A character vector
 \description{
 Processing arguments for command line parsing
 }
-\examples{
-args = "hey"
-.int_antsProcessArguments(args)
-args = list(h = "hey")
-.int_antsProcessArguments(args)
-args = list(h = list("hey"))
-.int_antsProcessArguments(args) 
-}
