@@ -1,4 +1,8 @@
-#!/bin/bash -xv
+#!/bin/bash
+CXX_STD=CXX11
+CC=`R CMD config CC`
+CXX=`R CMD config CXX`
+JTHREADS=1
 CMAKE_C_FLAGS="-O3"
 CMAKE_CXX_FLAGS="-O3"
 CMAKE_EXE_LINKER_FLAGS="-msse4.1 -mssse3 -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
@@ -7,7 +11,6 @@ DLLFLAGS="${DLLFLAGS} ${CMAKE_EXE_LINKER_FLAGS}"
 # PKG_CPPFLAGS="${PKG_CPPFLAGS} -Wl,--allow-multiple-definition,--enable-auto-import,--enable-runtime-pseudo-reloc,--verbose"
 PKG_CPPFLAGS="${PKG_CPPFLAGS} ${CMAKE_EXE_LINKER_FLAGS}"
 
-CXX_STD=CXX11
 ITKRCMAKE=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkIncludes(); cat(a)'`
 ITKRLIB=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkLibs(); cat(a)'`
 compflags=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
@@ -102,7 +105,7 @@ fi
 echo ${cmaker}
 
 ${cmaker} \
-    -G "MSYS Makefiles" \
+    -G "MinGW Makefiles" \
     -DITK_DIR:PATH="${ITKDIR}" \
     -DCMAKE_SH="CMAKE_SH-NOTFOUND" \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${CMAKE_EXE_LINKER_FLAGS} ${compflags} -DNDEBUG  "\
