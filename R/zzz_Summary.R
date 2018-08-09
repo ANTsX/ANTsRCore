@@ -51,9 +51,9 @@ setMethod("Summary", "antsImage",
             x = mask_values(x, mask)
             # I think this makes sense but should ask Avants.
             # relevant for warnings for all/any in summary
-            if (all(x %in% c(0, 1, NA, NaN))) {
-              x = as.logical(x)
-            }
+            # if (all(x %in% c(0, 1, NA, NaN))) {
+            #   x = as.logical(x)
+            # }
             args$x = x
             args$na.rm = na.rm
             
