@@ -124,7 +124,9 @@ jobs:
     - stage: "Coverage"
       script:
         - cd $PROJ_DIR;
-        - travis_wait 100 Rscript -e 'covr::codecov(type = "all", quiet = FALSE)'
+        - ls;
+        - echo $PROJ_DIR;
+        - travis_wait 100 Rscript -e 'covr::codecov(type = "all", quiet = FALSE)' ;
       os: linux  
         
 
