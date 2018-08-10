@@ -123,6 +123,7 @@ ${cmaker} \
     -DVNL_CONFIG_ENABLE_SSE2_ROUNDING:BOOL=ON \
     -DVNL_CONFIG_ENABLE_SSE2:BOOL=ON \
     -DITK_COMPILER_SUPPORTS_SSE2_64:BOOL=ON \
+    -DCMAKE_IGNORE_PATH="C:/Rtools/bin/" \
     ../ants
 cd ../
 # needed for warning
