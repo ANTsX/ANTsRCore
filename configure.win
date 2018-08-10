@@ -16,6 +16,8 @@ ITKRLIB=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkLibs(); cat(a)'`
 compflags=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
 ITKDIR=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkDir(); cat(a)'`
 
+compflags="${compflags} -Wa,-mbig-obj "
+
 CMAKE_BUILD_TYPE=Release
 cd ./src
 PWD=`pwd`
