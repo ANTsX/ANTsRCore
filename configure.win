@@ -4,7 +4,7 @@ CC=`R CMD config CC`
 CXX=`R CMD config CXX`
 JTHREADS=1
 CMAKE_C_FLAGS="-O3"
-CMAKE_CXX_FLAGS="-O3"
+CMAKE_CXX_FLAGS="-O3 -std=c++11"
 CMAKE_EXE_LINKER_FLAGS="-msse4.1 -mssse3 -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
 # DLLFLAGS="${DLLFLAGS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
 DLLFLAGS="${DLLFLAGS} ${CMAKE_EXE_LINKER_FLAGS}"
