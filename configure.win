@@ -65,7 +65,7 @@ echo "libs: ; cd antb && ${MAKER} -j 4 && cd ANTS-build && ${MAKER} all install"
 # antsgit=https://github.com/ANTsX/ANTs.git
 # antstag=e1893f746f7126331a4c31f917538f914c175dfa # wrong parser call
 antsgit=https://github.com/muschellij2/ANTs.git
-antstag=6150be46c6eea0693b1d1d702f1a145ef72be67c # muschellij2 tag
+antstag=f6d63f88413cea7301f13f31ba705b76d1ca175b # muschellij2 tag
 antsrtag=`git log --pretty=format:'%H' -n 1`
 git clone $antsbranch $antsgit ants
 mkdir -p ../data
