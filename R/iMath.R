@@ -41,8 +41,7 @@ iMath <- function(img, operation, param = NA, ...) {
              "PropagateLabelsThroughMask",
              "Sharpen",
              "TruncateIntensity")
-  list_2 = c("GD",
-             "GE",
+  list_2 = c("GE",
              "GO",
              "GetLargestComponent",
              "Grad",
