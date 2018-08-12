@@ -5,7 +5,8 @@ CXX=`R CMD config CXX`
 JTHREADS=1
 CMAKE_C_FLAGS="-O3"
 CMAKE_CXX_FLAGS="-O3 -std=c++11"
-CMAKE_EXE_LINKER_FLAGS="-lws2_32 -lgdi32 -mwindows -msse4.1 -mssse3 -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
+ADD_PKG_LIBS="-lws2_32 -lgdi32 -mwindows -msse4.1 -mssse3 "
+CMAKE_EXE_LINKER_FLAGS="${ADD_PKG_LIBS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
 # DLLFLAGS="${DLLFLAGS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
 DLLFLAGS="${DLLFLAGS} ${CMAKE_EXE_LINKER_FLAGS}"
 # PKG_CPPFLAGS="${PKG_CPPFLAGS} -Wl,--allow-multiple-definition,--enable-auto-import,--enable-runtime-pseudo-reloc,--verbose"
@@ -42,7 +43,7 @@ echo "myantslib=\"./antb/lib/\"" >> Makevars.win
 echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
 
 echo "libitk=\`find \"${ITKRLIB}\" -name \"lib*.a\"\`" >> Makevars.win
-PKG_LIBS="${PKG_LIBS} -lws2_32 -lgdi32 -mwindows -msse4.1 -mssse3 "
+PKG_LIBS="${PKG_LIBS} ${ADD_PKG_LIBS}"
 echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk} \
     \${libants} \${libitk} \${libants} \${libitk} \${libants} \${libitk}" >> Makevars.win
 
