@@ -46,6 +46,9 @@ iMath <- function(img, operation, param = NA, ...) {
              "GetLargestComponent",
              "Grad",
              "HistogramEqualization")
+  stopifnot(length(intersect(list_0, list_1)) == 0)
+  stopifnot(length(intersect(list_0, list_2)) == 0)
+  stopifnot(length(intersect(list_2, list_1)) == 0)
   # input is usually an 'antsImage'
   if (is.na(img))
   {
