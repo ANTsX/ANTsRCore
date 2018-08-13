@@ -126,7 +126,7 @@ jobs:
         - cd $PROJ_DIR;
         - ls;
         - echo $PROJ_DIR;
-        - echo 'covr::codecov(type = "all", quiet = FALSE);' > tmp.R ;
+        - echo 'options(covr.gcov =""); covr::codecov(type = "all", quiet = FALSE);' > tmp.R ;
         - travis_wait 100 Rscript tmp.R ;
         - rm -f tmp.R
       os: linux  
