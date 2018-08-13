@@ -2,6 +2,19 @@
 #include <iMathFunctions2.h>
 
 template <class ImageType>
+SEXP iMathGD( Rcpp::List args )
+{
+  typedef typename ImageType::Pointer   ImagePointerType;
+
+  ImagePointerType input = Rcpp::as<ImagePointerType>( args[0] );
+  unsigned long radius = Rcpp::as<unsigned long>( args[2] );
+
+  ImagePointerType output = ants::iMathGD<ImageType>( input, radius );
+
+  return Rcpp::wrap(output);
+}
+
+template <class ImageType>
 SEXP iMathGE( Rcpp::List args )
 {
   typedef typename ImageType::Pointer   ImagePointerType;
@@ -69,19 +82,6 @@ SEXP iMathGrad( Rcpp::List args )
    return Rcpp::wrap( output );
  }
 
-template <class ImageType>
-SEXP iMathGD( Rcpp::List args )
-{
-  typedef typename ImageType::Pointer   ImagePointerType;
-
-  ImagePointerType input = Rcpp::as<ImagePointerType>( args[0] );
-  unsigned long radius = Rcpp::as<unsigned long>( args[2] );
-
-  ImagePointerType output = ants::iMathGD<ImageType>( input, radius );
-
-  return Rcpp::wrap(output);
-}
- 
 RcppExport SEXP iMathInterface2( SEXP r_args )
 {
 try

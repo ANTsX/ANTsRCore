@@ -28,7 +28,7 @@
 #' @export iMath
 iMath <- function(img, operation, param = NA, ...) {
   iMathOps <- NULL
-  list_0 = c("Canny", "D", "FillHoles", "GC", "GD")
+  list_0 = c("Canny", "D", "FillHoles", "GC")
   list_1 = c("Laplacian",
              "MC",
              "MD",
@@ -41,7 +41,8 @@ iMath <- function(img, operation, param = NA, ...) {
              "PropagateLabelsThroughMask",
              "Sharpen",
              "TruncateIntensity")
-  list_2 = c("GE",
+  list_2 = c("GD",
+             "GE",
              "GO",
              "GetLargestComponent",
              "Grad",
