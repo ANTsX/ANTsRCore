@@ -126,7 +126,9 @@ jobs:
         - cd $PROJ_DIR;
         - ls;
         - echo $PROJ_DIR;
-        - travis_wait 100 Rscript -e 'covr::codecov(type = "all", quiet = FALSE)' ;
+        - echo 'covr::codecov(type = "all", quiet = FALSE);' > tmp.R ;
+        - travis_wait 100 Rscript tmp.R ;
+        - rm -f tmp.R
       os: linux  
         
 
