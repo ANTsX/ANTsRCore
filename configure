@@ -88,9 +88,9 @@ echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build &&
 
 # get / set up ANTs code
 # antsgit=https://github.com/ANTsX/ANTs.git
-# antstag=e1893f746f7126331a4c31f917538f914c175dfa # wrong parser call
+# antstag=82dcdd647211004f3220e4073ea4daf06fdf89f9 # replace smoothing filter in registration
 antsgit=https://github.com/muschellij2/ANTs.git
-antstag=930d10dd19f58d3e295b756b507fc7d4e84fa044 # muschellij2 tag
+antstag=8e0d97ec8e54afddc21273c8400651c58b06cb1d # muschellij2 tag
 antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants
