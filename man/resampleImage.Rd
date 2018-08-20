@@ -25,8 +25,13 @@ Works with multi-channel images.
 }
 \examples{
 fi<-antsImageRead( getANTsRData("r16"))
+r = range(fi)
 finn<-resampleImage(fi,c(50,60),TRUE,0)
+range(finn)
+stopifnot(diff(range(finn)) > 0)
 filin<-resampleImage(fi,c(1.5,1.5),FALSE,1)
+range(filin)
+stopifnot(diff(range(filin)) > 0)
 pixeltype(fi) = "float"
 arr = as.array(fi)
 arr = floor(arr)

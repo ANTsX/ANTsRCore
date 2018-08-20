@@ -11,6 +11,12 @@
 }
 \value{
 A character vector
+args = "hey"
+.int_antsProcessArguments(args)
+args = list(h = "hey")
+.int_antsProcessArguments(args)
+args = list(h = list("hey"))
+.int_antsProcessArguments(args)
 }
 \description{
 Processing arguments for command line parsing
