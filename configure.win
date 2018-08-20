@@ -1,4 +1,12 @@
-#!/bin/bash
+#!/bin/bash -xv
+CMAKE_C_FLAGS="-O3"
+CMAKE_CXX_FLAGS="-O3"
+CMAKE_EXE_LINKER_FLAGS="-Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
+# DLLFLAGS="${DLLFLAGS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
+DLLFLAGS="${DLLFLAGS} ${CMAKE_EXE_LINKER_FLAGS}"
+# PKG_CPPFLAGS="${PKG_CPPFLAGS} -Wl,--allow-multiple-definition,--enable-auto-import,--enable-runtime-pseudo-reloc,--verbose"
+PKG_CPPFLAGS="${PKG_CPPFLAGS} ${CMAKE_EXE_LINKER_FLAGS}"
+
 CXX_STD=CXX11
 ITKRCMAKE=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkIncludes(); cat(a)'`
 ITKRLIB=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkLibs(); cat(a)'`
@@ -15,11 +23,13 @@ echo "ITK=\"${ITKRCMAKE}\"" >> Makevars.win
 
 needVCL_CAN_STATIC_CONST_INIT_FLOAT=0
 echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
-echo "PKG_CPPFLAGS = ${PKG_CPPFLAGS} -Wa,-mbig-obj -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
+echo "PKG_CPPFLAGS =${PKG_CPPFLAGS} -Wa,-mbig-obj -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
   -I\${myantssource}/Utilities -I\${myantssource}/Examples/ -I../inst/include/\
   -I\${myantssource}/Tensor/ " >> Makevars.win
 
 echo "CXX_STD=CXX11" >> Makevars.win
+# echo "SHLIB_CXXLD=-Wl,--allow-multiple-definition,--enable-auto-import,--enable-runtime-pseudo-reloc,--verbose" >> Makevars.win
+echo "SHLIB_CXXLD=${CMAKE_EXE_LINKER_FLAGS}"
 
 # echo "myantslib=\"\${PWD}/antb/lib/\"" >> Makevars.win
 echo "myantslib=\"./antb/lib/\"" >> Makevars.win
@@ -28,7 +38,7 @@ echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
 
 echo "libitk=\`find \"${ITKRLIB}\" -name \"lib*.a\"\`" >> Makevars.win
 
-echo "PKG_LIBS=${PKG_LIBS}  \${libants} \${libitk} \${libants} \${libitk}" >> Makevars.win
+echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk}" >> Makevars.win
 
 # echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
 #                  \${libants} \${libitk} \${libants} \${itklib} \${libants} \
@@ -42,7 +52,7 @@ echo "all: \$(SHLIB)" >> Makevars.win
 echo "\$(SHLIB): libs" >> Makevars.win
 # MAKER=c:/Rtools/mingw_64/bin/mingw32-make.exe
 MAKER=mingw32-make
-echo "libs: ; cd antb && ${MAKER} && cd ANTS-build && ${MAKER} all install" >> Makevars.win
+echo "libs: ; cd antb && ${MAKER} ${PKG_CPPFLAGS} && cd ANTS-build && ${MAKER} all install" >> Makevars.win
 
 # get / set up ANTs code
 antsgit=https://github.com/ANTsX/ANTs.git
@@ -79,19 +89,21 @@ if [ -z "${cmaker}" ]; then
         R CMD INSTALL cmaker
         rm -rf cmaker
     fi
-    cmaker=`${R_HOME}/bin/Rscript.exe -e "x=cmaker::cmake()"`
+    cmaker=`${R_HOME}/bin/Rscript.exe -e "x=cmaker::cmake();"`
     # cmake_path=`dirname cmaker`
     # export PATH=${PATH}:${cmake_path}
     # cmaker="cmake"
 else
-    cmaker="cmake"
+    cmaker="cmake.exe"
 fi
+
+echo ${cmaker}
 
 ${cmaker} \
     -G "MinGW Makefiles" \
     -DITK_DIR:PATH="${ITKDIR}" \
     -DCMAKE_SH:BOOL=OFF \
-    -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} -DNDEBUG  "\
+    -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${CMAKE_EXE_LINKER_FLAGS} ${compflags} -DNDEBUG  "\
     -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} -DNDEBUG  "\
     -DBUILD_SHARED_LIBS=OFF \
     -DBUILD_ALL_ANTS_APPS=OFF \
@@ -99,7 +111,10 @@ ${cmaker} \
     -DBUILD_TESTING=OFF \
     -DCOPY_SCRIPT_FILES_TO_BIN_DIR=OFF \
     -DCMAKE_INSTALL_PREFIX:PATH="${R_PACKAGE_DIR}/libs/" \
-    -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}"  ../ants
+    -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE \
+    -DWINDOWS_BUILD=1 \
+    -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}" \
+    ../ants
 cd ../
 # needed for warning
 rm -rf ants/.git

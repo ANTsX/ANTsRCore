@@ -36,12 +36,13 @@ antsrimpute <- function(mydat, FUN = mean, ...) {
             mostrepeated((mydat[, x]), na.rm = TRUE, ...)
       }
     return( mydat2 )
-    mydat3=mydat2
-    for (x in 1:nrow(mydat))
-    if ( class( mydat2[x, ] ) == 'numeric' | class( mydat2[x,] ) == 'integer' )
-      mydat3[x,is.na(mydat2[x, ])] <-
-        FUN((mydat2[x,]), na.rm = TRUE, ...) else mydat3[x,is.na(mydat2[x, ])] <-
-          mostrepeated((mydat2[x,]), na.rm = TRUE, ...)
-    mydat3
+    # rows - but never was implemented
+    # mydat3=mydat2
+    # for (x in 1:nrow(mydat))
+    # if ( class( mydat2[x, ] ) == 'numeric' | class( mydat2[x,] ) == 'integer' )
+    #   mydat3[x,is.na(mydat2[x, ])] <-
+    #     FUN((mydat2[x,]), na.rm = TRUE, ...) else mydat3[x,is.na(mydat2[x, ])] <-
+    #       mostrepeated((mydat2[x,]), na.rm = TRUE, ...)
+    # mydat3
   }
 }
