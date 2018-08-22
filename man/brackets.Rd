@@ -32,21 +32,15 @@
 \alias{[,antsImage,antsImage,ANY,ANY-method}
 \alias{[,ANY,antsImage,ANY,ANY-method}
 \alias{[,antsImage,logical,ANY,ANY-method}
-\alias{[,antsImage,logical,ANY,ANY-method}
 \alias{[,antsImage,logical,ANY-method}
-\alias{[,antsImage,ANY,ANY,ANY-method}
 \alias{[,antsImage,ANY,ANY,ANY-method}
 \alias{[,antsImage,ANY,ANY-method}
 \alias{[,antsImage,NULL,NULL,ANY-method}
-\alias{[,antsImage,NULL,NULL,ANY-method}
 \alias{[,antsImage,NULL,NULL-method}
-\alias{[,antsImage,numeric,numeric,ANY-method}
 \alias{[,antsImage,numeric,numeric,ANY-method}
 \alias{[,antsImage,numeric,numeric-method}
 \alias{[,antsImage,numeric,NULL,ANY-method}
-\alias{[,antsImage,numeric,NULL,ANY-method}
 \alias{[,antsImage,numeric,NULL-method}
-\alias{[,antsImage,NULL,numeric,ANY-method}
 \alias{[,antsImage,NULL,numeric,ANY-method}
 \alias{[,antsImage,NULL,numeric-method}
 \alias{[,antsImage,missing,numeric,ANY-method}
@@ -109,32 +103,32 @@
 \S4method{[}{antsImage,`NULL`,`NULL`,ANY}(x, i, j, k = NA, l = NA, ...,
   drop)
 
-\S4method{[}{antsImage,numeric,numeric,ANY}(x, i, j, k = NA, l = NA, ...,
-  drop)
+\S4method{[}{antsImage,numeric,numeric,ANY}(x, i, j, k = NA, l = NA,
+  ..., drop)
 
-\S4method{[}{antsImage,numeric,numeric,ANY}(x, i, j, k = NA, l = NA, ...,
-  drop)
+\S4method{[}{antsImage,numeric,numeric,ANY}(x, i, j, k = NA, l = NA,
+  ..., drop)
 
-\S4method{[}{antsImage,numeric,`NULL`,ANY}(x, i, j, k = NA, l = NA, ...,
-  drop)
+\S4method{[}{antsImage,numeric,`NULL`,ANY}(x, i, j, k = NA, l = NA,
+  ..., drop)
 
-\S4method{[}{antsImage,numeric,`NULL`,ANY}(x, i, j, k = NA, l = NA, ...,
-  drop)
+\S4method{[}{antsImage,numeric,`NULL`,ANY}(x, i, j, k = NA, l = NA,
+  ..., drop)
 
-\S4method{[}{antsImage,`NULL`,numeric,ANY}(x, i, j, k = NA, l = NA, ...,
-  drop)
+\S4method{[}{antsImage,`NULL`,numeric,ANY}(x, i, j, k = NA, l = NA,
+  ..., drop)
 
-\S4method{[}{antsImage,`NULL`,numeric,ANY}(x, i, j, k = NA, l = NA, ...,
-  drop)
+\S4method{[}{antsImage,`NULL`,numeric,ANY}(x, i, j, k = NA, l = NA,
+  ..., drop)
 
-\S4method{[}{antsImage,missing,numeric,ANY}(x, i, j, k = NA, l = NA, ...,
-  drop)
+\S4method{[}{antsImage,missing,numeric,ANY}(x, i, j, k = NA, l = NA,
+  ..., drop)
 
-\S4method{[}{antsImage,numeric,missing,ANY}(x, i, j, k = NA, l = NA, ...,
-  drop)
+\S4method{[}{antsImage,numeric,missing,ANY}(x, i, j, k = NA, l = NA,
+  ..., drop)
 
-\S4method{[}{antsImage,missing,missing,ANY}(x, i, j, k = NA, l = NA, ...,
-  drop)
+\S4method{[}{antsImage,missing,missing,ANY}(x, i, j, k = NA, l = NA,
+  ..., drop)
 }
 \arguments{
 \item{x}{antsImage}

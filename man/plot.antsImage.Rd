@@ -4,10 +4,11 @@
 \alias{plot.antsImage}
 \title{Plotting an image slice or multi-slice with optional color overlay.}
 \usage{
-\method{plot}{antsImage}(x, y, color.img = "white", color.overlay = c("jet",
-  "red", "blue", "green", "yellow", "viridis", "magma", "plasma", "inferno"),
-  axis = 2, slices, colorbar = missing(y), title.colorbar, title.img,
-  title.line = NA, color.colorbar, window.img, window.overlay, quality = 2,
+\method{plot}{antsImage}(x, y, color.img = "white",
+  color.overlay = c("jet", "red", "blue", "green", "yellow", "viridis",
+  "magma", "plasma", "inferno"), axis = 2, slices,
+  colorbar = missing(y), title.colorbar, title.img, title.line = NA,
+  color.colorbar, window.img, window.overlay, quality = 2,
   outname = NA, alpha = 1, newwindow = FALSE, nslices = 10,
   domainImageMap = NA, ncolumns = 4, useAbsoluteScale = FALSE,
   doCropping = TRUE, text, ...)

@@ -4,8 +4,8 @@
 \alias{resampleImageToTarget}
 \title{resampleImageToTarget}
 \usage{
-resampleImageToTarget(image, target, interpType = "linear", imagetype = 0,
-  verbose = FALSE, ...)
+resampleImageToTarget(image, target, interpType = "linear",
+  imagetype = 0, verbose = FALSE, ...)
 }
 \arguments{
 \item{image}{image to resample}

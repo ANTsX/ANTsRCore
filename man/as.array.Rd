@@ -42,8 +42,8 @@
 
 \S4method{as.data.frame}{antsMatrix}(x)
 
-\method{as.data.frame}{antsMatrix}(x, row.names = NULL, optional = FALSE,
-  ...)
+\method{as.data.frame}{antsMatrix}(x, row.names = NULL,
+  optional = FALSE, ...)
 
 \S4method{as.matrix}{antsMatrix}(x, ...)
 
