@@ -4,6 +4,9 @@
 #'
 #' @param in_image1 antsImage
 #' @param in_image2 antsImage
+#' @param sampling.percentage value between zero and one determining ratio of points in image to
+#' use for metric estimation
+#' @param nBins number of bins to use in joint histogram estimate, often set between 8 and 32
 #' @return mutual information value
 #' @author Brian B. Avants
 #' @keywords image information mutual similarity,
@@ -20,7 +23,7 @@
 #' testthat::expect_error(antsImageMutualInformation(fi3,mi))
 #'
 #' @export antsImageMutualInformation
-antsImageMutualInformation <- function(in_image1, in_image2) {
+antsImageMutualInformation <- function(in_image1, in_image2, sampling.percentage, nBins ) {
   error_not_antsImage(in_image1, "in_image1")
   error_not_antsImage(in_image2, "in_image2")
   
@@ -33,6 +36,11 @@ antsImageMutualInformation <- function(in_image1, in_image2) {
   }
   if ( ! antsImagePhysicalSpaceConsistency( in_image1, in_image2 ) )
     stop("images do not occupy the same physical space as checked in antsImagePhysicalSpaceConsistency.")
+  if ( missing( sampling.percentage ) ) sampling.percentage = 0.25
+  if ( missing( nBins ) ) nBins = 32
+  metric = antsrMetricCreate( in_image1, in_image2, type = "Mattes", sampling.strategy='regular', 
+			    sampling.percentage = sampling.percentage, nBins )
+  metricValue = antsrMetricGetValue(metric)
+  return( metricValue )
 
-  .Call("antsImageMutualInformation", in_image1, in_image2, PACKAGE = "ANTsRCore")
 }
