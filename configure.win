@@ -62,10 +62,8 @@ MAKER=mingw32-make
 echo "libs: ; cd antb && ${MAKER} -j 4 && cd ANTS-build && ${MAKER} all install" >> Makevars.win
 
 # get / set up ANTs code
-# antsgit=https://github.com/ANTsX/ANTs.git
-# antstag=e1893f746f7126331a4c31f917538f914c175dfa # wrong parser call
-antsgit=https://github.com/muschellij2/ANTs.git
-antstag=930d10dd19f58d3e295b756b507fc7d4e84fa044 # muschellij2 tag
+antsgit=https://github.com/ANTsX/ANTs.git
+antstag=ee49602fa0b58e0416078ef9d4f495a6df9776ba # muschellij2 merge
 antsrtag=`git log --pretty=format:'%H' -n 1`
 git clone $antsbranch $antsgit ants
 mkdir -p ../data
