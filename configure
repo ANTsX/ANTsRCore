@@ -88,7 +88,7 @@ echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build &&
 
 # get / set up ANTs code
 antsgit=https://github.com/ANTsX/ANTs.git
-antstag=82dcdd647211004f3220e4073ea4daf06fdf89f9 # replace smoothing filter in registration
+antstag=ee49602fa0b58e0416078ef9d4f495a6df9776ba # replace smoothing filter in registration
 antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants

@@ -56,7 +56,7 @@ echo "libs: ; cd antb && ${MAKER} ${PKG_CPPFLAGS} && cd ANTS-build && ${MAKER} a
 
 # get / set up ANTs code
 antsgit=https://github.com/ANTsX/ANTs.git
-antstag=6bc3e652d7628b428896ddaec837248a61d2af3b # for 4.12
+antstag=ee49602fa0b58e0416078ef9d4f495a6df9776ba # for 4.12
 antsrtag=`git log --pretty=format:'%H' -n 1`
 git clone $antsbranch $antsgit ants
 mkdir -p ../data
