@@ -7,12 +7,12 @@
   The following name(s) appear with different usages
   e.g., with different numbers of arguments:
 
-    antsImageIterator
+    antsrMetric
 
   This needs to be resolved in the tables and any declarations.
 */
 
-/* FIXME:
+/* FIXME: 
    Check these declarations against the C/Fortran source code.
 */
 
@@ -30,8 +30,7 @@ extern SEXP antsImage_GetOrigin(SEXP);
 extern SEXP antsImage_GetPixels(SEXP, SEXP);
 extern SEXP antsImage_GetSpacing(SEXP);
 extern SEXP antsImage_isna(SEXP);
-//extern SEXP antsImage_rm(SEXP);
-//extern SEXP antsImage_RelationalOperators(SEXP, SEXP, SEXP, SEXP);
+extern SEXP antsImage_SetByImage(SEXP, SEXP, SEXP);
 extern SEXP antsImage_SetDirection(SEXP, SEXP);
 extern SEXP antsImage_SetOrigin(SEXP, SEXP);
 extern SEXP antsImage_SetPixels(SEXP, SEXP, SEXP);
@@ -39,14 +38,13 @@ extern SEXP antsImage_SetRegion(SEXP, SEXP, SEXP, SEXP);
 extern SEXP antsImage_SetSpacing(SEXP, SEXP);
 extern SEXP antsImage_TransformIndexToPhysicalPoint(SEXP, SEXP);
 extern SEXP antsImage_TransformPhysicalPointToIndex(SEXP, SEXP);
-extern SEXP antsImageArithImageImage(SEXP,SEXP,SEXP);
-extern SEXP antsImageArithImageNumeric(SEXP,SEXP,SEXP);
-extern SEXP antsImageArithNumericImage(SEXP,SEXP,SEXP);
-extern SEXP antsImageComparisonImageImage(SEXP,SEXP,SEXP);
-extern SEXP antsImageComparisonImageNumeric(SEXP,SEXP,SEXP);
+extern SEXP antsImageArithImageImage(SEXP, SEXP, SEXP);
+extern SEXP antsImageArithImageNumeric(SEXP, SEXP, SEXP);
+extern SEXP antsImageArithNumericImage(SEXP, SEXP, SEXP);
 extern SEXP antsImageClone(SEXP, SEXP);
+extern SEXP antsImageComparisonImageImage(SEXP, SEXP, SEXP);
+extern SEXP antsImageComparisonImageNumeric(SEXP, SEXP, SEXP);
 extern SEXP antsImageHeaderInfo(SEXP);
-// extern SEXP antsImageIterator(SEXP);
 extern SEXP antsImageIterator(SEXP, SEXP, SEXP);
 extern SEXP antsImageIterator_Get(SEXP);
 extern SEXP antsImageIterator_GetIndex(SEXP);
@@ -58,11 +56,10 @@ extern SEXP antsImageIterator_Next(SEXP);
 extern SEXP antsImageIterator_Previous(SEXP);
 extern SEXP antsImageIterator_Remaining(SEXP);
 extern SEXP antsImageIterator_Set(SEXP, SEXP);
-extern SEXP antsImage_SetByImage( SEXP, SEXP, SEXP );
 extern SEXP antsImageIterator_SetIndex(SEXP, SEXP);
-extern SEXP antsImageLogicImageImage(SEXP,SEXP,SEXP);
-extern SEXP antsImageLogicImageNumeric(SEXP,SEXP,SEXP);
-extern SEXP antsImageMath(SEXP,SEXP);
+extern SEXP antsImageLogicImageImage(SEXP, SEXP, SEXP);
+extern SEXP antsImageLogicImageNumeric(SEXP, SEXP, SEXP);
+extern SEXP antsImageMath(SEXP, SEXP);
 extern SEXP antsImageMutualInformation(SEXP, SEXP);
 extern SEXP antsImageRead(SEXP, SEXP, SEXP, SEXP);
 extern SEXP antsImageWrite(SEXP, SEXP);
@@ -70,15 +67,16 @@ extern SEXP antsMatrix(SEXP);
 extern SEXP antsMatrix_asantsMatrix(SEXP, SEXP);
 extern SEXP antsMatrix_asList(SEXP);
 extern SEXP antsRegistration(SEXP);
-extern SEXP antsrMetric(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+// extern SEXP antsrMetric(SEXP, SEXP, SEXP);
+extern SEXP antsrMetric(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP antsrMetric_GetDerivative(SEXP);
 extern SEXP antsrMetric_GetValue(SEXP);
 extern SEXP antsrMetric_Initialize(SEXP);
-extern SEXP antsrMetric_SetImage(SEXP,SEXP,SEXP,SEXP);
-extern SEXP antsrMetric_SetNumberOfHistogramBins(SEXP,SEXP);
-extern SEXP antsrMetric_SetRadius(SEXP,SEXP);
-extern SEXP antsrMetric_SetSampling(SEXP,SEXP,SEXP);
-extern SEXP antsrMetric_SetTransform(SEXP,SEXP,SEXP);
+extern SEXP antsrMetric_SetImage(SEXP, SEXP, SEXP, SEXP);
+extern SEXP antsrMetric_SetNumberOfHistogramBins(SEXP, SEXP);
+extern SEXP antsrMetric_SetRadius(SEXP, SEXP);
+extern SEXP antsrMetric_SetSampling(SEXP, SEXP, SEXP);
+extern SEXP antsrMetric_SetTransform(SEXP, SEXP, SEXP);
 extern SEXP antsrTransform(SEXP, SEXP, SEXP);
 extern SEXP antsrTransform_Compose(SEXP, SEXP, SEXP);
 extern SEXP antsrTransform_FromDisplacementField(SEXP);
@@ -98,9 +96,10 @@ extern SEXP cropImage(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP DenoiseImage(SEXP);
 extern SEXP extractSlice(SEXP, SEXP, SEXP);
 extern SEXP iMathInterface(SEXP);
+extern SEXP iMathInterface1(SEXP);
+extern SEXP iMathInterface2(SEXP);
 extern SEXP LabelClustersUniquely(SEXP);
 extern SEXP labelStats(SEXP, SEXP);
-extern SEXP makeImage(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP mergeChannels(SEXP, SEXP);
 extern SEXP N3BiasFieldCorrection(SEXP);
 extern SEXP N4BiasFieldCorrection(SEXP);
@@ -124,8 +123,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsImage_GetPixels",                     (DL_FUNC) &antsImage_GetPixels,                      2},
     {"antsImage_GetSpacing",                    (DL_FUNC) &antsImage_GetSpacing,                     1},
     {"antsImage_isna",                          (DL_FUNC) &antsImage_isna,                           1},
-    //{"antsImage_rm",                            (DL_FUNC) &antsImage_rm,                             1},
-    // {"antsImage_RelationalOperators",           (DL_FUNC) &antsImage_RelationalOperators,            4},
     {"antsImage_SetByImage",                    (DL_FUNC) &antsImage_SetByImage,                     3},
     {"antsImage_SetDirection",                  (DL_FUNC) &antsImage_SetDirection,                   2},
     {"antsImage_SetOrigin",                     (DL_FUNC) &antsImage_SetOrigin,                      2},
@@ -137,9 +134,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsImageArithImageImage",                (DL_FUNC) &antsImageArithImageImage,                 3},
     {"antsImageArithImageNumeric",              (DL_FUNC) &antsImageArithImageNumeric,               3},
     {"antsImageArithNumericImage",              (DL_FUNC) &antsImageArithNumericImage,               3},
+    {"antsImageClone",                          (DL_FUNC) &antsImageClone,                           2},
     {"antsImageComparisonImageImage",           (DL_FUNC) &antsImageComparisonImageImage,            3},
     {"antsImageComparisonImageNumeric",         (DL_FUNC) &antsImageComparisonImageNumeric,          3},
-    {"antsImageClone",                          (DL_FUNC) &antsImageClone,                           2},
     {"antsImageHeaderInfo",                     (DL_FUNC) &antsImageHeaderInfo,                      1},
     {"antsImageIterator",                       (DL_FUNC) &antsImageIterator,                        1},
     {"antsImageIterator",                       (DL_FUNC) &antsImageIterator,                        3},
@@ -164,6 +161,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsMatrix_asantsMatrix",                 (DL_FUNC) &antsMatrix_asantsMatrix,                  2},
     {"antsMatrix_asList",                       (DL_FUNC) &antsMatrix_asList,                        1},
     {"antsRegistration",                        (DL_FUNC) &antsRegistration,                         1},
+    // {"antsrMetric",                             (DL_FUNC) &antsrMetric,                              3},
     {"antsrMetric",                             (DL_FUNC) &antsrMetric,                              6},
     {"antsrMetric_GetDerivative",               (DL_FUNC) &antsrMetric_GetDerivative,                1},
     {"antsrMetric_GetValue",                    (DL_FUNC) &antsrMetric_GetValue,                     1},
@@ -192,9 +190,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"DenoiseImage",                            (DL_FUNC) &DenoiseImage,                             1},
     {"extractSlice",                            (DL_FUNC) &extractSlice,                             3},
     {"iMathInterface",                          (DL_FUNC) &iMathInterface,                           1},
+    {"iMathInterface1",                         (DL_FUNC) &iMathInterface1,                          1},
+    {"iMathInterface2",                         (DL_FUNC) &iMathInterface2,                          1},
     {"LabelClustersUniquely",                   (DL_FUNC) &LabelClustersUniquely,                    1},
     {"labelStats",                              (DL_FUNC) &labelStats,                               2},
-    {"makeImage",                               (DL_FUNC) &makeImage,                                6},
     {"mergeChannels",                           (DL_FUNC) &mergeChannels,                            2},
     {"N3BiasFieldCorrection",                   (DL_FUNC) &N3BiasFieldCorrection,                    1},
     {"N4BiasFieldCorrection",                   (DL_FUNC) &N4BiasFieldCorrection,                    1},

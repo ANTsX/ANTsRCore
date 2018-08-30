@@ -4,9 +4,8 @@ CC=`R CMD config CC`
 CXX=`R CMD config CXX`
 JTHREADS=1
 CMAKE_C_FLAGS="-O3"
-CMAKE_CXX_FLAGS="-O3 -std=c++11"
-ADD_PKG_LIBS="-lws2_32 -lgdi32 -mwindows -msse4.1 -mssse3 "
-CMAKE_EXE_LINKER_FLAGS="${ADD_PKG_LIBS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
+CMAKE_CXX_FLAGS="-O3"
+CMAKE_EXE_LINKER_FLAGS="-msse4.1 -mssse3 -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
 # DLLFLAGS="${DLLFLAGS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
 DLLFLAGS="${DLLFLAGS} ${CMAKE_EXE_LINKER_FLAGS}"
 # PKG_CPPFLAGS="${PKG_CPPFLAGS} -Wl,--allow-multiple-definition,--enable-auto-import,--enable-runtime-pseudo-reloc,--verbose"
@@ -16,8 +15,6 @@ ITKRCMAKE=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkIncludes(); cat(a)'`
 ITKRLIB=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkLibs(); cat(a)'`
 compflags=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
 ITKDIR=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkDir(); cat(a)'`
-
-compflags="${compflags} -Wa,-mbig-obj "
 
 CMAKE_BUILD_TYPE=Release
 cd ./src
@@ -43,9 +40,8 @@ echo "myantslib=\"./antb/lib/\"" >> Makevars.win
 echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
 
 echo "libitk=\`find \"${ITKRLIB}\" -name \"lib*.a\"\`" >> Makevars.win
-PKG_LIBS="${PKG_LIBS} ${ADD_PKG_LIBS}"
-echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk} \
-    \${libants} \${libitk} \${libants} \${libitk} \${libants} \${libitk}" >> Makevars.win
+
+echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk}" >> Makevars.win
 
 # echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
 #                  \${libants} \${libitk} \${libants} \${itklib} \${libants} \
@@ -59,11 +55,21 @@ echo "all: \$(SHLIB)" >> Makevars.win
 echo "\$(SHLIB): libs" >> Makevars.win
 # MAKER=c:/Rtools/mingw_64/bin/mingw32-make.exe
 MAKER=mingw32-make
-echo "libs: ; cd antb && ${MAKER} -j 4 && cd ANTS-build && ${MAKER} all install" >> Makevars.win
+CMAKE_MAKE_PROGRAM=`Rscript -e "Sys.which(\"${MAKER}\")"`
+if [ -z "${CMAKE_MAKE_PROGRAM}" ]; then
+    CMAKE_MAKE_PROGRAM=`Rscript -e "Sys.which(\"${MAKER}.exe\")"` ;
+fi
+if [ -z "${CMAKE_MAKE_PROGRAM}" ]; then
+    CMAKE_MAKE_PROGRAM="make.exe" ;
+fi
+
+echo "libs: ; cd \${PWD}/antb && ls && ${MAKER} && cd \${PWD}/antb/ANTS-build && ${MAKER} all install" >> Makevars.win
 
 # get / set up ANTs code
-antsgit=https://github.com/ANTsX/ANTs.git
-antstag=ee49602fa0b58e0416078ef9d4f495a6df9776ba # muschellij2 merge
+# antsgit=https://github.com/ANTsX/ANTs.git
+# antstag=e1893f746f7126331a4c31f917538f914c175dfa # wrong parser call
+antsgit=https://github.com/muschellij2/ANTs.git
+antstag=8c3a051f5911e67dcecd69a3518daa5808554892 # muschellij2 tag
 antsrtag=`git log --pretty=format:'%H' -n 1`
 git clone $antsbranch $antsgit ants
 mkdir -p ../data
@@ -106,10 +112,12 @@ fi
 
 echo ${cmaker}
 
+# -DCMAKE_EXE_LINKER_FLAGS="${CMAKE_EXE_LINKER_FLAGS}" \
+
 ${cmaker} \
     -G "MinGW Makefiles" \
     -DITK_DIR:PATH="${ITKDIR}" \
-    -DCMAKE_SH:BOOL=OFF \
+    -DCMAKE_SH="CMAKE_SH-NOTFOUND" \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${CMAKE_EXE_LINKER_FLAGS} ${compflags} -DNDEBUG  "\
     -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} -DNDEBUG  "\
     -DBUILD_SHARED_LIBS=OFF \
@@ -119,11 +127,14 @@ ${cmaker} \
     -DBUILD_EXAMPLES:BOOL=OFF \
     -DCOPY_SCRIPT_FILES_TO_BIN_DIR=OFF \
     -DCMAKE_INSTALL_PREFIX:PATH="${R_PACKAGE_DIR}/libs/" \
+    -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE \
+    -DWINDOWS_BUILD=1 \
+    -DCMAKE_MAKE_PROGRAM="${CMAKE_MAKE_PROGRAM}" \
     -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}" \
     -DVNL_CONFIG_ENABLE_SSE2_ROUNDING:BOOL=ON \
     -DVNL_CONFIG_ENABLE_SSE2:BOOL=ON \
+    -DITK_COMPILER_SUPPORTS_SSE2_64:BOOL=ON \
     ../ants
 cd ../
 # needed for warning
 rm -rf ants/.git
-

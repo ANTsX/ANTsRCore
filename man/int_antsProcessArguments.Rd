@@ -2,20 +2,22 @@
 % Please edit documentation in R/int_antsProcessArguments.R
 \name{.int_antsProcessArguments}
 \alias{.int_antsProcessArguments}
-\title{args = "hey"
-.int_antsProcessArguments(args)
-args = list(h = "hey")
-.int_antsProcessArguments(args)
-args = list(h = list("hey"))
-.int_antsProcessArguments(args)}
+\title{Processing arguments for command line parsing}
 \usage{
 .int_antsProcessArguments(args)
 }
-\description{
+\arguments{
+\item{args}{arguments to parse into those for \code{ANTsR} functions}
+}
+\value{
+A character vector
 args = "hey"
 .int_antsProcessArguments(args)
 args = list(h = "hey")
 .int_antsProcessArguments(args)
 args = list(h = list("hey"))
 .int_antsProcessArguments(args)
+}
+\description{
+Processing arguments for command line parsing
 }
