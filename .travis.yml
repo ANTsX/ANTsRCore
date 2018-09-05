@@ -2,6 +2,7 @@
 language: r
 sudo: false
 cache:
+  - timeout: 1000  
   - packages
   - ccache
 warnings_are_errors: true
