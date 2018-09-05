@@ -63,7 +63,7 @@ echo "libs: ; cd antb && ${MAKER} -j 4 && cd ANTS-build && ${MAKER} all install"
 
 # get / set up ANTs code
 antsgit=https://github.com/ANTsX/ANTs.git
-antstag=ee49602fa0b58e0416078ef9d4f495a6df9776ba # muschellij2 merge
+antstag=4fe6e0d1ce27a8efb197c7fb40be494f2c660414 # muschellij2 merge
 antsrtag=`git log --pretty=format:'%H' -n 1`
 git clone $antsbranch $antsgit ants
 mkdir -p ../data
