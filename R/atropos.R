@@ -64,7 +64,15 @@ atropos <- function( a, x,
   
   verbose = as.numeric( verbose )
   # define the output temp files
-  tdir <- tempdir( check = TRUE )
+  if (getRversion() <= "3.5.0") { ## work around missing feature
+    tdir <- tempdir( )
+    if (!dir.exists(tdir)) {
+      dir.create(tdir, showWarnings = TRUE, recursive = TRUE)
+    }
+  } else {
+    tdir <- tempdir( check = TRUE )
+  }
+  
   probs <- tempfile(pattern = "antsr", tmpdir = tdir, fileext = "prob%02d.nii.gz")
   probsbase <- basename(probs)
   searchpattern <- sub("%02d", "*", probsbase)
