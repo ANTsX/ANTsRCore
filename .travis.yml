@@ -55,6 +55,8 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ];
     then
       no_open_mp ; 
+      brew install ccache;
+      export PATH="/usr/local/opt/ccache/libexec:$PATH";      
     fi    
   - echo "CC=${CC}, CXX=${CXX}, CXX1X=${CXX1X}"
   - echo "CXX1XSTD=${CXX1XSTD}, CXX11=${CXX11}"
@@ -73,11 +75,6 @@ before_install:
   - install_remotes_no_dep
   - cat DESCRIPTION
   - echo $PATH ;
-  - if [ "$TRAVIS_OS_NAME" == "osx" ];
-    then
-      brew install ccache;
-      export PATH="/usr/local/opt/ccache/libexec:$PATH";
-    fi
   - install_deps
   - travis_run_cache
 
