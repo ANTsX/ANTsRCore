@@ -78,6 +78,7 @@ before_install:
       brew install ccache;
       export PATH="/usr/local/opt/ccache/libexec:$PATH";
     fi
+  - install_deps
   - travis_run_cache
 
 script:
