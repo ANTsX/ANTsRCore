@@ -389,7 +389,7 @@ antsRegistration <- function(
                        "-f", "4x2x2x1",
                        "-x", "[NA,NA]",
                        "-m", paste(synMetric,"[", f, ",", m, ",1,",synSampling,"]", sep = ""),
-                       "-t", paste(typeofTransform, "[0.25,3,0]", sep = ""),
+                       "-t", mysyn,
                        "-c", paste("[",synits,",1e-7,8]",collapse=''),
                        "-s", smoothingsigmas, "-f", shrinkfactors, "-u",
                        "0", "-z", "1", "-l", myl, "-o", paste("[", outprefix, ",",
