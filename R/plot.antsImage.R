@@ -106,7 +106,10 @@ plot.antsImage <- function(x, y,
   window.overlay,
   quality = 2,
   outname = NA,
-  alpha = 1.0,
+  alpha = 1.0, 
+  direction = 1, 
+  begin = 0, 
+  end = 1,
   newwindow = FALSE,
   nslices = 10,
   domainImageMap = NA,
@@ -543,14 +546,14 @@ if ( ! any( is.na( domainImageMap ) ) )
         space = "Lab")
     }
     if (color.overlay[ind] == "viridis") {
-      colorfun <- colorRampPalette( viridis::viridis( nlevels ) , interpolate = c("spline"),
+      colorfun <- colorRampPalette( viridis::viridis( nlevels, alpha = alpha, direction = direction, begin = begin, end = end ) , interpolate = c("spline"),
         space = "Lab")
     }
     heatvals <- colorfun(nlevels)
-    if ( color.overlay[ind] == "viridis" ) heatvals <- viridis::viridis( nlevels )
-    if ( color.overlay[ind] == "magma" ) heatvals <- viridis::magma( nlevels )
-    if ( color.overlay[ind] == "plasma" ) heatvals <- viridis::plasma( nlevels )
-    if ( color.overlay[ind] == "inferno" ) heatvals <- viridis::inferno( nlevels )
+    if ( color.overlay[ind] == "viridis" ) heatvals <- viridis::viridis( nlevels, alpha = alpha, direction = direction, begin = begin, end = end )
+    if ( color.overlay[ind] == "magma" ) heatvals <- viridis::magma( nlevels, alpha = alpha, direction = direction, begin = begin, end = end )
+    if ( color.overlay[ind] == "plasma" ) heatvals <- viridis::plasma( nlevels, alpha = alpha, direction = direction, begin = begin, end = end )
+    if ( color.overlay[ind] == "inferno" ) heatvals <- viridis::inferno( nlevels, alpha = alpha, direction = direction, begin = begin, end = end )
     # fix to get alpha transparency correct
     if (nchar(heatvals[1]) == 7 & alpha != 1) heatvals = paste0(heatvals,round(alpha*100,0))
     if (locthresh[1] > 1)
