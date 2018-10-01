@@ -44,6 +44,7 @@ before_install:
   - fname=travis_helpers.sh
   - wget -O ${fname} http://bit.ly/travis_helpers
   - cat ${fname}; source ${fname}; rm ${fname}
+  - export gh_user=`get_gh_user` ; cat $gh_user ;  
   - export rver=`r_version`;
   - cat DESCRIPTION  
   - export PACKAGE_NAME=`package_name`
@@ -104,6 +105,12 @@ after_success:
     fi
   - mv ${PKG_FILE_NAME} ${PKG_TARBALL_WITH_R} ;      
   - PKG_FILE_NAME=${PKG_TARBALL_WITH_R}  
+  - if [[ "${gh_user}" == "ANTsX" || "${gh_user}" == "stnava" ]]; 
+    then 
+      export secure_key=Hm3kbkCySSneOe8644MWudbNAphB4+YDpGhWCeeHuSiHoQU6+Qmx/f014iVM5JqZI72EGX21hSygqfD9jB8O78J4imO4xMUnNciA80pV/NlUnzwMiYVfpYAga3QQApvSJZuBA/4+kJXlFZkigWGXuzb8W5Qty0xY1KV9FuaUzo5bRxCPa4f3t3PP/Ikjhla2vH53UHo+YiRIfGlH5Rn3p2kDS5390cfdO5+1kn8p5UMZV7C1B2VAE2OO0QxtVmjZbpAxE/k+QGdeGMXBfu5bCfERO3Wr/sfITaTu9j5Oulv/fDfVe6kuIRhAkX0eUn+CEkEhBgSO6yp1+abcagxIRVYfF3hp5e6+cOeGC/QH0z9kSsCim3SdYvz+rFhtzS+vO4LTO8wgGzyMLalvH2Jopf4OrRbSwbmiLpQzR/fFrmx9IZt0o4lD9+KW9Nhj0o9+V6NHg+Usx1wbTVYDjh53op6AT5c6E4Zej0gLeG9gXXtICtcEE1pCLiK8EX11cCUpgRD0NcG+F/dcPY5kLtf4/Uw/krhwz8OagPk9Mt3aleu0iepkuwQoGNoy2XBzc0zcaGICC3Y23KW/VZRc0xZGjiUmQXyMlbuB/dOYr0V8VGVPanRgDksr+ML0B4nqdfbtqTC1FQl2ORtG7iCDuArAZo7bokisZ2GTSA2F85BpfRY= ;
+    elif [[ "${gh_user}" == "muschellij2" ]]; then 
+      export secure_key=UL/OXal9+cvomf7iDtJnAoVY8YEmVa7MECjbBrfnmGeloQ6yRhYVUk5sRlbPNM4VczdtN6/k8hH8LpN/3IT8Wqh+YxIaN0kw/0J05dzj1OLcilRKxTFtQo7i1VYqdTqytXbbvaISaVLF+0UjGIwfFARr/m/GZsKXV54wXhTFirY= ;
+    fi
 
 notifications:
   email:
@@ -122,12 +129,12 @@ before_deploy:
 deploy:
   provider: releases
   api_key:
-    secure: Hm3kbkCySSneOe8644MWudbNAphB4+YDpGhWCeeHuSiHoQU6+Qmx/f014iVM5JqZI72EGX21hSygqfD9jB8O78J4imO4xMUnNciA80pV/NlUnzwMiYVfpYAga3QQApvSJZuBA/4+kJXlFZkigWGXuzb8W5Qty0xY1KV9FuaUzo5bRxCPa4f3t3PP/Ikjhla2vH53UHo+YiRIfGlH5Rn3p2kDS5390cfdO5+1kn8p5UMZV7C1B2VAE2OO0QxtVmjZbpAxE/k+QGdeGMXBfu5bCfERO3Wr/sfITaTu9j5Oulv/fDfVe6kuIRhAkX0eUn+CEkEhBgSO6yp1+abcagxIRVYfF3hp5e6+cOeGC/QH0z9kSsCim3SdYvz+rFhtzS+vO4LTO8wgGzyMLalvH2Jopf4OrRbSwbmiLpQzR/fFrmx9IZt0o4lD9+KW9Nhj0o9+V6NHg+Usx1wbTVYDjh53op6AT5c6E4Zej0gLeG9gXXtICtcEE1pCLiK8EX11cCUpgRD0NcG+F/dcPY5kLtf4/Uw/krhwz8OagPk9Mt3aleu0iepkuwQoGNoy2XBzc0zcaGICC3Y23KW/VZRc0xZGjiUmQXyMlbuB/dOYr0V8VGVPanRgDksr+ML0B4nqdfbtqTC1FQl2ORtG7iCDuArAZo7bokisZ2GTSA2F85BpfRY=
+    secure: ${secure_key}
   file: ${PKG_FILE_NAME}
   skip_cleanup: true
   on:
     tags: true
-    repo: ANTsX/${PROJ_DIR}
+    repo: ${gh_user}/${PROJ_DIR}
     all_branches: true
 
 
