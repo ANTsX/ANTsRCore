@@ -9,9 +9,10 @@
   "magma", "plasma", "inferno"), axis = 2, slices,
   colorbar = missing(y), title.colorbar, title.img, title.line = NA,
   color.colorbar, window.img, window.overlay, quality = 2,
-  outname = NA, alpha = 1, newwindow = FALSE, nslices = 10,
-  domainImageMap = NA, ncolumns = 4, useAbsoluteScale = FALSE,
-  doCropping = TRUE, text, ...)
+  outname = NA, alpha = 1, direction = 1, begin = 0, end = 1,
+  newwindow = FALSE, nslices = 10, domainImageMap = NA,
+  ncolumns = 4, useAbsoluteScale = FALSE, doCropping = TRUE, text,
+  ...)
 }
 \arguments{
 \item{x}{the reference image on which to overlay.}
