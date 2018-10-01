@@ -44,7 +44,7 @@ before_install:
   - fname=travis_helpers.sh
   - wget -O ${fname} http://bit.ly/travis_helpers
   - cat ${fname}; source ${fname}; rm ${fname}
-  - export gh_user=`get_gh_user` ; cat $gh_user ;  
+  - export gh_user=`get_gh_user` ; echo $gh_user ;  
   - export rver=`r_version`;
   - cat DESCRIPTION  
   - export PACKAGE_NAME=`package_name`
