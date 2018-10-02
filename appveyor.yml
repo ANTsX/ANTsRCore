@@ -28,7 +28,7 @@ build_script:
   - set TMP=C:/rtm
   - set TEMP=C:/rtm
   - set TMPDIR=C:/rtm
-  - ps: Invoke-WebRequest https://github.com/muschellij2/ITKR/releases/download/v0.4.16.2.0/ITKR_0.4.16.2_R3.5.zip -OutFile ".\ITKR.zip"
+  - ps: Invoke-WebRequest https://github.com/muschellij2/ITKR/releases/download/v0.4.17.0.1/ITKR_0.4.17_R3.5.zip -OutFile ".\ITKR.zip"
   - Rscript -e "install.packages('ITKR.zip', repos = NULL)"  
   - rm ITKR.zip  
   # - git clone https://github.com/stnava/ITKR
