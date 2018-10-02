@@ -38,6 +38,13 @@
 #' @param doCropping  apply cropping, defaults to \code{TRUE}
 #' @param text vector containing x, y, label, cex and color values passed to
 #' text command, e.g. \code{txt=list(x=0,y=0,label='my text',cex=2,col='red')}
+#' @param begin The (corrected) hue in [0,1] at which the viridis colormap 
+#' begins.
+#' @param end The (corrected) hue in [0,1] at which the viridis colormap 
+#' ends
+#' @param direction Sets the order of colors in the scale. 
+#' If 1, the default, colors are ordered from darkest to lightest. 
+#' If -1, the order of colors is reversed.
 #' @param ...  other parameters
 #' @return output is plot to standard R window
 #' @author Avants BB
