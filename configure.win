@@ -1,7 +1,7 @@
 #!/bin/bash
 CXX_STD=CXX11
-CC=`R CMD config CC`
-CXX=`R CMD config CXX`
+CC=`${R_HOME}/bin/R.exe CMD config CC`
+CXX=`${R_HOME}/bin/R.exe CMD config CXX`
 JTHREADS=1
 CMAKE_C_FLAGS="-O3"
 CMAKE_CXX_FLAGS="-O3 -std=c++11"
@@ -58,7 +58,7 @@ echo "all: \$(SHLIB)" >> Makevars.win
 
 echo "\$(SHLIB): libs" >> Makevars.win
 # MAKER=c:/Rtools/mingw_64/bin/mingw32-make.exe
-MAKER=mingw32-make
+MAKER=mingw32-make.exe
 echo "libs: ; cd antb && ${MAKER} -j 4 && cd ANTS-build && ${MAKER} all install" >> Makevars.win
 
 # get / set up ANTs code
