@@ -12,6 +12,8 @@
 \alias{as.array,antsImage-method}
 \alias{as.array.antsImage}
 \alias{as.character.antsImage}
+\alias{as.factor.antsImage}
+\alias{factor.antsImage}
 \alias{as.data.frame,antsMatrix-method}
 \alias{as.data.frame.antsMatrix}
 \alias{as.matrix,antsMatrix-method}
@@ -38,6 +40,12 @@
   region = new("antsRegion", index = integer(), size = integer()))
 
 \method{as.character}{antsImage}(x, ..., mask = logical(),
+  region = new("antsRegion", index = integer(), size = integer()))
+
+\method{as.factor}{antsImage}(x, ..., mask = logical(),
+  region = new("antsRegion", index = integer(), size = integer()))
+
+\method{factor}{antsImage}(x, ..., mask = logical(),
   region = new("antsRegion", index = integer(), size = integer()))
 
 \S4method{as.data.frame}{antsMatrix}(x)

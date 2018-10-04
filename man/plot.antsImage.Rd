@@ -9,9 +9,10 @@
   "magma", "plasma", "inferno"), axis = 2, slices,
   colorbar = missing(y), title.colorbar, title.img, title.line = NA,
   color.colorbar, window.img, window.overlay, quality = 2,
-  outname = NA, alpha = 1, newwindow = FALSE, nslices = 10,
-  domainImageMap = NA, ncolumns = 4, useAbsoluteScale = FALSE,
-  doCropping = TRUE, text, ...)
+  outname = NA, alpha = 1, direction = 1, begin = 0, end = 1,
+  newwindow = FALSE, nslices = 10, domainImageMap = NA,
+  ncolumns = 4, useAbsoluteScale = FALSE, doCropping = TRUE, text,
+  ...)
 }
 \arguments{
 \item{x}{the reference image on which to overlay.}
@@ -51,6 +52,16 @@ max of the image will be used.}
 \code{plot.jpg}.}
 
 \item{alpha}{opacity}
+
+\item{direction}{Sets the order of colors in the scale. 
+If 1, the default, colors are ordered from darkest to lightest. 
+If -1, the order of colors is reversed.}
+
+\item{begin}{The (corrected) hue in [0,1] at which the viridis colormap 
+begins.}
+
+\item{end}{The (corrected) hue in [0,1] at which the viridis colormap 
+ends}
 
 \item{newwindow}{boolean controlling if we open a new device for this plot}
 

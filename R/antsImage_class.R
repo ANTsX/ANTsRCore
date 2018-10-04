@@ -218,12 +218,37 @@ as.array.antsImage = function(x, ..., mask = logical(),
 #' factor(img)
 #' table(img, img) 
 as.character.antsImage = function(x, ..., mask = logical(),
-                              region = new("antsRegion", index = integer(),
-                                           size = integer())) {
+                                  region = new("antsRegion", index = integer(),
+                                               size = integer())) {
   arr = as.array(x, ..., mask = mask, 
                  region = region)
   return(as.character(arr))
 }
+
+
+#' @rdname as.array
+#' @export
+#' @method as.factor antsImage
+as.factor.antsImage = function(
+  x, ..., mask = logical(),
+  region = new("antsRegion", index = integer(),
+               size = integer())) {
+  arr = as.array(x, ..., mask = mask, 
+                 region = region)
+  return(as.factor(arr))
+}
+
+#' @rdname as.array
+#' @export
+#' @method factor antsImage
+factor.antsImage = function(
+  x, ..., mask = logical(),
+  region = new("antsRegion", index = integer(),
+               size = integer())) {
+  arr = as.character(x, mask = mask, region)
+  return(factor(arr, ...))
+}
+
 
 
 #' @rdname as.antsImage

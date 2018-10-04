@@ -12,6 +12,9 @@ environment:
     USE_RTOOLS: true
     R_CHECK_INSTALL_ARGS: "--install-args=--build --no-multiarch "
     WARNINGS_ARE_ERRORS: 1
+  matrix:
+    - R_VERSION: release
+      R_VER: 3.5
 
 install:
   - ps: Bootstrap
@@ -25,7 +28,7 @@ build_script:
   - set TMP=C:/rtm
   - set TEMP=C:/rtm
   - set TMPDIR=C:/rtm
-  - ps: Invoke-WebRequest https://github.com/stnava/ITKR/releases/download/v0.4.14.5.0/ITKR_0.4.14.5.zip -OutFile ".\ITKR.zip"
+  - ps: Invoke-WebRequest https://github.com/muschellij2/ITKR/releases/download/v0.4.17.1.0/ITKR_0.4.17.1_R3.5.zip -OutFile ".\ITKR.zip"
   - Rscript -e "install.packages('ITKR.zip', repos = NULL)"  
   - rm ITKR.zip  
   # - git clone https://github.com/stnava/ITKR

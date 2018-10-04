@@ -1,12 +1,12 @@
 #!/bin/bash
 CXX_STD=CXX11
-CC=`R CMD config CC`
-CXX=`R CMD config CXX`
+CC=`${R_HOME}/bin/R.exe CMD config CC`
+CXX=`${R_HOME}/bin/R.exe CMD config CXX`
 JTHREADS=1
-CMAKE_C_FLAGS="-O3"
-CMAKE_CXX_FLAGS="-O3 -std=c++11"
+# CMAKE_C_FLAGS="-O2"
+# CMAKE_CXX_FLAGS="-O2"
 ADD_PKG_LIBS="-lws2_32 -lgdi32 -mwindows -msse4.1 -mssse3 "
-CMAKE_EXE_LINKER_FLAGS="${ADD_PKG_LIBS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
+# CMAKE_EXE_LINKER_FLAGS="${ADD_PKG_LIBS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
 # DLLFLAGS="${DLLFLAGS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc, -Wl,--verbose"
 DLLFLAGS="${DLLFLAGS} ${CMAKE_EXE_LINKER_FLAGS}"
 # PKG_CPPFLAGS="${PKG_CPPFLAGS} -Wl,--allow-multiple-definition,--enable-auto-import,--enable-runtime-pseudo-reloc,--verbose"
@@ -17,7 +17,7 @@ ITKRLIB=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkLibs(); cat(a)'`
 compflags=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
 ITKDIR=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkDir(); cat(a)'`
 
-compflags="${compflags} -Wa,-mbig-obj "
+# compflags="${compflags} -Wno-c++11-long-long -Wa,-mbig-obj "
 
 CMAKE_BUILD_TYPE=Release
 cd ./src
@@ -110,13 +110,14 @@ ${cmaker} \
     -G "MinGW Makefiles" \
     -DITK_DIR:PATH="${ITKDIR}" \
     -DCMAKE_SH:BOOL=OFF \
-    -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${CMAKE_EXE_LINKER_FLAGS} ${compflags} -DNDEBUG  "\
+    -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${CMAKE_EXE_LINKER_FLAGS} ${compflags} -DNDEBUG -D_FILE_OFFSET_BITS=64"\
     -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} -DNDEBUG  "\
-    -DBUILD_SHARED_LIBS=OFF \
+    -DBUILD_SHARED_LIBS=ON \
     -DBUILD_ALL_ANTS_APPS=OFF \
     -DUSE_SYSTEM_ITK=OFF \
     -DBUILD_TESTING=OFF \
     -DBUILD_EXAMPLES:BOOL=OFF \
+    -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON \
     -DCOPY_SCRIPT_FILES_TO_BIN_DIR=OFF \
     -DCMAKE_INSTALL_PREFIX:PATH="${R_PACKAGE_DIR}/libs/" \
     -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}" \
