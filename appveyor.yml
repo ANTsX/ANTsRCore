@@ -73,7 +73,6 @@ build_script:
   # - set PATH=%PATH%;C:\Program Files\7-Zip
   - travis-tool.sh install_deps
 
-
 test_script:
   - R CMD INSTALL --build --no-multiarch .
   # - travis-tool.sh run_tests
