@@ -106,12 +106,13 @@ fi
 
 echo ${cmaker}
 
+
 ${cmaker} \
     -G "MinGW Makefiles" \
     -DITK_DIR:PATH="${ITKDIR}" \
     -DCMAKE_SH:BOOL=OFF \
-    -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${CMAKE_EXE_LINKER_FLAGS} ${compflags} -DNDEBUG -D_FILE_OFFSET_BITS=64"\
-    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} -DNDEBUG  "\
+    -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -Wa,-mbig-obj ${CMAKE_EXE_LINKER_FLAGS} ${compflags} -DNDEBUG -D_FILE_OFFSET_BITS=64"\
+    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -Wa,-mbig-obj ${compflags} -DNDEBUG  "\
     -DBUILD_SHARED_LIBS=ON \
     -DBUILD_ALL_ANTS_APPS=OFF \
     -DUSE_SYSTEM_ITK=OFF \
