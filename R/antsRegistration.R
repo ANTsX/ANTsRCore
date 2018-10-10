@@ -745,8 +745,9 @@ antsrGetPointerName <- function(img) {
 #' @param typeofTransform A linear or non-linear registration type.  Mutual
 #' information metric by default. See \code{antsRegistration.}
 #' @param iterations should be greater than 1 less than 10.
-#' @param gradientStep should be less than 1, speed of shape update step.
-#' Passed to \code{\link{antsRegistration}}
+#' @param gradientStep speed of template shape update step, less than 1.
+#' @param segList segmentations for each target image, this will trigger a
+#' joint label fusion call for each iteration and use masks during registration.
 #' @param verbose print diagnostic messages,
 #' passed to \code{\link{antsRegistration}}
 #' @param ... Additional options to pass to \code{\link{antsRegistration}}
@@ -763,32 +764,43 @@ buildTemplate <- function(
   typeofTransform,
   iterations = 3,
   gradientStep = 0.25,
+  segList,
   verbose = TRUE,
   ...
 ) {
   template = antsImageClone( initialTemplate )
+  if ( ! missing( segList ) ) doJif = TRUE else doJif = FALSE
   for (i in 1:iterations ) {
     if (verbose) {
       message(paste0("Iteration: ", i))
     }
     avgIlist = list()
     avgWlist = c()
+    avgSlist = list()
     for (k in 1:length( imgList ) ) {
       w1 = antsRegistration(
         template,
         imgList[[k]], typeofTransform = typeofTransform,
-        gradStep = gradientStep,
         verbose = verbose > 1,
         ...)
       avgIlist[[k]] = w1$warpedmovout
       avgWlist[ k ] = antsApplyTransforms(
-        initialTemplate, imgList[[k]],
+        initialTemplate, imgList[[ k ]],
         w1$fwdtransforms, compose = w1$fwdtransforms[1] )
+      if ( doJif ) {
+        avgSlist[[k]] = antsApplyTransforms(
+          initialTemplate, segList[[ k ]],
+          w1$fwdtransforms, interpolator = 'nearestNeighbor' )
+      }
     }
     if (verbose) {
       message("Averaging images")
     }
     template = antsAverageImages( avgIlist )
+    if ( doJif ) {
+      jlf = jointLabelFusion( btp0,  focusRegionCrop, rSearch=3,
+        tarilist, labelList = tarslist )
+    }
     if (verbose) {
       message("Averaging warped composed transforms")
     }
