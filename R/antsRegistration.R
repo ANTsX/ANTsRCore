@@ -811,7 +811,8 @@ buildTemplate <- function(
     }
     template = antsAverageImages( avgIlist )
     if ( doJif ) {
-      tempmask = thresholdImage( antsAverageImages( avgSlist ), 1, Inf )
+      tempmask = thresholdImage( antsAverageImages( avgSlist ),
+        1/length(avgSlist), Inf )
       jlf = jointLabelFusion( template,  tempmask, rSearch=3,
         avgIlist, labelList = avgSlist )
       template = jlf$intensity
