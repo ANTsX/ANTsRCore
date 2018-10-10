@@ -798,9 +798,11 @@ buildTemplate <- function(
     }
     template = antsAverageImages( avgIlist )
     if ( doJif ) {
-      jlf = jointLabelFusion( btp0,  focusRegionCrop, rSearch=3,
-        tarilist, labelList = tarslist )
-    }
+      jlf = jointLabelFusion( template,  getMask(template), rSearch=3,
+        avgIlist, labelList = avgSlist )
+      template = jlf$intensity
+      segmentation = antsImageClone( jlf$segmentation, "float" )
+      }
     if (verbose) {
       message("Averaging warped composed transforms")
     }
@@ -808,10 +810,14 @@ buildTemplate <- function(
     wavgfn = tempfile( fileext = ".nii.gz" )
     antsImageWrite( wavg, wavgfn )
     template = antsApplyTransforms( template, template, wavgfn )
+    if ( doJif )
+      segmentation = antsApplyTransforms( segmentation, segmentation, wavgfn,
+        interpolator = 'nearestNeighbor' )
     if (verbose) {
       message("Sharpening template image")
     }
     template = template * 0.5 + iMath( template, "Sharpen" ) * 0.5
   }
+  if ( doJif ) return( list( template = template, segmentation = segmentation ))
   return( template )
 }
