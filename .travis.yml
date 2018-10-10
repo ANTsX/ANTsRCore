@@ -104,13 +104,7 @@ after_success:
       PKG_TARBALL_WITH_R=`echo $PKG_FILE_NAME | sed 's/.tgz/_'"R${rver}"'.tgz/'` ;
     fi
   - mv ${PKG_FILE_NAME} ${PKG_TARBALL_WITH_R} ;      
-  - PKG_FILE_NAME=${PKG_TARBALL_WITH_R}  
-  - if [[ "${gh_user}" == "ANTsX" || "${gh_user}" == "stnava" ]]; 
-    then 
-      export secure_key=Hm3kbkCySSneOe8644MWudbNAphB4+YDpGhWCeeHuSiHoQU6+Qmx/f014iVM5JqZI72EGX21hSygqfD9jB8O78J4imO4xMUnNciA80pV/NlUnzwMiYVfpYAga3QQApvSJZuBA/4+kJXlFZkigWGXuzb8W5Qty0xY1KV9FuaUzo5bRxCPa4f3t3PP/Ikjhla2vH53UHo+YiRIfGlH5Rn3p2kDS5390cfdO5+1kn8p5UMZV7C1B2VAE2OO0QxtVmjZbpAxE/k+QGdeGMXBfu5bCfERO3Wr/sfITaTu9j5Oulv/fDfVe6kuIRhAkX0eUn+CEkEhBgSO6yp1+abcagxIRVYfF3hp5e6+cOeGC/QH0z9kSsCim3SdYvz+rFhtzS+vO4LTO8wgGzyMLalvH2Jopf4OrRbSwbmiLpQzR/fFrmx9IZt0o4lD9+KW9Nhj0o9+V6NHg+Usx1wbTVYDjh53op6AT5c6E4Zej0gLeG9gXXtICtcEE1pCLiK8EX11cCUpgRD0NcG+F/dcPY5kLtf4/Uw/krhwz8OagPk9Mt3aleu0iepkuwQoGNoy2XBzc0zcaGICC3Y23KW/VZRc0xZGjiUmQXyMlbuB/dOYr0V8VGVPanRgDksr+ML0B4nqdfbtqTC1FQl2ORtG7iCDuArAZo7bokisZ2GTSA2F85BpfRY= ;
-    elif [[ "${gh_user}" == "muschellij2" ]]; then 
-      export secure_key=S6aYhOkDea+5abwE3x035WAW+LFgJnvPCwDTxILryNaifdtd/WoQvdW9RB39ZokDVMiXkxyyT1aXZFksUO2hDyxtkOTLdesNj9IKbd0Lea/L67mJI8yvrRUYzKSAEE5n6/4QsMUs9RIxzi32S0i8UlH0UAG8+QPwTfYWUMiSXVJPUIi4gcwQ3xRUyQ5/Ixs0ZizpcuKHgW7uoa0ZqeoPz1aFCEniIvfeDYcdp3oHRsCuAvqPhrBKuioyAyWGH4BvNF7poON6gYBP3bGKWpG/Z21263OrBaH14uItFdBdMuencZ1357nudrraITw1RLNMIeIzJ7Zf7G5RI/3BHPieg193eQGQGlwKT43jsPt6CHyq26qcgI9I4R+m7y8bjefL5H1Xd8Czt5sLw0Csdg2VBZ3OkGvI6WSk448kp89bpBoPrdtwkWBvf643pMdIz3ynxl1+Dc/RO3M2IvMSQIcmqkLDU6NpKcMUARmbcNR77xylsw1QWw/ndl3QtjS3upbUTeq6olhlW245+/soVDpgnIfW/betpJa6UPeWtAs3P8RnY1eJtrKNJCHm9sQDUM8+WuSkgJOApAVEnn4jdsClkWEXciT1wv7xzsOzs5gIXK4fNAN8crTJdYFdtjOZbPlEfPGGF61l+ty8hdsgT2cnQ9owNFRYj/ehTrcPK0ZrgJs= ;
-    fi
+  - PKG_FILE_NAME=${PKG_TARBALL_WITH_R}  ;
 
 notifications:
   email:
@@ -129,13 +123,22 @@ before_deploy:
 deploy:
   provider: releases
   api_key:
-    secure: ${secure_key}
+    secure: Hm3kbkCySSneOe8644MWudbNAphB4+YDpGhWCeeHuSiHoQU6+Qmx/f014iVM5JqZI72EGX21hSygqfD9jB8O78J4imO4xMUnNciA80pV/NlUnzwMiYVfpYAga3QQApvSJZuBA/4+kJXlFZkigWGXuzb8W5Qty0xY1KV9FuaUzo5bRxCPa4f3t3PP/Ikjhla2vH53UHo+YiRIfGlH5Rn3p2kDS5390cfdO5+1kn8p5UMZV7C1B2VAE2OO0QxtVmjZbpAxE/k+QGdeGMXBfu5bCfERO3Wr/sfITaTu9j5Oulv/fDfVe6kuIRhAkX0eUn+CEkEhBgSO6yp1+abcagxIRVYfF3hp5e6+cOeGC/QH0z9kSsCim3SdYvz+rFhtzS+vO4LTO8wgGzyMLalvH2Jopf4OrRbSwbmiLpQzR/fFrmx9IZt0o4lD9+KW9Nhj0o9+V6NHg+Usx1wbTVYDjh53op6AT5c6E4Zej0gLeG9gXXtICtcEE1pCLiK8EX11cCUpgRD0NcG+F/dcPY5kLtf4/Uw/krhwz8OagPk9Mt3aleu0iepkuwQoGNoy2XBzc0zcaGICC3Y23KW/VZRc0xZGjiUmQXyMlbuB/dOYr0V8VGVPanRgDksr+ML0B4nqdfbtqTC1FQl2ORtG7iCDuArAZo7bokisZ2GTSA2F85BpfRY=
   file: ${PKG_FILE_NAME}
   skip_cleanup: true
   on:
     tags: true
     repo: ${gh_user}/${PROJ_DIR}
     all_branches: true
+    condition: $gh_user = "ANTsX"
 
-
-
+  # - provider: releases
+  #   api_key:
+  #     secure: S6aYhOkDea+5abwE3x035WAW+LFgJnvPCwDTxILryNaifdtd/WoQvdW9RB39ZokDVMiXkxyyT1aXZFksUO2hDyxtkOTLdesNj9IKbd0Lea/L67mJI8yvrRUYzKSAEE5n6/4QsMUs9RIxzi32S0i8UlH0UAG8+QPwTfYWUMiSXVJPUIi4gcwQ3xRUyQ5/Ixs0ZizpcuKHgW7uoa0ZqeoPz1aFCEniIvfeDYcdp3oHRsCuAvqPhrBKuioyAyWGH4BvNF7poON6gYBP3bGKWpG/Z21263OrBaH14uItFdBdMuencZ1357nudrraITw1RLNMIeIzJ7Zf7G5RI/3BHPieg193eQGQGlwKT43jsPt6CHyq26qcgI9I4R+m7y8bjefL5H1Xd8Czt5sLw0Csdg2VBZ3OkGvI6WSk448kp89bpBoPrdtwkWBvf643pMdIz3ynxl1+Dc/RO3M2IvMSQIcmqkLDU6NpKcMUARmbcNR77xylsw1QWw/ndl3QtjS3upbUTeq6olhlW245+/soVDpgnIfW/betpJa6UPeWtAs3P8RnY1eJtrKNJCHm9sQDUM8+WuSkgJOApAVEnn4jdsClkWEXciT1wv7xzsOzs5gIXK4fNAN8crTJdYFdtjOZbPlEfPGGF61l+ty8hdsgT2cnQ9owNFRYj/ehTrcPK0ZrgJs=
+  #   file: ${PKG_FILE_NAME}
+  #   skip_cleanup: true
+  #   on:
+  #     tags: true
+  #     repo: ${gh_user}/${PROJ_DIR}
+  #     all_branches: true
+  #     condition: $gh_user = "muschellij2"
