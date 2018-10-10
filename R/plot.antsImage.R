@@ -38,12 +38,12 @@
 #' @param doCropping  apply cropping, defaults to \code{TRUE}
 #' @param text vector containing x, y, label, cex and color values passed to
 #' text command, e.g. \code{txt=list(x=0,y=0,label='my text',cex=2,col='red')}
-#' @param begin The (corrected) hue in [0,1] at which the viridis colormap 
+#' @param begin The (corrected) hue in [0,1] at which the viridis colormap
 #' begins.
-#' @param end The (corrected) hue in [0,1] at which the viridis colormap 
+#' @param end The (corrected) hue in [0,1] at which the viridis colormap
 #' ends
-#' @param direction Sets the order of colors in the scale. 
-#' If 1, the default, colors are ordered from darkest to lightest. 
+#' @param direction Sets the order of colors in the scale.
+#' If 1, the default, colors are ordered from darkest to lightest.
 #' If -1, the order of colors is reversed.
 #' @param ...  other parameters
 #' @return output is plot to standard R window
@@ -113,9 +113,9 @@ plot.antsImage <- function(x, y,
   window.overlay,
   quality = 2,
   outname = NA,
-  alpha = 1.0, 
-  direction = 1, 
-  begin = 0, 
+  alpha = 1.0,
+  direction = 1,
+  begin = 0,
   end = 1,
   newwindow = FALSE,
   nslices = 10,
@@ -444,7 +444,7 @@ if ( ! any( is.na( domainImageMap ) ) )
     title(title.img, line=title.line)
 
   if (missing(window.overlay) & !all(is.na(y))) {
-    window.overlay <- quantile(y[[1]][y[[1]] != 0], c(0.05, 0.95))
+    window.overlay <- range( y[[1]] )
     if(window.overlay[1] == window.overlay[2]){
       window.overlay[1] <- min(y[[1]])
       window.overlay[2] <- max(y[[1]])

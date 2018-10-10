@@ -778,11 +778,24 @@ buildTemplate <- function(
     avgWlist = c()
     avgSlist = list()
     for (k in 1:length( imgList ) ) {
+      if ( doJif & ( i > 1 ) ) {
+        segreglist = list(
+          thresholdImage( segmentation, 1, Inf ),
+          thresholdImage( segList[[k]], 1, Inf )
+          )
+        w1 = antsRegistration(
+          template,
+          imgList[[k]], typeofTransform = typeofTransform,
+          verbose = verbose > 1,
+          mask = segreglist,
+          ...)
+      } else {
       w1 = antsRegistration(
         template,
         imgList[[k]], typeofTransform = typeofTransform,
         verbose = verbose > 1,
         ...)
+      }
       avgIlist[[k]] = w1$warpedmovout
       avgWlist[ k ] = antsApplyTransforms(
         initialTemplate, imgList[[ k ]],
