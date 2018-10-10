@@ -63,6 +63,7 @@ extern SEXP antsImageMath(SEXP, SEXP);
 extern SEXP antsImageMutualInformation(SEXP, SEXP);
 extern SEXP antsImageRead(SEXP, SEXP, SEXP, SEXP);
 extern SEXP antsImageWrite(SEXP, SEXP);
+extern SEXP antsJointFusion(SEXP);
 extern SEXP antsMatrix(SEXP);
 extern SEXP antsMatrix_asantsMatrix(SEXP, SEXP);
 extern SEXP antsMatrix_asList(SEXP);
@@ -157,6 +158,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsImageMutualInformation",              (DL_FUNC) &antsImageMutualInformation,               2},
     {"antsImageRead",                           (DL_FUNC) &antsImageRead,                            4},
     {"antsImageWrite",                          (DL_FUNC) &antsImageWrite,                           2},
+    {"antsJointFusion",                         (DL_FUNC) &antsJointFusion,                          1},
     {"antsMatrix",                              (DL_FUNC) &antsMatrix,                               1},
     {"antsMatrix_asantsMatrix",                 (DL_FUNC) &antsMatrix_asantsMatrix,                  2},
     {"antsMatrix_asList",                       (DL_FUNC) &antsMatrix_asList,                        1},
