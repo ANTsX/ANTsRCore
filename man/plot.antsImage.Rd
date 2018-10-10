@@ -53,14 +53,14 @@ max of the image will be used.}
 
 \item{alpha}{opacity}
 
-\item{direction}{Sets the order of colors in the scale. 
-If 1, the default, colors are ordered from darkest to lightest. 
+\item{direction}{Sets the order of colors in the scale.
+If 1, the default, colors are ordered from darkest to lightest.
 If -1, the order of colors is reversed.}
 
-\item{begin}{The (corrected) hue in [0,1] at which the viridis colormap 
+\item{begin}{The (corrected) hue in [0,1] at which the viridis colormap
 begins.}
 
-\item{end}{The (corrected) hue in [0,1] at which the viridis colormap 
+\item{end}{The (corrected) hue in [0,1] at which the viridis colormap
 ends}
 
 \item{newwindow}{boolean controlling if we open a new device for this plot}

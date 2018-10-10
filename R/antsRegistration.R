@@ -745,8 +745,9 @@ antsrGetPointerName <- function(img) {
 #' @param typeofTransform A linear or non-linear registration type.  Mutual
 #' information metric by default. See \code{antsRegistration.}
 #' @param iterations should be greater than 1 less than 10.
-#' @param gradientStep should be less than 1, speed of shape update step.
-#' Passed to \code{\link{antsRegistration}}
+#' @param gradientStep speed of template shape update step, less than 1.
+#' @param segList segmentations for each target image, this will trigger a
+#' joint label fusion call for each iteration and use masks during registration.
 #' @param verbose print diagnostic messages,
 #' passed to \code{\link{antsRegistration}}
 #' @param ... Additional options to pass to \code{\link{antsRegistration}}
@@ -763,32 +764,60 @@ buildTemplate <- function(
   typeofTransform,
   iterations = 3,
   gradientStep = 0.25,
+  segList,
   verbose = TRUE,
   ...
 ) {
   template = antsImageClone( initialTemplate )
+  if ( ! missing( segList ) ) doJif = TRUE else doJif = FALSE
   for (i in 1:iterations ) {
     if (verbose) {
       message(paste0("Iteration: ", i))
     }
     avgIlist = list()
     avgWlist = c()
+    avgSlist = list()
     for (k in 1:length( imgList ) ) {
+      if ( doJif & ( i > 1 ) ) {
+        segreglist = list(
+          thresholdImage( segmentation, 1, Inf ),
+          thresholdImage( segList[[k]], 1, Inf )
+          )
+        w1 = antsRegistration(
+          template,
+          imgList[[k]], typeofTransform = typeofTransform,
+          verbose = verbose > 1,
+          mask = segreglist,
+          ...)
+      } else {
       w1 = antsRegistration(
         template,
         imgList[[k]], typeofTransform = typeofTransform,
-        gradStep = gradientStep,
         verbose = verbose > 1,
         ...)
+      }
       avgIlist[[k]] = w1$warpedmovout
       avgWlist[ k ] = antsApplyTransforms(
-        initialTemplate, imgList[[k]],
+        initialTemplate, imgList[[ k ]],
         w1$fwdtransforms, compose = w1$fwdtransforms[1] )
+      if ( doJif ) {
+        avgSlist[[k]] = antsApplyTransforms(
+          initialTemplate, segList[[ k ]],
+          w1$fwdtransforms, interpolator = 'nearestNeighbor' )
+      }
     }
     if (verbose) {
       message("Averaging images")
     }
     template = antsAverageImages( avgIlist )
+    if ( doJif ) {
+      tempmask = thresholdImage( antsAverageImages( avgSlist ),
+        1/length(avgSlist), Inf )
+      jlf = jointLabelFusion( template,  tempmask, rSearch=3,
+        avgIlist, labelList = avgSlist )
+      template = jlf$intensity
+      segmentation = antsImageClone( jlf$segmentation, "float" )
+      }
     if (verbose) {
       message("Averaging warped composed transforms")
     }
@@ -796,10 +825,14 @@ buildTemplate <- function(
     wavgfn = tempfile( fileext = ".nii.gz" )
     antsImageWrite( wavg, wavgfn )
     template = antsApplyTransforms( template, template, wavgfn )
+    if ( doJif )
+      segmentation = antsApplyTransforms( segmentation, segmentation, wavgfn,
+        interpolator = 'nearestNeighbor' )
     if (verbose) {
       message("Sharpening template image")
     }
     template = template * 0.5 + iMath( template, "Sharpen" ) * 0.5
   }
+  if ( doJif ) return( list( template = template, segmentation = segmentation ))
   return( template )
 }
