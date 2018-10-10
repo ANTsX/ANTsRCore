@@ -811,7 +811,8 @@ buildTemplate <- function(
     }
     template = antsAverageImages( avgIlist )
     if ( doJif ) {
-      jlf = jointLabelFusion( template,  getMask(template), rSearch=3,
+      tempmask = thresholdImage( antsAverageImages( avgSlist ), 1, Inf )
+      jlf = jointLabelFusion( template,  tempmask, rSearch=3,
         avgIlist, labelList = avgSlist )
       template = jlf$intensity
       segmentation = antsImageClone( jlf$segmentation, "float" )
