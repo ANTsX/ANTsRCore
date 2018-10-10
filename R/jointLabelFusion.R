@@ -178,7 +178,7 @@ jointLabelFusion <- function(
       names( myargs )[[ kct ]]  = "l"
       }
     }
-  .Call("antsJointFusion", .int_antsProcessArguments(c(myargs)), PACKAGE = "ANTsR")
+  .Call("antsJointFusion", .int_antsProcessArguments(c(myargs)), PACKAGE = "ANTsRCore" )
   if ( doJif ) return( outimgi )
   probsout <- list.files(path = tdir,
     pattern = glob2rx(searchpattern), full.names = TRUE,
