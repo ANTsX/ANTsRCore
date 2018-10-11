@@ -41,14 +41,14 @@
 #' @examples
 #'
 #' set.seed(123)
-#' ref<-antsImageRead( getANTsRData("r16"))
+#' ref <- ri( 1 )
 #' ref<-resampleImage(ref,c(50,50),1,0)
 #' ref<-iMath(ref,"Normalize")
-#' mi<-antsImageRead( getANTsRData("r27"))
-#' mi2<-antsImageRead( getANTsRData("r30"))
-#' mi3<-antsImageRead( getANTsRData("r62"))
-#' mi4<-antsImageRead( getANTsRData("r64"))
-#' mi5<-antsImageRead( getANTsRData("r85"))
+#' mi<- ri( 2 )
+#' mi2<-ri( 3 )
+#' mi3<-ri( 4 )
+#' mi4<-ri( 5 )
+#' mi5<-ri( 6 )
 #' refmask<-getMask(ref)
 #' refmask<-iMath(refmask,"ME",2) # just to speed things up
 #' ilist<-list(mi,mi2,mi3,mi4,mi5)
@@ -69,7 +69,7 @@
 #' pp<-jointLabelFusion(ref,refmask,ilist, rSearch=2,
 #'   labelList=seglist, rad=rep(r, length(dim(ref)) ) )
 #' pp2<-jointLabelFusion(ref,refmask,ilist, rSearch=2,
-#'   labelList=seglist, rad=rep(r, length(dim(ref)) ) )   
+#'   labelList=seglist, rad=rep(r, length(dim(ref)) ) )
 #' testthat::expect_equal(pp2$segmentation, pp$segmentation)
 #' pp<-jointLabelFusion(ref,refmask,ilist, rSearch=2,
 #'   rad=rep(r, length(dim(ref)) ) )
