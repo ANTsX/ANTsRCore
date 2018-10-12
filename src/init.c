@@ -96,6 +96,7 @@ extern SEXP Atropos(SEXP);
 extern SEXP cropImage(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP DenoiseImage(SEXP);
 extern SEXP extractSlice(SEXP, SEXP, SEXP);
+extern SEXP imagesToMatrix(SEXP, SEXP, SEXP);
 extern SEXP iMathInterface(SEXP);
 extern SEXP iMathInterface1(SEXP);
 extern SEXP iMathInterface2(SEXP);
@@ -191,6 +192,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"cropImage",                               (DL_FUNC) &cropImage,                                6},
     {"DenoiseImage",                            (DL_FUNC) &DenoiseImage,                             1},
     {"extractSlice",                            (DL_FUNC) &extractSlice,                             3},
+    {"imagesToMatrix",                          (DL_FUNC) &imagesToMatrix,                   3},
     {"iMathInterface",                          (DL_FUNC) &iMathInterface,                           1},
     {"iMathInterface1",                         (DL_FUNC) &iMathInterface1,                          1},
     {"iMathInterface2",                         (DL_FUNC) &iMathInterface2,                          1},
