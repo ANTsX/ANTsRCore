@@ -24,8 +24,8 @@
 #' @keywords mask
 #' @examples
 #'
-#' img<-antsImageRead( getANTsRData("r16"))
-#' mask<-getMask( img )
+#' img = ri( 1 )
+#' mask= getMask( img )
 #' testthat::expect_error(getMask( img , lowThresh = "hey"))
 #' pixeltype(img) = "unsigned int"
 #' mask2<-getMask( img )
@@ -58,15 +58,17 @@ getMask <- function(img, lowThresh, highThresh, cleanup = 2) {
     mask_img = iMath(mask_img, "GetLargestComponent")
     mask_img = iMath(mask_img, "MD", cleanup)
     mask_img = iMath(mask_img, "FillHoles")
+    mask_img = thresholdImage( mask_img, 1, Inf )
     while (  ( min(mask_img) == max(mask_img) ) & cleanup > 0 )
       {
       cleanup <- cleanup - 1
       mask_img <- thresholdImage( img, lowThresh, highThresh )
       if ( cleanup > 0 )
         {
-        mask_img = iMath(mask_img, "ME", cleanup)
-        mask_img = iMath(mask_img, "MD", cleanup)
-        mask_img = iMath(mask_img, "FillHoles")
+        mask_img = morphology(mask_img, "erode", cleanup)
+        mask_img = morphology(mask_img, "dilate", cleanup)
+        mask_img = iMath(mask_img, "FillHoles" )
+        mask_img = thresholdImage( mask_img, 1, Inf )
         }
       if ( cleanup == 0 )
         {
