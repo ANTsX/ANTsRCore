@@ -822,6 +822,7 @@ buildTemplate <- function(
       message("Averaging warped composed transforms")
     }
     wavg = antsAverageImages( avgWlist ) * (-1.0 * gradientStep)
+    wmag = sqrt( mean( wavg^2 ) )
     wavgfn = tempfile( fileext = ".nii.gz" )
     antsImageWrite( wavg, wavgfn )
     template = antsApplyTransforms( template, template, wavgfn )
@@ -829,7 +830,7 @@ buildTemplate <- function(
       segmentation = antsApplyTransforms( segmentation, segmentation, wavgfn,
         interpolator = 'nearestNeighbor' )
     if (verbose) {
-      message("Sharpening template image")
+      message( paste0( "Sharpening template image", wmag ) )
     }
     template = template * 0.5 + iMath( template, "Sharpen" ) * 0.5
   }
