@@ -30,11 +30,13 @@ env:
   global:
   - R_BUILD_ARGS=" --no-build-vignettes --no-manual "
   - R_CHECK_ARGS=" --timings --as-cran --no-manual  --install-args=--build"
+  - RGL_USE_NULL=TRUE
   - R_CHECK_TIME="TRUE"
   - R_CHECK_TESTS="TRUE"
   - _R_CHECK_TIMINGS_="0"
   - _R_CHECK_FORCE_SUGGESTS_="0"
   - BOOTSTRAP_LATEX=1
+  - DISPLAY=:99.0
 
 before_install:
   - ulimit -n 2048  
@@ -44,8 +46,9 @@ before_install:
   - fname=travis_helpers.sh
   - wget -O ${fname} http://bit.ly/travis_helpers
   - cat ${fname}; source ${fname}; rm ${fname}
-  - export gh_user=`get_gh_user` ; echo $gh_user ;  
+  - start_xvfb ;
   - export rver=`r_version`;
+  - export gh_user=`get_gh_user` ; echo $gh_user ;  
   - cat DESCRIPTION  
   - export PACKAGE_NAME=`package_name`
   - export RCHECK_DIR=${PACKAGE_NAME}.Rcheck    
@@ -58,12 +61,13 @@ before_install:
   - echo "CC=${CC}, CXX=${CXX}, CXX1X=${CXX1X}"
   - echo "CXX1XSTD=${CXX1XSTD}, CXX11=${CXX11}"
   - clang_cxx
+  - hdf5_install ;
   - export cmake_version="3.11"
   - cmake --version
   - x=`cmake_setup`; echo "${x}"; eval ${x};
   - cmake --version
   - ./cleanup
-  - Rscript -e "install.packages('Rcpp', type = 'source', repos=c(CRAN='https://cran.rstudio.com'))"  
+  - Rscript -e "install.packages(c('Rcpp', 'RcppEigen'), type = 'source', repos=c(CRAN='https://cran.rstudio.com'))"
   - gh_binary_install stnava/ITKR
   - export ants_user=ANTsX
   - install_missing_remote_deps ${ants_user}/ANTsRCore
