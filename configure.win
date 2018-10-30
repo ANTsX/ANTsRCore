@@ -46,7 +46,7 @@ echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
 echo "libitk=\`find \"${ITKRLIB}\" -name \"lib*.a\"\`" >> Makevars.win
 PKG_LIBS="${PKG_LIBS} ${ADD_PKG_LIBS}"
 echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk} \
-    \${libants} \${libitk} \${libants} \${libitk} \${libants} \${libitk}" >> Makevars.win
+    \${libants} \${libitk} \${libants} \${libitk}" >> Makevars.win
 
 # echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
 #                  \${libants} \${libitk} \${libants} \${itklib} \${libants} \
@@ -63,8 +63,8 @@ MAKER=mingw32-make
 echo "libs: ; cd antb && ${MAKER} -j 4 && cd ANTS-build && ${MAKER} all install" >> Makevars.win
 
 # get / set up ANTs code
-antsgit=https://github.com/muschellij2/ANTs.git
-antstag=0b4e8751bfb61d35a6f22994a259813aaae51fb2 # registration is static
+antsgit=https://github.com/ANTsX/ANTs.git
+antstag=41179833d43281bf2883487d62053c44584b5ea1
 antsrtag=`git log --pretty=format:'%H' -n 1`
 git clone $antsbranch $antsgit ants
 mkdir -p ../data
