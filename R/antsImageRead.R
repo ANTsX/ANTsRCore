@@ -52,7 +52,13 @@ antsImageRead <- function(filename, dimension = NULL, pixeltype = "float") {
     stop("only images of dimensions 2,3,4 are supported")
   }
 
-  tryCatch( rval <- (.Call("antsImageRead", filename, pixeltype,
-    dimension, components, PACKAGE = "ANTsRCore")), error = function(e) return(NA))
+  rval <- try( 
+    .Call("antsImageRead", filename, pixeltype,
+    dimension, components, PACKAGE = "ANTsRCore")
+    )
+  if (inherits(rval, "try-error")) {
+    rval = NA
+  }
+  
   return(rval)
 }
