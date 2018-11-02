@@ -2,7 +2,7 @@
 language: r
 sudo: false
 cache:
-  - timeout: 1000  
+  - timeout: 1000
   - packages
 warnings_are_errors: true
 bioc_required: false
@@ -13,15 +13,15 @@ os:
   - osx
 
 r:
-  - oldrel  
+  - oldrel
   - release
   - devel
 
-matrix: 
+matrix:
   allow_failures:
     - r: devel
     - os: osx
-    
+
 latex: false
 compiler: clang
 osx_image: xcode9
@@ -37,24 +37,24 @@ env:
   - BOOTSTRAP_LATEX=1
 
 before_install:
-  - ulimit -n 2048  
+  - ulimit -n 2048
   - export LD_LIBRARY_PATH=/usr/local/clang/lib:${LD_LIBRARY_PATH}
   - export PROJ_DIR=`basename ${TRAVIS_BUILD_DIR}`
   - export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
   - fname=travis_helpers.sh
   - wget -O ${fname} http://bit.ly/travis_helpers
   - cat ${fname}; source ${fname}; rm ${fname}
-  - export gh_user=`get_gh_user` ; echo $gh_user ;  
+  - export gh_user=`get_gh_user` ; echo $gh_user ;
   - export rver=`r_version`;
-  - cat DESCRIPTION  
+  - cat DESCRIPTION
   - export PACKAGE_NAME=`package_name`
-  - export RCHECK_DIR=${PACKAGE_NAME}.Rcheck    
+  - export RCHECK_DIR=${PACKAGE_NAME}.Rcheck
   # does all the clang exports
   - x=`export_clang_cxx`; eval ${x}
   - if [ "$TRAVIS_OS_NAME" = "osx" ];
     then
-      no_open_mp ; 
-    fi    
+      no_open_mp ;
+    fi
   - echo "CC=${CC}, CXX=${CXX}, CXX1X=${CXX1X}"
   - echo "CXX1XSTD=${CXX1XSTD}, CXX11=${CXX11}"
   - clang_cxx
@@ -63,31 +63,32 @@ before_install:
   - x=`cmake_setup`; echo "${x}"; eval ${x};
   - cmake --version
   - ./cleanup
-  - Rscript -e "install.packages('Rcpp', type = 'source', repos=c(CRAN='https://cran.rstudio.com'))"  
+  - Rscript -e "install.packages( c('Rcpp','RcppEigen'), type = 'source', repos=c(CRAN='https://cran.rstudio.com'))"
+  - Rscript -e "install.packages( c('magrittr','testthat','knitr','rmarkdown','covr'), repos=c(CRAN='https://cran.rstudio.com'))"
   - gh_binary_install stnava/ITKR
   - export ants_user=ANTsX
-  - install_missing_remote_deps ${ants_user}/ANTsRCore
-  - echo "Done Installing Missing Deps"
-  - cat DESCRIPTION
-  - install_remotes_no_dep
-  - cat DESCRIPTION
-  - echo $PATH ;
-  - install_deps_all
+#  - install_missing_remote_deps ${ants_user}/ANTsRCore
+#  - echo "Done Installing Missing Deps"
+#  - cat DESCRIPTION
+#  - install_remotes_no_dep
+#  - cat DESCRIPTION
+#  - echo $PATH ;
+#  - install_deps_all
 
 script:
   - x=`export_clang_cxx`; eval ${x}
   - travis_wait 100 R CMD build ${R_BUILD_ARGS} .
   - rm -f travis_wait*.log
-  - PKG_TARBALL=$(ls -1t *.tar.gz | head -n 1)  
+  - PKG_TARBALL=$(ls -1t *.tar.gz | head -n 1)
   - ls
   - travis_wait 100 R CMD check ${R_CHECK_ARGS} "${PKG_TARBALL}"; CHECK_RET=$? ;
   - rm -f travis_wait*.log
   - if [[ $CHECK_RET -ne 0 ]];
     then
-      echo "R CMD check failed"; 
-      check_fail; 
-      dump_logs; 
-      check_warnings ;      
+      echo "R CMD check failed";
+      check_fail;
+      dump_logs;
+      check_warnings ;
       travis_terminate 1;
     fi
 
@@ -103,7 +104,7 @@ after_success:
       PKG_FILE_NAME=$(ls -1t *.tgz | head -n  1);
       PKG_TARBALL_WITH_R=`echo $PKG_FILE_NAME | sed 's/.tgz/_'"R${rver}"'.tgz/'` ;
     fi
-  - mv ${PKG_FILE_NAME} ${PKG_TARBALL_WITH_R} ;      
+  - mv ${PKG_FILE_NAME} ${PKG_TARBALL_WITH_R} ;
   - PKG_FILE_NAME=${PKG_TARBALL_WITH_R}  ;
 
 notifications:
