@@ -62,7 +62,7 @@ atropos <- function( a, x,
   }
   use_random_seed = as.integer(as.logical(use_random_seed))
   
-  verbose = as.numeric( verbose )
+  verbose = as.numeric( verbose > 0 )
   # define the output temp files
   if (getRversion() <= "3.5.0") { ## work around missing feature
     tdir <- tempdir( )
