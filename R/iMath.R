@@ -24,7 +24,12 @@
 #' }
 #' # Canny is useful e.g.
 #' # canny = ( iMath(myreg$warpedmovout,"Normalize")*255 ) %>% iMath("Canny",1,5,12)
-#'
+#' tf<-getANTsRData("r27")
+#' tem<-antsImageRead(tf)
+#' mask = tem > 20
+#' fh <- iMath( mask , "FillHoles" )  # list all ops
+#' stopifnot(range(fh) == c(0, 2))
+#' filled = fh > 0
 #' @export iMath
 iMath <- function(img, operation, param = NA, ...) {
   iMathOps <- NULL
@@ -91,6 +96,11 @@ iMath <- function(img, operation, param = NA, ...) {
       stop(paste("'operation'", operation, " not recognized"))
     }
     
+    run_binary = FALSE
+    if (operation %in% "FillHolesBinary") {
+      run_binary = TRUE
+      operation = "FillHoles"
+    }
     args = list()
     if (is.na(param))
     {
@@ -114,6 +124,9 @@ iMath <- function(img, operation, param = NA, ...) {
       print("No match")
     }
     
+    if (run_binary) {
+      retval = retval > 0
+    }
     
   }
   

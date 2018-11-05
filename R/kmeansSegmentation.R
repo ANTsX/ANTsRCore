@@ -49,7 +49,7 @@ kmeansSegmentation <- function(img, k, kmask = NA, mrf = 0.1, verbose=FALSE,
   if (is.na(kmask)) {
     kmask <- getMask(kmimg, 0.01, 1, cleanup = 2)
   }
-  kmask = iMath(kmask, "FillHoles")
+  kmask = iMath(kmask, "FillHoles") %>% thresholdImage(1,2)
   nhood <- paste(rep(1, dim), collapse = "x")
   mrf <- paste("[", mrf, ",", nhood, "]", sep = "")
   kmimg <- atropos( a = kmimg, m = mrf, c = "[5,0]",

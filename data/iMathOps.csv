@@ -16,6 +16,7 @@
 "GO","Morphology","element radius","iMath(i,op,1)","grayscale opening",0
 "GC","Morphology","element radius","iMath(i,op,1)","grayscale closing",0
 "FillHoles","LabelOp","None","iMath(i,op)","fills holes in binary object",0
+"FillHolesBinary","LabelOp","None","iMath(i,op)","fills holes in binary object",0
 "GetLargestComponent","LabelOp","None","iMath(i,op)","returns largest portion of binary object",0
 "LabelStats","LabelOp","roiImage","iMath(i,op,roiImg)","summarizes ROI values",NA
 "Normalize","Intensity","None","iMath(i,op)","normalize intensity into 0 1 range",0
