@@ -12,8 +12,9 @@ Authors@R: c(
     person(given = "John", family = "Muschelli", role = "ctb",
     email = "muschellij2@gmail.com"))
 Description: 'ANTsR' interfaces state of the art image processing with R
-    statistical methods but relies on underlying 'ANTs' C++. This package provides the
-    underlying C++ framework on which 'ANTsR' depends.
+    statistical methods but relies on underlying 'ANTs' C++. 
+    This package provides the underlying C++ framework on which 
+    'ANTsR' depends.
 License: Apache License (>=2.0)
 LazyLoad: yes
 LazyData: true
