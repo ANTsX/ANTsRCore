@@ -35,7 +35,12 @@ if ( usePkg("magrittr") ) { # string ops together
 }
 # Canny is useful e.g.
 # canny = ( iMath(myreg$warpedmovout,"Normalize")*255 ) \%>\% iMath("Canny",1,5,12)
-
+tf<-getANTsRData("r27")
+tem<-antsImageRead(tf)
+mask = tem > 20
+fh <- iMath( mask , "FillHoles" )  # list all ops
+stopifnot(range(fh) == c(0, 2))
+filled = fh > 0
 }
 \author{
 JT Duda
