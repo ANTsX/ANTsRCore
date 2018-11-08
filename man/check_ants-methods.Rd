@@ -5,6 +5,7 @@
 \alias{check_ants-methods}
 \alias{check_ants}
 \alias{check_ants,antsImage-method}
+\alias{check_ants,ANY-method}
 \alias{check_ants,character-method}
 \alias{check_ants,list-method}
 \title{Check if antsImage or read in}
@@ -12,6 +13,8 @@
 check_ants(x)
 
 \S4method{check_ants}{antsImage}(x)
+
+\S4method{check_ants}{ANY}(x)
 
 \S4method{check_ants}{character}(x)
 

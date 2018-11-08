@@ -4,12 +4,14 @@
 \alias{n3BiasFieldCorrection}
 \title{Bias Field Correction}
 \usage{
-n3BiasFieldCorrection(img, downsampleFactor)
+n3BiasFieldCorrection(img, downsampleFactor, ...)
 }
 \arguments{
 \item{img}{antsImage to correct}
 
 \item{downsampleFactor}{integer e.g. 4 downsample by a factor of 4}
+
+\item{...}{not used}
 }
 \value{
 antsImage
