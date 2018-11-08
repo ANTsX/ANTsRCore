@@ -37,7 +37,10 @@ getMask <- function(img, lowThresh, highThresh, cleanup = 2) {
   # images only If cleanup == TRUE, small and weakly-connected elements are removed
   # by erosion, and then holes are filled.  Returns: a binary antsImage
   cleanup <- as.numeric(cleanup)
-  if (class(img) == "antsImage") {
+  if (!is.antsImage(img)) {
+    img = check_ants(img)
+  }
+  if (is.antsImage(img)) {
     if (img@pixeltype != "float") {
       img <- antsImageClone(img, "float")
     }

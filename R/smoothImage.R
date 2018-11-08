@@ -31,6 +31,7 @@ smoothImage <- function(inimg,
                         sigmaInPhysicalCoordinates = TRUE,
                         FWHM = FALSE,
                         max_kernel_width = 70) {
+  inimg = check_ants(inimg)
   if (inimg@components == 1) {
     return(
       .smoothImageHelper(

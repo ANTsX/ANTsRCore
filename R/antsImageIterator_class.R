@@ -49,6 +49,7 @@ setMethod(f = "initialize", signature(.Object = "antsImageIterator"), definition
 #' it <- antsImageIterator( img )
 #' @export
 antsImageIterator <- function(x) {
+  x = check_ants(x)
   return(.Call("antsImageIterator", x))
 }
 

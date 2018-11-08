@@ -281,6 +281,11 @@ antsRegistration <- function(
     synits = paste( regIterations, collapse='x')
   }
   if (!is.character(fixed)) {
+    fixed = check_ants(fixed)
+    error_not_antsImage(fixed, "fixed")
+    
+    moving = check_ants(moving)
+    error_not_antsImage(moving, "moving")
     if (fixed@class[[1]] == "antsImage" & moving@class[[1]] == "antsImage") {
       inpixeltype <- fixed@pixeltype
       ttexists <- FALSE

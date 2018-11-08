@@ -24,6 +24,9 @@
 #'
 #' @export antsImageMutualInformation
 antsImageMutualInformation <- function(in_image1, in_image2, sampling.percentage, nBins ) {
+  in_image1 = check_ants(in_image1)
+  in_image2 = check_ants(in_image2)
+  
   error_not_antsImage(in_image1, "in_image1")
   error_not_antsImage(in_image2, "in_image2")
   

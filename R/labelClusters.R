@@ -23,7 +23,8 @@
 #'
 #' @export labelClusters
 labelClusters <- function(imagein, minClusterSize = 50,
-   minThresh = 1e-06, maxThresh = 1, fullyConnected = FALSE ) {
+                          minThresh = 1e-06, maxThresh = 1, fullyConnected = FALSE ) {
+  imagein = check_ants(imagein)
   dim <- imagein@dimension
   clust<-thresholdImage( imagein, minThresh, maxThresh )
   temp = as.numeric( fullyConnected )
@@ -32,6 +33,6 @@ labelClusters <- function(imagein, minClusterSize = 50,
 }
 
 .LabelClustersUniquely <- function(...) {
-pp<-.Call("LabelClustersUniquely", .int_antsProcessArguments(c(...)),
-  PACKAGE = "ANTsRCore")
+  pp<-.Call("LabelClustersUniquely", .int_antsProcessArguments(c(...)),
+            PACKAGE = "ANTsRCore")
 }

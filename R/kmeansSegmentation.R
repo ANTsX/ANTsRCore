@@ -44,10 +44,13 @@
 #' @export kmeansSegmentation
 kmeansSegmentation <- function(img, k, kmask = NA, mrf = 0.1, verbose=FALSE,
                                ...) {
+  img = check_ants(img)
   dim <- img@dimension
   kmimg = iMath(img, "Normalize")
   if (is.na(kmask)) {
     kmask <- getMask(kmimg, 0.01, 1, cleanup = 2)
+  } else {
+    kmask = check_ants(kmask)
   }
   kmask = iMath(kmask, "FillHoles") %>% thresholdImage(1,2)
   nhood <- paste(rep(1, dim), collapse = "x")

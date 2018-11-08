@@ -24,6 +24,7 @@
 #'
 #' @export
 randomMask = function(img, nsamples, perLabel=FALSE, seed ) {
+  img = check_ants(img)
   # set empty output image
   randmask = as.antsImage( array(0, dim = dim(img)), reference = img)
 

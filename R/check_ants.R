@@ -19,8 +19,17 @@ setGeneric("check_ants", function(x) {
 #' @aliases check_ants,antsImage-method
 #' @export
 setMethod("check_ants", "antsImage", function(x) { 
-    x2 = antsImageClone(x)
-    return(x2)
+  # x2 = antsImageClone(x)
+  # return(x2)
+  return(x)
+})
+
+#' @rdname check_ants-methods
+#' @aliases check_ants,ANY-method
+#' @export
+setMethod("check_ants", "ANY", function(x) { 
+  # just return the thing
+  return(x)
 })
 
 #' @rdname check_ants-methods
@@ -29,7 +38,7 @@ setMethod("check_ants", "antsImage", function(x) {
 #' @export
 setMethod("check_ants", "character", function(x) { 
   ### add vector capability
-  if (length(x) > 1){
+  if (length(x) > 1) {
     file = lapply(x, check_ants)
     return(file)
   } else {

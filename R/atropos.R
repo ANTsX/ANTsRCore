@@ -92,10 +92,15 @@ atropos <- function( a, x,
     i <- paste("PriorProbabilityImages[", length(i), ",", probs, ",", priorweight,
       "]", sep = "")
   }
-  if (typeof(a) == "list")
-    outimg <- antsImageClone(a[[1]], "unsigned int") else outimg <- antsImageClone(a, "unsigned int")
+  if (typeof(a) == "list") {
+    outimg <- antsImageClone(a[[1]], "unsigned int") 
+  } else {
+    a = check_ants(a)
+    outimg <- antsImageClone(a, "unsigned int")
+  }
   mydim <- as.numeric(outimg@dimension)
   outs <- paste("[", antsrGetPointerName(outimg), ",", probs, "]", sep = "")
+  x = check_ants(x)
   mymask <- antsImageClone(x, "unsigned int")
   if (length(a) == 1)
     myargs <- list(d = mydim, a = a, m = m, o = outs, c = c, m = m, i = i, x = mymask, v = verbose,
@@ -140,8 +145,8 @@ atropos <- function( a, x,
     recursive = FALSE)
   pimg <- antsImageRead(probsout[1], mydim)
   probimgs <- c(pimg)
-  for (x in c(2:length(probsout))) {
-    probimgs <- c(probimgs, antsImageRead(probsout[x], mydim))
+  for (ii in c(2:length(probsout))) {
+    probimgs <- c(probimgs, antsImageRead(probsout[ii], mydim))
   }
   outimg=antsImageClone( outimg, 'float' )
   return(list( segmentation = outimg, probabilityimages = probimgs ))

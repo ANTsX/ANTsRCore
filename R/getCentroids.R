@@ -20,6 +20,7 @@ getCentroids <- function(img, clustparam = 0 ) {
     print(args(getCentroids))
     return(1)
   }
+  img = check_ants(img)
   stopifnot(is.antsImage(img))
 
   imagedim <- img@dimension

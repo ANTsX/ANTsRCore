@@ -20,6 +20,7 @@
 matrixToImages <- function(dataMatrix, mask) {
   # Writes rows of a matrix to 3D images.  mask should be an antsImage of the
   # correct dimensions and physical space
+  mask = check_ants(mask)
   if (!is(mask, "antsImage")) {
     stop("Mask must be an antsImage")
   }

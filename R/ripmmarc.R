@@ -65,7 +65,10 @@ ripmmarc <- function(
   rotationInvariant = TRUE,
   regressProjections = TRUE,
   verbose = FALSE  ) {
-#  print("WARNING: WIP, this implementation of ripmmarc is not validated!!")
+  
+  img = check_ants(img)
+  mask = check_ants(mask)
+  #  print("WARNING: WIP, this implementation of ripmmarc is not validated!!")
   inimg.float <- antsImageClone( img, "float" )
   mask.float <- antsImageClone( mask, "float" )
   outimg <- antsImageClone( inimg.float )

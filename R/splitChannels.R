@@ -23,6 +23,8 @@
 #' @export splitChannels
 splitChannels <- function(image) {
 
+  image = check_ants(image)
+  
   if ( !is.antsImage( image ) ) {
     stop( "input must be an 'antsImage'" )
     }

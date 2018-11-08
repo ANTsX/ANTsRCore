@@ -18,9 +18,12 @@ iBind<-function( img1, img2, along=NA ) {
     print("Need package 'abind' to use function 'iBind.'")
     invisible(return())
   }
+  img1 = check_ants(img1)
+  img2 = check_ants(img2)
+  
   if ( is.na(along) ) along=img1@dimension
   if ( along > img1@dimension | along < 1 ) along=img1@dimensions
-  if ( dim(img1)[along] != dim(img1)[along] )
+  if ( dim(img1)[along] != dim(img2)[along] )
     stop("cant bind images along sides of different size")
   imgbind<-as.antsImage( abind::abind(as.array(img1), as.array(img2),
                                       along=along ) )

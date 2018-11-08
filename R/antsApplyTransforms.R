@@ -145,6 +145,7 @@ antsApplyTransforms <- function(
     
   args <- list(fixed, moving, transformlist, interpolator, ...)
   if (!is.character(fixed)) {
+    moving = check_ants(moving)
     if (fixed@class[[1]] == "antsImage" & moving@class[[1]] == "antsImage") {
       for (i in 1:length(transformlist)) {
         if (!file.exists(transformlist[i])) {

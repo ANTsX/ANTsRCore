@@ -33,7 +33,9 @@
 #' @export
 getNeighborhoodAtVoxel <- function(image, center, kernel, physical.coordinates = FALSE ) {
   
-  if (class(image)[1] != "antsImage") {
+  image = check_ants(image)
+  
+  if (!is.antsImage(image)) {
     stop("Input must be of class 'antsImage'")
   }
   
@@ -126,11 +128,14 @@ getNeighborhoodAtVoxel <- function(image, center, kernel, physical.coordinates =
 getNeighborhoodInMask <- function(image, mask, radius, physical.coordinates = FALSE,
                                   boundary.condition = "NA", spatial.info = FALSE, get.gradient = FALSE ) {
   
-  if (class(image)[1] != "antsImage") {
+  image = check_ants(image)
+  
+  if (!is.antsImage(image)) {
     stop("Input must be of class 'antsImage'")
   }
   
-  if ((class(mask) != "antsImage")) {
+  mask = check_ants(mask)
+  if (!is.antsImage(mask)) {
     stop("mask must be of class 'antsImage'")
   }
   
