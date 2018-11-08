@@ -98,7 +98,7 @@ getPixels <- function(x, i = NA, j = NA, k = NA, l = NA) {
 #' testthat::expect_error(antsSetOrigin(img, c(0.5, 0.5, 0.5) ) )
 antsGetSpacing <- function(x) {
   x = check_ants(x)
-  if (class(x)[1] != "antsImage") {
+  if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
   
@@ -109,7 +109,7 @@ antsGetSpacing <- function(x) {
 #' @export
 antsSetSpacing <- function(x, spacing) {
   x = check_ants(x)
-  if (class(x)[1] != "antsImage") {
+  if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
   
@@ -129,7 +129,7 @@ antsSetSpacing <- function(x, spacing) {
 #' @export
 antsGetOrigin <- function(x) {
   x = check_ants(x)
-  if (class(x)[1] != "antsImage") {
+  if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
   return(.Call("antsImage_GetOrigin", x, PACKAGE = "ANTsRCore"))
@@ -140,7 +140,7 @@ antsGetOrigin <- function(x) {
 #' @export
 antsSetOrigin <- function(x, origin) {
   x = check_ants(x)
-  if (class(x)[1] != "antsImage") {
+  if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
   if ((class(origin) != "numeric") && (class(origin) != "array")) {
@@ -168,7 +168,7 @@ antsSetOrigin <- function(x, origin) {
 
 antsGetDirection <- function(x) {
   x = check_ants(x)
-  if (class(x)[1] != "antsImage") {
+  if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
   return(.Call("antsImage_GetDirection", x, PACKAGE = "ANTsRCore"))
@@ -188,7 +188,7 @@ antsGetDirection <- function(x) {
 #' testthat::expect_error(antsSetDirection(outimg, diag(length(dim(outimg))+1) ))
 antsSetDirection <- function(x, direction) {
   x = check_ants(x)
-  if (class(x)[1] != "antsImage") {
+  if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
   if ((class(direction) != "matrix") & (class(direction) != "array")) {

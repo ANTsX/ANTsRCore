@@ -19,8 +19,10 @@
 cropImage <- function( image, labelImage, label=1 ) {
   image = check_ants(image)
   
-  if(missing(labelImage))
+  if(missing(labelImage)) {
     labelImage <- getMask(image)
+  }
+  labelImage = check_ants(labelImage)
   if ( image@pixeltype != "float" | labelImage@pixeltype != "float" ) {
     stop("input images must have float pixeltype")
   }

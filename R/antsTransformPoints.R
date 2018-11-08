@@ -20,7 +20,7 @@
 #' @export
 antsTransformIndexToPhysicalPoint <- function(x, index) {
   x = check_ants(x)
-  if (class(x)[1] != "antsImage") {
+  if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
   if ((class(index) != "numeric") && (class(index) != "matrix")) {
@@ -63,7 +63,7 @@ antsTransformIndexToPhysicalPoint <- function(x, index) {
 #' @export
 antsTransformPhysicalPointToIndex <- function(x, point) {
   x = check_ants(x)
-  if (class(x)[1] != "antsImage") {
+  if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
   if ((class(point) != "numeric") && (class(point) != "matrix")) {

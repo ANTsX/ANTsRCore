@@ -65,6 +65,7 @@ resampleImageToTarget <- function(image, target, interpType = 'linear',
   args <- list(fixed, moving, transformlist, interpolator, 
                ...)
   if (!is.character(fixed)) {
+    fixed = check_ants(fixed)
     moving = check_ants(moving)
     if (fixed@class[[1]] == "antsImage" & moving@class[[1]] == 
           "antsImage") {
