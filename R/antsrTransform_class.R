@@ -238,7 +238,7 @@ antsrTransformFromDisplacementField <- function( field ) {
 #' @export
 applyAntsrTransform <- function(transform, data, dataType="point", reference=NA, ...) {
 
-  if ( class(data) == "antsImage" ) {
+  if ( is.antsImage(data) ) {
     if (is.na(reference) ) {
       reference = data
     }

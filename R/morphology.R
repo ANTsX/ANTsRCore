@@ -53,6 +53,8 @@ morphology <- function(input, operation, radius, type="binary", value=1, shape="
                        radiusIsParametric=FALSE, thickness=1, lines=3,
                        includeCenter=FALSE) {
   
+  input = check_ants(input)
+  
   if ( input@components > 1 )
   {
     stop("Multichannel images not yet supported")

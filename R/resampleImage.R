@@ -35,6 +35,7 @@
 #'
 #' @export resampleImage
 resampleImage <- function(image, resampleParams, useVoxels = FALSE, interpType = 1) {
+  image = check_ants(image)
   pixtype = image@pixeltype
   numpixtype = NA
   if ( pixtype == "char" ) numpixtype = 0

@@ -37,7 +37,7 @@ testthat::expect_error(
 antsImageWrite( fi, tempfile( fileext = ".nii.gz" )), "nvalid S4"
 )  
 testthat::expect_error(
-antsImageWrite( "hey"), "not of class antsImage"
+antsImageWrite( "hey"), "not exist"
 ) 
 
 }

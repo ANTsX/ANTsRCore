@@ -28,11 +28,12 @@
 #' antsImageWrite( fi, tempfile( fileext = ".nii.gz" )), "nvalid S4"
 #' )  
 #' testthat::expect_error(
-#' antsImageWrite( "hey"), "not of class antsImage"
+#' antsImageWrite( "hey"), "not exist"
 #' ) 
 #'
 #' @export antsImageWrite
 antsImageWrite <- function(image, filename) {
+  image = check_ants(image)
   if (class(image) != "antsImage") {
     stop("'image' argument provided is not of class antsImage")
   }

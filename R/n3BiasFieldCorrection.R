@@ -4,6 +4,7 @@
 #'
 #' @param img antsImage to correct
 #' @param downsampleFactor integer e.g. 4 downsample by a factor of 4
+#' @param ... not used
 #' @return antsImage
 #' @author Shrinidhi KL
 #' @examples
@@ -12,9 +13,12 @@
 #' n3img<-n3BiasFieldCorrection(  img, 1 )
 #'
 #' @export n3BiasFieldCorrection
-n3BiasFieldCorrection <- function( img, downsampleFactor ) {
-  outimg<-antsImageClone(img)
-  args<-list(img@dimension,img,outimg,downsampleFactor)
-  pp<-.Call("N3BiasFieldCorrection", .int_antsProcessArguments(args), PACKAGE = "ANTsRCore")
+n3BiasFieldCorrection <- function( img, downsampleFactor, ... ) {
+  img = check_ants(img)
+  outimg <- antsImageClone(img)
+  args <- list(img@dimension, img, outimg, downsampleFactor)
+  pp <- .Call("N3BiasFieldCorrection",
+          .int_antsProcessArguments(args),
+          PACKAGE = "ANTsRCore")
   return(outimg)
 }

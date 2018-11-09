@@ -34,9 +34,16 @@ n4BiasFieldCorrection <- function(img ,
                                   verbose = FALSE,
                                   weight_mask = NULL)
 {
-  if (!is.antsImage(mask)) {
+  img = check_ants(img)
+  if (is.na(mask)) {
     mask <- getMask(img)
   }
+  mask = check_ants(mask)
+  error_not_antsImage(mask, "mask")
+  # if mask was character - silent change below - bad
+  # if (!is.antsImage(mask)) {
+  #   mask <- getMask(img)
+  # }
   N4_CONVERGENCE_1 <-
     paste(
       "[",
@@ -57,6 +64,7 @@ n4BiasFieldCorrection <- function(img ,
   }
   
   if (!is.null(weight_mask)) {
+    weight_mask = check_ants(weight_mask)
     if (!is.antsImage(weight_mask)) {
       stop("Weight Image must be an antsImage")
     }

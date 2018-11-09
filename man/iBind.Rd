@@ -20,7 +20,8 @@ bind two images along their edge
 fi<-antsImageRead( getANTsRData("r16") , 2 )
 mi<-antsImageRead( getANTsRData("r62") , 2 )
 bi<-iBind( fi, mi , 1 )
-multismoo<- fi \%>\% iBind( smoothImage(fi,2) ) \%>\% iBind( smoothImage(fi,4) )
+multismoo<- fi \%>\% iBind( smoothImage(fi,2) ) 
+multismoo = multismoo \%>\% iBind( smoothImage(fi,4) )
 
 }
 \author{

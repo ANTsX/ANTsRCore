@@ -32,6 +32,8 @@
 #' filled = fh > 0
 #' @export iMath
 iMath <- function(img, operation, param = NA, ...) {
+  img = check_ants(img)
+  
   iMathOps <- NULL
   list_0 = c("Canny", "D", "FillHoles", "GC")
   list_1 = c("Laplacian",

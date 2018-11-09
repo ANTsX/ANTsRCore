@@ -17,8 +17,12 @@
 #'
 #' @export cropImage
 cropImage <- function( image, labelImage, label=1 ) {
-  if(missing(labelImage))
+  image = check_ants(image)
+  
+  if(missing(labelImage)) {
     labelImage <- getMask(image)
+  }
+  labelImage = check_ants(labelImage)
   if ( image@pixeltype != "float" | labelImage@pixeltype != "float" ) {
     stop("input images must have float pixeltype")
   }
@@ -49,6 +53,7 @@ cropImage <- function( image, labelImage, label=1 ) {
 #'
 #' @export cropIndices
 cropIndices <- function( image, lowerind, upperind ) {
+  image = check_ants(image)
   if ( image@pixeltype != "float"  ) {
     stop("input images must have float pixeltype")
   }
@@ -79,6 +84,8 @@ cropIndices <- function( image, lowerind, upperind ) {
 #'
 #' @export decropImage
 decropImage <- function( croppedImage, fullImage ) {
+  croppedImage = check_ants(croppedImage)
+  fullImage = check_ants(fullImage)
   if ( croppedImage@pixeltype != "float" | fullImage@pixeltype != "float" ) {
     stop("input images must have float pixeltype")
   }
@@ -106,6 +113,7 @@ decropImage <- function( croppedImage, fullImage ) {
 #'
 #' @export extractSlice
 extractSlice <- function( image, slice, direction ) {
+  image = check_ants(image)
   if ( image@pixeltype != "float"  ) {
     stop("input images must have float pixeltype")
   }

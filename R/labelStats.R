@@ -20,6 +20,9 @@
 #'
 #' @export
 labelStats <- function(image, labelImage) {
+  image = check_ants(image)
+  labelImage = check_ants(labelImage)
+  
   if (!is.antsImage(image) | !is.antsImage(labelImage))
     stop("Inputs must be antsImages.")
   if (!all(dim(image) == dim(labelImage)))

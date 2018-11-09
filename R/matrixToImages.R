@@ -20,9 +20,9 @@
 matrixToImages <- function(dataMatrix, mask) {
   # Writes rows of a matrix to 3D images.  mask should be an antsImage of the
   # correct dimensions and physical space
-  if (!is(mask, "antsImage")) {
-    stop("Mask must be an antsImage")
-  }
+  mask = check_ants(mask)
+  error_not_antsImage(mask, "mask")
+
   numImages <- nrow( dataMatrix )
   numVoxelsInMatrix <- ncol( dataMatrix )
   numVoxelsInMask <- sum( mask > 0.5 )

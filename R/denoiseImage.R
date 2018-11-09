@@ -30,10 +30,13 @@ denoiseImage <- function(
   noiseModel = c("Rician","Gaussian"),
   verbose = FALSE )
   {
+  img = check_ants(img)
+  
   outimg = antsImageClone( img )
   noiseModel = match.arg(noiseModel)
   mydim = img@dimension
   if (  ! missing( mask ) ) {
+    mask = check_ants(mask)
     mskIn = antsImageClone( mask, 'unsigned char')
     mskIn = antsCopyImageInfo( img, mskIn )
     myargs <- list(

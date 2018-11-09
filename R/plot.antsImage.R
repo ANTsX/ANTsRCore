@@ -125,6 +125,7 @@ plot.antsImage <- function(x, y,
   doCropping = TRUE,
   text,
   ... ) {
+  x = check_ants(x)
 if ( x@components > 1 )
   {
   stop("Cannot plot multichannel image: splitChannels, then plot as overlays.")

@@ -34,7 +34,9 @@
 maskImage <- function(img.in, img.mask, level = 1, binarize = FALSE) {
   level = as.numeric( level )
   if ( class(level) == "numeric" & length(level) == 1) {
+    img.in = check_ants(img.in)
     img.out <- antsImageClone(img.in)
+    img.mask = check_ants(img.mask)
     img.out[ img.mask != level] <- 0
     return(img.out)
   }
@@ -42,7 +44,9 @@ maskImage <- function(img.in, img.mask, level = 1, binarize = FALSE) {
        (class(level) == "numeric"
        & length(level) > 1) )
     {
+    img.in = check_ants(img.in)
     img.out <- antsImageClone(img.in) * 0
+    img.mask = check_ants(img.mask)
     for ( mylevel in level ) {
       myval <- as.numeric(mylevel)
       if (binarize)

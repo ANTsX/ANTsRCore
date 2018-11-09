@@ -18,6 +18,8 @@
 #' @export thresholdImage
 thresholdImage <- function(inimg,
   lothresh, hithresh, inval=1, outval=0) {
+  inimg = check_ants(inimg)
+  
   dim<-inimg@dimension
   outimg<-antsImageClone( inimg )
   args <- list(dim, inimg, outimg, lothresh, hithresh, inval, outval)

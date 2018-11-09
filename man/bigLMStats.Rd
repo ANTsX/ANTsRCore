@@ -5,7 +5,7 @@
 \title{Efficiently compute basic statistical inference from regressions with
 multiple outcomes}
 \usage{
-bigLMStats(mylm, lambda = 0, includeIntercept = F)
+bigLMStats(mylm, lambda = 0, includeIntercept = FALSE)
 }
 \arguments{
 \item{mylm}{Object of class \code{lm}.}

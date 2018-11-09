@@ -15,6 +15,8 @@
 #'
 #' @export
 antsCopyImageInfo <- function(reference, target) {
+  reference = check_ants(reference)
+  target = check_ants(target)
   if (!(class(reference) == "antsImage") || !(class(target) == "antsImage")) {
     stop("Both inputs must be of class 'antsImage'")
   }

@@ -50,7 +50,7 @@
 #'             "and our estimate is", myest$beta.pval[,1], myest$beta.pval[,2]))
 #'
 #' @export bigLMStats
-bigLMStats <- function(mylm, lambda = 0, includeIntercept = F) {
+bigLMStats <- function(mylm, lambda = 0, includeIntercept = FALSE) {
   veccoef <- FALSE
   if (is.null(dim(mylm$coefficients)))
     veccoef <- TRUE

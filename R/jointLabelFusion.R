@@ -108,6 +108,8 @@ jointLabelFusion <- function(
   nonnegative = FALSE,
   verbose = FALSE )
 {
+  targetI = check_ants(targetI)
+  targetIMask = check_ants(targetIMask)
   segpixtype = 'unsigned int'
   if ( any( is.na( labelList ) ) ) doJif = TRUE else doJif = FALSE
   if ( ! doJif ) {

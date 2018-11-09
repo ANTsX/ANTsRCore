@@ -97,7 +97,8 @@ getPixels <- function(x, i = NA, j = NA, k = NA, l = NA) {
 #' testthat::expect_error(antsSetOrigin(img, c("0.5", 0.5) ) )
 #' testthat::expect_error(antsSetOrigin(img, c(0.5, 0.5, 0.5) ) )
 antsGetSpacing <- function(x) {
-  if (class(x)[1] != "antsImage") {
+  x = check_ants(x)
+  if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
   
@@ -107,7 +108,8 @@ antsGetSpacing <- function(x) {
 #' @param spacing numeric vector of length \code{d}.
 #' @export
 antsSetSpacing <- function(x, spacing) {
-  if (class(x)[1] != "antsImage") {
+  x = check_ants(x)
+  if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
   
@@ -126,7 +128,8 @@ antsSetSpacing <- function(x, spacing) {
 #' @usage antsGetOrigin(x)
 #' @export
 antsGetOrigin <- function(x) {
-  if (class(x)[1] != "antsImage") {
+  x = check_ants(x)
+  if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
   return(.Call("antsImage_GetOrigin", x, PACKAGE = "ANTsRCore"))
@@ -136,7 +139,8 @@ antsGetOrigin <- function(x) {
 #' @param origin numeric vector of length \code{d}.
 #' @export
 antsSetOrigin <- function(x, origin) {
-  if (class(x)[1] != "antsImage") {
+  x = check_ants(x)
+  if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
   if ((class(origin) != "numeric") && (class(origin) != "array")) {
@@ -163,7 +167,8 @@ antsSetOrigin <- function(x, origin) {
 #' testthat::expect_error(antsGetDirection(as.array(img) ) )
 
 antsGetDirection <- function(x) {
-  if (class(x)[1] != "antsImage") {
+  x = check_ants(x)
+  if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
   return(.Call("antsImage_GetDirection", x, PACKAGE = "ANTsRCore"))
@@ -182,7 +187,8 @@ antsGetDirection <- function(x) {
 #' testthat::expect_error(antsSetDirection(outimg, as.numeric(direct)) ) 
 #' testthat::expect_error(antsSetDirection(outimg, diag(length(dim(outimg))+1) ))
 antsSetDirection <- function(x, direction) {
-  if (class(x)[1] != "antsImage") {
+  x = check_ants(x)
+  if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
   if ((class(direction) != "matrix") & (class(direction) != "array")) {
