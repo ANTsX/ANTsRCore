@@ -46,8 +46,8 @@ kmeansSegmentation <- function(img, k, kmask = NA, mrf = 0.1, verbose=FALSE,
                                ...) {
   img = check_ants(img)
   dim <- img@dimension
+  kmimg = iMath(img, "Normalize")
   if (is.na(kmask)) {
-    kmimg = iMath(img, "Normalize")
     kmask <- getMask(kmimg, 0.01, 1, cleanup = 2)
   } else {
     kmask = check_ants(kmask)
@@ -55,7 +55,7 @@ kmeansSegmentation <- function(img, k, kmask = NA, mrf = 0.1, verbose=FALSE,
   kmask = iMath(kmask, "FillHoles") %>% thresholdImage(1,2)
   nhood <- paste(rep(1, dim), collapse = "x")
   mrf <- paste("[", mrf, ",", nhood, "]", sep = "")
-  kmimg <- atropos( a = kmimg, m = mrf, c = "[5,0]",
+  kmimg <- atropos( a = img, m = mrf, c = "[5,0]",
     i = paste("kmeans[",k, "]", sep = ""),
     verbose = verbose,
     x = kmask,
