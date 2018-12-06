@@ -10,7 +10,7 @@
 \S4method{show}{antsImage}(object)
 
 \S4method{initialize}{antsImage}(.Object, pixeltype = "float",
-  dimension = 3, components = 1, isVector = FALSE)
+  dimension = 3, components = 1, isVector = FALSE, filename = "")
 }
 \arguments{
 \item{object}{input object to convert}
@@ -43,6 +43,9 @@ etc noting that short is not supported}
 \item{\code{pointer}}{the memory location}
 
 \item{\code{isVector}}{logical indicator of the image is a vector}
+
+\item{\code{filename}}{character filename if the data was read in, otherwise
+""}
 
 \item{\code{pixeltype}}{usually float, can be other types unsigned char, int, double
 etc noting that short is not supported}

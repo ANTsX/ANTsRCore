@@ -34,12 +34,16 @@ setClass(Class = "antsRegion", representation(index = "numeric", size = "numeric
 #' @slot components number of pixel components
 #' @slot pointer the memory location
 #' @slot isVector logical indicator of the image is a vector
+#' @slot filename character filename if the data was read in, otherwise
+#' ""
 #' @rdname antsImage
 setClass(Class = "antsImage",
          representation(pixeltype = "character", dimension = "integer",
                         components = "integer", pointer = "externalptr",
-                        isVector = "logical"),
-         prototype=list(isVector=FALSE) )
+                        isVector = "logical",
+                        filename = "character"),
+         prototype=list(isVector=FALSE,
+                        filename = "") )
 
 #' @rdname antsImage
 #' @aliases show,antsImage-method
@@ -51,6 +55,12 @@ setMethod(f = "show", "antsImage", function(object){
   cat("  Voxel Spacing       :", paste(antsGetSpacing(object), collapse="x"), "\n")
   cat("  Origin              :", antsGetOrigin(object), "\n")
   cat("  Direction           :", antsGetDirection(object), "\n")
+  fname = slot(object, "filename")
+  if (length(fname) > 0){
+    if (fname != "") {
+      cat("  Filename           :", fname, "\n")
+    }
+  }
   cat("\n")
 })
 #' @rdname antsImage
@@ -61,7 +71,9 @@ setMethod(f = "show", "antsImage", function(object){
 #' @slot components number of pixel components
 setMethod(f = "initialize", signature(.Object = "antsImage"),
           definition = function(.Object,
-                                pixeltype = "float", dimension = 3, components = 1, isVector=FALSE) {
+                                pixeltype = "float", dimension = 3, components = 1, 
+                                isVector=FALSE,
+                                filename = "") {
             return(.Call("antsImage", pixeltype, dimension, components, PACKAGE = "ANTsRCore"))
           })
 

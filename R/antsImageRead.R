@@ -58,6 +58,8 @@ antsImageRead <- function(filename, dimension = NULL, pixeltype = "float") {
     )
   if (inherits(rval, "try-error")) {
     rval = NA
+  } else {
+    slot(rval, "filename") = filename  
   }
   
   return(rval)
