@@ -12,6 +12,7 @@
 #' Either single value, indicating how many control points, or vector
 #' with one entry per dimension of image, indicating the spacing in each direction.
 #' @param weight_mask antsImage of weight mask
+#' @param returnBiasField bool, return the field instead of the corrected image.
 #' @param verbose enables verbose output.
 #' @return outimg Bias-corrected image
 #' @author BB Avants
@@ -22,15 +23,15 @@
 #'  testthat::expect_error(n4BiasFieldCorrection(img, weight_mask = "somepath"))
 #'  testthat::expect_error(n4BiasFieldCorrection(img, splineParam = rep(200, 3)))
 #'  n4img<-n4BiasFieldCorrection(img, splineParam = c(200, 20))
-#'  
+#'
 #'
 #' @export
 n4BiasFieldCorrection <- function(img ,
                                   mask = NA,
                                   shrinkFactor = 4,
-                                  convergence = list(iters = c(50, 50, 50, 50), tol =
-                                                       0.0000001),
+                                  convergence = list(iters = c(50, 50, 50, 50), tol = 0.0000001),
                                   splineParam = 200,
+                                  returnBiasField = FALSE,
                                   verbose = FALSE,
                                   weight_mask = NULL)
 {
@@ -62,29 +63,32 @@ n4BiasFieldCorrection <- function(img ,
   }  else {
     stop("Length of splineParam must either be 1 or dimensionality of image.")
   }
-  
+
   if (!is.null(weight_mask)) {
     weight_mask = check_ants(weight_mask)
     if (!is.antsImage(weight_mask)) {
       stop("Weight Image must be an antsImage")
     }
   }
-  
-  outimg <- antsImageClone(img)
-  
+
+  outimg <- antsImageClone(img)*0
+  biasimg <- antsImageClone(img)*0
+  ptr1=antsrGetPointerName(outimg)
+  ptr2=antsrGetPointerName(biasimg)
   args =
     list(d = outimg@dimension,
          i = img)
   args$w = weight_mask
-  
+
   args$s = N4_SHRINK_FACTOR_1
   args$c = N4_CONVERGENCE_1
   args$b = N4_BSPLINE_PARAMS
   args$x = mask
-  args$o = outimg
+  args$o = paste0("[",ptr1,",",ptr2,"]")
   args$v = as.numeric(verbose)
-  
+
   .helpn4BiasFieldCorrection(args)
+  if ( returnBiasField ) return( biasimg )
   return(outimg)
 }
 .helpn4BiasFieldCorrection <- function(...) {

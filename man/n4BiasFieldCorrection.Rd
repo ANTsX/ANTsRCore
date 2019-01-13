@@ -6,7 +6,8 @@
 \usage{
 n4BiasFieldCorrection(img, mask = NA, shrinkFactor = 4,
   convergence = list(iters = c(50, 50, 50, 50), tol = 1e-07),
-  splineParam = 200, verbose = FALSE, weight_mask = NULL)
+  splineParam = 200, returnBiasField = FALSE, verbose = FALSE,
+  weight_mask = NULL)
 }
 \arguments{
 \item{img}{input antsImage}
@@ -22,6 +23,8 @@ iterations for each shrinkage factor, and \code{tol}, the convergence tolerance.
 \item{splineParam}{Parameter controlling number of control points in spline.
 Either single value, indicating how many control points, or vector
 with one entry per dimension of image, indicating the spacing in each direction.}
+
+\item{returnBiasField}{bool, return the field instead of the corrected image.}
 
 \item{verbose}{enables verbose output.}
 
@@ -40,7 +43,7 @@ Perform Bias Field Correction on the given image
  testthat::expect_error(n4BiasFieldCorrection(img, weight_mask = "somepath"))
  testthat::expect_error(n4BiasFieldCorrection(img, splineParam = rep(200, 3)))
  n4img<-n4BiasFieldCorrection(img, splineParam = c(200, 20))
- 
+
 
 }
 \author{
