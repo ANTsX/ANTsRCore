@@ -9,7 +9,8 @@ antsRegistration(fixed = NA, moving = NA, typeofTransform = "SyN",
   gradStep = 0.2, flowSigma = 3, totalSigma = 0,
   affMetric = "mattes", affSampling = 32, synMetric = "mattes",
   synSampling = 32, affIterations, regIterations = c(40, 20, 0),
-  multivariateExtras, restrictTransformation, verbose = FALSE, ...)
+  multivariateExtras, restrictTransformation, verbose = FALSE,
+  printArgs = FALSE, ...)
 }
 \arguments{
 \item{fixed}{fixed image to which we register the moving image.}
@@ -65,6 +66,8 @@ this is possible by specifying a weight vector of \code{c(1,1,0)} for a
 Restriction currently only works if there are no preceding transformations.}
 
 \item{verbose}{request verbose output (useful for debugging)}
+
+\item{printArgs}{print raw command line (useful for debugging)}
 
 \item{...}{additional options see antsRegistration in ANTs}
 }
