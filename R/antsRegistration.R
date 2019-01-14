@@ -39,6 +39,7 @@
 #' 3D deformation field or \code{c(1,1,0,1,1,0)} for a rigid transformation.
 #' Restriction currently only works if there are no preceding transformations.
 #' @param verbose request verbose output (useful for debugging)
+#' @param printArgs print raw command line (useful for debugging)
 #' @param ... additional options see antsRegistration in ANTs
 #' @details
 #' typeofTransform can be one of:
@@ -175,7 +176,8 @@ antsRegistration <- function(
   regIterations = c(40,20,0),
   multivariateExtras,
   restrictTransformation,
-  verbose=FALSE, ... ) {
+  verbose=FALSE,
+  printArgs = FALSE, ... ) {
   numargs <- nargs()
   if (numargs == 1 & typeof(fixed) == "list") {
     .Call("antsRegistration",
@@ -283,7 +285,7 @@ antsRegistration <- function(
   if (!is.character(fixed)) {
     fixed = check_ants(fixed)
     error_not_antsImage(fixed, "fixed")
-    
+
     moving = check_ants(moving)
     error_not_antsImage(moving, "moving")
     if (fixed@class[[1]] == "antsImage" & moving@class[[1]] == "antsImage") {
@@ -638,6 +640,7 @@ antsRegistration <- function(
           args[[ length(args)+1]]="1"
         }
 
+        if ( printArgs ) print( args )
         args = .int_antsProcessArguments(c(args))
         .Call("antsRegistration", args, PACKAGE = "ANTsRCore")
 
@@ -689,6 +692,7 @@ antsRegistration <- function(
     args[[ length(args)+1]]="-v"
     args[[ length(args)+1]]="1"
   }
+  if ( printArgs ) print( args )
   args = .int_antsProcessArguments(c(args))
   .Call("antsRegistration", args, PACKAGE = "ANTsRCore")
 }
