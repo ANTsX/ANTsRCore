@@ -32,6 +32,8 @@ antsImageHeaderInfo <- function( filename )
     tfile = tempfile(fileext = ".nii.gz")
     antsImageWrite(filename, tfile)
     filename = tfile
+  } else {
+    filename = path.expand(filename)
   }
   if ( !file.exists(filename) )
   {
