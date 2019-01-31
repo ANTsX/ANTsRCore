@@ -27,13 +27,13 @@ Imports:
     Rcpp,
     ITKR,
     RcppEigen,
+    colormap,
     tools,
     magrittr,
     stats,
     utils
 Suggests:
     abind,
-    colormap,
     covr,
     knitr,
     pixmap,
