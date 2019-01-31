@@ -48,8 +48,8 @@ before_install:
   - cat ${fname}; source ${fname}; rm ${fname}
   - start_xvfb ;
   - export rver=`r_version`;
-  - export gh_user=`get_gh_user` ; echo $gh_user ;  
-  - cat DESCRIPTION  
+  - export gh_user=`get_gh_user` ; echo $gh_user ;
+  - cat DESCRIPTION
   - export PACKAGE_NAME=`package_name`
   - export RCHECK_DIR=${PACKAGE_NAME}.Rcheck
   # does all the clang exports
@@ -69,7 +69,11 @@ before_install:
   - ./cleanup
   - Rscript -e "install.packages( c('Rcpp', 'RcppEigen'), type = 'source', repos=c(CRAN='https://cran.rstudio.com'))"
   - Rscript -e "install.packages( c('magrittr','testthat','knitr','rmarkdown','covr'), repos=c(CRAN='https://cran.rstudio.com'))"
-  - gh_binary_install stnava/ITKR
+  - cd ..
+  - git clone https://github.com/muschellij2/ghtravis.git
+  - R CMD INSTALL ghtravis
+  - cd ANTsRCore
+  - gh_binary_install  stnava/ITKR
   - export ants_user=ANTsX
 #  - install_missing_remote_deps ${ants_user}/ANTsRCore
 #  - echo "Done Installing Missing Deps"
