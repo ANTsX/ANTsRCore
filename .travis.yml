@@ -68,7 +68,7 @@ before_install:
   - cmake --version
   - ./cleanup
   - Rscript -e "install.packages( c('Rcpp', 'RcppEigen'), type = 'source', repos=c(CRAN='https://cran.rstudio.com'))"
-  - Rscript -e "install.packages( c('magrittr','testthat','knitr','rmarkdown','covr'), repos=c(CRAN='https://cran.rstudio.com'))"
+  - Rscript -e "install.packages( c('magrittr','testthat','knitr','rmarkdown','covr','devtools', 'desc', 'remotes'), repos=c(CRAN='https://cran.rstudio.com'))"
   - cd ..
   - git clone https://github.com/muschellij2/ghtravis.git
   - R CMD INSTALL ghtravis
