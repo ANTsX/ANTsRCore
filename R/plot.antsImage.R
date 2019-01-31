@@ -8,7 +8,7 @@
 #' @param y image or list of images to use as overlays.
 #' @param color.img color for main image.
 #' @param color.overlay the color for the overlay , e.g c('blue','red') length
-#' of this list should match the image list.
+#' of this list should match the image list.  anything from colormap package.
 #' @param axis the axis to slice (1 , 2 or 3)
 #' @param slices vector of slices to plot (e.g., c(10, 15, 20))
 #' @param colorbar make colorbar?
@@ -87,6 +87,7 @@
 #'
 #' @method plot antsImage
 #' @export
+#' @importFrom colormap colormap
 #' @importFrom grDevices colorRampPalette dev.new dev.off heat.colors hsv
 #' @importFrom grDevices jpeg png rainbow rgb
 #' @importFrom graphics box hist image layout lcm par plot plot.new
@@ -263,22 +264,7 @@ if ( ! any( is.na( domainImageMap ) ) )
     image(rotate270.matrix(z), ...)
   }
   makePalette <- function( mpcolor, nlevels=15){
-    if ( mpcolor == "viridis") return( viridis::viridis( nlevels ) )
-    if ( mpcolor == "magma") return( viridis::magma( nlevels ) )
-    if ( mpcolor == "plasma") return( viridis::plasma( nlevels ) )
-    if ( mpcolor == "inferno") return( viridis::inferno( nlevels ) )
-    if (mpcolor == "white"){
-      colorfun <- colorRampPalette(c("black", "white"), interpolate = c("spline"),
-        space = "Lab")
-    } else if (mpcolor != "jet"){
-      colorfun <- colorRampPalette(c("white", mpcolor), interpolate = c("spline"),
-        space = "Lab")
-    } else {
-      colorfun <- colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan",
-        "#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"), interpolate = c("spline"),
-        space = "Lab")
-    }
-    colorfun(nlevels)
+    colormap::colormap(colormap=mpcolor, nshades=nlevels )
   }
 
   if (all(is.na(y))) {
@@ -541,29 +527,8 @@ if ( ! any( is.na( domainImageMap ) ) )
     }
     if (minind > 1)
       minind <- minind - 1
-    colorfun = rainbow
-    heatvals <- heat.colors(nlevels, alpha = alpha)
-    heatvals <- rainbow(nlevels, alpha = alpha)
-    if ( color.overlay[ind] != "jet" & color.overlay[ind] != "viridis" & color.overlay[ind] != "magma" & color.overlay[ind] != "plasma" & color.overlay[ind] != "inferno"   )
-      colorfun <- colorRampPalette(c("white", color.overlay[ind]), interpolate = c("spline"),
-        space = "Lab")
-    if (color.overlay[ind] == "jet") {
-      # print('use jet')
-      colorfun <- colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan",
-        "#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"), interpolate = c("spline"),
-        space = "Lab")
-    }
-    if (color.overlay[ind] == "viridis") {
-      colorfun <- colorRampPalette( viridis::viridis( nlevels, alpha = alpha, direction = direction, begin = begin, end = end ) , interpolate = c("spline"),
-        space = "Lab")
-    }
-    heatvals <- colorfun(nlevels)
-    if ( color.overlay[ind] == "viridis" ) heatvals <- viridis::viridis( nlevels, alpha = alpha, direction = direction, begin = begin, end = end )
-    if ( color.overlay[ind] == "magma" ) heatvals <- viridis::magma( nlevels, alpha = alpha, direction = direction, begin = begin, end = end )
-    if ( color.overlay[ind] == "plasma" ) heatvals <- viridis::plasma( nlevels, alpha = alpha, direction = direction, begin = begin, end = end )
-    if ( color.overlay[ind] == "inferno" ) heatvals <- viridis::inferno( nlevels, alpha = alpha, direction = direction, begin = begin, end = end )
-    # fix to get alpha transparency correct
-    if (nchar(heatvals[1]) == 7 & alpha != 1) heatvals = paste0(heatvals,round(alpha*100,0))
+    heatvals <- colormap::colormap(colormap=color.overlay[ind],
+      nshades=nlevels, alpha = alpha )
     if (locthresh[1] > 1)
       heatvals[1:(locthresh[1] - 1)] <- NA
     if (locthresh[2] < (nlevels - 1)) {
