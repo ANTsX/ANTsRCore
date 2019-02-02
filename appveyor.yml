@@ -38,7 +38,7 @@ build_script:
   - echo "Remote deps for ITKR"
   - travis_helpers.sh install_missing_remote_deps muschellij2/ITKR
   - echo "Binary Install ITKR"
-  - travis_helpers.sh gh_binary_install muschellij2/ITKR ;  
+  - travis_helpers.sh gh_binary_install muschellij2/ITKR 
   - Rscript -e "devtools::session_info('ITKR')";  
   # - ps: Invoke-WebRequest https://github.com/muschellij2/ITKR/releases/download/v0.4.19.1/ITKR_0.4.19_R3.5.zip -OutFile ".\ITKR.zip"
   # - Rscript -e "install.packages('ITKR.zip', repos = NULL)"  
