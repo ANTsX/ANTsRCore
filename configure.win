@@ -66,7 +66,7 @@ echo "libs: ; cd antb && ${MAKER} -j 4 && cd ANTS-build && ${MAKER} all install"
 # antsgit=https://github.com/ANTsX/ANTs.git
 antsgit=https://github.com/muschellij2/ANTs.git
 # antstag=23e88fe16fde013909f601438f5407079eb0ad57
-antstag=5aba17e77ece8ad3de01e4fe430973ba24769663 # eigen3 and VNL
+antstag=93bff49dc71dbc94b080a0059060198af5c718f9 # eigen3 and VNL
 antsrtag=`git log --pretty=format:'%H' -n 1`
 git clone $antsbranch $antsgit ants
 mkdir -p ../data
