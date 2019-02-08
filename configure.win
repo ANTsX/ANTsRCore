@@ -45,13 +45,13 @@ echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
 
 echo "libitk=\`find \"${ITKRLIB}\" -name \"lib*.a\"\`" >> Makevars.win
 PKG_LIBS="${PKG_LIBS} ${ADD_PKG_LIBS}"
-echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk} \
-                  \${libants} \${libitk} \${libants} \${itklib} \${libants} " >> Makevars.win
+# echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk} \
+#                   \${libants} \${libitk} \${libants} \${itklib} \${libants} " >> Makevars.win
 
-# echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
-#                  \${libants} \${libitk} \${libants} \${itklib} \${libants} \
-#                  \${libitk} \${libants} \${itklib} \${libants} \${itklib} \
-#                  \${libants} \${libitk} \${libants} \${itklib}" >> Makevars.win
+echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
+                 \${libants} \${libitk} \${libants} \${itklib} \${libants} \
+                 \${libitk} \${libants} \${itklib} \${libants} \${itklib} \
+                 \${libants} \${libitk} \${libants} \${itklib}" >> Makevars.win
 
 echo ".PHONY: all libs" >> Makevars.win
 
@@ -117,7 +117,7 @@ ${cmaker} \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -Wa,-mbig-obj ${CMAKE_EXE_LINKER_FLAGS} ${compflags} -DNDEBUG -D_FILE_OFFSET_BITS=64"\
     -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -Wa,-mbig-obj ${compflags} -DNDEBUG  "\
     -DCMAKE_EXE_LINKER_FLAGS="${TRY_LINKER_FLAGS}" \
-    -DBUILD_SHARED_LIBS=OFF \
+    -DBUILD_SHARED_LIBS=ON \
     -DBUILD_ALL_ANTS_APPS=OFF \
     -DUSE_SYSTEM_ITK=OFF \
     -DBUILD_TESTING=OFF \
@@ -127,6 +127,8 @@ ${cmaker} \
     -DCMAKE_INSTALL_PREFIX:PATH="${R_PACKAGE_DIR}/libs/" \
     -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}" \
     -DVNL_CONFIG_ENABLE_SSE2_ROUNDING:BOOL=ON \
+    -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON \
+	-DWINDOWS_BUILD=1 \
     -DVNL_CONFIG_ENABLE_SSE2:BOOL=ON \
     ../ants
 cd ../
