@@ -144,7 +144,6 @@ deploy:
     repo: ${gh_user}/${PROJ_DIR}
     all_branches: true
 
-
   # - provider: releases
   #   api_key:
   #     secure: S6aYhOkDea+5abwE3x035WAW+LFgJnvPCwDTxILryNaifdtd/WoQvdW9RB39ZokDVMiXkxyyT1aXZFksUO2hDyxtkOTLdesNj9IKbd0Lea/L67mJI8yvrRUYzKSAEE5n6/4QsMUs9RIxzi32S0i8UlH0UAG8+QPwTfYWUMiSXVJPUIi4gcwQ3xRUyQ5/Ixs0ZizpcuKHgW7uoa0ZqeoPz1aFCEniIvfeDYcdp3oHRsCuAvqPhrBKuioyAyWGH4BvNF7poON6gYBP3bGKWpG/Z21263OrBaH14uItFdBdMuencZ1357nudrraITw1RLNMIeIzJ7Zf7G5RI/3BHPieg193eQGQGlwKT43jsPt6CHyq26qcgI9I4R+m7y8bjefL5H1Xd8Czt5sLw0Csdg2VBZ3OkGvI6WSk448kp89bpBoPrdtwkWBvf643pMdIz3ynxl1+Dc/RO3M2IvMSQIcmqkLDU6NpKcMUARmbcNR77xylsw1QWw/ndl3QtjS3upbUTeq6olhlW245+/soVDpgnIfW/betpJa6UPeWtAs3P8RnY1eJtrKNJCHm9sQDUM8+WuSkgJOApAVEnn4jdsClkWEXciT1wv7xzsOzs5gIXK4fNAN8crTJdYFdtjOZbPlEfPGGF61l+ty8hdsgT2cnQ9owNFRYj/ehTrcPK0ZrgJs=
