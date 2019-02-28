@@ -90,7 +90,7 @@ echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build &&
 # antsgit=https://github.com/ANTsX/ANTs.git
 # antstag=9f6ab8f4225d52961246a70192775a53088951dc # n4 performance improvements
 antsgit=https://github.com/muschellij2/ANTs.git
-antstag=b36ed52b8cd6f99340b54fea2aedc18622b73ad8 # eigen3 
+antstag=925d51b5361740bd8e2a55272b741ad92f94935c # eigen3 
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants
 fi
