@@ -73,7 +73,7 @@ moving <- antsImageRead( getANTsRData("r64") ,2)
 fixed <- resampleImage(fixed,c(64,64),1,0)
 moving <- resampleImage(moving,c(68,68),1,0)
 mytx <- antsRegistration(fixed=fixed , moving=moving ,
-  typeofTransform = c("SyN") )
+  typeofTransform = c("SyN"), verbose = TRUE )
 mywarpedimage <- antsApplyTransforms( fixed=fixed,moving=moving,
   transformlist=mytx$fwdtransforms )
 testthat::expect_true(antsImagePhysicalSpaceConsistency(mywarpedimage, fixed))

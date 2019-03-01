@@ -69,6 +69,7 @@ setMethod(f = "show", "antsImage", function(object){
 #' etc noting that short is not supported
 #' @slot dimension usually 2 or 3 but can be 4
 #' @slot components number of pixel components
+#' @slot filename character filename if the data was read in, otherwise ""
 setMethod(f = "initialize", signature(.Object = "antsImage"),
           definition = function(.Object,
                                 pixeltype = "float", dimension = 3, components = 1, 

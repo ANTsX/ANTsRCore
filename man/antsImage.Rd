@@ -53,5 +53,7 @@ etc noting that short is not supported}
 \item{\code{dimension}}{usually 2 or 3 but can be 4}
 
 \item{\code{components}}{number of pixel components}
+
+\item{\code{filename}}{character filename if the data was read in, otherwise ""}
 }}
 
