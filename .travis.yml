@@ -134,16 +134,26 @@ before_deploy:
     fi
 
 deploy:
-  provider: releases
-  api_key:
-    secure: Hm3kbkCySSneOe8644MWudbNAphB4+YDpGhWCeeHuSiHoQU6+Qmx/f014iVM5JqZI72EGX21hSygqfD9jB8O78J4imO4xMUnNciA80pV/NlUnzwMiYVfpYAga3QQApvSJZuBA/4+kJXlFZkigWGXuzb8W5Qty0xY1KV9FuaUzo5bRxCPa4f3t3PP/Ikjhla2vH53UHo+YiRIfGlH5Rn3p2kDS5390cfdO5+1kn8p5UMZV7C1B2VAE2OO0QxtVmjZbpAxE/k+QGdeGMXBfu5bCfERO3Wr/sfITaTu9j5Oulv/fDfVe6kuIRhAkX0eUn+CEkEhBgSO6yp1+abcagxIRVYfF3hp5e6+cOeGC/QH0z9kSsCim3SdYvz+rFhtzS+vO4LTO8wgGzyMLalvH2Jopf4OrRbSwbmiLpQzR/fFrmx9IZt0o4lD9+KW9Nhj0o9+V6NHg+Usx1wbTVYDjh53op6AT5c6E4Zej0gLeG9gXXtICtcEE1pCLiK8EX11cCUpgRD0NcG+F/dcPY5kLtf4/Uw/krhwz8OagPk9Mt3aleu0iepkuwQoGNoy2XBzc0zcaGICC3Y23KW/VZRc0xZGjiUmQXyMlbuB/dOYr0V8VGVPanRgDksr+ML0B4nqdfbtqTC1FQl2ORtG7iCDuArAZo7bokisZ2GTSA2F85BpfRY=
-  file: ${PKG_FILE_NAME}
-  skip_cleanup: true
-  on:
-    tags: true
-    repo: ${gh_user}/${PROJ_DIR}
-    all_branches: true
-
+  - provider: releases
+    api_key:
+      secure: Hm3kbkCySSneOe8644MWudbNAphB4+YDpGhWCeeHuSiHoQU6+Qmx/f014iVM5JqZI72EGX21hSygqfD9jB8O78J4imO4xMUnNciA80pV/NlUnzwMiYVfpYAga3QQApvSJZuBA/4+kJXlFZkigWGXuzb8W5Qty0xY1KV9FuaUzo5bRxCPa4f3t3PP/Ikjhla2vH53UHo+YiRIfGlH5Rn3p2kDS5390cfdO5+1kn8p5UMZV7C1B2VAE2OO0QxtVmjZbpAxE/k+QGdeGMXBfu5bCfERO3Wr/sfITaTu9j5Oulv/fDfVe6kuIRhAkX0eUn+CEkEhBgSO6yp1+abcagxIRVYfF3hp5e6+cOeGC/QH0z9kSsCim3SdYvz+rFhtzS+vO4LTO8wgGzyMLalvH2Jopf4OrRbSwbmiLpQzR/fFrmx9IZt0o4lD9+KW9Nhj0o9+V6NHg+Usx1wbTVYDjh53op6AT5c6E4Zej0gLeG9gXXtICtcEE1pCLiK8EX11cCUpgRD0NcG+F/dcPY5kLtf4/Uw/krhwz8OagPk9Mt3aleu0iepkuwQoGNoy2XBzc0zcaGICC3Y23KW/VZRc0xZGjiUmQXyMlbuB/dOYr0V8VGVPanRgDksr+ML0B4nqdfbtqTC1FQl2ORtG7iCDuArAZo7bokisZ2GTSA2F85BpfRY=
+    file: ${PKG_FILE_NAME}
+    skip_cleanup: true
+    on:
+      tags: true
+      repo: ${gh_user}/${PROJ_DIR}
+      all_branches: true
+      condition: "${gh_user} = ANTsX"
+  - provider: releases
+    api_key:
+      secure: "r7FsUfP8EozlZBDTIHzAE5ENqyeuopoWxxpKoAxkhGkDwB6rLDkNhjmFk3SZxP/8Sx51CeO1oFDUC/G5QWpfYdSYRIkq0GoubhGTDdOk3S1F6z4ncsi6DO24MkxxZbAb4e7lyK1bBaVla/SKm0QQivzqNn5g+jNLAjek4Yc2hBCUdtbyYk++fuGKsBVSC/VeahE9I6SsHQAZMViOAVgR6Y80cxeIzsVk6yFljOmc/EQxCVG8M1Rq/VZYnkZfLB5E35bbCehcdwHWjPvsP1TfbBDFo4DsyHhmIe1L6k7AtuFOrBl9zK0rBAMJznwHsI0D4SsNAwdFYrqK/tSMB7pTxDR90KfkQpFjt2JxBdz5msFVZAQqcuvbbNlrbnf0m5wtX2DPB6wuPwdRxmCMrXyT5EZE4bbYmKhF4l3DDX0snncZvusSwrHD+r90kriwgZm7ogWSRFATOLRXtEVrWGyQYCjZoAFM9vB8lL+/8yQbB80e3gYexyYI+AFzgmiNTPc+6TYF8UUKMUiBsdN5iqbdYYrmuTexKDC0So23XuBO3vlRLQLhjmtFwY/FNywneOpEfwVZfxIMeleuF0T7z0XDgPpFQ4PmXtpXqKQiAxI18dplxfG8vsyACeLnVfslF8H2/bWdRgMukDUlLyKFBLVHUFoSyo8zPAcBM+7P+mS9SbQ="
+    file: ${PKG_FILE_NAME}
+    skip_cleanup: true
+    on:
+      tags: true
+      repo: muschellij2/ITKR
+      all_branches: true
+      condition: "${gh_user} = muschellij2"
   # - provider: releases
   #   api_key:
   #     secure: S6aYhOkDea+5abwE3x035WAW+LFgJnvPCwDTxILryNaifdtd/WoQvdW9RB39ZokDVMiXkxyyT1aXZFksUO2hDyxtkOTLdesNj9IKbd0Lea/L67mJI8yvrRUYzKSAEE5n6/4QsMUs9RIxzi32S0i8UlH0UAG8+QPwTfYWUMiSXVJPUIi4gcwQ3xRUyQ5/Ixs0ZizpcuKHgW7uoa0ZqeoPz1aFCEniIvfeDYcdp3oHRsCuAvqPhrBKuioyAyWGH4BvNF7poON6gYBP3bGKWpG/Z21263OrBaH14uItFdBdMuencZ1357nudrraITw1RLNMIeIzJ7Zf7G5RI/3BHPieg193eQGQGlwKT43jsPt6CHyq26qcgI9I4R+m7y8bjefL5H1Xd8Czt5sLw0Csdg2VBZ3OkGvI6WSk448kp89bpBoPrdtwkWBvf643pMdIz3ynxl1+Dc/RO3M2IvMSQIcmqkLDU6NpKcMUARmbcNR77xylsw1QWw/ndl3QtjS3upbUTeq6olhlW245+/soVDpgnIfW/betpJa6UPeWtAs3P8RnY1eJtrKNJCHm9sQDUM8+WuSkgJOApAVEnn4jdsClkWEXciT1wv7xzsOzs5gIXK4fNAN8crTJdYFdtjOZbPlEfPGGF61l+ty8hdsgT2cnQ9owNFRYj/ehTrcPK0ZrgJs=
