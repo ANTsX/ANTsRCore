@@ -45,12 +45,12 @@
 #' antsApplyTransforms("-h")
 #' # see antsRegistration
 #' # example 1 - simplified
-#' fixed <- antsImageRead( getANTsRData("r16") ,2)
-#' moving <- antsImageRead( getANTsRData("r64") ,2)
+#' fixed <- antsImageRead( ri( 1 ) )
+#' moving <- antsImageRead( ri( 2 ) )
 #' fixed <- resampleImage(fixed,c(64,64),1,0)
 #' moving <- resampleImage(moving,c(68,68),1,0)
 #' mytx <- antsRegistration(fixed=fixed , moving=moving ,
-#'   typeofTransform = c("SyN") )
+#'   typeofTransform = c("SyN"), verbose=TRUE )
 #' mywarpedimage <- antsApplyTransforms( fixed=fixed,moving=moving,
 #'   transformlist=mytx$fwdtransforms )
 #' testthat::expect_true(antsImagePhysicalSpaceConsistency(mywarpedimage, fixed))
@@ -61,23 +61,23 @@
 #'
 #' res1 <- antsApplyTransforms( fixed=fixed,moving=moving,
 #'   transformlist=mytx$fwdtransforms[2],
-#'   whichtoinvert =1, verbose = TRUE)   
+#'   whichtoinvert =1, verbose = TRUE)
 #' cfile <- antsApplyTransforms( fixed=fixed,moving=moving,
 #'   transformlist=mytx$fwdtransforms,
-#'   compose = tempfile() ) 
+#'   compose = tempfile() )
 #' cimg = antsImageRead(cfile)
 #' cout <- antsApplyTransforms( fixed=fixed,moving=moving,
 #'   transformlist=cimg)
 #' testthat::expect_error(
 #' antsApplyTransforms( fixed=fixed,moving=moving,
-#'   transformlist=cimg, whichtoinvert =1), "nnot invert transform"   
+#'   transformlist=cimg, whichtoinvert =1), "nnot invert transform"
 #' )
 #' testthat::expect_error(
 #' antsApplyTransforms( fixed=fixed,moving=moving,
 #'   transformlist=cimg, whichtoinvert =c(1,2)), "same length"
-#' ) 
+#' )
 #' testthat::expect_error(antsApplyTransforms( fixed=fixed,moving=moving,
-#'   transformlist= "")   
+#'   transformlist= "")
 #'  )
 #'
 #' @seealso \code{\link{antsRegistration}}
@@ -125,7 +125,7 @@ antsApplyTransforms <- function(
     "lanczosWindowedSinc",
     "genericLabel" )
   interpolator <- match.arg( interpolator, interpOpts )
-  
+
   # if (is.antsImage(moving)) {
     # moving = antsImageClone(moving)
   # }
@@ -142,7 +142,7 @@ antsApplyTransforms <- function(
   if (!is.character(transformlist)) {
     warning("transformlist is not a character vector")
   }
-    
+
   args <- list(fixed, moving, transformlist, interpolator, ...)
   if (!is.character(fixed)) {
     moving = check_ants(moving)
@@ -224,8 +224,8 @@ antsApplyTransforms <- function(
     }
     # Get here if fixed, moving, transformlist are not missing, fixed is not of type character,
     # and fixed and moving are not both of type antsImage
-    stop(paste0('fixed, moving, transformlist are not missing,', 
-      ' fixed is not of type character,', 
+    stop(paste0('fixed, moving, transformlist are not missing,',
+      ' fixed is not of type character,',
       ' and fixed and moving are not both of type antsImage'))
     return(1)
   }
@@ -264,7 +264,7 @@ antsApplyTransforms <- function(
 #   mystr <- sub(", ", " ", mystr)
 #   return(list(mystr = mystr, outimg = outimg, outdim = outdim))
 # }
-# 
+#
 # ..antsrParseListToString2 <- function(mylist, outimg = NA, outdim = NA) {
 #   mystr <- ""
 #   outimg <- ""
