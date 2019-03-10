@@ -27,6 +27,8 @@ setClass(Class = "antsRegion", representation(index = "numeric", size = "numeric
 #' @param dimension usually 2 or 3 but can be 4
 #' @param components number of pixel components
 #' @param isVector logical indicator of the image is a vector
+#' @param filename character filename if the data was read in, otherwise
+#' ""
 #'
 #' @slot pixeltype usually float, can be other types unsigned char, int, double
 #' etc noting that short is not supported
@@ -69,6 +71,7 @@ setMethod(f = "show", "antsImage", function(object){
 #' etc noting that short is not supported
 #' @slot dimension usually 2 or 3 but can be 4
 #' @slot components number of pixel components
+#' @slot isVector boolean
 #' @slot filename character filename if the data was read in, otherwise
 #' ""
 setMethod(f = "initialize", signature(.Object = "antsImage"),
