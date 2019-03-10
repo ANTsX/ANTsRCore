@@ -69,9 +69,11 @@ setMethod(f = "show", "antsImage", function(object){
 #' etc noting that short is not supported
 #' @slot dimension usually 2 or 3 but can be 4
 #' @slot components number of pixel components
+#' @slot filename character filename if the data was read in, otherwise
+#' ""
 setMethod(f = "initialize", signature(.Object = "antsImage"),
           definition = function(.Object,
-                                pixeltype = "float", dimension = 3, components = 1, 
+                                pixeltype = "float", dimension = 3, components = 1,
                                 isVector=FALSE,
                                 filename = "") {
             return(.Call("antsImage", pixeltype, dimension, components, PACKAGE = "ANTsRCore"))
@@ -108,7 +110,7 @@ setMethod(f = "dim", signature(x = "antsImage"), definition = function(x) {
 #' @rdname as.array
 #' @aliases is.na,antsImage-method .
 #' @export
-#' @examples 
+#' @examples
 #' outimg<-makeImage( c(2,10) , 1)
 #' is.na(outimg)
 setMethod(f = "is.na", signature(x = "antsImage"), definition = function(x) {
@@ -124,12 +126,12 @@ setMethod(f = "is.na", signature(x = "antsImage"), definition = function(x) {
 #' @param mask a logical vector/array or binary antsImage object
 #' @param region a \code{antsRegion} object
 #' @export
-#' @examples 
+#' @examples
 #' outimg<-makeImage( c(2,10) , rnorm(20))
-#' as.numeric(outimg) 
-#' as.numeric(outimg, mask = outimg > 1) 
+#' as.numeric(outimg)
+#' as.numeric(outimg, mask = outimg > 1)
 #'  testthat::expect_error(as.numeric(outimg, mask = outimg))
-#' 
+#'
 setMethod(f = "as.numeric", signature(x = "antsImage"),
           definition = function(x,
                                 mask = logical(),
@@ -148,10 +150,10 @@ setMethod(f = "as.numeric", signature(x = "antsImage"),
 #' @rdname as.array
 #' @aliases as.matrix,antsImage-method
 #' @export
-#' @examples 
+#' @examples
 #' outimg<-makeImage( c(2,10) , rnorm(20))
-#' as.matrix(outimg) 
-#' as.matrix(outimg, mask = outimg > 1)  
+#' as.matrix(outimg)
+#' as.matrix(outimg, mask = outimg > 1)
 #' testthat::expect_error(as.matrix(outimg, mask = outimg) )
 #' outimg<-makeImage( c(2,10,2) , rnorm(40))
 #' testthat::expect_error(as.matrix(outimg) )
@@ -204,12 +206,12 @@ setMethod(f = "as.array", signature(x = "antsImage"),
 #' @rdname as.array
 #' @export
 #' @method as.array antsImage
-#' @examples 
+#' @examples
 #' outimg<-makeImage( c(2,10) , rnorm(20))
-#' as.matrix(outimg) 
-#' as.matrix(outimg, mask = outimg > 1)  
+#' as.matrix(outimg)
+#' as.matrix(outimg, mask = outimg > 1)
 #' outimg<-makeImage( c(2,10,2) , rnorm(40))
-#' testthat::expect_error(as.matrix(outimg) ) 
+#' testthat::expect_error(as.matrix(outimg) )
 as.array.antsImage = function(x, ..., mask = logical(),
                               region = new("antsRegion", index = integer(),
                                            size = integer())) {
@@ -223,16 +225,16 @@ as.array.antsImage = function(x, ..., mask = logical(),
 #' @rdname as.array
 #' @export
 #' @method as.character antsImage
-#' @examples 
+#' @examples
 #' img <- antsImageRead( getANTsRData( "r16" ) )
 #' img[img > 5] = 0
 #' sort(unique(as.character(img)))
 #' factor(img)
-#' table(img, img) 
+#' table(img, img)
 as.character.antsImage = function(x, ..., mask = logical(),
                                   region = new("antsRegion", index = integer(),
                                                size = integer())) {
-  arr = as.array(x, ..., mask = mask, 
+  arr = as.array(x, ..., mask = mask,
                  region = region)
   return(as.character(arr))
 }
@@ -245,7 +247,7 @@ as.factor.antsImage = function(
   x, ..., mask = logical(),
   region = new("antsRegion", index = integer(),
                size = integer())) {
-  arr = as.array(x, ..., mask = mask, 
+  arr = as.array(x, ..., mask = mask,
                  region = region)
   return(as.factor(arr))
 }
@@ -307,7 +309,7 @@ setMethod(f = "as.antsImage", signature(object = "matrix"), definition = functio
 
 #' @rdname as.antsImage
 #' @aliases as.antsImage,array-method
-#' @examples 
+#' @examples
 #' arr = array(rnorm(10^3), dim = rep(10, 3))
 #' img = as.antsImage(arr)
 #' i2 = as.antsImage(arr, reference = img)
@@ -339,4 +341,3 @@ setMethod(f = "as.antsImage", signature(object = "array"), definition = function
 is.antsImage <- function(x){
   inherits(x, 'antsImage')
 }
-
