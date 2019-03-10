@@ -68,8 +68,8 @@ user is advised to familiarize with the standards established in examples.
 antsApplyTransforms("-h")
 # see antsRegistration
 # example 1 - simplified
-fixed <- antsImageRead( ri( 1 ) )
-moving <- antsImageRead( ri( 2 ) )
+fixed <- ri( 1 )
+moving <- ri( 2 )
 fixed <- resampleImage(fixed,c(64,64),1,0)
 moving <- resampleImage(moving,c(68,68),1,0)
 mytx <- antsRegistration(fixed=fixed , moving=moving ,
