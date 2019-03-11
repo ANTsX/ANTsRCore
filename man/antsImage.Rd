@@ -25,6 +25,9 @@ etc noting that short is not supported}
 \item{components}{number of pixel components}
 
 \item{isVector}{logical indicator of the image is a vector}
+
+\item{filename}{character filename if the data was read in, otherwise
+""}
 }
 \description{
 C++ type used to represent an ITK image pointed to by 'pointer'. the
@@ -54,6 +57,9 @@ etc noting that short is not supported}
 
 \item{\code{components}}{number of pixel components}
 
-\item{\code{filename}}{character filename if the data was read in, otherwise ""}
+\item{\code{isVector}}{boolean}
+
+\item{\code{filename}}{character filename if the data was read in, otherwise
+""}
 }}
 
