@@ -87,8 +87,8 @@ echo "\$(SHLIB): libs" >> Makevars
 echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build && \$(MAKE) all install " >> Makevars
 
 # get / set up ANTs code
-antsgit=https://github.com/ANTsX/ANTs.git
-antstag=9f6ab8f4225d52961246a70192775a53088951dc # n4 performance improvements
+antsgit=https://github.com/muschellij2/ANTs.git
+antstag=34c551b49fe39951529cf36a002301c62901be3f # eigen fixes muschellij2
 antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants
