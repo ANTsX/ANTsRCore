@@ -75,7 +75,7 @@ before_install:
   - git clone https://github.com/muschellij2/ghtravis.git
   - R CMD INSTALL ghtravis
   - cd ANTsRCore
-  - gh_binary_install muschellij2/ITKR
+  - gh_binary_install stnava/ITKR
   - export ants_user=ANTsX
 #  - install_missing_remote_deps ${ants_user}/ANTsRCore
 #  - echo "Done Installing Missing Deps"
