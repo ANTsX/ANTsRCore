@@ -39,7 +39,7 @@ resampleImage <- function(image, resampleParams, useVoxels = FALSE, interpType =
   image = check_ants(image)
   pixtype = image@pixeltype
   numpixtype = NA
-  if ( class( interpType ) == 'char' ) {
+  if ( class( interpType ) == 'character' ) {
     if ( interpType == 'linear' ) interpType = 0
     if ( interpType == 'nearestNeighbor' ) interpType = 1
     if ( interpType == 'gaussian' ) interpType = 2
