@@ -635,6 +635,11 @@ antsRegistration <- function(
 
         args[[ length(args)+1]]="--float"
         args[[ length(args)+1]]="1"
+        # set the random seed
+        myseed=Sys.getenv("ANTS_RANDOM_SEED")
+        if ( nchar(myseed) == 0 ) myseed = "1234"
+        args[[ length(args)+1]]="--random-seed"
+        args[[ length(args)+1]]="1"
         if ( verbose ) {
           args[[ length(args)+1]]="-v"
           args[[ length(args)+1]]="1"
