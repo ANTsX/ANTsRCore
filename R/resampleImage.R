@@ -6,8 +6,9 @@
 #' @param image input antsImage matrix
 #' @param resampleParams vector of size dimension with numeric values
 #' @param useVoxels true means interpret resample params as voxel counts
-#' @param interpType one of 0 (linear), 1 (nearest neighbor),
-#'   2 (gaussian), 3 (windowed sinc), 4 (bspline)
+#' @param interpType one of 0 (linear), 1 (nearestNeighbor),
+#'   2 (gaussian), 3 (windowedSinc), 4 (bspline).  The user can pass either
+#'   a numeric or character argument here.
 #' @return output antsImage
 #' @author Avants BB
 #' @examples
@@ -26,18 +27,25 @@
 #' fi = as.antsImage(arr, pixeltype = "unsigned int")
 #' filin<-resampleImage(fi,c(1.5,1.5),FALSE,1)
 #' fi = as.antsImage(arr > 14, pixeltype = "unsigned char")
-#' filin<-resampleImage(fi,c(1.5,1.5),FALSE,1) 
-#' 
+#' filin<-resampleImage(fi,c(1.5,1.5),FALSE,1)
+#'
 #' fi<-antsImageRead( getANTsRData("multi_component_image"))
-#' filin<-resampleImage(fi,c(2, 2),FALSE,1) 
-#' 
-#' 
+#' filin<-resampleImage(fi,c(2, 2),FALSE,1)
+#'
+#'
 #'
 #' @export resampleImage
 resampleImage <- function(image, resampleParams, useVoxels = FALSE, interpType = 1) {
   image = check_ants(image)
   pixtype = image@pixeltype
   numpixtype = NA
+  if ( class( interpType ) == 'character' ) {
+    if ( interpType == 'linear' ) interpType = 0
+    if ( interpType == 'nearestNeighbor' ) interpType = 1
+    if ( interpType == 'gaussian' ) interpType = 2
+    if ( interpType == 'windowedSinc' ) interpType = 3
+    if ( interpType == 'bspline' ) interpType = 4
+  }
   if ( pixtype == "char" ) numpixtype = 0
   if ( pixtype == "unsigned char" ) numpixtype = 1
   if ( pixtype == "short" ) numpixtype = 2

@@ -15,9 +15,6 @@ which.antsImage <- function(x, arr.ind = FALSE, useNames = TRUE) {
 #' mask = img > 0
 #' which(mask)
 #' which(mask, arr.ind = TRUE)
-#' \dontrun{
-#' which(mask + 1)
-#' }
 #' @rdname antsImageops
 setMethod("which", "antsImage", which.antsImage)
 

@@ -64,7 +64,7 @@ echo "libs: ; cd antb && ${MAKER} -j 4 && cd ANTS-build && ${MAKER} all install"
 
 # get / set up ANTs code
 antsgit=https://github.com/muschellij2/ANTs.git
-antstag=34c551b49fe39951529cf36a002301c62901be3f # eigen fixes muschellij2
+antstag=29423bb819ed5ec4d547128639eba52546c7a28b # label clusters uniquely
 antsrtag=`git log --pretty=format:'%H' -n 1`
 git clone $antsbranch $antsgit ants
 mkdir -p ../data
