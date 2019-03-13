@@ -13,8 +13,9 @@ resampleImage(image, resampleParams, useVoxels = FALSE, interpType = 1)
 
 \item{useVoxels}{true means interpret resample params as voxel counts}
 
-\item{interpType}{one of 0 (linear), 1 (nearest neighbor),
-2 (gaussian), 3 (windowed sinc), 4 (bspline)}
+\item{interpType}{one of 0 (linear), 1 (nearestNeighbor),
+2 (gaussian), 3 (windowedSinc), 4 (bspline).  The user can pass either
+a numeric or character argument here.}
 }
 \value{
 output antsImage
@@ -39,10 +40,10 @@ class(arr) = "integer"
 fi = as.antsImage(arr, pixeltype = "unsigned int")
 filin<-resampleImage(fi,c(1.5,1.5),FALSE,1)
 fi = as.antsImage(arr > 14, pixeltype = "unsigned char")
-filin<-resampleImage(fi,c(1.5,1.5),FALSE,1) 
+filin<-resampleImage(fi,c(1.5,1.5),FALSE,1)
 
 fi<-antsImageRead( getANTsRData("multi_component_image"))
-filin<-resampleImage(fi,c(2, 2),FALSE,1) 
+filin<-resampleImage(fi,c(2, 2),FALSE,1)
 
 
 
