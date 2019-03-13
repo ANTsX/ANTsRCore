@@ -28,7 +28,7 @@
 #' tem<-antsImageRead(tf)
 #' mask = tem > 20
 #' fh <- iMath( mask , "FillHoles" )  # list all ops
-#' stopifnot(range(fh) == c(0, 2))
+#' stopifnot(range(fh) == c(0, 1))
 #' filled = fh > 0
 #' @export iMath
 iMath <- function(img, operation, param = NA, ...) {
