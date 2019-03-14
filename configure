@@ -84,7 +84,7 @@ echo "all: \$(SHLIB)" >> Makevars
 
 echo "\$(SHLIB): libs" >> Makevars
 
-echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build && \$(MAKE) all install " >> Makevars
+echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build && \$(MAKE) all install && cd ../../ && rm -rf \${PWD}/antb" >> Makevars
 
 # get / set up ANTs code
 antsgit=https://github.com/muschellij2/ANTs.git
