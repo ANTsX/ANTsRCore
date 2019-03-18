@@ -147,7 +147,7 @@ deploy:
       condition: "${gh_user} = ANTsX"
   - provider: releases
     api_key:
-      secure: "r7FsUfP8EozlZBDTIHzAE5ENqyeuopoWxxpKoAxkhGkDwB6rLDkNhjmFk3SZxP/8Sx51CeO1oFDUC/G5QWpfYdSYRIkq0GoubhGTDdOk3S1F6z4ncsi6DO24MkxxZbAb4e7lyK1bBaVla/SKm0QQivzqNn5g+jNLAjek4Yc2hBCUdtbyYk++fuGKsBVSC/VeahE9I6SsHQAZMViOAVgR6Y80cxeIzsVk6yFljOmc/EQxCVG8M1Rq/VZYnkZfLB5E35bbCehcdwHWjPvsP1TfbBDFo4DsyHhmIe1L6k7AtuFOrBl9zK0rBAMJznwHsI0D4SsNAwdFYrqK/tSMB7pTxDR90KfkQpFjt2JxBdz5msFVZAQqcuvbbNlrbnf0m5wtX2DPB6wuPwdRxmCMrXyT5EZE4bbYmKhF4l3DDX0snncZvusSwrHD+r90kriwgZm7ogWSRFATOLRXtEVrWGyQYCjZoAFM9vB8lL+/8yQbB80e3gYexyYI+AFzgmiNTPc+6TYF8UUKMUiBsdN5iqbdYYrmuTexKDC0So23XuBO3vlRLQLhjmtFwY/FNywneOpEfwVZfxIMeleuF0T7z0XDgPpFQ4PmXtpXqKQiAxI18dplxfG8vsyACeLnVfslF8H2/bWdRgMukDUlLyKFBLVHUFoSyo8zPAcBM+7P+mS9SbQ="
+      secure: TEYRCpA1JpjgYc/KbcuKMcMvclFPYkUxr0lv1s6j/VBZkwIBd4e8/1uTXUeP6EfwN97XI+Y9X/v2t/Bp3VgsJVSbvicVFvz8EHSUvY16tiyQbZAxbfo8zljFUSegPGN8cuHnjIULI5mrKAb997QN4+VfTdccvcjwCldO/Nk52Df7IuYYqzFBoSa11RwRveSR2+fHqHE48l+fX2SUwtILXJLoG8F2urbJ9HmuTslHPVcVJ+D6X5JOUCzVvSGepo8i+V3ULQqLE9OkckoigS0DoJtCqgj2YqzX+n6edUrjoOoaA5p/f/m+WhWrUuKXBVKBeWkHw7Qv+V7tWajdRvPLv3gZY9xARSkZ90ZN8MiIbYpyX4IAN63pcZiC9fCwrV0loS21z0/SgLmQQvqkpB0MtU17Pk0IznbIqLQ2jXX9LUDSGN9z1Aa+culEAyP72nbhqdcMFtzm/kUhZ7ysVs2/55Kj6Sh/NEd0KILbaVZeOx20/mxWDrhwhRHiESKloG97hqDBqCnd7LNRWqHS6/49kD33+ZZl2MTbzpPefNcsAJc5qI2wPAq90n4RZfaxdr+sMmKWUq85+mhzvKNushLhj6hXG055vvO+KgasmGBAO9n1l1tz7UyAZjgifunj6HprLry0mxCifZvOpM3vTxOSl9COfKR59OyjhfuAVWcX5L4=
     file: ${PKG_FILE_NAME}
     skip_cleanup: true
     on:
@@ -155,6 +155,7 @@ deploy:
       repo: muschellij2/ANTsRCore
       all_branches: true
       condition: "${gh_user} = muschellij2"
+
   # - provider: releases
   #   api_key:
   #     secure: S6aYhOkDea+5abwE3x035WAW+LFgJnvPCwDTxILryNaifdtd/WoQvdW9RB39ZokDVMiXkxyyT1aXZFksUO2hDyxtkOTLdesNj9IKbd0Lea/L67mJI8yvrRUYzKSAEE5n6/4QsMUs9RIxzi32S0i8UlH0UAG8+QPwTfYWUMiSXVJPUIi4gcwQ3xRUyQ5/Ixs0ZizpcuKHgW7uoa0ZqeoPz1aFCEniIvfeDYcdp3oHRsCuAvqPhrBKuioyAyWGH4BvNF7poON6gYBP3bGKWpG/Z21263OrBaH14uItFdBdMuencZ1357nudrraITw1RLNMIeIzJ7Zf7G5RI/3BHPieg193eQGQGlwKT43jsPt6CHyq26qcgI9I4R+m7y8bjefL5H1Xd8Czt5sLw0Csdg2VBZ3OkGvI6WSk448kp89bpBoPrdtwkWBvf643pMdIz3ynxl1+Dc/RO3M2IvMSQIcmqkLDU6NpKcMUARmbcNR77xylsw1QWw/ndl3QtjS3upbUTeq6olhlW245+/soVDpgnIfW/betpJa6UPeWtAs3P8RnY1eJtrKNJCHm9sQDUM8+WuSkgJOApAVEnn4jdsClkWEXciT1wv7xzsOzs5gIXK4fNAN8crTJdYFdtjOZbPlEfPGGF61l+ty8hdsgT2cnQ9owNFRYj/ehTrcPK0ZrgJs=
