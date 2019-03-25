@@ -38,7 +38,7 @@
 #' this is possible by specifying a weight vector of \code{c(1,1,0)} for a
 #' 3D deformation field or \code{c(1,1,0,1,1,0)} for a rigid transformation.
 #' Restriction currently only works if there are no preceding transformations.
-#' @param writeCompositeTransform if \code{TRUE}, will write transformations to h5 format.
+#' @param writeCompositeTransform if \code{TRUE}, will write transformations to h5 format.  Defaults to FALSE.
 #' @param verbose request verbose output (useful for debugging)
 #' @param printArgs print raw command line (useful for debugging)
 #' @param ... additional options see antsRegistration in ANTs
@@ -177,6 +177,7 @@ antsRegistration <- function(
   regIterations = c(40,20,0),
   multivariateExtras,
   restrictTransformation,
+  writeCompositeTransform = FALSE,
   verbose=FALSE,
   printArgs = FALSE, ... ) {
   numargs <- nargs()
@@ -677,6 +678,10 @@ antsRegistration <- function(
         } else {
           fwdtransforms = rev( alltx )
           invtransforms = ( alltx )
+        }
+        if ( writeCompositeTransform ) {
+          fwdtransforms = paste0( outprefix , 'Composite.h5' )
+          invtransforms = paste0( outprefix , 'InverseComposite.h5' )
         }
         if ( sum(  fixed - warpedmovout ) == 0  ) # FIXME better error catching
           stop( "Registration failed. Use verbose mode to diagnose." )
