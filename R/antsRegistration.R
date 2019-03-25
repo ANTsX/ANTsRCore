@@ -38,6 +38,7 @@
 #' this is possible by specifying a weight vector of \code{c(1,1,0)} for a
 #' 3D deformation field or \code{c(1,1,0,1,1,0)} for a rigid transformation.
 #' Restriction currently only works if there are no preceding transformations.
+#' @param writeCompositeTransform if \code{TRUE}, will write transformations to h5 format.
 #' @param verbose request verbose output (useful for debugging)
 #' @param printArgs print raw command line (useful for debugging)
 #' @param ... additional options see antsRegistration in ANTs
@@ -640,6 +641,8 @@ antsRegistration <- function(
         if ( nchar(myseed) == 0 ) myseed = "1234"
         args[[ length(args)+1]]="--random-seed"
         args[[ length(args)+1]]="1"
+        args[[ length(args)+1]]="--write-composite-transform"
+        args[[ length(args)+1]]=as.character(as.numeric( writeCompositeTransform ))
         if ( verbose ) {
           args[[ length(args)+1]]="-v"
           args[[ length(args)+1]]="1"

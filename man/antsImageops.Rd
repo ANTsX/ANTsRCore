@@ -271,9 +271,6 @@ img = makeImage(c(10,10),rnorm(100))
 mask = img > 0
 which(mask)
 which(mask, arr.ind = TRUE)
-\dontrun{
-which(mask + 1)
-}
 
 img01 <- as.antsImage(array(1:64, c(4,4,4,1)))
 img02 <- as.antsImage(array(64:1, c(4,4,4,1)))

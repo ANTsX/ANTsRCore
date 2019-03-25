@@ -70,6 +70,8 @@ Restriction currently only works if there are no preceding transformations.}
 \item{printArgs}{print raw command line (useful for debugging)}
 
 \item{...}{additional options see antsRegistration in ANTs}
+
+\item{writeCompositeTransform}{if \code{TRUE}, will write transformations to h5 format.}
 }
 \value{
 outputs a list containing:
