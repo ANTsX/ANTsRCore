@@ -4,12 +4,14 @@
 \alias{antsImageWrite}
 \title{Image Write}
 \usage{
-antsImageWrite(image, filename)
+antsImageWrite(image, filename, as.tensor = FALSE)
 }
 \arguments{
 \item{image}{Image object of S4 class \code{antsImage} to be written.}
 
 \item{filename}{Name of the file to write the image to.}
+
+\item{as.tensor}{flag indicating to write as symmetric tensor if image has 6 components}
 }
 \value{
 0 -- Success\cr 1 -- Failure
@@ -35,10 +37,10 @@ antsImageWrite( fi, tempfile( fileext = ".nii.gz" )  )
 components(fi) = -1L
 testthat::expect_error(
 antsImageWrite( fi, tempfile( fileext = ".nii.gz" )), "nvalid S4"
-)  
+)
 testthat::expect_error(
 antsImageWrite( "hey"), "not exist"
-) 
+)
 
 }
 \seealso{
