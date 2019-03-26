@@ -12,7 +12,7 @@
   This needs to be resolved in the tables and any declarations.
 */
 
-/* FIXME: 
+/* FIXME:
    Check these declarations against the C/Fortran source code.
 */
 
@@ -62,7 +62,7 @@ extern SEXP antsImageLogicImageNumeric(SEXP, SEXP, SEXP);
 extern SEXP antsImageMath(SEXP, SEXP);
 extern SEXP antsImageMutualInformation(SEXP, SEXP);
 extern SEXP antsImageRead(SEXP, SEXP, SEXP, SEXP);
-extern SEXP antsImageWrite(SEXP, SEXP);
+extern SEXP antsImageWrite(SEXP, SEXP, SEXP);
 extern SEXP antsJointFusion(SEXP);
 extern SEXP antsMatrix(SEXP);
 extern SEXP antsMatrix_asantsMatrix(SEXP, SEXP);
@@ -158,7 +158,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsImageMath",                           (DL_FUNC) &antsImageMath,                            2},
     {"antsImageMutualInformation",              (DL_FUNC) &antsImageMutualInformation,               2},
     {"antsImageRead",                           (DL_FUNC) &antsImageRead,                            4},
-    {"antsImageWrite",                          (DL_FUNC) &antsImageWrite,                           2},
+    {"antsImageWrite",                          (DL_FUNC) &antsImageWrite,                           3},
     {"antsJointFusion",                         (DL_FUNC) &antsJointFusion,                          1},
     {"antsMatrix",                              (DL_FUNC) &antsMatrix,                               1},
     {"antsMatrix_asantsMatrix",                 (DL_FUNC) &antsMatrix_asantsMatrix,                  2},
