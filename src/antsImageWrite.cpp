@@ -25,6 +25,7 @@ namespace ants
       typedef itk::ImageFileWriter< ImageType > ImageWriterType ;
       typename ImageWriterType::Pointer image_writer = ImageWriterType::New() ;
       image_writer->SetFileName( filename.c_str() ) ;
+      image_writer->SetUseInputMetaDataDictionary(false);
       image_writer->SetInput( image );
       image_writer->Update();
     }
@@ -60,7 +61,6 @@ namespace ants
       image_writer->SetInput( out_image );
       image_writer->SetFileName( filename.c_str() );
       image_writer->Update();
-
     }
     return 0;
   }
