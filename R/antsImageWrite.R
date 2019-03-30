@@ -5,6 +5,7 @@
 #'
 #' @param image Image object of S4 class \code{antsImage} to be written.
 #' @param filename Name of the file to write the image to.
+#' @param as.tensor flag indicating to write as symmetric tensor if image has 6 components
 #' @return 0 -- Success\cr 1 -- Failure
 #' @author Shrinidhi KL
 #' @seealso \code{\link{antsImageRead}}
@@ -26,13 +27,13 @@
 #' components(fi) = -1L
 #' testthat::expect_error(
 #' antsImageWrite( fi, tempfile( fileext = ".nii.gz" )), "nvalid S4"
-#' )  
+#' )
 #' testthat::expect_error(
 #' antsImageWrite( "hey"), "not exist"
-#' ) 
+#' )
 #'
 #' @export antsImageWrite
-antsImageWrite <- function(image, filename) {
+antsImageWrite <- function(image, filename, as.tensor=FALSE) {
   image = check_ants(image)
   if (class(image) != "antsImage") {
     stop("'image' argument provided is not of class antsImage")
@@ -43,5 +44,5 @@ antsImageWrite <- function(image, filename) {
     image@components = as.integer(1)
     }
   filename <- path.expand(filename)
-  invisible(.Call("antsImageWrite", image, filename, PACKAGE = "ANTsRCore"))
+  invisible(.Call("antsImageWrite", image, filename, as.tensor, PACKAGE = "ANTsRCore"))
 }
