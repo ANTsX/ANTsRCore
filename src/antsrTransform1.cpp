@@ -39,7 +39,7 @@
 template< class TransformType >
 Rcpp::XPtr<typename TransformType::Pointer> antsrTransformGetXPtr()
 {
-  typedef typename TransformType::Pointer           TransformPointerType;
+  using TransformPointerType = typename TransformType::Pointer;
   TransformPointerType transformPtr = TransformType::New();
 
   TransformPointerType * rawPointer = new TransformPointerType( transformPtr );
@@ -55,11 +55,11 @@ SEXP antsrTransform( SEXP r_precision, SEXP r_dimension, SEXP r_type )
 
   if ( type == "AffineTransform" )
     {
-    typedef itk::AffineTransform<PrecisionType,Dimension> TransformType;
-    typename TransformType::Pointer transformPointer = TransformType::New();
+    using TransformType = itk::AffineTransform<PrecisionType,Dimension>;
+    using TransformBaseType = itk::Transform<PrecisionType,Dimension,Dimension>;
+    using TransformBasePointerType = typename TransformBaseType::Pointer;
 
-    typedef itk::Transform<PrecisionType,Dimension,Dimension> TransformBaseType;
-    typedef typename TransformBaseType::Pointer               TransformBasePointerType;
+    typename TransformType::Pointer transformPointer = TransformType::New();
     TransformBasePointerType basePointer
       = dynamic_cast<TransformBaseType *>( transformPointer.GetPointer() );
 
@@ -93,7 +93,7 @@ try
 
   if( precision == "double" )
     {
-    typedef double PrecisionType;
+    using PrecisionType = double;
     if( dimension == 4 )
 	    {
       return antsrTransform<PrecisionType,4>( r_precision, r_dimension, r_type  );
@@ -109,7 +109,7 @@ try
 	  }
   else if( precision == "float" )
     {
-    typedef float PrecisionType;
+    using PrecisionType = float;
     if( dimension == 4 )
 	    {
       return antsrTransform<PrecisionType,4>( r_precision, r_dimension, r_type  );
@@ -149,81 +149,80 @@ SEXP antsrTransform_MatrixOffset( SEXP r_type, SEXP r_precision, SEXP r_dimensio
     SEXP r_matrix, SEXP r_offset, SEXP r_center, SEXP r_translation,
     SEXP r_parameters, SEXP r_fixedparameters )
   {
+  using MatrixOffsetBaseType = itk::MatrixOffsetTransformBase< PrecisionType, Dimension, Dimension>;
+  using MatrixOffsetBasePointerType = typename MatrixOffsetBaseType::Pointer;
+  using TransformBaseType = itk::Transform<PrecisionType,Dimension,Dimension>;
+  using TransformBasePointerType = typename TransformBaseType::Pointer;
 
   std::string type = Rcpp::as<std::string>( r_type );
   unsigned int dimension = Rcpp::as< unsigned int >( r_dimension );
-
-  typedef itk::MatrixOffsetTransformBase< PrecisionType, Dimension, Dimension> MatrixOffsetBaseType;
-  typedef typename MatrixOffsetBaseType::Pointer                               MatrixOffsetBasePointerType;
-  typedef itk::Transform<PrecisionType,Dimension,Dimension>                    TransformBaseType;
-  typedef typename TransformBaseType::Pointer                                  TransformBasePointerType;
 
   MatrixOffsetBasePointerType matrixOffset = nullptr;
 
   // Initialize transform by type
   if ( type == "AffineTransform" )
     {
-    typedef itk::AffineTransform<PrecisionType,Dimension> TransformType;
+    using TransformType = itk::AffineTransform<PrecisionType,Dimension>;
     typename TransformType::Pointer transformPointer = TransformType::New();
     matrixOffset = dynamic_cast<MatrixOffsetBaseType*>( transformPointer.GetPointer() );
     }
   else if ( type == "CenteredAffineTransform" )
     {
-    typedef itk::CenteredAffineTransform<PrecisionType,Dimension> TransformType;
+    using TransformType = itk::CenteredAffineTransform<PrecisionType,Dimension>;
     typename TransformType::Pointer transformPointer = TransformType::New();
     matrixOffset = dynamic_cast<MatrixOffsetBaseType*>( transformPointer.GetPointer() );
     }
   else if ( type == "Euler3DTransform" )
     {
-    typedef itk::Euler3DTransform<PrecisionType> TransformType;
+    using TransformType = itk::Euler3DTransform<PrecisionType>;
     typename TransformType::Pointer transformPointer = TransformType::New();
     matrixOffset = dynamic_cast<MatrixOffsetBaseType*>( transformPointer.GetPointer() );
     }
   else if ( type == "Euler2DTransform" )
     {
-    typedef itk::Euler2DTransform<PrecisionType> TransformType;
+    using TransformType = itk::Euler2DTransform<PrecisionType>;
     typename TransformType::Pointer transformPointer = TransformType::New();
     matrixOffset = dynamic_cast<MatrixOffsetBaseType*>( transformPointer.GetPointer() );
     }
   else if ( type == "QuaternionRigidTransform" )
     {
-    typedef itk::QuaternionRigidTransform<PrecisionType> TransformType;
+    using TransformType = itk::QuaternionRigidTransform<PrecisionType>;
     typename TransformType::Pointer transformPointer = TransformType::New();
     matrixOffset = dynamic_cast<MatrixOffsetBaseType*>( transformPointer.GetPointer() );
     }
   else if ( type == "Rigid2DTransform" )
     {
-    typedef itk::Rigid2DTransform<PrecisionType> TransformType;
+    using TransformType = itk::Rigid2DTransform<PrecisionType>;
     typename TransformType::Pointer transformPointer = TransformType::New();
     matrixOffset = dynamic_cast<MatrixOffsetBaseType*>( transformPointer.GetPointer() );
     }
   else if ( type == "CenteredEuler3DTransform" )
     {
-    typedef itk::CenteredEuler3DTransform<PrecisionType> TransformType;
+    using TransformType = itk::CenteredEuler3DTransform<PrecisionType>;
     typename TransformType::Pointer transformPointer = TransformType::New();
     matrixOffset = dynamic_cast<MatrixOffsetBaseType*>( transformPointer.GetPointer() );
     }
   else if ( type == "CenteredRigid2DTransform" )
     {
-    typedef itk::CenteredRigid2DTransform<PrecisionType> TransformType;
+    using TransformType = itk::CenteredRigid2DTransform<PrecisionType>;
     typename TransformType::Pointer transformPointer = TransformType::New();
     matrixOffset = dynamic_cast<MatrixOffsetBaseType*>( transformPointer.GetPointer() );
     }
   else if ( type == "Similarity3DTransform" )
     {
-    typedef itk::Similarity3DTransform<PrecisionType> TransformType;
+    using TransformType = itk::Similarity3DTransform<PrecisionType> ;
     typename TransformType::Pointer transformPointer = TransformType::New();
     matrixOffset = dynamic_cast<MatrixOffsetBaseType*>( transformPointer.GetPointer() );
     }
   else if ( type == "Similarity2DTransform" )
     {
-    typedef itk::Similarity2DTransform<PrecisionType> TransformType;
+    using TransformType = itk::Similarity2DTransform<PrecisionType>;
     typename TransformType::Pointer transformPointer = TransformType::New();
     matrixOffset = dynamic_cast<MatrixOffsetBaseType*>( transformPointer.GetPointer() );
     }
   else if ( type == "CenteredSimilarity2DTransform" )
     {
-    typedef itk::CenteredSimilarity2DTransform<PrecisionType> TransformType;
+    using TransformType = itk::CenteredSimilarity2DTransform<PrecisionType>;
     typename TransformType::Pointer transformPointer = TransformType::New();
     matrixOffset = dynamic_cast<MatrixOffsetBaseType*>( transformPointer.GetPointer() );
     }
@@ -369,7 +368,7 @@ try
 
   if( precision == "double" )
     {
-    typedef double PrecisionType;
+    using PrecisionType = double;
     if( dimension == 4 )
 	    {
       return antsrTransform_MatrixOffset<PrecisionType,4>( r_type, r_precision, r_dimension, r_matrix,
@@ -388,7 +387,7 @@ try
 	  }
   else if( precision == "float" )
     {
-    typedef float PrecisionType;
+    using PrecisionType = float;
     if( dimension == 4 )
 	    {
       return antsrTransform_MatrixOffset<PrecisionType,4>( r_type, r_precision, r_dimension, r_matrix,
@@ -430,8 +429,8 @@ return Rcpp::wrap(NA_REAL); //not reached
 template< class PrecisionType, unsigned int Dimension >
 SEXP antsrTransform_GetParameters( SEXP r_transform )
 {
-  typedef itk::Transform<PrecisionType,Dimension,Dimension> TransformType;
-  typedef typename TransformType::Pointer                   TransformPointerType;
+  using TransformType = itk::Transform<PrecisionType,Dimension,Dimension>;
+  using TransformPointerType = typename TransformType::Pointer;
 
   TransformPointerType itkTransform = Rcpp::as<TransformPointerType>( r_transform );
   Rcpp::NumericVector parameters( itkTransform->GetNumberOfParameters() );
@@ -466,7 +465,7 @@ try
 
   if( precision == "double" )
     {
-    typedef double PrecisionType;
+    using PrecisionType = double;
     if( dimension == 4 )
 	    {
       return antsrTransform_GetParameters<PrecisionType,4>( r_transform  );
@@ -482,7 +481,7 @@ try
 	  }
   else if( precision == "float" )
     {
-    typedef float PrecisionType;
+    using PrecisionType = float;
     if( dimension == 4 )
 	    {
       return antsrTransform_GetParameters<PrecisionType,4>( r_transform );
@@ -521,8 +520,8 @@ return Rcpp::wrap(NA_REAL); //not reached
 template< class PrecisionType, unsigned int Dimension >
 SEXP antsrTransform_SetParameters( SEXP r_transform, SEXP r_parameters )
 {
-  typedef itk::Transform<PrecisionType,Dimension,Dimension> TransformType;
-  typedef typename TransformType::Pointer                   TransformPointerType;
+  using TransformType = itk::Transform<PrecisionType,Dimension,Dimension>;
+  using TransformPointerType = typename TransformType::Pointer;
 
   TransformPointerType itkTransform = Rcpp::as<TransformPointerType>( r_transform );
   Rcpp::NumericVector parameters( r_parameters );
@@ -565,7 +564,7 @@ try
 
   if( precision == "double" )
     {
-    typedef double PrecisionType;
+    using PrecisionType = double;
     if( dimension == 4 )
 	    {
       return antsrTransform_SetParameters<PrecisionType,4>( r_transform, r_parameters  );
@@ -581,7 +580,7 @@ try
 	  }
   else if( precision == "float" )
     {
-    typedef float PrecisionType;
+    using PrecisionType = float;
     if( dimension == 4 )
 	    {
       return antsrTransform_SetParameters<PrecisionType,4>( r_transform, r_parameters );
@@ -619,8 +618,8 @@ return Rcpp::wrap(NA_REAL); //not reached
 template< class PrecisionType, unsigned int Dimension >
 SEXP antsrTransform_GetFixedParameters( SEXP r_transform )
 {
-  typedef itk::Transform<PrecisionType,Dimension,Dimension> TransformType;
-  typedef typename TransformType::Pointer                   TransformPointerType;
+  using TransformType = itk::Transform<PrecisionType,Dimension,Dimension>;
+  using TransformPointerType = typename TransformType::Pointer;
 
   TransformPointerType itkTransform = Rcpp::as<TransformPointerType>( r_transform );
   Rcpp::NumericVector parameters( itkTransform->GetNumberOfFixedParameters() );
@@ -655,7 +654,7 @@ try
 
   if( precision == "double" )
     {
-    typedef double PrecisionType;
+    using PrecisionType = double;
     if( dimension == 4 )
 	    {
       return antsrTransform_GetFixedParameters<PrecisionType,4>( r_transform  );
@@ -671,7 +670,7 @@ try
 	  }
   else if( precision == "float" )
     {
-    typedef float PrecisionType;
+    using PrecisionType = float;
     if( dimension == 4 )
 	    {
       return antsrTransform_GetFixedParameters<PrecisionType,4>( r_transform );
@@ -710,8 +709,8 @@ return Rcpp::wrap(NA_REAL); //not reached
 template< class PrecisionType, unsigned int Dimension >
 SEXP antsrTransform_SetFixedParameters( SEXP r_transform, SEXP r_parameters )
 {
-  typedef itk::Transform<PrecisionType,Dimension,Dimension> TransformType;
-  typedef typename TransformType::Pointer                   TransformPointerType;
+  using TransformType = itk::Transform<PrecisionType,Dimension,Dimension>;
+  using TransformPointerType = typename TransformType::Pointer;
 
   TransformPointerType itkTransform = Rcpp::as<TransformPointerType>( r_transform );
   Rcpp::NumericVector parameters( r_parameters );
@@ -754,7 +753,7 @@ try
 
   if( precision == "double" )
     {
-    typedef double PrecisionType;
+    using PrecisionType = double;
     if( dimension == 4 )
 	    {
       return antsrTransform_SetFixedParameters<PrecisionType,4>( r_transform, r_parameters  );
@@ -770,7 +769,7 @@ try
 	  }
   else if( precision == "float" )
     {
-    typedef float PrecisionType;
+    using PrecisionType = float;
     if( dimension == 4 )
 	    {
       return antsrTransform_SetFixedParameters<PrecisionType,4>( r_transform, r_parameters );
@@ -804,4 +803,3 @@ catch(...)
   }
 return Rcpp::wrap(NA_REAL); //not reached
 }
-

@@ -54,7 +54,21 @@ setMethod(f = "initialize", signature(.Object = "antsrTransform"), definition = 
 
 #' @title createAntsrTransform
 #' @description Create and initialize an antsrTransform
-#' @param type type of transforms
+#' @param type type of transform
+#' \itemize{
+#'   \item{AffineTransform}{}
+#'   \item{CenteredAffineTransform}{}
+#'   \item{Euler2DTransform}{}
+#'   \item{Euler3DTransform}{}
+#'   \item{Rigid2DTransform}{}
+#'   \item{QuaternionRigidTransform}{}
+#'   \item{Similarity2DTransform}{}
+#'   \item{CenteredSimilarity2DTransform}{}
+#'   \item{Similarity3DTransform}{}
+#'   \item{CenteredRigid2DTransform}{}
+#'   \item{CenteredEuler3DTransform}{}
+#'   \item{DisplacementFieldTransform}{}
+#' }
 #' @param precision numerical precision
 #' @param dimension spatial dimension of transform
 #' @param matrix matrix for linear transforms
@@ -346,7 +360,22 @@ applyAntsrTransformToImage <- function(transform, image, reference, interpolatio
   {
     transform <- composeAntsrTransforms(transform)
   }
-  return(.Call("antsrTransform_TransformImage", transform, image, reference, tolower(interpolation), PACKAGE = "ANTsRCore"))
+
+  outImg = NA
+
+  # for interpolators that don't support vector pixels: split, transform, merge
+  vectorInterp = ( interpolation=="linear" | interpolation=="nearestneighbor" )
+  if ( !vectorInterp & (image@isVector | image@components > 1) ) {
+    imgList = splitChannels(image)
+    imgListOut = lapply(imgList, function(x) applyAntsrTransformToImage(transform, x, reference, interpolation) )
+    outImg = mergeChannels(imgListOut)
+  }
+  else {
+    outImg = .Call("antsrTransform_TransformImage", transform, image, reference, tolower(interpolation), PACKAGE = "ANTsRCore")
+  }
+
+  return(outImg)
+
 }
 
 #' @title readAntsrTransform
