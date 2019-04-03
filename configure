@@ -93,8 +93,10 @@ N3BiasFieldCorrection N4BiasFieldCorrection sccan antsJointFusion \
 ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 
 # get / set up ANTs code
-antsgit=https://github.com/muschellij2/ANTs.git
-antstag=36564559da03ea69701525e7898d6170dae513bd
+# antsgit=https://github.com/muschellij2/ANTs.git
+# antstag=36564559da03ea69701525e7898d6170dae513bd
+antsgit=https://github.com/ANTsX/ANTs.git
+antstag=680942c1628c8ed142c6b25a4c8b9e47aadf3e01
 antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants
