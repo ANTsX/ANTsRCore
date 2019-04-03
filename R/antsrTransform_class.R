@@ -375,7 +375,6 @@ applyAntsrTransformToImage <- function(transform, image, reference, interpolatio
   }
 
   return(outImg)
-
 }
 
 #' @title readAntsrTransform

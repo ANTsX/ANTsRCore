@@ -106,7 +106,6 @@ extern SEXP mergeChannels(SEXP, SEXP);
 extern SEXP N3BiasFieldCorrection(SEXP);
 extern SEXP N4BiasFieldCorrection(SEXP);
 extern SEXP patchAnalysis(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP ResampleImage(SEXP);
 extern SEXP smoothImage(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP splitChannels(SEXP, SEXP);
 extern SEXP ThresholdImage(SEXP);
@@ -202,7 +201,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"N3BiasFieldCorrection",                   (DL_FUNC) &N3BiasFieldCorrection,                    1},
     {"N4BiasFieldCorrection",                   (DL_FUNC) &N4BiasFieldCorrection,                    1},
     {"patchAnalysis",                           (DL_FUNC) &patchAnalysis,                           12},
-    {"ResampleImage",                           (DL_FUNC) &ResampleImage,                            1},
     {"smoothImage",                             (DL_FUNC) &smoothImage,                              5},
     {"splitChannels",                           (DL_FUNC) &splitChannels,                            2},
     {"ThresholdImage",                          (DL_FUNC) &ThresholdImage,                           1},

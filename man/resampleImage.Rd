@@ -4,10 +4,11 @@
 \alias{resampleImage}
 \title{resampleImage}
 \usage{
-resampleImage(image, resampleParams, useVoxels = FALSE, interpType = 1)
+resampleImage(image, resampleParams, useVoxels = FALSE,
+  interpType = "nearestneighbor")
 }
 \arguments{
-\item{image}{input antsImage matrix}
+\item{image}{input antsImage}
 
 \item{resampleParams}{vector of size dimension with numeric values}
 
