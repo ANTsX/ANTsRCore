@@ -87,6 +87,8 @@
 #'   \item{"TVMSQ": }{time-varying diffeomorphism with mean square metric}
 #'   \item{"TVMSQC": }{time-varying diffeomorphism with mean square metric
 #'   for very large deformation}
+#'   \item{"Elastic": }{simple elastic deformation.  one might want to run an
+#' affine transformation before this.  may not produce diffeomorphic transformations.  user may need to explore gradient and sigma parameters.  this will not produce a valid inverse deformation.  \code{totalSigma} should be greater than zero.}
 #' }
 #' @return outputs a list containing:
 #' \itemize{
@@ -296,7 +298,7 @@ antsRegistration <- function(
       # change this to a match.arg
       allowableTx <- c("Translation","Rigid", "Similarity", "Affine", "TRSAA",
                        "SyN","SyNRA","SyNOnly","SyNCC","SyNabp", "SyNBold", "SyNBoldAff",
-                       "SyNAggro", "SyNLessAggro", "TVMSQ","TVMSQC","ElasticSyN")
+                       "SyNAggro", "SyNLessAggro", "TVMSQ","TVMSQC","ElasticSyN","Elastic")
       ttexists <- typeofTransform %in% allowableTx
       if (ttexists) {
         initx = initialTransform
@@ -614,6 +616,24 @@ antsRegistration <- function(
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
+
+        if ( typeofTransform == "Elastic" ) {
+          if ( is.na(gradStep) ) gradStep=0.25
+          tvtx=paste("GaussianDisplacementField[",
+                     gradStep,",",flowSigma,",",totalSigma,"]",sep='')
+          args <- list("-d", as.character(fixed@dimension), "-r", initx,
+                       "-m", paste(synMetric,"[", f, ",", m, ",1,",synSampling,"]", sep = ""),
+                       "-t", tvtx,
+                       "-c", paste("[",synits,",1e-7,8]",collapse=''),
+                       "-s", smoothingsigmas,
+                       "-f", shrinkfactors,
+                       "-u", "0", "-z", "1", "-l", myl,
+                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""))
+          if ( !is.na(maskopt)  )
+            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+        }
+
+
         if ( typeofTransform == "Rigid" |
              typeofTransform == "Similarity" |
              typeofTransform == "Translation" |
