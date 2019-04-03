@@ -7,7 +7,7 @@ validlist = c(
   "pcasl",
   "ch2","ch2a","ch2b","finn","finncsv",
   "mni","mnia","mnib",
-  # "mnit",
+  "mnit",
   "mninat","mnijhu1","mnijhu2","mnidfn","mniyeo",
   "atroposseg","simple","fmrinetworks",
   "rsbold", "rsboldmask", "rsboldseg", "rsboldpts", "decslice", "dtislice",
