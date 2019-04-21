@@ -4,13 +4,15 @@
 \alias{antsAverageImages}
 \title{Computes average of image list}
 \usage{
-antsAverageImages(imageList, normalize = FALSE)
+antsAverageImages(imageList, normalize = FALSE, weights)
 }
 \arguments{
 \item{imageList}{list of antsImages or a character vector of filenames}
 
 \item{normalize}{boolean determines if image is divided by mean before
 averaging}
+
+\item{weights}{a vector of weights of length equal to imageList}
 }
 \description{
 Calculate the mean of a list of antsImages
