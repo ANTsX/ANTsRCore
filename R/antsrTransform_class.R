@@ -225,10 +225,11 @@ antsrTransformFromDisplacementField <- function( field ) {
 #' @title displacementFieldFromAntsrTransform
 #' @description Conver antsrTransform to displacement field
 #' @param tx antsrTransform
+#' @param reference reference antsImage if converting linear transform
 #' @return antsImage
 #' @export
-displacementFieldFromAntsrTransform <- function( tx ) {
-  return(.Call("antsrTransform_ToDisplacementField", tx, PACKAGE="ANTsRCore"))
+displacementFieldFromAntsrTransform <- function( tx, reference=NA ) {
+  return(.Call("antsrTransform_ToDisplacementField", tx, ref, PACKAGE="ANTsRCore"))
 }
 
 #' @title applyAntsrTransform
