@@ -636,7 +636,7 @@ try
     }
   }
 
-  
+
   if ( precision == "float")
   {
     typedef float PrecisionType;
@@ -851,6 +851,148 @@ try
     else if ( dimension == 2 )
     {
       return antsrTransform_FromDisplacementField<PrecisionType,2>( r_field, precision );
+    }
+    else
+    {
+      Rcpp::stop( "Unsupported dimension" );
+    }
+  }
+  else if ( precision == "double")
+  {
+    typedef double PrecisionType;
+    if ( dimension == 4 )
+    {
+      return antsrTransform_FromDisplacementField<PrecisionType,4>( r_field, precision );
+    }
+    else if ( dimension == 3)
+    {
+      return antsrTransform_FromDisplacementField<PrecisionType,3>( r_field, precision );
+    }
+    else if ( dimension == 2 )
+    {
+      return antsrTransform_FromDisplacementField<PrecisionType,2>( r_field, precision );
+    }
+    else
+    {
+      Rcpp::stop( "Unsupported dimension" );
+    }
+  }
+  return( Rcpp::wrap(NA_REAL) );
+}
+catch( itk::ExceptionObject & err )
+  {
+  Rcpp::Rcout << "ITK ExceptionObject caught !" << std::endl;
+  Rcpp::Rcout << err << std::endl;
+  Rcpp::stop("ITK exception caught");
+  }
+catch( const std::exception& exc )
+  {
+  forward_exception_to_r( exc ) ;
+  }
+catch(...)
+  {
+	Rcpp::stop("c++ exception (unknown reason)");
+  }
+return Rcpp::wrap(NA_REAL); //not reached
+}
+
+template< class ImageType >
+SEXP antsrTransform_WarpToDisplacementField( SEXP r_tx )
+{
+
+  using PixelType = typename ImageType::PixelType;
+  using PrecisionType = typename ImageType::InternalPixelType;
+  using TransformType = typename itk::Transform<PrecisionType,ImageType::ImageDimension, ImageType::ImageDimension>;
+  using TransformPointerType = typename TransformType::Pointer;
+  using DisplacementFieldTransformType = typename itk::DisplacementFieldTransform<PrecisionType, ImageType::ImageDimension>;
+  using DisplacementFieldTransformPointerType = typename DisplacementFieldTransformType::Pointer;
+  using DisplacementFieldType = typename DisplacementFieldTransformType::DisplacementFieldType;
+  using VectorType = typename DisplacementFieldType::PixelType;
+
+  TransformPointerType tx = Rcpp::as<TransformPointerType>( r_tx );
+  DisplacementFieldTransformPointerType warp = dynamic_cast<DisplacementFieldTransformType *>(tx.GetPointer());
+
+  typename ImageType::Pointer img = ImageType::New();
+  img->SetRegions( warp->GetDisplacementField()->GetLargestPossibleRegion() );
+  img->SetSpacing( warp->GetDisplacementField()->GetSpacing() );
+  img->SetOrigin( warp->GetDisplacementField()->GetOrigin() );
+  img->SetDirection( warp->GetDisplacementField()->GetDirection() );
+  img->SetNumberOfComponentsPerPixel( ImageType::ImageDimension );
+  img->Allocate();
+
+  typedef itk::ImageRegionIteratorWithIndex<ImageType> IteratorType;
+  IteratorType it( img, img->GetLargestPossibleRegion() );
+  while ( !it.IsAtEnd() )
+  {
+    VectorType vec = warp->GetDisplacementField()->GetPixel( it.GetIndex() );
+    PixelType dvec;
+    dvec.SetSize( ImageType::ImageDimension );
+    for ( unsigned int i=0; i<ImageType::ImageDimension; i++)
+      {
+      dvec[i] = vec[i];
+      }
+    img->SetPixel(it.GetIndex(), dvec);
+    ++it;
+  }
+
+  return Rcpp::wrap(img);
+
+}
+
+RcppExport SEXP antsrTransform_ToDisplacementField( SEXP r_tx )
+{
+try
+{
+  Rcpp::S4 tx( r_tx );
+  unsigned int dimension = Rcpp::as<int>( tx.slot("dimension"));
+  std::string precision = Rcpp::as<std::string>( tx.slot("precision"));
+  std::string type = Rcpp::as<std::string>( tx.slot("type"));
+
+  if ( (precision != "float") && (precision != "double") )
+  {
+    Rcpp::stop("Field must have pixeltype of either float or double");
+  }
+
+  if ( precision == "float")
+  {
+    typedef float PrecisionType;
+    if ( dimension == 4 )
+    {
+      using ImageType = itk::VectorImage<PrecisionType,4>;
+      return antsrTransform_WarpToDisplacementField<ImageType>( r_tx );
+    }
+    else if ( dimension == 3)
+    {
+      using ImageType = itk::VectorImage<PrecisionType,3>;
+      return antsrTransform_WarpToDisplacementField<ImageType>( r_tx );
+    }
+    else if ( dimension == 2 )
+    {
+      using ImageType = itk::VectorImage<PrecisionType,2>;
+      return antsrTransform_WarpToDisplacementField<ImageType>( r_tx );
+    }
+    else
+    {
+      Rcpp::stop( "Unsupported dimension" );
+    }
+  }
+  else if ( precision == "double")
+  {
+    typedef double PrecisionType;
+    if ( dimension == 4 )
+    {
+      using ImageType = itk::VectorImage<PrecisionType,4>;
+      return antsrTransform_WarpToDisplacementField<ImageType>( r_tx );
+    }
+    else if ( dimension == 3)
+    {
+      using ImageType = itk::VectorImage<PrecisionType,3>;
+      return antsrTransform_WarpToDisplacementField<ImageType>( r_tx );
+    }
+    else if ( dimension == 2 )
+    {
+      using ImageType = itk::VectorImage<PrecisionType,2>;
+      return antsrTransform_WarpToDisplacementField<ImageType>( r_tx );
     }
     else
     {
