@@ -4,10 +4,12 @@
 \alias{displacementFieldFromAntsrTransform}
 \title{displacementFieldFromAntsrTransform}
 \usage{
-displacementFieldFromAntsrTransform(tx)
+displacementFieldFromAntsrTransform(tx, reference = NA)
 }
 \arguments{
 \item{tx}{antsrTransform}
+
+\item{reference}{reference antsImage if converting linear transform}
 }
 \value{
 antsImage
