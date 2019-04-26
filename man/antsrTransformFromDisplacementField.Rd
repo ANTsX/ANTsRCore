@@ -2,7 +2,7 @@
 % Please edit documentation in R/antsrTransform_class.R
 \name{antsrTransformFromDisplacementField}
 \alias{antsrTransformFromDisplacementField}
-\title{getAntsrTransformParameters}
+\title{antsrTransformFromDisplacementField}
 \usage{
 antsrTransformFromDisplacementField(field)
 }

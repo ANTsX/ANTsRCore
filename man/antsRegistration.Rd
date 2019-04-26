@@ -133,6 +133,8 @@ typeofTransform can be one of:
   \item{"TVMSQ": }{time-varying diffeomorphism with mean square metric}
   \item{"TVMSQC": }{time-varying diffeomorphism with mean square metric
   for very large deformation}
+  \item{"Elastic": }{simple elastic deformation.  one might want to run an
+affine transformation before this.  may not produce diffeomorphic transformations.  user may need to explore gradient and sigma parameters.  this will not produce a valid inverse deformation.  \code{totalSigma} should be greater than zero.}
 }
 }
 \examples{
