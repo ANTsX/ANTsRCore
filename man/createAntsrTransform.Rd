@@ -10,7 +10,21 @@ createAntsrTransform(type = "AffineTransform", precision = "float",
   displacement.field = NA, supported.types = FALSE)
 }
 \arguments{
-\item{type}{type of transforms}
+\item{type}{type of transform
+\itemize{
+  \item{AffineTransform}{}
+  \item{CenteredAffineTransform}{}
+  \item{Euler2DTransform}{}
+  \item{Euler3DTransform}{}
+  \item{Rigid2DTransform}{}
+  \item{QuaternionRigidTransform}{}
+  \item{Similarity2DTransform}{}
+  \item{CenteredSimilarity2DTransform}{}
+  \item{Similarity3DTransform}{}
+  \item{CenteredRigid2DTransform}{}
+  \item{CenteredEuler3DTransform}{}
+  \item{DisplacementFieldTransform}{}
+}}
 
 \item{precision}{numerical precision}
 

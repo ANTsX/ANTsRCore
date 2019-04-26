@@ -3,7 +3,7 @@
 #' Resample image by spacing or number of voxels with various interpolators.
 #' Works with multi-channel images.
 #'
-#' @param image input antsImage matrix
+#' @param image input antsImage
 #' @param resampleParams vector of size dimension with numeric values
 #' @param useVoxels true means interpret resample params as voxel counts
 #' @param interpType one of 0 (linear), 1 (nearestNeighbor),
@@ -35,48 +35,42 @@
 #'
 #'
 #' @export resampleImage
-resampleImage <- function(image, resampleParams, useVoxels = FALSE, interpType = 1) {
+resampleImage <- function(image, resampleParams, useVoxels = FALSE, interpType = "nearestneighbor") {
   image = check_ants(image)
   pixtype = image@pixeltype
-  numpixtype = NA
-  if ( class( interpType ) == 'character' ) {
-    if ( interpType == 'linear' ) interpType = 0
-    if ( interpType == 'nearestNeighbor' ) interpType = 1
-    if ( interpType == 'gaussian' ) interpType = 2
-    if ( interpType == 'windowedSinc' ) interpType = 3
-    if ( interpType == 'bspline' ) interpType = 4
+
+  if ( class(interpType) == 'character' ) {
+    interpType = tolower(interpType)
   }
-  if ( pixtype == "char" ) numpixtype = 0
-  if ( pixtype == "unsigned char" ) numpixtype = 1
-  if ( pixtype == "short" ) numpixtype = 2
-  if ( pixtype == "unsigned short" ) numpixtype = 3
-  if ( pixtype == "int" ) numpixtype = 4
-  if ( pixtype == "unsigned int" ) numpixtype = 5
-  if ( pixtype == "float" ) numpixtype = 6
-  if ( pixtype == "double" ) numpixtype = 7
-  if ( is.na(  numpixtype ) ) stop( paste( "cannot process pixeltype",pixtype, numpixtype ))
-  rsampar <- paste(resampleParams, collapse = "x")
-  if ( image@components == 1 )
-    {
-    outimg = new("antsImage", pixtype, image@dimension )
-    args <- list(image@dimension, image, outimg, rsampar,
-      as.numeric(useVoxels), interpType, numpixtype )
-    k <- .int_antsProcessArguments(args)
-    retval <- .Call("ResampleImage", k)
-    return(outimg)
-    }
-  if ( image@components > 1 )
-    {
-    mychanns = splitChannels( image )
-    for ( k in 1:length( mychanns ) )
-      {
-      outimg = new("antsImage", pixtype, image@dimension )
-      args <- list( image@dimension, mychanns[[k]], outimg, rsampar,
-        as.numeric(useVoxels), interpType, numpixtype)
-      temp <- .int_antsProcessArguments(args)
-      retval <- .Call("ResampleImage", temp)
-      mychanns[[k]] <- antsImageClone(outimg, image@pixeltype)
-      }
-    return( mergeChannels( mychanns ) )
-    }
+  else if ( class(interpType) == 'numeric' ) {
+    if ( interpType==0) interpType="linear"
+    else if (interpType==1) interpType="nearestneighbor"
+    else if (interpType==2) interpType="gaussian"
+    else if (interpType==3) interpType="hammingwindowedsinc"
+    else if (interpType==4) interpType="bspline"
+  }
+
+  # identify transform
+  tx = createAntsrTransform( dimension=image@dimension )
+
+  iSpacing = antsGetSpacing(image)
+  iOrigin = antsGetOrigin(image)
+  iDirection = antsGetDirection(image)
+  iSize = dim(image)
+
+  if ( useVoxels ) {
+    oSize = resampleParams
+    ratio = iSize / oSize
+    oSpacing = iSpacing * ratio
+  }
+  else {
+    oSpacing = resampleParams
+    oSize = as.integer( (iSpacing * iSize) / oSpacing + 0.5 )
+  }
+
+  # reference image
+  ref = makeImage( oSize, spacing=oSpacing, direction=iDirection, origin=iOrigin, pixeltype="unsigned char")
+  outimg = applyAntsrTransformToImage( tx, image, ref, interpolation=interpType )
+  return(outimg)
+
 }
