@@ -187,7 +187,7 @@ getAntsrTransformParameters <- function(transform) {
   return(.Call("antsrTransform_GetParameters", transform, PACKAGE = "ANTsRCore"))
 }
 
-#' @title setAntsrTransformParameters
+#' @title setAntsrTransformFixedParameters
 #' @description Set parameters of transform
 #' @param transform antsrTransform
 #' @param parameters array of parameters'
@@ -201,10 +201,10 @@ setAntsrTransformFixedParameters <- function(transform, parameters) {
   invisible(.Call("antsrTransform_SetFixedParameters", transform, parameters, PACKAGE = "ANTsRCore"))
 }
 
-#' @title getAntsrTransformParameters
-#' @description Get parameters of transform
+#' @title getAntsrTransformFixedParameters
+#' @description Get fixed parameters of transform
 #' @param transform antsrTransform
-#' @return array of parameters'
+#' @return array of fixed parameters
 #' @examples
 #' tx = new("antsrTransform")
 #' params = getAntsrTransformFixedParameters(tx)
@@ -213,13 +213,23 @@ getAntsrTransformFixedParameters <- function(transform) {
   return(.Call("antsrTransform_GetFixedParameters", transform, PACKAGE = "ANTsRCore"))
 }
 
-#' @title getAntsrTransformParameters
+#' @title antsrTransformFromDisplacementField
 #' @description Convert deformation field (multiChannel image) to antsrTransform
 #' @param field deformation field (multiChannel image)
 #' @return antsrTransform'
 #' @export
 antsrTransformFromDisplacementField <- function( field ) {
   return(.Call("antsrTransform_FromDisplacementField", field, PACKAGE="ANTsRCore"))
+}
+
+#' @title displacementFieldFromAntsrTransform
+#' @description Conver antsrTransform to displacement field
+#' @param tx antsrTransform
+#' @param reference reference antsImage if converting linear transform
+#' @return antsImage
+#' @export
+displacementFieldFromAntsrTransform <- function( tx, reference=NA ) {
+  return(.Call("antsrTransform_ToDisplacementField", tx, ref, PACKAGE="ANTsRCore"))
 }
 
 #' @title applyAntsrTransform

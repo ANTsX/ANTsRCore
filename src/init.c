@@ -88,6 +88,7 @@ extern SEXP antsrTransform_MatrixOffset(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP
 extern SEXP antsrTransform_Read(SEXP, SEXP, SEXP);
 extern SEXP antsrTransform_SetFixedParameters(SEXP, SEXP);
 extern SEXP antsrTransform_SetParameters(SEXP, SEXP);
+extern SEXP antsrTransform_ToDisplacementField(SEXP,SEXP);
 extern SEXP antsrTransform_TransformImage(SEXP, SEXP, SEXP, SEXP);
 extern SEXP antsrTransform_TransformPoint(SEXP, SEXP);
 extern SEXP antsrTransform_TransformVector(SEXP, SEXP);
@@ -184,6 +185,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsrTransform_Read",                     (DL_FUNC) &antsrTransform_Read,                      3},
     {"antsrTransform_SetFixedParameters",       (DL_FUNC) &antsrTransform_SetFixedParameters,        2},
     {"antsrTransform_SetParameters",            (DL_FUNC) &antsrTransform_SetParameters,             2},
+    {"antsrTransform_ToDisplacementField",      (DL_FUNC) &antsrTransform_ToDisplacementField,       2},
     {"antsrTransform_TransformImage",           (DL_FUNC) &antsrTransform_TransformImage,            4},
     {"antsrTransform_TransformPoint",           (DL_FUNC) &antsrTransform_TransformPoint,            2},
     {"antsrTransform_TransformVector",          (DL_FUNC) &antsrTransform_TransformVector,           2},

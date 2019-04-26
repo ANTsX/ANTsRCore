@@ -2,7 +2,7 @@
 % Please edit documentation in R/antsrTransform_class.R
 \name{getAntsrTransformFixedParameters}
 \alias{getAntsrTransformFixedParameters}
-\title{getAntsrTransformParameters}
+\title{getAntsrTransformFixedParameters}
 \usage{
 getAntsrTransformFixedParameters(transform)
 }
@@ -10,10 +10,10 @@ getAntsrTransformFixedParameters(transform)
 \item{transform}{antsrTransform}
 }
 \value{
-array of parameters'
+array of fixed parameters
 }
 \description{
-Get parameters of transform
+Get fixed parameters of transform
 }
 \examples{
 tx = new("antsrTransform")

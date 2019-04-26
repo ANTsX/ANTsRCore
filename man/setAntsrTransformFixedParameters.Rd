@@ -2,7 +2,7 @@
 % Please edit documentation in R/antsrTransform_class.R
 \name{setAntsrTransformFixedParameters}
 \alias{setAntsrTransformFixedParameters}
-\title{setAntsrTransformParameters}
+\title{setAntsrTransformFixedParameters}
 \usage{
 setAntsrTransformFixedParameters(transform, parameters)
 }
