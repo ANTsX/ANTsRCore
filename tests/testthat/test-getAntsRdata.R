@@ -3,10 +3,10 @@ context("read in each data set")
 
 validlist = c(
   "r16", "r27", "r30", "r62", "r64", "r85", "r64",
-  # "nki", 
+  # "nki",
   "pcasl",
   "ch2","ch2a","ch2b","finn","finncsv",
-  "mni","mnia","mnib","mnit","mninat","mnijhu1","mnijhu2","mnidfn","mniyeo",
+  "mni","mnia","mnib", "mninat","mnijhu1","mnijhu2","mnidfn","mniyeo",
   "atroposseg","simple","fmrinetworks",
   "rsbold", "rsboldmask", "rsboldseg", "rsboldpts", "decslice", "dtislice",
   "adfmri", "population", "surf", "blob", "rand")
@@ -23,4 +23,3 @@ for (ilist in validlist) {
   # print(res)
   # cloned = antsImageClone(res)
 }
-
