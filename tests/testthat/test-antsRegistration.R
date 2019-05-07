@@ -89,7 +89,6 @@ test_that("bad type of Transform", {
       typeofTransform = "sdf"
     )
   })
-  rm(res)
   
 })
 
