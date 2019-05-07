@@ -77,9 +77,9 @@ before_install:
   - cd ANTsRCore
   - if [[ "${gh_user}" == "muschellij2" ]]; 
     then 
-      binary_install muschellij2/ITKR
+      binary_install muschellij2/ITKR ;
     else 
-      binary_install stnava/ITKR
+      binary_install stnava/ITKR ;
     fi
   - export ants_user=ANTsX
 #  - install_missing_remote_deps ${ants_user}/ANTsRCore
