@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Image Read — antsImageRead • ANTsRCore</title>
+<title>displacementFieldFromAntsrTransform — displacementFieldFromAntsrTransform • ANTsRCore</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Image Read — antsImageRead" />
+<meta property="og:title" content="displacementFieldFromAntsrTransform — displacementFieldFromAntsrTransform" />
 
-<meta property="og:description" content="Read an image file into an S4 object of class 'antsImage'." />
+<meta property="og:description" content="Conver antsrTransform to displacement field" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,55 +94,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Image Read</h1>
+    <h1>displacementFieldFromAntsrTransform</h1>
     
-    <div class="hidden name"><code>antsImageRead.Rd</code></div>
+    <div class="hidden name"><code>displacementFieldFromAntsrTransform.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Read an image file into an S4 object of class 'antsImage'.</p>
+    <p>Conver antsrTransform to displacement field</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>antsImageRead</span>(<span class='no'>filename</span>, <span class='kw'>dimension</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pixeltype</span> <span class='kw'>=</span> <span class='st'>"float"</span>)</pre>
+    <pre class="usage"><span class='fu'>displacementFieldFromAntsrTransform</span>(<span class='no'>tx</span>, <span class='kw'>reference</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>filename</th>
-      <td><p>Name of the file to read the image from.</p></td>
+      <th>tx</th>
+      <td><p>antsrTransform</p></td>
     </tr>
     <tr>
-      <th>dimension</th>
-      <td><p>Number of dimensions of the image read. This need not be
-the same as the dimensions of the image in the file. Allowed values: 2, 3,
-4. If not provided, the dimension is obtained from the image file</p></td>
-    </tr>
-    <tr>
-      <th>pixeltype</th>
-      <td><p>C++ datatype to be used to represent the pixels read. This
-datatype need not be the same as the datatype used in the file. Allowed
-values: 'double', 'float' , 'unsigned int' , 'unsigned char'.</p></td>
+      <th>reference</th>
+      <td><p>reference antsImage if converting linear transform</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>S4 object of Class 'antsImage' -- Success<br /> 1 -- Failure</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='antsImageWrite.html'>antsImageWrite</a></code></p></div>
+    <p>antsImage</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='no'>fn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='getANTsRData.html'>getANTsRData</a></span>( <span class='st'>"r16"</span> )
-<span class='no'>fi</span> <span class='kw'>&lt;-</span> <span class='fu'>antsImageRead</span>( <span class='no'>fn</span> )
-<span class='no'>img</span> <span class='kw'>&lt;-</span> <span class='fu'>antsImageRead</span>( <span class='no'>fn</span> , <span class='kw'>dimension</span> <span class='kw'>=</span> <span class='fl'>2</span>  )
-<span class='no'>img</span> <span class='kw'>&lt;-</span> <span class='fu'>antsImageRead</span>( <span class='no'>fn</span> , <span class='kw'>dimension</span> <span class='kw'>=</span> <span class='fl'>2</span> , <span class='st'>'double'</span> )</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -150,14 +132,8 @@ values: 'double', 'float' , 'unsigned int' , 'unsigned char'.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+          </ul>
 
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Shrinidhi KL</p>
   </div>
 </div>
 

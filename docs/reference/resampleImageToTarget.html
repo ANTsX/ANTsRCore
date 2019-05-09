@@ -65,7 +65,7 @@ matrix to achieve proper resampling." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ANTsRCore</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3.9</span>
       </span>
     </div>
 
@@ -161,7 +161,9 @@ matrix to achieve proper resampling.</p>
     <pre class="examples"><div class='input'>
 <span class='no'>fname</span> <span class='kw'>=</span> <span class='fu'><a href='getANTsRData.html'>getANTsRData</a></span>(<span class='st'>"r16"</span>)
 <span class='no'>fi</span><span class='kw'>&lt;-</span><span class='fu'><a href='antsImageRead.html'>antsImageRead</a></span>( <span class='no'>fname</span>)
-<span class='no'>fi2mm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='resampleImage.html'>resampleImage</a></span>(<span class='no'>fi</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>2</span>), <span class='kw'>useVoxels</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>interpType</span> <span class='kw'>=</span> <span class='st'>'linear'</span>)</div><div class='output co'>#&gt; stoi: no conversion</div><div class='input'><span class='no'>resampled</span> <span class='kw'>&lt;-</span> <span class='fu'>resampleImageToTarget</span>(<span class='no'>fi2mm</span>, <span class='no'>fi</span>)</div><div class='output co'>#&gt; <span class='error'>Error in dim(in_image): Image not yet allocated</span></div><div class='input'><span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/testthat/topics/output-expectations'>expect_error</a></span>(<span class='fu'>resampleImageToTarget</span>(<span class='no'>fi2mm</span>))
+<span class='no'>fi2mm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='resampleImage.html'>resampleImage</a></span>(<span class='no'>fi</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>2</span>), <span class='kw'>useVoxels</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>interpType</span> <span class='kw'>=</span> <span class='st'>'linear'</span>)
+<span class='no'>resampled</span> <span class='kw'>&lt;-</span> <span class='fu'>resampleImageToTarget</span>(<span class='no'>fi2mm</span>, <span class='no'>fi</span>)
+<span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/testthat/topics/output-expectations'>expect_error</a></span>(<span class='fu'>resampleImageToTarget</span>(<span class='no'>fi2mm</span>))
 <span class='no'>resampled</span> <span class='kw'>&lt;-</span> <span class='fu'>resampleImageToTarget</span>(<span class='no'>fi2mm</span>, <span class='no'>fname</span>, <span class='kw'>interpType</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

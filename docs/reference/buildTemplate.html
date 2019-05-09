@@ -66,7 +66,7 @@ However, this code can be useful for smaller problems/populations." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ANTsRCore</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3.9</span>
       </span>
     </div>
 
@@ -162,7 +162,7 @@ passed to <code><a href='antsRegistration.html'>antsRegistration</a></code></p><
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>pop</span> <span class='kw'>=</span> <span class='fu'><a href='getANTsRData.html'>getANTsRData</a></span>( <span class='st'>"population"</span> )
 <span class='no'>avg</span> <span class='kw'>=</span> <span class='fu'><a href='antsAverageImages.html'>antsAverageImages</a></span>( <span class='no'>pop</span> ) <span class='co'># this is in ANTsR</span>
-<span class='no'>template</span> <span class='kw'>=</span> <span class='fu'>buildTemplate</span>( <span class='no'>avg</span>, <span class='no'>pop</span>, <span class='st'>'SyN'</span>, <span class='kw'>iterations</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='message'>Iteration: 1</span></div><div class='output co'>#&gt; stoi: no conversion</div><div class='output co'>#&gt; <span class='error'>Error in antsRegistration(template, imgList[[k]], typeofTransform = typeofTransform,     verbose = verbose &gt; 1, ...): Registration failed. Use verbose mode to diagnose.</span></div></pre>
+<span class='no'>template</span> <span class='kw'>=</span> <span class='fu'>buildTemplate</span>( <span class='no'>avg</span>, <span class='no'>pop</span>, <span class='st'>'SyN'</span>, <span class='kw'>iterations</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='message'>Iteration: 1</span></div><div class='output co'>#&gt; <span class='message'>Averaging images</span></div><div class='output co'>#&gt; <span class='message'>Averaging warped composed transforms</span></div><div class='output co'>#&gt; <span class='message'>Sharpening template image1.72272745768129</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

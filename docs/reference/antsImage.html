@@ -64,7 +64,7 @@ actual image is of C++ type 'itk::image&amp;lt; pixeltype , dimension &amp;gt;::
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ANTsRCore</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3.9</span>
       </span>
     </div>
 
@@ -142,6 +142,11 @@ etc noting that short is not supported</p></td>
       <th>isVector</th>
       <td><p>logical indicator of the image is a vector</p></td>
     </tr>
+    <tr>
+      <th>filename</th>
+      <td><p>character filename if the data was read in, otherwise
+""</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
@@ -160,6 +165,9 @@ etc noting that short is not supported</p></dd>
 etc noting that short is not supported</p></dd>
     <dt><code>dimension</code></dt><dd><p>usually 2 or 3 but can be 4</p></dd>
     <dt><code>components</code></dt><dd><p>number of pixel components</p></dd>
+    <dt><code>isVector</code></dt><dd><p>boolean</p></dd>
+    <dt><code>filename</code></dt><dd><p>character filename if the data was read in, otherwise
+""</p></dd>
 </dl>
     
 

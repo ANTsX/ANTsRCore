@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ANTsRCore</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3.9</span>
       </span>
     </div>
 
@@ -105,7 +105,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>antsImageWrite</span>(<span class='no'>image</span>, <span class='no'>filename</span>)</pre>
+    <pre class="usage"><span class='fu'>antsImageWrite</span>(<span class='no'>image</span>, <span class='no'>filename</span>, <span class='kw'>as.tensor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -117,6 +117,10 @@
     <tr>
       <th>filename</th>
       <td><p>Name of the file to write the image to.</p></td>
+    </tr>
+    <tr>
+      <th>as.tensor</th>
+      <td><p>flag indicating to write as symmetric tensor if image has 6 components</p></td>
     </tr>
     </table>
     
