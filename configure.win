@@ -49,9 +49,8 @@ PKG_LIBS="${PKG_LIBS} ${ADD_PKG_LIBS}"
 #                   \${libants} \${libitk} \${libants} \${itklib} \${libants} " >> Makevars.win
 
 echo "PKG_LIBS=\"\${libitk}\" \"\${libants}\" \"\${libitk}\" \"\${libants}\" \"\${libitk}\" \
-               \"\${libants}\" \"\${libitk}\"  \"\${libants}\" \"\${itklib}\" \"\${libants}\" \
-               \"\${libitk}\"  \"\${libants}\" \"\${itklib}\"  \"\${libants}\" \"\${itklib}\" \
-               \"\${libants}\" \"\${libitk}\"  \"\${libants}\" \"\${itklib}\"" >> Makevars.win
+               \"\${libants}\" \"\${libitk}\"  \"\${libants}\" \"\${libitk}\" \"\${libants}\" \
+               \"\${libitk}\"  \"\${libants}\" \"\${libitk}\"  \"\${libants}\" \"\${libitk}\"" >> Makevars.win
 
 echo ".PHONY: all libs cleaner" >> Makevars.win
 
