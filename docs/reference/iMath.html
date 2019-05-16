@@ -65,7 +65,7 @@ the full iMath in ANTs, on which this function is based." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ANTsRCore</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3.9</span>
       </span>
     </div>
 
@@ -152,7 +152,8 @@ Some operations may not be valid (WIP), but most are.</p></td>
 <span class='no'>tem</span><span class='kw'>&lt;-</span><span class='fu'><a href='antsImageRead.html'>antsImageRead</a></span>(<span class='no'>tf</span>)
 <span class='no'>mask</span> <span class='kw'>=</span> <span class='no'>tem</span> <span class='kw'>&gt;</span> <span class='fl'>20</span>
 <span class='no'>fh</span> <span class='kw'>&lt;-</span> <span class='fu'>iMath</span>( <span class='no'>mask</span> , <span class='st'>"FillHoles"</span> )  <span class='co'># list all ops</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/stopifnot'>stopifnot</a></span>(<span class='fu'><a href='antsImageSummary.html'>range</a></span>(<span class='no'>fh</span>) <span class='kw'>==</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): range(fh) == c(0, 2) are not all TRUE</span></div><div class='input'><span class='no'>filled</span> <span class='kw'>=</span> <span class='no'>fh</span> <span class='kw'>&gt;</span> <span class='fl'>0</span></div></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/stopifnot'>stopifnot</a></span>(<span class='fu'><a href='antsImageSummary.html'>range</a></span>(<span class='no'>fh</span>) <span class='kw'>==</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>))
+<span class='no'>filled</span> <span class='kw'>=</span> <span class='no'>fh</span> <span class='kw'>&gt;</span> <span class='fl'>0</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

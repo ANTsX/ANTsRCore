@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ANTsRCore</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3.9</span>
       </span>
     </div>
 
@@ -171,8 +171,8 @@
 #&gt; arr1     0     1     2     3
 #&gt;    0 47118     0     0     0
 #&gt;    1     0  2383     0     0
-#&gt;    2     0     0  7353     6
-#&gt;    3     0     0     1  8675</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(<span class='no'>arr1</span>, <span class='no'>arr2</span>)</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='no'>seg</span><span class='kw'>&lt;-</span><span class='fu'>kmeansSegmentation</span>( <span class='no'>orig</span>, <span class='fl'>3</span>, <span class='kw'>use_random_seed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span> )
+#&gt;    2     0     1  7357     0
+#&gt;    3     0     0     2  8675</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(<span class='no'>arr1</span>, <span class='no'>arr2</span>)</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='no'>seg</span><span class='kw'>&lt;-</span><span class='fu'>kmeansSegmentation</span>( <span class='no'>orig</span>, <span class='fl'>3</span>, <span class='kw'>use_random_seed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span> )
 <span class='no'>seg2</span><span class='kw'>&lt;-</span><span class='fu'>kmeansSegmentation</span>( <span class='no'>orig</span>, <span class='fl'>3</span>, <span class='kw'>use_random_seed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span> )
 <span class='no'>arr1</span> <span class='kw'>=</span> <span class='fu'><a href='as.array.html'>as.array</a></span>(<span class='no'>seg</span>$<span class='no'>segmentation</span>)
 <span class='no'>arr2</span> <span class='kw'>=</span> <span class='fu'><a href='as.array.html'>as.array</a></span>(<span class='no'>seg2</span>$<span class='no'>segmentation</span>)

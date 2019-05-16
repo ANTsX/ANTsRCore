@@ -69,7 +69,7 @@ user is advised to familiarize with the standards established in examples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ANTsRCore</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3.9</span>
       </span>
     </div>
 
@@ -197,31 +197,175 @@ this will force the function to return a composite transformation filename.</p><
 <span class='co'># will give the full form of help</span>
 <span class='fu'>antsApplyTransforms</span>(<span class='st'>"-h"</span>)</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='co'># see antsRegistration</span>
 <span class='co'># example 1 - simplified</span>
-<span class='no'>fixed</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='antsImageRead.html'>antsImageRead</a></span>( <span class='fu'><a href='getANTsRData.html'>getANTsRData</a></span>(<span class='st'>"r16"</span>) ,<span class='fl'>2</span>)
-<span class='no'>moving</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='antsImageRead.html'>antsImageRead</a></span>( <span class='fu'><a href='getANTsRData.html'>getANTsRData</a></span>(<span class='st'>"r64"</span>) ,<span class='fl'>2</span>)
+<span class='no'>fixed</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ri.html'>ri</a></span>( <span class='fl'>1</span> )
+<span class='no'>moving</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='ri.html'>ri</a></span>( <span class='fl'>2</span> )
 <span class='no'>fixed</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='resampleImage.html'>resampleImage</a></span>(<span class='no'>fixed</span>,<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>64</span>,<span class='fl'>64</span>),<span class='fl'>1</span>,<span class='fl'>0</span>)
 <span class='no'>moving</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='resampleImage.html'>resampleImage</a></span>(<span class='no'>moving</span>,<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>68</span>,<span class='fl'>68</span>),<span class='fl'>1</span>,<span class='fl'>0</span>)
-<span class='no'>mytx</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='antsRegistration.html'>antsRegistration</a></span>(<span class='kw'>fixed</span><span class='kw'>=</span><span class='no'>fixed</span> , <span class='kw'>moving</span><span class='kw'>=</span><span class='no'>moving</span> ,
-  <span class='kw'>typeofTransform</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"SyN"</span>) )</div><div class='output co'>#&gt; stoi: no conversion</div><div class='output co'>#&gt; <span class='error'>Error in antsRegistration(fixed = fixed, moving = moving, typeofTransform = c("SyN")): Registration failed. Use verbose mode to diagnose.</span></div><div class='input'><span class='no'>mywarpedimage</span> <span class='kw'>&lt;-</span> <span class='fu'>antsApplyTransforms</span>( <span class='kw'>fixed</span><span class='kw'>=</span><span class='no'>fixed</span>,<span class='kw'>moving</span><span class='kw'>=</span><span class='no'>moving</span>,
-  <span class='kw'>transformlist</span><span class='kw'>=</span><span class='no'>mytx</span>$<span class='no'>fwdtransforms</span> )</div><div class='output co'>#&gt; <span class='error'>Error in inherits(x, "antsImage"): object 'mytx' not found</span></div><div class='input'><span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/testthat/topics/logical-expectations'>expect_true</a></span>(<span class='fu'><a href='antsImagePhysicalSpaceConsistency.html'>antsImagePhysicalSpaceConsistency</a></span>(<span class='no'>mywarpedimage</span>, <span class='no'>fixed</span>))</div><div class='output co'>#&gt; <span class='error'>Error in check_ants(img1): object 'mywarpedimage' not found</span></div><div class='input'><span class='no'>invwarped_image</span> <span class='kw'>&lt;-</span> <span class='fu'>antsApplyTransforms</span>( <span class='kw'>fixed</span><span class='kw'>=</span><span class='no'>moving</span>,<span class='kw'>moving</span><span class='kw'>=</span><span class='no'>fixed</span>,
-  <span class='kw'>transformlist</span><span class='kw'>=</span><span class='no'>mytx</span>$<span class='no'>invtransforms</span> )</div><div class='output co'>#&gt; <span class='error'>Error in inherits(x, "antsImage"): object 'mytx' not found</span></div><div class='input'><span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/testthat/topics/logical-expectations'>expect_true</a></span>(<span class='fu'><a href='antsImagePhysicalSpaceConsistency.html'>antsImagePhysicalSpaceConsistency</a></span>(<span class='no'>invwarped_image</span>, <span class='no'>moving</span>))</div><div class='output co'>#&gt; <span class='error'>Error in check_ants(img1): object 'invwarped_image' not found</span></div><div class='input'><span class='co'># full access via listing the inputs in standard ANTs format</span>
+<span class='no'>mytx</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='antsRegistration.html'>antsRegistration</a></span>( <span class='kw'>fixed</span><span class='kw'>=</span><span class='no'>fixed</span>, <span class='kw'>moving</span><span class='kw'>=</span><span class='no'>moving</span>,
+  <span class='kw'>typeofTransform</span> <span class='kw'>=</span> <span class='st'>"SyN"</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>printArgs</span><span class='kw'>=</span><span class='fl'>TRUE</span> )</div><div class='output co'>#&gt; [[1]]
+#&gt; [1] "-d"
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] "2"
+#&gt; 
+#&gt; [[3]]
+#&gt; [1] "-r"
+#&gt; 
+#&gt; [[4]]
+#&gt; [1] "[0x7f9955a7f460,0x7f995c891e20,1]"
+#&gt; 
+#&gt; [[5]]
+#&gt; [1] "-m"
+#&gt; 
+#&gt; [[6]]
+#&gt; [1] "mattes[0x7f9955a7f460,0x7f995c891e20,1,32,regular,0.2]"
+#&gt; 
+#&gt; [[7]]
+#&gt; [1] "-t"
+#&gt; 
+#&gt; [[8]]
+#&gt; [1] "Affine[0.25]"
+#&gt; 
+#&gt; [[9]]
+#&gt; [1] "-c"
+#&gt; 
+#&gt; [[10]]
+#&gt; [1] "2100x1200x1200x0"
+#&gt; 
+#&gt; [[11]]
+#&gt; [1] "-s"
+#&gt; 
+#&gt; [[12]]
+#&gt; [1] "3x2x1x0"
+#&gt; 
+#&gt; [[13]]
+#&gt; [1] "-f"
+#&gt; 
+#&gt; [[14]]
+#&gt; [1] "4x2x2x1"
+#&gt; 
+#&gt; [[15]]
+#&gt; [1] "-x"
+#&gt; 
+#&gt; [[16]]
+#&gt; [1] "[NA,NA]"
+#&gt; 
+#&gt; [[17]]
+#&gt; [1] "-m"
+#&gt; 
+#&gt; [[18]]
+#&gt; [1] "mattes[0x7f9955a7f460,0x7f995c891e20,1,32]"
+#&gt; 
+#&gt; [[19]]
+#&gt; [1] "-t"
+#&gt; 
+#&gt; [[20]]
+#&gt; [1] "SyN[0.2,3,0]"
+#&gt; 
+#&gt; [[21]]
+#&gt; [1] "-c"
+#&gt; 
+#&gt; [[22]]
+#&gt; [1] "[ 40x20x0 ,1e-7,8]"
+#&gt; 
+#&gt; [[23]]
+#&gt; [1] "-s"
+#&gt; 
+#&gt; [[24]]
+#&gt; [1] "2x1x0"
+#&gt; 
+#&gt; [[25]]
+#&gt; [1] "-f"
+#&gt; 
+#&gt; [[26]]
+#&gt; [1] "4x2x1"
+#&gt; 
+#&gt; [[27]]
+#&gt; [1] "-u"
+#&gt; 
+#&gt; [[28]]
+#&gt; [1] "0"
+#&gt; 
+#&gt; [[29]]
+#&gt; [1] "-z"
+#&gt; 
+#&gt; [[30]]
+#&gt; [1] "1"
+#&gt; 
+#&gt; [[31]]
+#&gt; [1] "-l"
+#&gt; 
+#&gt; [[32]]
+#&gt; [1] 0
+#&gt; 
+#&gt; [[33]]
+#&gt; [1] "-o"
+#&gt; 
+#&gt; [[34]]
+#&gt; [1] "[/tmp//Rtmpo0oicG/file789642ec5965,0x7f9955a00d50,0x7f9955aacce0]"
+#&gt; 
+#&gt; [[35]]
+#&gt; [1] "-x"
+#&gt; 
+#&gt; [[36]]
+#&gt; [1] "[NA,NA]"
+#&gt; 
+#&gt; [[37]]
+#&gt; [1] "--float"
+#&gt; 
+#&gt; [[38]]
+#&gt; [1] "1"
+#&gt; 
+#&gt; [[39]]
+#&gt; [1] "--random-seed"
+#&gt; 
+#&gt; [[40]]
+#&gt; [1] "1"
+#&gt; 
+#&gt; [[41]]
+#&gt; [1] "--write-composite-transform"
+#&gt; 
+#&gt; [[42]]
+#&gt; [1] "0"
+#&gt; 
+#&gt; [[43]]
+#&gt; [1] "-v"
+#&gt; 
+#&gt; [[44]]
+#&gt; [1] "1"
+#&gt; </div><div class='input'><span class='no'>mywarpedimage</span> <span class='kw'>&lt;-</span> <span class='fu'>antsApplyTransforms</span>( <span class='kw'>fixed</span><span class='kw'>=</span><span class='no'>fixed</span>, <span class='kw'>moving</span><span class='kw'>=</span><span class='no'>moving</span>,
+  <span class='kw'>transformlist</span><span class='kw'>=</span><span class='no'>mytx</span>$<span class='no'>fwdtransforms</span> )
+<span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/testthat/topics/logical-expectations'>expect_true</a></span>(<span class='fu'><a href='antsImagePhysicalSpaceConsistency.html'>antsImagePhysicalSpaceConsistency</a></span>(<span class='no'>mywarpedimage</span>, <span class='no'>fixed</span>))
+<span class='no'>invwarped_image</span> <span class='kw'>&lt;-</span> <span class='fu'>antsApplyTransforms</span>( <span class='kw'>fixed</span><span class='kw'>=</span><span class='no'>moving</span>,<span class='kw'>moving</span><span class='kw'>=</span><span class='no'>fixed</span>,
+  <span class='kw'>transformlist</span><span class='kw'>=</span><span class='no'>mytx</span>$<span class='no'>invtransforms</span> )
+<span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/testthat/topics/logical-expectations'>expect_true</a></span>(<span class='fu'><a href='antsImagePhysicalSpaceConsistency.html'>antsImagePhysicalSpaceConsistency</a></span>(<span class='no'>invwarped_image</span>, <span class='no'>moving</span>))
+<span class='co'># full access via listing the inputs in standard ANTs format</span>
 
 <span class='no'>res1</span> <span class='kw'>&lt;-</span> <span class='fu'>antsApplyTransforms</span>( <span class='kw'>fixed</span><span class='kw'>=</span><span class='no'>fixed</span>,<span class='kw'>moving</span><span class='kw'>=</span><span class='no'>moving</span>,
   <span class='kw'>transformlist</span><span class='kw'>=</span><span class='no'>mytx</span>$<span class='no'>fwdtransforms</span>[<span class='fl'>2</span>],
-  <span class='kw'>whichtoinvert</span> <span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in inherits(x, "antsImage"): object 'mytx' not found</span></div><div class='input'><span class='no'>cfile</span> <span class='kw'>&lt;-</span> <span class='fu'>antsApplyTransforms</span>( <span class='kw'>fixed</span><span class='kw'>=</span><span class='no'>fixed</span>,<span class='kw'>moving</span><span class='kw'>=</span><span class='no'>moving</span>,
+  <span class='kw'>whichtoinvert</span> <span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;  [1] "-d"                                                     
+#&gt;  [2] "2"                                                      
+#&gt;  [3] "-i"                                                     
+#&gt;  [4] "&lt;pointer: 0x7f9941c04d10&gt;"                              
+#&gt;  [5] "-o"                                                     
+#&gt;  [6] "&lt;pointer: 0x7f9941dc9100&gt;"                              
+#&gt;  [7] "-r"                                                     
+#&gt;  [8] "&lt;pointer: 0x7f9951d03330&gt;"                              
+#&gt;  [9] "-n"                                                     
+#&gt; [10] "linear"                                                 
+#&gt; [11] "-t"                                                     
+#&gt; [12] "[/tmp//Rtmpo0oicG/file789642ec59650GenericAffine.mat,1]"</div><div class='input'><span class='no'>cfile</span> <span class='kw'>&lt;-</span> <span class='fu'>antsApplyTransforms</span>( <span class='kw'>fixed</span><span class='kw'>=</span><span class='no'>fixed</span>,<span class='kw'>moving</span><span class='kw'>=</span><span class='no'>moving</span>,
   <span class='kw'>transformlist</span><span class='kw'>=</span><span class='no'>mytx</span>$<span class='no'>fwdtransforms</span>,
-  <span class='kw'>compose</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>() )</div><div class='output co'>#&gt; <span class='error'>Error in inherits(x, "antsImage"): object 'mytx' not found</span></div><div class='input'><span class='no'>cimg</span> <span class='kw'>=</span> <span class='fu'><a href='antsImageRead.html'>antsImageRead</a></span>(<span class='no'>cfile</span>)</div><div class='output co'>#&gt; <span class='error'>Error in antsImageRead(cfile): object 'cfile' not found</span></div><div class='input'><span class='no'>cout</span> <span class='kw'>&lt;-</span> <span class='fu'>antsApplyTransforms</span>( <span class='kw'>fixed</span><span class='kw'>=</span><span class='no'>fixed</span>,<span class='kw'>moving</span><span class='kw'>=</span><span class='no'>moving</span>,
-  <span class='kw'>transformlist</span><span class='kw'>=</span><span class='no'>cimg</span>)</div><div class='output co'>#&gt; <span class='error'>Error in inherits(x, "antsImage"): object 'cimg' not found</span></div><div class='input'><span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/testthat/topics/output-expectations'>expect_error</a></span>(
+  <span class='kw'>compose</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>() )
+<span class='no'>cimg</span> <span class='kw'>=</span> <span class='fu'><a href='antsImageRead.html'>antsImageRead</a></span>(<span class='no'>cfile</span>)
+<span class='no'>cout</span> <span class='kw'>&lt;-</span> <span class='fu'>antsApplyTransforms</span>( <span class='kw'>fixed</span><span class='kw'>=</span><span class='no'>fixed</span>,<span class='kw'>moving</span><span class='kw'>=</span><span class='no'>moving</span>,
+  <span class='kw'>transformlist</span><span class='kw'>=</span><span class='no'>cimg</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: transformlist is an antsImage, creating a temporary file</span></div><div class='input'><span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/testthat/topics/output-expectations'>expect_error</a></span>(
 <span class='fu'>antsApplyTransforms</span>( <span class='kw'>fixed</span><span class='kw'>=</span><span class='no'>fixed</span>,<span class='kw'>moving</span><span class='kw'>=</span><span class='no'>moving</span>,
   <span class='kw'>transformlist</span><span class='kw'>=</span><span class='no'>cimg</span>, <span class='kw'>whichtoinvert</span> <span class='kw'>=</span><span class='fl'>1</span>), <span class='st'>"nnot invert transform"</span>
-)</div><div class='output co'>#&gt; <span class='error'>Error: `antsApplyTransforms(...)` threw an error with unexpected message.</span>
-#&gt; <span class='error'>Expected match: "nnot invert transform"</span>
-#&gt; <span class='error'>Actual message: "object 'cimg' not found"</span></div><div class='input'><span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/testthat/topics/output-expectations'>expect_error</a></span>(
+)</div><div class='output co'>#&gt; <span class='warning'>Warning: transformlist is an antsImage, creating a temporary file</span></div><div class='input'><span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/testthat/topics/output-expectations'>expect_error</a></span>(
 <span class='fu'>antsApplyTransforms</span>( <span class='kw'>fixed</span><span class='kw'>=</span><span class='no'>fixed</span>,<span class='kw'>moving</span><span class='kw'>=</span><span class='no'>moving</span>,
   <span class='kw'>transformlist</span><span class='kw'>=</span><span class='no'>cimg</span>, <span class='kw'>whichtoinvert</span> <span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>)), <span class='st'>"same length"</span>
-)</div><div class='output co'>#&gt; <span class='error'>Error: `antsApplyTransforms(...)` threw an error with unexpected message.</span>
-#&gt; <span class='error'>Expected match: "same length"</span>
-#&gt; <span class='error'>Actual message: "object 'cimg' not found"</span></div><div class='input'><span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/testthat/topics/output-expectations'>expect_error</a></span>(<span class='fu'>antsApplyTransforms</span>( <span class='kw'>fixed</span><span class='kw'>=</span><span class='no'>fixed</span>,<span class='kw'>moving</span><span class='kw'>=</span><span class='no'>moving</span>,
+)</div><div class='output co'>#&gt; <span class='warning'>Warning: transformlist is an antsImage, creating a temporary file</span></div><div class='input'><span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/testthat/topics/output-expectations'>expect_error</a></span>(<span class='fu'>antsApplyTransforms</span>( <span class='kw'>fixed</span><span class='kw'>=</span><span class='no'>fixed</span>,<span class='kw'>moving</span><span class='kw'>=</span><span class='no'>moving</span>,
   <span class='kw'>transformlist</span><span class='kw'>=</span> <span class='st'>""</span>)
  )</div></pre>
   </div>
