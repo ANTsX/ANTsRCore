@@ -22,7 +22,7 @@
 \item{color.img}{color for main image.}
 
 \item{color.overlay}{the color for the overlay , e.g c('blue','red') length
-of this list should match the image list.  anything from colormap package.}
+of this list should match the image list.}
 
 \item{axis}{the axis to slice (1 , 2 or 3)}
 

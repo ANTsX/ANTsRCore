@@ -27,7 +27,6 @@ Imports:
     Rcpp,
     ITKR (>= 0.5.0),
     RcppEigen,
-    colormap,
     tools,
     magrittr,
     stats,
