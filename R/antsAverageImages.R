@@ -48,8 +48,8 @@ antsAverageImages <- function( imageList, normalize = FALSE, weights )
   if ( length( weights ) != length( imageList ) )
     stop( "length( weights ) != length( imageList )" )
   ct = 1
-  for ( i in imageList ) {
-
+  pb = utils::txtProgressBar(min = 0, max = length(imageList))
+  for (i in imageList) {
     if (isfile) {
       img = antsImageRead(i)
       if ( any(dim(img) != masterdim) ) {
@@ -64,7 +64,9 @@ antsAverageImages <- function( imageList, normalize = FALSE, weights )
       img <- img / mean( img )
     }
     avg <- avg + img * weights[ ct ]
+    utils::setTxtProgressBar(pb, value = ct)
     ct = ct + 1
   }
+  close(pb)
   return( avg )
 }
