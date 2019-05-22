@@ -8,6 +8,7 @@ fixed <- resampleImage(fixed, c(64, 64), 1, 0)
 moving <- resampleImage(moving, c(68, 68), 1, 0)
 mytx <- antsRegistration(fixed = fixed ,
                          moving = moving ,
+                         verbose = TRUE,
                          typeofTransform = c("SyN"))
 
 mywarpedimage <- antsApplyTransforms(

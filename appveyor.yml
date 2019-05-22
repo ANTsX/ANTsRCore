@@ -22,15 +22,27 @@ install:
 cache:
   - C:\RLibrary
 
+
 # Adapt as necessary starting from here
 build_script:
   - if not exist "C:\rtm" mkdir C:\rtm
   - set TMP=C:/rtm
   - set TEMP=C:/rtm
   - set TMPDIR=C:/rtm
-  - ps: Invoke-WebRequest https://github.com/stnava/ITKR/releases/download/v0.4.17.5.1/ITKR_0.4.17.5_R3.5.zip -OutFile ".\ITKR.zip"
-  - Rscript -e "install.packages('ITKR.zip', repos = NULL)"  
-  - rm ITKR.zip  
+  - ls
+  - echo "Downloading and installing travis_helpers"
+  - Rscript -e "install.packages('Rcpp', repos = c(CRAN='http://cran.rstudio.com'))" 
+  - ps: Invoke-WebRequest http://bit.ly/travis_helpers -OutFile "..\travis_helpers.sh"
+  - ps: echo '@bash.exe ../travis_helpers.sh %*' | Out-File -Encoding ASCII .\travis_helpers.sh.cmd
+  - bash -c "echo '^travis_helpers\.sh\.cmd$' >> .Rbuildignore"
+  - echo "Remote deps for ITKR"
+  - travis_helpers.sh install_missing_remote_deps muschellij2/ITKR
+  - echo "Binary Install ITKR"
+  - travis_helpers.sh gh_binary_install muschellij2/ITKR 
+  - Rscript -e "devtools::session_info('ITKR')";  
+  # - ps: Invoke-WebRequest https://github.com/muschellij2/ITKR/releases/download/v0.4.19.1/ITKR_0.4.19_R3.5.zip -OutFile ".\ITKR.zip"
+  # - Rscript -e "install.packages('ITKR.zip', repos = NULL)"  
+  # - rm ITKR.zip  
   # - git clone https://github.com/stnava/ITKR
   # - R CMD INSTALL ITKR
   - Rscript -e "x = read.dcf('DESCRIPTION'); x = as.data.frame(x, stringsAsFactors = FALSE); x$Remotes = NULL; write.dcf(x, 'DESCRIPTION');"
@@ -106,3 +118,4 @@ artifacts:
 
   - path: '\*_*.zip'
     name: Bits
+

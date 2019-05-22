@@ -29,7 +29,7 @@ osx_image: xcode9
 env:
   global:
   - R_BUILD_ARGS=" --no-build-vignettes --no-manual "
-  - R_CHECK_ARGS=" --timings --as-cran --no-manual  --install-args=--build"
+  - R_CHECK_ARGS=" --timings --as-cran --no-manual --no-vignettes --install-args=--build"
   - RGL_USE_NULL=TRUE
   - R_CHECK_TIME="TRUE"
   - R_CHECK_TESTS="TRUE"
@@ -64,7 +64,7 @@ before_install:
   - echo "CXX1XSTD=${CXX1XSTD}, CXX11=${CXX11}"
   - clang_cxx
   - hdf5_install ;
-  - export cmake_version="3.11"
+  - export cmake_version="3.14"
   - cmake --version
   - x=`cmake_setup`; echo "${x}"; eval ${x};
   - cmake --version
@@ -75,7 +75,12 @@ before_install:
   - git clone https://github.com/muschellij2/ghtravis.git
   - R CMD INSTALL ghtravis
   - cd ANTsRCore
-  - gh_binary_install  stnava/ITKR
+  - if [[ "${gh_user}" == "muschellij2" ]]; 
+    then 
+      gh_binary_install muschellij2/ITKR ;
+    else 
+      gh_binary_install stnava/ITKR ;
+    fi
   - export ants_user=ANTsX
 #  - install_missing_remote_deps ${ants_user}/ANTsRCore
 #  - echo "Done Installing Missing Deps"
@@ -135,16 +140,26 @@ before_deploy:
     fi
 
 deploy:
-  provider: releases
-  api_key:
-    secure: Hm3kbkCySSneOe8644MWudbNAphB4+YDpGhWCeeHuSiHoQU6+Qmx/f014iVM5JqZI72EGX21hSygqfD9jB8O78J4imO4xMUnNciA80pV/NlUnzwMiYVfpYAga3QQApvSJZuBA/4+kJXlFZkigWGXuzb8W5Qty0xY1KV9FuaUzo5bRxCPa4f3t3PP/Ikjhla2vH53UHo+YiRIfGlH5Rn3p2kDS5390cfdO5+1kn8p5UMZV7C1B2VAE2OO0QxtVmjZbpAxE/k+QGdeGMXBfu5bCfERO3Wr/sfITaTu9j5Oulv/fDfVe6kuIRhAkX0eUn+CEkEhBgSO6yp1+abcagxIRVYfF3hp5e6+cOeGC/QH0z9kSsCim3SdYvz+rFhtzS+vO4LTO8wgGzyMLalvH2Jopf4OrRbSwbmiLpQzR/fFrmx9IZt0o4lD9+KW9Nhj0o9+V6NHg+Usx1wbTVYDjh53op6AT5c6E4Zej0gLeG9gXXtICtcEE1pCLiK8EX11cCUpgRD0NcG+F/dcPY5kLtf4/Uw/krhwz8OagPk9Mt3aleu0iepkuwQoGNoy2XBzc0zcaGICC3Y23KW/VZRc0xZGjiUmQXyMlbuB/dOYr0V8VGVPanRgDksr+ML0B4nqdfbtqTC1FQl2ORtG7iCDuArAZo7bokisZ2GTSA2F85BpfRY=
-  file: ${PKG_FILE_NAME}
-  skip_cleanup: true
-  on:
-    tags: true
-    repo: ${gh_user}/${PROJ_DIR}
-    all_branches: true
-
+  - provider: releases
+    api_key:
+      secure: Hm3kbkCySSneOe8644MWudbNAphB4+YDpGhWCeeHuSiHoQU6+Qmx/f014iVM5JqZI72EGX21hSygqfD9jB8O78J4imO4xMUnNciA80pV/NlUnzwMiYVfpYAga3QQApvSJZuBA/4+kJXlFZkigWGXuzb8W5Qty0xY1KV9FuaUzo5bRxCPa4f3t3PP/Ikjhla2vH53UHo+YiRIfGlH5Rn3p2kDS5390cfdO5+1kn8p5UMZV7C1B2VAE2OO0QxtVmjZbpAxE/k+QGdeGMXBfu5bCfERO3Wr/sfITaTu9j5Oulv/fDfVe6kuIRhAkX0eUn+CEkEhBgSO6yp1+abcagxIRVYfF3hp5e6+cOeGC/QH0z9kSsCim3SdYvz+rFhtzS+vO4LTO8wgGzyMLalvH2Jopf4OrRbSwbmiLpQzR/fFrmx9IZt0o4lD9+KW9Nhj0o9+V6NHg+Usx1wbTVYDjh53op6AT5c6E4Zej0gLeG9gXXtICtcEE1pCLiK8EX11cCUpgRD0NcG+F/dcPY5kLtf4/Uw/krhwz8OagPk9Mt3aleu0iepkuwQoGNoy2XBzc0zcaGICC3Y23KW/VZRc0xZGjiUmQXyMlbuB/dOYr0V8VGVPanRgDksr+ML0B4nqdfbtqTC1FQl2ORtG7iCDuArAZo7bokisZ2GTSA2F85BpfRY=
+    file: ${PKG_FILE_NAME}
+    skip_cleanup: true
+    on:
+      tags: true
+      repo: ${gh_user}/${PROJ_DIR}
+      all_branches: true
+      condition: "${gh_user} = ANTsX"
+  - provider: releases
+    api_key:
+      secure: TEYRCpA1JpjgYc/KbcuKMcMvclFPYkUxr0lv1s6j/VBZkwIBd4e8/1uTXUeP6EfwN97XI+Y9X/v2t/Bp3VgsJVSbvicVFvz8EHSUvY16tiyQbZAxbfo8zljFUSegPGN8cuHnjIULI5mrKAb997QN4+VfTdccvcjwCldO/Nk52Df7IuYYqzFBoSa11RwRveSR2+fHqHE48l+fX2SUwtILXJLoG8F2urbJ9HmuTslHPVcVJ+D6X5JOUCzVvSGepo8i+V3ULQqLE9OkckoigS0DoJtCqgj2YqzX+n6edUrjoOoaA5p/f/m+WhWrUuKXBVKBeWkHw7Qv+V7tWajdRvPLv3gZY9xARSkZ90ZN8MiIbYpyX4IAN63pcZiC9fCwrV0loS21z0/SgLmQQvqkpB0MtU17Pk0IznbIqLQ2jXX9LUDSGN9z1Aa+culEAyP72nbhqdcMFtzm/kUhZ7ysVs2/55Kj6Sh/NEd0KILbaVZeOx20/mxWDrhwhRHiESKloG97hqDBqCnd7LNRWqHS6/49kD33+ZZl2MTbzpPefNcsAJc5qI2wPAq90n4RZfaxdr+sMmKWUq85+mhzvKNushLhj6hXG055vvO+KgasmGBAO9n1l1tz7UyAZjgifunj6HprLry0mxCifZvOpM3vTxOSl9COfKR59OyjhfuAVWcX5L4=
+    file: ${PKG_FILE_NAME}
+    skip_cleanup: true
+    on:
+      tags: true
+      repo: muschellij2/ANTsRCore
+      all_branches: true
+      condition: "${gh_user} = muschellij2"
 
   # - provider: releases
   #   api_key:

@@ -1,7 +1,7 @@
 #!/bin/bash
 CXX_STD=CXX11
-CC=`${R_HOME}/bin/R.exe CMD config CC`
-CXX=`${R_HOME}/bin/R.exe CMD config CXX`
+CC=`${R_HOME}/bin${R_ARCH_BIN}/R.exe CMD config CC`
+CXX=`${R_HOME}/bin${R_ARCH_BIN}/R.exe CMD config CXX`
 JTHREADS=1
 # CMAKE_C_FLAGS="-O2"
 # CMAKE_CXX_FLAGS="-O2"
@@ -13,10 +13,10 @@ DLLFLAGS="${DLLFLAGS} ${CMAKE_EXE_LINKER_FLAGS}"
 # PKG_CPPFLAGS="${PKG_CPPFLAGS} -Wl,--allow-multiple-definition,--enable-auto-import,--enable-runtime-pseudo-reloc,--verbose"
 PKG_CPPFLAGS="${PKG_CPPFLAGS} ${CMAKE_EXE_LINKER_FLAGS}"
 
-ITKRCMAKE=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkIncludes(); cat(a)'`
-ITKRLIB=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkLibs(); cat(a)'`
-compflags=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
-ITKDIR=`${R_HOME}/bin/Rscript.exe -e 'a<-ITKR::itkDir(); cat(a)'`
+ITKRCMAKE=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'a<-ITKR::itkIncludes(); cat(a)'`
+ITKRLIB=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'a<-ITKR::itkLibs(); cat(a)'`
+compflags=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
+ITKDIR=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'a<-ITKR::itkDir(); cat(a)'`
 
 # compflags="${compflags} -Wno-c++11-long-long -Wa,-mbig-obj "
 
@@ -45,26 +45,31 @@ echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
 
 echo "libitk=\`find \"${ITKRLIB}\" -name \"lib*.a\"\`" >> Makevars.win
 PKG_LIBS="${PKG_LIBS} ${ADD_PKG_LIBS}"
-echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk} \
-                  \${libants} \${libitk} \${libants} \${itklib} \${libants} " >> Makevars.win
+# echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk} \
+#                   \${libants} \${libitk} \${libants} \${itklib} \${libants} " >> Makevars.win
 
-# echo "PKG_LIBS=\${libitk} \${libants} \${libitk} \${libants} \${libitk} \
-#                  \${libants} \${libitk} \${libants} \${itklib} \${libants} \
-#                  \${libitk} \${libants} \${itklib} \${libants} \${itklib} \
-#                  \${libants} \${libitk} \${libants} \${itklib}" >> Makevars.win
+echo "PKG_LIBS=\"\${libitk}\" \"\${libants}\" \"\${libitk}\" \"\${libants}\" \"\${libitk}\" \
+               \"\${libants}\" \"\${libitk}\"  \"\${libants}\" \"\${libitk}\" \"\${libants}\"" >> Makevars.win
 
-echo ".PHONY: all libs" >> Makevars.win
+echo ".PHONY: all libs cleaner" >> Makevars.win
 
 echo "all: \$(SHLIB)" >> Makevars.win
 
 echo "\$(SHLIB): libs" >> Makevars.win
-# MAKER=c:/Rtools/mingw_64/bin/mingw32-make.exe
+# MAKER=c:/Rtools/mingw_64/bin${R_ARCH_BIN}/mingw32-make.exe
 MAKER=mingw32-make
-echo "libs: ; cd antb && ${MAKER} -j 4 && cd ANTS-build && ${MAKER} all install" >> Makevars.win
+echo "libs: ; cd antb && ${MAKER} -j 4 && cd ANTS-build && ${MAKER} all install && cd ../../ && rm -rf antb && rm -rf ${myantssource}" >> Makevars.win
+
+echo "cleaner: ; cd libs/bin && rm -f antsRegistration antsApplyTransforms antsMotionCorr \
+antsAffineInitializer antsApplyTransformsToPoints LabelGeometryMeasures \
+antsMotionCorrStats ResampleImage Atropos KellyKapowski DenoiseImage \
+N3BiasFieldCorrection N4BiasFieldCorrection sccan antsJointFusion \
+ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
+
 
 # get / set up ANTs code
-antsgit=https://github.com/ANTsX/ANTs.git
-antstag=f69cc3bc36be525837084912be597e420a2a1a8f
+antsgit=https://github.com/muschellij2/ANTs.git
+antstag=616ab869b510c1f95a3a63367719d737a86f3640
 antsrtag=`git log --pretty=format:'%H' -n 1`
 git clone $antsbranch $antsgit ants
 mkdir -p ../data
@@ -88,16 +93,16 @@ cp -r ants/ImageSegmentation/* ../inst/include/
 cp -r ants/Temporary/* ../inst/include
 cd ./antb
 
-cmaker=`${R_HOME}/bin/Rscript.exe -e "x=Sys.which('cmake'); cat(x)"`
+cmaker=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "x=Sys.which('cmake'); cat(x)"`
 if [ -z "${cmaker}" ]; then
-    res=`${R_HOME}/bin/Rscript.exe -e "cat(('cmaker' %in% installed.packages())*1)"`
+    res=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "cat(('cmaker' %in% installed.packages())*1)"`
     if [ $res -eq 0 ];
     then
         git clone https://github.com/stnava/cmaker
         R CMD INSTALL cmaker
         rm -rf cmaker
     fi
-    cmaker=`${R_HOME}/bin/Rscript.exe -e "x=cmaker::cmake();"`
+    cmaker=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "x=cmaker::cmake();"`
     # cmake_path=`dirname cmaker`
     # export PATH=${PATH}:${cmake_path}
     # cmaker="cmake"
@@ -115,7 +120,7 @@ ${cmaker} \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -Wa,-mbig-obj ${CMAKE_EXE_LINKER_FLAGS} ${compflags} -DNDEBUG -D_FILE_OFFSET_BITS=64"\
     -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -Wa,-mbig-obj ${compflags} -DNDEBUG  "\
     -DCMAKE_EXE_LINKER_FLAGS="${TRY_LINKER_FLAGS}" \
-    -DBUILD_SHARED_LIBS=OFF \
+    -DBUILD_SHARED_LIBS=ON \
     -DBUILD_ALL_ANTS_APPS=OFF \
     -DUSE_SYSTEM_ITK=OFF \
     -DBUILD_TESTING=OFF \
@@ -125,9 +130,10 @@ ${cmaker} \
     -DCMAKE_INSTALL_PREFIX:PATH="${R_PACKAGE_DIR}/libs/" \
     -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}" \
     -DVNL_CONFIG_ENABLE_SSE2_ROUNDING:BOOL=ON \
+    -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON \
+	-DWINDOWS_BUILD=1 \
     -DVNL_CONFIG_ENABLE_SSE2:BOOL=ON \
     ../ants
 cd ../
 # needed for warning
 rm -rf ants/.git
-

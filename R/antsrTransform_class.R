@@ -243,7 +243,7 @@ antsrTransformFromDisplacementField <- function( field ) {
 #' @return antsImage
 #' @export
 displacementFieldFromAntsrTransform <- function( tx, reference=NA ) {
-  return(.Call("antsrTransform_ToDisplacementField", tx, ref, PACKAGE="ANTsRCore"))
+  return(.Call("antsrTransform_ToDisplacementField", tx, reference, PACKAGE="ANTsRCore"))
 }
 
 #' @title applyAntsrTransform

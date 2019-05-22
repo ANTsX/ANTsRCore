@@ -6,13 +6,15 @@ validlist = c(
   # "nki",
   "pcasl",
   "ch2","ch2a","ch2b","finn","finncsv",
-  "mni","mnia","mnib", "mninat","mnijhu1","mnijhu2","mnidfn","mniyeo",
+  "mni","mnia","mnib",
+  "mninat","mnijhu1","mnijhu2","mnidfn","mniyeo",
   "atroposseg","simple","fmrinetworks",
   "rsbold", "rsboldmask", "rsboldseg", "rsboldpts", "decslice", "dtislice",
   "adfmri", "population", "surf", "blob", "rand")
 
 
 for (ilist in validlist) {
+  print(ilist)
   suppressMessages({
     res = getANTsRData(ilist, quiet = TRUE)
   })
