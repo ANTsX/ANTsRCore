@@ -45,6 +45,9 @@ Install the binary, after downloading, via command line:
 R CMD INSTALL ANTsRCore_*.tgz
 ```
 
+**Suggested packages** [https://github.com/stnava/ANTsRDocker/blob/master/install.R](https://github.com/stnava/ANTsRDocker/blob/master/install.R)
+
+
 ## to tag
 
 ```
