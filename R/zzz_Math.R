@@ -51,6 +51,13 @@ setMethod("ceiling", signature(x = "antsImage"),
 
 #' @rdname antsImagemath
 #' @export
+setMethod("round", signature(x = "antsImage"),
+          function(x) {
+            return(.Call("antsImageMath", x, "round", PACKAGE = "ANTsRCore"))
+          })
+
+#' @rdname antsImagemath
+#' @export
 setMethod("floor", signature(x = "antsImage"),
           function(x) {
             return(.Call("antsImageMath", x, "floor", PACKAGE = "ANTsRCore"))

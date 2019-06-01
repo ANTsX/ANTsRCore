@@ -241,6 +241,42 @@ namespace itk
          return output;
        }
      };
+     
+     template< typename DataType >
+     class ANTsR_Round
+     {
+     public:
+        ANTsR_Round() {}
+        ~ANTsR_Round() {}
+        
+        typedef itk::DefaultConvertPixelTraits<DataType> ConvertType;
+        typedef itk::NumericTraits<DataType>             TraitsType;
+        typedef typename TraitsType::ValueType           ValueType;
+        typedef ANTsR_GetDataValue<DataType>             GetValueType;
+        
+        bool operator!=(const ANTsR_Round &) const
+        {
+           return false;
+        }
+        
+        bool operator==(const ANTsR_Round & other) const
+        {
+           return !( *this != other );
+        }
+        
+        inline DataType operator()(const DataType & A ) const
+        {
+           DataType output;
+           unsigned int nComponents = TraitsType::GetLength(A);
+           TraitsType::SetLength(output,nComponents);
+           
+           for ( unsigned int i=0; i<nComponents; i++) {
+              ConvertType::SetNthComponent(i, output,
+                                           static_cast<ValueType>( round(GetValueType::NthValue(i,A)) ));
+           }
+           return output;
+        }
+     };     
 
      template< typename DataType >
      class ANTsR_Trunc
@@ -1107,6 +1143,18 @@ SEXP antsImageMath( SEXP r_antsimage, SEXP r_operator )
 
     return Rcpp::wrap(outImage);
   }
+  else if ( Rcpp::as< std::string >( r_operator ) == "round" )
+  {
+     typedef itk::UnaryFunctorImageFilter<ImageType, ImageType,
+       itk::Functor::ANTsR_Round<PixelType>  > FilterType;
+     
+     typename FilterType::Pointer filter = FilterType::New();
+     filter->SetInput( image );
+     filter->Update();
+     typename ImageType::Pointer outImage = filter->GetOutput();
+     
+     return Rcpp::wrap(outImage);
+  }  
   else if ( Rcpp::as< std::string >( r_operator ) == "trunc" )
   {
     typedef itk::UnaryFunctorImageFilter<ImageType, ImageType,
