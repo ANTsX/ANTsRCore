@@ -8,6 +8,7 @@
 \alias{sign,antsImage-method}
 \alias{sqrt,antsImage-method}
 \alias{ceiling,antsImage-method}
+\alias{round,antsImage-method}
 \alias{floor,antsImage-method}
 \alias{trunc,antsImage-method}
 \alias{log,antsImage-method}
@@ -43,6 +44,8 @@
 \S4method{sqrt}{antsImage}(x)
 
 \S4method{ceiling}{antsImage}(x)
+
+\S4method{round}{antsImage}(x)
 
 \S4method{floor}{antsImage}(x)
 
