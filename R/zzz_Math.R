@@ -252,7 +252,10 @@ setMethod("exp", signature(x = "antsImage"),
 #' @export
 setMethod("gamma", signature(x = "antsImage"),
           function(x) {
-            return(.Call("antsImageMath", x, "gamma", PACKAGE = "ANTsRCore"))
+            mask = x == 0
+            res = .Call("antsImageMath", x, "gamma", PACKAGE = "ANTsRCore")
+            res[mask] = NaN
+            return(res)
           })
 
 #' @rdname antsImagemath

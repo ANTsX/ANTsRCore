@@ -1,5 +1,6 @@
 testthat::context("Testing Math operations")
 img <- makeImage(c(10, 100, 3), rpois(n = 1000*3, lambda = 5)) 
+img[1,1,1] = 0
 #normalize 0/1
 norm_img = (img - min(img))/(max(img) - min(img))
 norm_img[norm_img == 0] = 1e-5
@@ -46,14 +47,18 @@ testthat::test_that("Maths", {
                  "tanh",
                  "cospi",
                  "exp",
-                 "gamma",
                  "lgamma")
   sapply(math_funcs, run_func, img = img)
 
   sapply(math_funcs, run_func, img = norm_img)
   
-  math_funcs = c("sinpi", "tanpi")
-  sapply(math_funcs, run_func, img = img)
-  sapply(math_funcs, run_func, img = norm_img)
+  
+  math_funcs = c("gamma", "sinpi", "tanpi")
+  # expect_error(
+    sapply(math_funcs, run_func, img = img)
+    # )
+  # expect_error(
+    sapply(math_funcs, run_func, img = norm_img)
+    # )
   
 })

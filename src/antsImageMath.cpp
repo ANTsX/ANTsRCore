@@ -939,7 +939,7 @@ namespace itk
 
        for ( unsigned int i=0; i<nComponents; i++) {
          ConvertType::SetNthComponent(i, output,
-            static_cast<ValueType>( itk::Math::pi * sin(GetValueType::NthValue(i,A)) ));
+            static_cast<ValueType>( sin(itk::Math::pi * GetValueType::NthValue(i,A)) ));
        }
        return output;
      }
@@ -975,7 +975,7 @@ namespace itk
 
        for ( unsigned int i=0; i<nComponents; i++) {
          ConvertType::SetNthComponent(i, output,
-            static_cast<ValueType>( itk::Math::pi * tan(GetValueType::NthValue(i,A)) ));
+            static_cast<ValueType>( tan(itk::Math::pi * GetValueType::NthValue(i,A)) ));
        }
        return output;
      }
