@@ -15,7 +15,26 @@
   Unimplemented:  "digamma", "trigamma", "expm1", "log1p", "cummax", "cummin", "cumprod", "cumsum"
 */
 
-
+float roundHalfToEven(float f)
+{
+  const float r = round(f); // Result is round-half-away-from-zero
+  const float d = r - f; // Difference
+  
+  // Result is not half, RHAFZ result same as RHTE
+  if ((d != 0.5f) && (d != -0.5f))
+  {
+    return r;
+  }
+  
+  // Check if RHAFZ result is even, then RHAFZ result same as RHTE
+  if (fmod(r, 2.0f) == 0.0f)
+  {
+    return r;
+  }
+  
+  // Switch to even value
+  return f - d;
+}
 
 namespace itk
    {
@@ -271,8 +290,9 @@ namespace itk
            TraitsType::SetLength(output,nComponents);
            
            for ( unsigned int i=0; i<nComponents; i++) {
+             // as per https://stackoverflow.com/questions/31464146/rounding-to-nearest-even-number-in-c
               ConvertType::SetNthComponent(i, output,
-                                           static_cast<ValueType>( round(GetValueType::NthValue(i,A)) ));
+                                           static_cast<ValueType>( roundHalfToEven(GetValueType::NthValue(i,A))) );
            }
            return output;
         }

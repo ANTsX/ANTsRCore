@@ -1,11 +1,12 @@
-context("Testing Math operations")
+testthat::context("Testing Math operations")
 img <- makeImage(c(10, 10, 3), rpois(n = 100*3, lambda = 5)) 
 #normalize 0/1
 norm_img = (img - min(img))/(max(img) - min(img))
 norm_img[norm_img == 0] = 1e-5
+norm_img[1,1,1] = 0.5
 
 
-test_that("Maths", {
+testthat::test_that("Maths", {
   run_func = function(fun_name, img) {
     if (fun_name %in% c("acosh", "asinh", "atanh")) {
       img = img + 1
