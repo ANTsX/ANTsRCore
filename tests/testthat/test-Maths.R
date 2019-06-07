@@ -1,5 +1,5 @@
 testthat::context("Testing Math operations")
-img <- makeImage(c(10, 10, 3), rpois(n = 100*3, lambda = 5)) 
+img <- makeImage(c(10, 100, 3), rpois(n = 1000*3, lambda = 5)) 
 #normalize 0/1
 norm_img = (img - min(img))/(max(img) - min(img))
 norm_img[norm_img == 0] = 1e-5
