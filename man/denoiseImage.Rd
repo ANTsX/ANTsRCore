@@ -14,9 +14,9 @@ denoiseImage(img, mask, shrinkFactor = 1, p = 1, r = 3,
 
 \item{shrinkFactor}{downsampling level performed within the algorithm.}
 
-\item{p}{patch radius for local sample.}
+\item{p}{patch radius for local sample. can be a vector.}
 
-\item{r}{search radius from which to choose extra local samples.}
+\item{r}{search radius from which to choose extra local samples. can be a vector.}
 
 \item{noiseModel}{either Rician or Gaussian.}
 
