@@ -56,8 +56,8 @@ setMethod("Summary", "antsImage",
             # }
             args$x = x
             args$na.rm = na.rm
-            
-            
+
+
             res = do.call(callGeneric, args = args)
             # L = list(...)
             # mask = L$mask
@@ -138,9 +138,8 @@ setMethod(f = "!", signature(x = "antsImage"), definition = function(x) {
 #' @param mask binary mask of values to subset
 #' @rdname mean
 #' @export
-mean.antsImage = function(x, ..., mask) {
-  x = mask_values(x, mask)
-  mean(x, ...)
+mean.antsImage = function(x, mask=NULL, na.rm=FALSE) {
+  return(antsImageStats(x,mask,na.rm)$mean)
 }
 
 
@@ -170,12 +169,12 @@ median.antsImage = function(x, na.rm = FALSE, ...) {
 #' @param ... additional arguments passed to \code{\link{unique}}
 #' @param mask binary mask of values to subset
 #' @rdname unique
-#' 
-#' @examples 
+#'
+#' @examples
 #' img <- antsImageRead( getANTsRData( "r16" ) )
 #' img[img > 5] = 0
 #' sort(unique(img))
-#' 
+#'
 #' @export
 unique.antsImage = function(x, incomparables = FALSE, ..., mask) {
   x = mask_values(x, mask)
@@ -183,19 +182,21 @@ unique.antsImage = function(x, incomparables = FALSE, ..., mask) {
 }
 
 
-#' @rdname mean
+#' @rdname sd
 #' @examples
 #' img <- antsImageRead( getANTsRData( "r16" ) )
 #' sd(img)
 #' @export
-sd.antsImage = function(x, ...) {
-  args = list(...)
-  mask = args$mask
-  args$mask = NULL
-  x = mask_values(x, mask)
-  args$x = x
-  do.call(sd, args = args)
+sd.antsImage = function(x, mask=NULL, na.rm=FALSE) {
+  print("sd.antsImage")
+  #args = list(...)
+  #mask = args$mask
+  #args$mask = NULL
+  #x = mask_values(x, mask)
+  #args$x = x
+  #do.call(sd, args = args)
   # sd(x, ...)
+  return( antsImageStats(x,mask,na.rm)$sd )
 }
 
 #' @rdname var
@@ -218,17 +219,18 @@ var.default = function(x, ...){
 
 #' @rdname var
 #' @export
-#' @examples 
+#' @examples
 #' img <- antsImageRead( getANTsRData( "r16" ) )
 #' var(img)
 #' @method var antsImage
-var.antsImage = function(x, ...) {
-  args = list(...)
-  mask = args$mask
-  args$mask = NULL
-  x = mask_values(x, mask)
-  args$x = x
-  do.call(var, args = args)
+var.antsImage = function(x, mask=NULL, na.rm=FALSE) {
+  #args = list(...)
+  #mask = args$mask
+  #args$mask = NULL
+  #x = mask_values(x, mask)
+  #args$x = x
+  #do.call(var, args = args)
+  antsImageStats(x,mask,na.rm)$variance
 }
 
 #' @rdname antsImageops
