@@ -82,12 +82,18 @@ setGeneric("min", function(x, ..., na.rm = FALSE)
 
 #' @rdname antsImageSummary
 #' @export
+#' @param na.rm a logical value indicating whether NA should be removed
+#' @param mask is an object of class \code{antsImage}
+#' @method min antsImage
 min.antsImage = function(x, mask=NULL, na.rm=FALSE) {
   return(drop(antsImageStats(x,mask,na.rm)$min))
 }
 
 #' @rdname antsImageSummary
 #' @export
+#' @param na.rm a logical value indicating whether NA should be removed
+#' @param mask is an object of class \code{antsImage}
+#' @method max antsImage
 max.antsImage = function(x, mask=NULL, na.rm=FALSE) {
   return(drop(antsImageStats(x,mask,na.rm)$max))
 }
@@ -146,6 +152,7 @@ setMethod(f = "!", signature(x = "antsImage"), definition = function(x) {
 #' @title Mean for antsImage Objects
 #' @description Overloaded Mean for antsImage objects
 #' @param x is an object of class \code{antsImage}.
+#' @param na.rm Remove missing values
 #' @param ... additional arguments to pass to \code{\link{mean}}
 #' @param mask binary mask of values to subset
 #' @rdname mean
@@ -214,7 +221,6 @@ sd.default = function(x, ...){
 #' @rdname sd
 #' @title SD for antsImage Objects
 #' @description Overloaded SD for antsImage objects
-#' @param x is an object of class \code{antsImage}.
 #' @param na.rm a logical value indicating whether NA should be removed
 #' @param mask is an object of class \code{antsImage}
 #' @export
@@ -222,7 +228,6 @@ sd.default = function(x, ...){
 #' @examples
 #' img <- antsImageRead( getANTsRData( "r16" ) )
 #' sd(img)
-#' @export
 sd.antsImage = function(x, mask=NULL, na.rm=FALSE) {
   # print("sd.antsImage")
   #args = list(...)
@@ -255,6 +260,8 @@ var.default = function(x, ...){
 
 #' @rdname var
 #' @export
+#' @param na.rm a logical value indicating whether NA should be removed
+#' @param mask is an object of class \code{antsImage}
 #' @examples
 #' img <- antsImageRead( getANTsRData( "r16" ) )
 #' var(img)

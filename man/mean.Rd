@@ -11,6 +11,8 @@
 
 \item{mask}{binary mask of values to subset}
 
+\item{na.rm}{Remove missing values}
+
 \item{...}{additional arguments to pass to \code{\link{mean}}}
 }
 \description{

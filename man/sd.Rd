@@ -20,8 +20,6 @@ sd(x, ...)
 \item{mask}{is an object of class \code{antsImage}}
 
 \item{na.rm}{a logical value indicating whether NA should be removed}
-
-\item{x}{is an object of class \code{antsImage}.}
 }
 \description{
 Calculates the SD of an image

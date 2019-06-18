@@ -21,9 +21,9 @@ max(x, ..., na.rm = FALSE)
 
 min(x, ..., na.rm = FALSE)
 
-min.antsImage(x, mask = NULL, na.rm = FALSE)
+\method{min}{antsImage}(x, mask = NULL, na.rm = FALSE)
 
-max.antsImage(x, mask = NULL, na.rm = FALSE)
+\method{max}{antsImage}(x, mask = NULL, na.rm = FALSE)
 
 range(x, ..., na.rm = FALSE)
 
@@ -41,6 +41,14 @@ all(x, ..., na.rm = FALSE)
 \item{...}{further arguments passed to summary methods}
 
 \item{na.rm}{logical: should missing values be removed?}
+
+\item{mask}{is an object of class \code{antsImage}}
+
+\item{na.rm}{a logical value indicating whether NA should be removed}
+
+\item{na.rm}{a logical value indicating whether NA should be removed}
+
+\item{mask}{is an object of class \code{antsImage}}
 }
 \description{
 Overloaded Summary for antsImage objects
