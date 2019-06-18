@@ -82,6 +82,18 @@ setGeneric("min", function(x, ..., na.rm = FALSE)
 
 #' @rdname antsImageSummary
 #' @export
+min.antsImage = function(x, mask=NULL, na.rm=FALSE) {
+  return(drop(antsImageStats(x,mask,na.rm)$min))
+}
+
+#' @rdname antsImageSummary
+#' @export
+max.antsImage = function(x, mask=NULL, na.rm=FALSE) {
+  return(drop(antsImageStats(x,mask,na.rm)$max))
+}
+
+#' @rdname antsImageSummary
+#' @export
 setGeneric("range", function(x, ..., na.rm = FALSE)
   standardGeneric("range"),
   useAsDefault = .range_def, group = "Summary")
@@ -139,7 +151,7 @@ setMethod(f = "!", signature(x = "antsImage"), definition = function(x) {
 #' @rdname mean
 #' @export
 mean.antsImage = function(x, mask=NULL, na.rm=FALSE) {
-  return(antsImageStats(x,mask,na.rm)$mean)
+  return(drop(antsImageStats(x,mask,na.rm)$mean))
 }
 
 
@@ -181,14 +193,38 @@ unique.antsImage = function(x, incomparables = FALSE, ..., mask) {
   unique(x, incomparables = incomparables, ...)
 }
 
+#' @rdname sd
+#' @title SD generic
+#' @description Calculates the SD of an image
+#'
+#' @param x an object for which we want to compute the SD
+#' @param \dots Any additional arguments to be passed to \code{sd}.
+#' @export
+sd = function(x, ...){
+  UseMethod("sd")
+}
 
 #' @rdname sd
+#' @export
+#' @importFrom stats sd
+sd.default = function(x, ...){
+  stats::sd(x, ...)
+}
+
+#' @rdname sd
+#' @title SD for antsImage Objects
+#' @description Overloaded SD for antsImage objects
+#' @param x is an object of class \code{antsImage}.
+#' @param na.rm a logical value indicating whether NA should be removed
+#' @param mask is an object of class \code{antsImage}
+#' @export
+#' @importFrom stats sd
 #' @examples
 #' img <- antsImageRead( getANTsRData( "r16" ) )
 #' sd(img)
 #' @export
 sd.antsImage = function(x, mask=NULL, na.rm=FALSE) {
-  print("sd.antsImage")
+  # print("sd.antsImage")
   #args = list(...)
   #mask = args$mask
   #args$mask = NULL
@@ -196,7 +232,7 @@ sd.antsImage = function(x, mask=NULL, na.rm=FALSE) {
   #args$x = x
   #do.call(sd, args = args)
   # sd(x, ...)
-  return( antsImageStats(x,mask,na.rm)$sd )
+  return( drop(antsImageStats(x,mask,na.rm)$sd ))
 }
 
 #' @rdname var
@@ -230,7 +266,7 @@ var.antsImage = function(x, mask=NULL, na.rm=FALSE) {
   #x = mask_values(x, mask)
   #args$x = x
   #do.call(var, args = args)
-  antsImageStats(x,mask,na.rm)$variance
+  drop(antsImageStats(x,mask,na.rm)$variance)
 }
 
 #' @rdname antsImageops

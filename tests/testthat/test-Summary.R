@@ -1,14 +1,20 @@
 testthat::context("Testing Summary operations")
-img <- makeImage(c(10, 100, 3), rpois(n = 1000*3, lambda = 5)) 
+img <- makeImage(c(100, 100, 3), rpois(n = 1000*3, lambda = 5)) 
 img[1,1,1] = 0
 
 mask = abs(img) <= 1
 
 testthat::test_that("Summaries", {
-  run_func = function(fun_name, img) {
+  run_func = function(fun_name, mask = NULL, img) {
+    print(fun_name)
     arr = as.array(img)
+    if (!is.null(mask)) {
+      arr = arr[ as.array(mask) > 0 ]
+    }
     arr_result = do.call(fun_name, args = list(arr))
-    img_result = as.array(do.call(fun_name, args = list(img)))
+    L = list(img)
+    L$mask = mask
+    img_result = do.call(fun_name, args = L)
     res = testthat::expect_equal(
       arr_result, img_result, 
       tolerance = 1e-6,
@@ -26,19 +32,10 @@ testthat::test_that("Summaries", {
                  "max",
                  "sd",
                  "var",
-                 "sum",
-                 "sumofsquares")
+                 "sum")
+  fun_name = math_funcs[1]
   sapply(math_funcs, run_func, img = img)
   
-  sapply(math_funcs, run_func, img = norm_img)
-  
-  
-  math_funcs = c("gamma", "sinpi", "tanpi")
-  # expect_error(
-  sapply(math_funcs, run_func, img = img)
-  # )
-  # expect_error(
-  sapply(math_funcs, run_func, img = norm_img)
-  # )
+  sapply(math_funcs, run_func, img = img, mask = mask)
   
 })

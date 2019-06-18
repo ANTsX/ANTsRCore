@@ -6,6 +6,8 @@
 \alias{Summary,antsImage-method}
 \alias{max}
 \alias{min}
+\alias{min.antsImage}
+\alias{max.antsImage}
 \alias{range}
 \alias{prod}
 \alias{sum}
@@ -18,6 +20,10 @@
 max(x, ..., na.rm = FALSE)
 
 min(x, ..., na.rm = FALSE)
+
+min.antsImage(x, mask = NULL, na.rm = FALSE)
+
+max.antsImage(x, mask = NULL, na.rm = FALSE)
 
 range(x, ..., na.rm = FALSE)
 
