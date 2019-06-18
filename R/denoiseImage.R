@@ -8,8 +8,8 @@
 #' @param img scalar image to denoise.
 #' @param mask optional to limit the denoise region.
 #' @param shrinkFactor downsampling level performed within the algorithm.
-#' @param p patch radius for local sample.
-#' @param r search radius from which to choose extra local samples.
+#' @param p patch radius for local sample. can be a vector.
+#' @param r search radius from which to choose extra local samples. can be a vector.
 #' @param noiseModel either Rician or Gaussian.
 #' @param verbose boolean
 #' @return antsImage denoised version of image
@@ -31,10 +31,12 @@ denoiseImage <- function(
   verbose = FALSE )
   {
   img = check_ants(img)
-  
+
   outimg = antsImageClone( img )
   noiseModel = match.arg(noiseModel)
   mydim = img@dimension
+  if ( length( p ) > 1 ) pvar = paste0( p, collapse='x' ) else pvar=p
+  if ( length( r ) > 1 ) rvar = paste0( r, collapse='x' ) else rvar=r
   if (  ! missing( mask ) ) {
     mask = check_ants(mask)
     mskIn = antsImageClone( mask, 'unsigned char')
@@ -45,8 +47,8 @@ denoiseImage <- function(
       n = noiseModel[1],
       x = mskIn,
       s = as.numeric( shrinkFactor ),
-      p = p,
-      r = r,
+      p = pvar,
+      r = rvar,
       o = outimg,
       v = as.numeric( verbose )
       )
@@ -56,8 +58,8 @@ denoiseImage <- function(
         i = img,
         n = noiseModel[1],
         s = as.numeric( shrinkFactor ),
-        p = p,
-        r = r,
+        p = pvar,
+        r = rvar,
         o = outimg,
         v = as.numeric( verbose )
         )
