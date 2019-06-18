@@ -18,7 +18,7 @@
 #' @export cropImage
 cropImage <- function( image, labelImage, label=1 ) {
   image = check_ants(image)
-  
+
   if(missing(labelImage)) {
     labelImage <- getMask(image)
   }
@@ -60,8 +60,15 @@ cropIndices <- function( image, lowerind, upperind ) {
   if ( image@dimension != length(lowerind) |
        image@dimension != length(upperind)  )
        stop("dimensionality and index length dont match")
-  .Call("cropImage",
-    image, image, 1, 2, lowerind, upperind, PACKAGE = "ANTsRCore")
+  if ( image@components == 1 )
+    return( .Call("cropImage",
+      image, image, 1, 2, lowerind, upperind, PACKAGE = "ANTsRCore") )
+  ilist = splitChannels( image )
+  for ( k in 1:image@components )
+    ilist[[k]] = .Call("cropImage",
+      ilist[[k]], ilist[[k]], 1, 2, lowerind, upperind, PACKAGE = "ANTsRCore")
+  return( mergeChannels( ilist ) )
+
 }
 
 
