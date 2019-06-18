@@ -18,7 +18,7 @@ testthat::test_that("Maths", {
     img_result = as.array(do.call(fun_name, args = list(img)))
     res = testthat::expect_equal(
       arr_result, img_result, 
-      tolerance = 1e-7,
+      tolerance = 1e-6,
       info = paste0("Running function: ", fun_name))
     return(NULL)
   }
