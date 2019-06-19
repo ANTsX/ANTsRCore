@@ -10,7 +10,7 @@ sd(x, na.rm = FALSE, ...)
 
 \method{sd}{default}(x, na.rm = FALSE, ...)
 
-\method{sd}{antsImage}(x, na.rm = FALSE, mask = NULL)
+\method{sd}{antsImage}(x, na.rm = FALSE, ..., mask = NULL)
 }
 \arguments{
 \item{x}{an object for which we want to compute the SD}
