@@ -203,14 +203,14 @@ unique.antsImage = function(x, incomparables = FALSE, ..., mask) {
 #'
 #' @param x an object for which we want to compute the SD
 #' @export
-sd = function(x, na.rm=FALSE){
+sd = function(x, na.rm=FALSE, ...){
   UseMethod("sd")
 }
 
 #' @rdname sd
 #' @export
 #' @importFrom stats sd
-sd.default = function(x, na.rm=FALSE){
+sd.default = function(x, na.rm=FALSE, ...){
   stats::sd(x, na.rm = FALSE)
 }
 
@@ -219,6 +219,9 @@ sd.default = function(x, na.rm=FALSE){
 #' @description Overloaded SD for antsImage objects
 #' @param na.rm a logical value indicating whether NA should be removed
 #' @param mask is an object of class \code{antsImage}
+#' @param \dots Any additional arguments to be passed to 
+#' \code{\link[stats]{sd}}
+#' 
 #' @export
 #' @importFrom stats sd
 #' @examples

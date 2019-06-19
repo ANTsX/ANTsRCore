@@ -65,8 +65,8 @@ testthat::test_that("Maths", {
   math_funcs = c("tanpi")  
   sapply(math_funcs, run_func, img = img)
   # this should be removed when tanpi works
-  expect_error(
+  # testthat::expect_error(
     sapply(math_funcs, run_func, img = norm_img)
-  )
+  # )
   
 })
