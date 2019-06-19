@@ -81,14 +81,12 @@ setGeneric("min", function(x, ..., na.rm = FALSE)
   standardGeneric("min"),
   useAsDefault = .min_def, group = "Summary")
 
-#' @rdname antsImageSummary
-#' @export
+#' @export 
 #' @method min antsImage
 min.antsImage = function(x, mask=NULL, na.rm=FALSE) {
   return(drop(antsImageStats(x,mask,na.rm)$min))
 }
 
-#' @rdname antsImageSummary
 #' @export
 #' @method max antsImage
 max.antsImage = function(x, mask=NULL, na.rm=FALSE) {
