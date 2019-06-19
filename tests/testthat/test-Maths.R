@@ -9,6 +9,7 @@ norm_img[1,1,1] = 0.5
 
 testthat::test_that("Maths", {
   run_func = function(fun_name, img) {
+  	print(fun_name)
     if (fun_name %in% c("acosh", "asinh", "atanh")) {
       img = img + 1
       img[img > pi] = pi
