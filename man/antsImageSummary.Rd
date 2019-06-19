@@ -13,7 +13,7 @@
 \alias{all}
 \title{Summary for antsImage Objects}
 \usage{
-\S4method{Summary}{antsImage}(x, ..., na.rm = FALSE)
+\S4method{Summary}{antsImage}(x, ..., mask = NULL, na.rm = FALSE)
 
 max(x, ..., na.rm = FALSE)
 
@@ -34,9 +34,9 @@ all(x, ..., na.rm = FALSE)
 
 \item{...}{further arguments passed to summary methods}
 
-\item{na.rm}{logical: should missing values be removed?}
-
 \item{mask}{binary mask of values to subset}
+
+\item{na.rm}{logical: should missing values be removed?}
 }
 \description{
 Overloaded Summary for antsImage objects

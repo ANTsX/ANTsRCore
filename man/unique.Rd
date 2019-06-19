@@ -4,7 +4,7 @@
 \alias{unique.antsImage}
 \title{Unique for antsImage Objects}
 \usage{
-\method{unique}{antsImage}(x, incomparables = FALSE, ..., mask)
+\method{unique}{antsImage}(x, incomparables = FALSE, ..., mask = NULL)
 }
 \arguments{
 \item{x}{is an object of class \code{antsImage}.}

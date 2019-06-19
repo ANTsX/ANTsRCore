@@ -28,8 +28,8 @@
 #' @rdname antsImageSummary
 #' @param x is an object of class \code{antsImage}.
 #' @param ... further arguments passed to summary methods
-#' @param mask binary mask of values to subset
 #' @param na.rm logical: should missing values be removed?
+#' @param mask binary mask of values to subset
 #' @examples
 #' vec = 1:64
 #' img01 <- as.antsImage(array(vec, c(4,4,4,1)))
@@ -45,10 +45,10 @@
 #' @aliases Summary,antsImage-method
 #' @export
 setMethod("Summary", "antsImage",
-          function(x, ..., na.rm = FALSE) {
+          function(x, ..., mask = NULL, na.rm = FALSE) {
             args = list(...)
-            mask = args$mask
-            args$mask = NULL
+            # mask = args$mask
+            # args$mask = NULL
             x = mask_values(x, mask)
             # I think this makes sense but should ask Avants.
             # relevant for warnings for all/any in summary
@@ -71,55 +71,55 @@ setMethod("Summary", "antsImage",
 
 #' @rdname antsImageSummary
 #' @export
-setGeneric("max", function(x, ..., na.rm = FALSE)
+setGeneric("max", function(x, ..., na.rm = FALSE) 
   standardGeneric("max"),
   useAsDefault = .max_def, group = "Summary")
 
 #' @rdname antsImageSummary
 #' @export
-setGeneric("min", function(x, ..., na.rm = FALSE)
+setGeneric("min", function(x, ..., na.rm = FALSE) 
   standardGeneric("min"),
   useAsDefault = .min_def, group = "Summary")
 
 #' @export 
 #' @method min antsImage
-min.antsImage = function(x, mask=NULL, na.rm=FALSE) {
+min.antsImage = function(x, ..., mask = NULL, na.rm = FALSE)  {
   return(drop(antsImageStats(x,mask,na.rm)$min))
 }
 
 #' @export
 #' @method max antsImage
-max.antsImage = function(x, mask=NULL, na.rm=FALSE) {
+max.antsImage = function(x, ..., mask = NULL, na.rm = FALSE)  {
   return(drop(antsImageStats(x,mask,na.rm)$max))
 }
 
 #' @rdname antsImageSummary
 #' @export
-setGeneric("range", function(x, ..., na.rm = FALSE)
+setGeneric("range", function(x, ..., na.rm = FALSE) 
   standardGeneric("range"),
   useAsDefault = .range_def, group = "Summary")
 
 #' @rdname antsImageSummary
 #' @export
-setGeneric("prod", function(x, ..., na.rm = FALSE)
+setGeneric("prod", function(x, ..., na.rm = FALSE) 
   standardGeneric("prod"),
   useAsDefault = .prod_def, group = "Summary")
 
 #' @rdname antsImageSummary
 #' @export
-setGeneric("sum", function(x, ..., na.rm = FALSE)
+setGeneric("sum", function(x, ..., na.rm = FALSE) 
   standardGeneric("sum"),
   useAsDefault = .sum_def, group = "Summary")
 
 #' @rdname antsImageSummary
 #' @export
-setGeneric("any", function(x, ..., na.rm = FALSE)
+setGeneric("any", function(x, ..., na.rm = FALSE) 
   standardGeneric("any"),
   useAsDefault = .any_def, group = "Summary")
 
 #' @rdname antsImageSummary
 #' @export
-setGeneric("all", function(x, ..., na.rm = FALSE)
+setGeneric("all", function(x, ..., na.rm = FALSE) 
   standardGeneric("all"),
   useAsDefault = .all_def, group = "Summary")
 
@@ -152,7 +152,7 @@ setMethod(f = "!", signature(x = "antsImage"), definition = function(x) {
 #' @param mask binary mask of values to subset
 #' @rdname mean
 #' @export
-mean.antsImage = function(x, mask=NULL, na.rm=FALSE, ...) {
+mean.antsImage = function(x, ..., mask = NULL, na.rm = FALSE) {
   return(drop(antsImageStats(x,mask,na.rm)$mean))
 }
 
@@ -165,11 +165,11 @@ mean.antsImage = function(x, mask=NULL, na.rm=FALSE, ...) {
 #' @rdname median
 #' @export
 #' @importFrom stats median
-median.antsImage = function(x, na.rm = FALSE, ...) {
+median.antsImage = function(x, ..., mask = NULL, na.rm = FALSE) {
   args = list(...)
-  mask = args$mask
+  # mask = args$mask
   x = mask_values(x, mask)
-  args$mask = NULL
+  # args$mask = NULL
   args$x = x
   args$na.rm = na.rm
   do.call("median", args)
@@ -190,7 +190,7 @@ median.antsImage = function(x, na.rm = FALSE, ...) {
 #' sort(unique(img))
 #'
 #' @export
-unique.antsImage = function(x, incomparables = FALSE, ..., mask) {
+unique.antsImage = function(x, incomparables = FALSE, ..., mask = NULL) {
   x = mask_values(x, mask)
   unique(x, incomparables = incomparables, ...)
 }
@@ -201,14 +201,14 @@ unique.antsImage = function(x, incomparables = FALSE, ..., mask) {
 #'
 #' @param x an object for which we want to compute the SD
 #' @export
-sd = function(x, na.rm=FALSE, ...){
+sd = function(x, na.rm = FALSE, ...){
   UseMethod("sd")
 }
 
 #' @rdname sd
 #' @export
 #' @importFrom stats sd
-sd.default = function(x, na.rm=FALSE, ...){
+sd.default = function(x, na.rm = FALSE, ...){
   stats::sd(x, na.rm = FALSE)
 }
 
@@ -226,7 +226,7 @@ sd.default = function(x, na.rm=FALSE, ...){
 #' img <- antsImageRead( getANTsRData( "r16" ) )
 #' sd(img)
 #' sd(img, mask  = img > 0 )
-sd.antsImage = function(x, na.rm=FALSE, ..., mask=NULL) {
+sd.antsImage = function(x, na.rm = FALSE, ..., mask = NULL) {
   # print("sd.antsImage")
   #args = list(...)
   #mask = args$mask
@@ -265,7 +265,7 @@ var.default = function(x, ...){
 #' img <- antsImageRead( getANTsRData( "r16" ) )
 #' var(img)
 #' @method var antsImage
-var.antsImage = function(x, mask=NULL, na.rm=FALSE, ...) {
+var.antsImage = function(x, ...,  na.rm = FALSE, mask = NULL) {
   #args = list(...)
   #mask = args$mask
   #args$mask = NULL
