@@ -238,17 +238,17 @@ setMethod("sinpi", signature(x = "antsImage"),
 #' @export
 setMethod("tanpi", signature(x = "antsImage"),
           function(x) {
-            mask0.5 = x == 0.5
-            res = suppressWarnings(any(mask0.5))
-            if (res) {
+            masker = x == 0.5
+            suppressWarnings(check_res <- any(as.array(masker)))
+            if (check_res) {
               warning(paste0("tanpi doesn't have correct behavior ", 
                              "when x = 0.5 compared to R!"))
             }
             res = .Call("antsImageMath", x, "tanpi", PACKAGE = "ANTsRCore")
-            if (res) {
-              res[mask] = NaN
+            if (check_res) {
+              res[masker] = NaN
             }
-            return()
+            return(res)
           })
 
 #' @rdname antsImagemath
