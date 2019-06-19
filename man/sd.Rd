@@ -30,4 +30,5 @@ Overloaded SD for antsImage objects
 \examples{
 img <- antsImageRead( getANTsRData( "r16" ) )
 sd(img)
+sd(img, mask  = img > 0 )
 }

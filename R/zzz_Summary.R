@@ -227,6 +227,7 @@ sd.default = function(x, na.rm=FALSE, ...){
 #' @examples
 #' img <- antsImageRead( getANTsRData( "r16" ) )
 #' sd(img)
+#' sd(img, mask  = img > 0 )
 sd.antsImage = function(x, na.rm=FALSE, ..., mask=NULL) {
   # print("sd.antsImage")
   #args = list(...)
