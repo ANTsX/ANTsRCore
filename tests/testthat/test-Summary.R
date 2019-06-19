@@ -1,6 +1,7 @@
 testthat::context("Testing Summary operations")
 img <- makeImage(c(100, 100, 3), rpois(n = 1000*3, lambda = 5)) 
 img[1,1,1] = 0
+mask = img > 1
 
 mask = abs(img) <= 1
 
@@ -35,6 +36,7 @@ testthat::test_that("Summaries", {
                  "sum")
   fun_name = math_funcs[1]
   sapply(math_funcs, run_func, img = img)
+  sapply(math_funcs, run_func, img = mask)
   
   sapply(math_funcs, run_func, img = img, mask = mask)
   

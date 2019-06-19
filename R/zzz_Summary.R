@@ -126,15 +126,6 @@ setGeneric("all", function(x, ..., na.rm = FALSE)
   useAsDefault = .all_def, group = "Summary")
 
 
-
-#' @rdname antsImagemath
-#' @aliases !,antsImage-method
-setMethod(f = "!", signature(x = "antsImage"), definition = function(x) {
-  # a2 = as.array(x)
-  # !a2
-  x != 0
-})
-
 #' #' @rdname antsImagemath
 #' #' @aliases xor,antsImage-method
 #' setMethod(f = "xor", signature(x = "antsImage",
@@ -154,6 +145,26 @@ setMethod(f = "!", signature(x = "antsImage"), definition = function(x) {
 #' @param mask binary mask of values to subset
 #' @rdname mean
 #' @export
+#' @examples
+#' img =  makeImage(c(10, 10, 10), rnorm(1000))
+#' mean(img)
+#' mean(img, na.rm = TRUE)
+#' mean(img > 0)
+#' mean(img > 0, na.rm = TRUE)
+#' mean(img, mask = img > 0)
+#' mean(img, mask = img > 0,  na.rm = TRUE)
+#' arr = as.array(img)
+#' arr[1,1,1] = NA
+#' img = as.antsImage(arr, reference = img)
+#' m = mean(img)
+#' stopifnot(is.na(m))
+#' mean(img, na.rm = TRUE)
+#' m = mean(img > 0)
+#' stopifnot(is.na(m))
+#' mean(img > 0, na.rm = TRUE)
+#' m = mean(img, mask = img > 0)
+#' stopifnot(is.na(m))
+#' mean(img, mask = img > 0, na.rm = TRUE)
 mean.antsImage = function(x, ..., mask=NULL, na.rm=FALSE) {
   return(drop(antsImageStats(x,mask,na.rm)$mean))
 }

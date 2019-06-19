@@ -29,3 +29,24 @@ setMethod(f = "xor", signature(x = "antsImage",
   !a2
 })
 }
+\examples{
+img =  makeImage(c(10, 10, 10), rnorm(1000))
+mean(img)
+mean(img, na.rm = TRUE)
+mean(img > 0)
+mean(img > 0, na.rm = TRUE)
+mean(img, mask = img > 0)
+mean(img, mask = img > 0,  na.rm = TRUE)
+arr = as.array(img)
+arr[1,1,1] = NA
+img = as.antsImage(arr, reference = img)
+m = mean(img)
+stopifnot(is.na(m))
+mean(img, na.rm = TRUE)
+m = mean(img > 0)
+stopifnot(is.na(m))
+mean(img > 0, na.rm = TRUE)
+m = mean(img, mask = img > 0)
+stopifnot(is.na(m))
+mean(img, mask = img > 0, na.rm = TRUE)
+}
