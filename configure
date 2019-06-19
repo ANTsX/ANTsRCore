@@ -84,7 +84,7 @@ echo "all: \$(SHLIB)" >> Makevars
 
 echo "\$(SHLIB): libs cleaner" >> Makevars
 
-echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build && \$(MAKE) all install && rm -rf \${PWD}/antb" >> Makevars
+echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build && \$(MAKE) all install" >> Makevars
 
 echo "cleaner: ; cd libs/bin && rm -f antsRegistration antsApplyTransforms antsMotionCorr \
 antsAffineInitializer antsApplyTransformsToPoints LabelGeometryMeasures \
@@ -128,8 +128,8 @@ cp -r ants/Temporary/* ../inst/include
 cd ./antb
 
 ${cmaker} -DITK_DIR:PATH=${ITKDIR} \
-    -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} -DNDEBUG -Wself-assign-overloaded "\
-    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} -DNDEBUG -Wself-assign-overloaded "\
+    -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} -DNDEBUG "\
+    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} -DNDEBUG "\
     -DBUILD_SHARED_LIBS=OFF \
     -DBUILD_ALL_ANTS_APPS=OFF \
     -DUSE_SYSTEM_ITK=OFF \
