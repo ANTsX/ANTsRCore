@@ -82,9 +82,9 @@ echo "all: \$(SHLIB)" >> Makevars
 # echo "all: \$(CHECKER) \$(SHLIB)" >> Makevars
 # echo "\$(CHECKER): ; @echo \"Myantssource is \${myantssource}\" && @echo \"PWD is \${PWD}\" && @echo \"ITK is \${ITK}\"" >> Makevars
 
-echo "\$(SHLIB): libs cleaner" >> Makevars
+echo "\$(SHLIB): libs " >> Makevars
 
-echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build && \$(MAKE) all install" >> Makevars
+echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build && \$(MAKE) all" >> Makevars
 
 echo "cleaner: ; cd libs/bin && rm -f antsRegistration antsApplyTransforms antsMotionCorr \
 antsAffineInitializer antsApplyTransformsToPoints LabelGeometryMeasures \
@@ -93,10 +93,10 @@ N3BiasFieldCorrection N4BiasFieldCorrection sccan antsJointFusion \
 ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 
 # get / set up ANTs code
-antsgit=https://github.com/muschellij2/ANTs.git
-antstag=2b2ba01e7db0d52d1fd1e2c41734f01ab1cc880b
-# antsgit=https://github.com/ANTsX/ANTs.git
+# antsgit=https://github.com/muschellij2/ANTs.git
 # antstag=2b2ba01e7db0d52d1fd1e2c41734f01ab1cc880b
+antsgit=https://github.com/ANTsX/ANTs.git
+antstag=680942c1628c8ed142c6b25a4c8b9e47aadf3e01
 antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants
