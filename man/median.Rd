@@ -11,6 +11,8 @@
 
 \item{...}{additional arguments to send to \code{median}}
 
+\item{mask}{is an object of class \code{antsImage}}
+
 \item{na.rm}{a logical value indicating whether NA should be removed}
 }
 \description{

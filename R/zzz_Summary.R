@@ -81,17 +81,19 @@ setGeneric("min", function(x, ..., na.rm = FALSE)
   standardGeneric("min"),
   useAsDefault = .min_def, group = "Summary")
 
-#' @export 
-#' @method min antsImage
-min.antsImage = function(x, ..., mask = NULL, na.rm = FALSE)  {
-  return(drop(antsImageStats(x,mask,na.rm)$min))
-}
-
+#' @rdname antsImageSummary
 #' @export
-#' @method max antsImage
-max.antsImage = function(x, ..., mask = NULL, na.rm = FALSE)  {
-  return(drop(antsImageStats(x,mask,na.rm)$max))
-}
+setMethod("min", "antsImage",
+          function(x, ..., mask = NULL, na.rm = FALSE) {
+  return(drop(antsImageStats(x,mask,na.rm)$min))
+})
+
+#' @rdname antsImageSummary
+#' @export
+setMethod("max", "antsImage",
+          function(x, ..., mask = NULL, na.rm = FALSE) {
+            return(drop(antsImageStats(x,mask,na.rm)$max))
+          })
 
 #' @rdname antsImageSummary
 #' @export
@@ -152,7 +154,7 @@ setMethod(f = "!", signature(x = "antsImage"), definition = function(x) {
 #' @param mask binary mask of values to subset
 #' @rdname mean
 #' @export
-mean.antsImage = function(x, ..., mask = NULL, na.rm = FALSE) {
+mean.antsImage = function(x, ..., mask=NULL, na.rm=FALSE) {
   return(drop(antsImageStats(x,mask,na.rm)$mean))
 }
 
@@ -161,6 +163,7 @@ mean.antsImage = function(x, ..., mask = NULL, na.rm = FALSE) {
 #' @description Overloaded Median for antsImage objects
 #' @param x is an object of class \code{antsImage}.
 #' @param na.rm a logical value indicating whether NA should be removed
+#' @param mask is an object of class \code{antsImage}
 #' @param ... additional arguments to send to \code{median}
 #' @rdname median
 #' @export
@@ -190,7 +193,7 @@ median.antsImage = function(x, ..., mask = NULL, na.rm = FALSE) {
 #' sort(unique(img))
 #'
 #' @export
-unique.antsImage = function(x, incomparables = FALSE, ..., mask = NULL) {
+unique.antsImage = function(x, incomparables = FALSE, mask = NULL, ...) {
   x = mask_values(x, mask)
   unique(x, incomparables = incomparables, ...)
 }
@@ -226,7 +229,7 @@ sd.default = function(x, na.rm = FALSE, ...){
 #' img <- antsImageRead( getANTsRData( "r16" ) )
 #' sd(img)
 #' sd(img, mask  = img > 0 )
-sd.antsImage = function(x, na.rm = FALSE, ..., mask = NULL) {
+sd.antsImage = function(x, na.rm = FALSE, ..., mask=NULL) {
   # print("sd.antsImage")
   #args = list(...)
   #mask = args$mask
@@ -265,7 +268,7 @@ var.default = function(x, ...){
 #' img <- antsImageRead( getANTsRData( "r16" ) )
 #' var(img)
 #' @method var antsImage
-var.antsImage = function(x, ...,  na.rm = FALSE, mask = NULL) {
+var.antsImage = function(x, ...,  na.rm=FALSE, mask=NULL) {
   #args = list(...)
   #mask = args$mask
   #args$mask = NULL
