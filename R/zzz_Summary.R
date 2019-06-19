@@ -82,8 +82,6 @@ setGeneric("min", function(x, ..., na.rm = FALSE)
 
 #' @rdname antsImageSummary
 #' @export
-#' @param na.rm a logical value indicating whether NA should be removed
-#' @param mask is an object of class \code{antsImage}
 #' @method min antsImage
 min.antsImage = function(x, mask=NULL, na.rm=FALSE) {
   return(drop(antsImageStats(x,mask,na.rm)$min))
@@ -91,8 +89,6 @@ min.antsImage = function(x, mask=NULL, na.rm=FALSE) {
 
 #' @rdname antsImageSummary
 #' @export
-#' @param na.rm a logical value indicating whether NA should be removed
-#' @param mask is an object of class \code{antsImage}
 #' @method max antsImage
 max.antsImage = function(x, mask=NULL, na.rm=FALSE) {
   return(drop(antsImageStats(x,mask,na.rm)$max))
@@ -157,7 +153,7 @@ setMethod(f = "!", signature(x = "antsImage"), definition = function(x) {
 #' @param mask binary mask of values to subset
 #' @rdname mean
 #' @export
-mean.antsImage = function(x, mask=NULL, na.rm=FALSE) {
+mean.antsImage = function(x, mask=NULL, na.rm=FALSE, ...) {
   return(drop(antsImageStats(x,mask,na.rm)$mean))
 }
 
@@ -207,15 +203,15 @@ unique.antsImage = function(x, incomparables = FALSE, ..., mask) {
 #' @param x an object for which we want to compute the SD
 #' @param \dots Any additional arguments to be passed to \code{sd}.
 #' @export
-sd = function(x, ...){
+sd = function(x, na.rm=FALSE, ...){
   UseMethod("sd")
 }
 
 #' @rdname sd
 #' @export
 #' @importFrom stats sd
-sd.default = function(x, ...){
-  stats::sd(x, ...)
+sd.default = function(x, na.rm=FALSE, ...){
+  stats::sd(x, na.rm=FALSE)
 }
 
 #' @rdname sd
@@ -262,11 +258,12 @@ var.default = function(x, ...){
 #' @export
 #' @param na.rm a logical value indicating whether NA should be removed
 #' @param mask is an object of class \code{antsImage}
+#' @param ... addtional arguments passed to \code{\link[stats]{var}}
 #' @examples
 #' img <- antsImageRead( getANTsRData( "r16" ) )
 #' var(img)
 #' @method var antsImage
-var.antsImage = function(x, mask=NULL, na.rm=FALSE) {
+var.antsImage = function(x, mask=NULL, na.rm=FALSE, ...) {
   #args = list(...)
   #mask = args$mask
   #args$mask = NULL

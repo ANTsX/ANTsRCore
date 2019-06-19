@@ -10,7 +10,7 @@ var(x, ...)
 
 \method{var}{default}(x, ...)
 
-\method{var}{antsImage}(x, mask = NULL, na.rm = FALSE)
+\method{var}{antsImage}(x, mask = NULL, na.rm = FALSE, ...)
 }
 \arguments{
 \item{x}{an object for which we want to compute the variance}
@@ -20,6 +20,8 @@ var(x, ...)
 \item{mask}{is an object of class \code{antsImage}}
 
 \item{na.rm}{a logical value indicating whether NA should be removed}
+
+\item{...}{addtional arguments passed to \code{\link[stats]{var}}}
 }
 \description{
 Calculates the variance of an image

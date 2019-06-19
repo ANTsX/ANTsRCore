@@ -6,20 +6,20 @@
 \alias{sd.antsImage}
 \title{SD generic}
 \usage{
-sd(x, ...)
+sd(x, na.rm = FALSE, ...)
 
-\method{sd}{default}(x, ...)
+\method{sd}{default}(x, na.rm = FALSE, ...)
 
 \method{sd}{antsImage}(x, mask = NULL, na.rm = FALSE)
 }
 \arguments{
 \item{x}{an object for which we want to compute the SD}
 
+\item{na.rm}{a logical value indicating whether NA should be removed}
+
 \item{\dots}{Any additional arguments to be passed to \code{sd}.}
 
 \item{mask}{is an object of class \code{antsImage}}
-
-\item{na.rm}{a logical value indicating whether NA should be removed}
 }
 \description{
 Calculates the SD of an image

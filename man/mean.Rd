@@ -4,7 +4,7 @@
 \alias{mean.antsImage}
 \title{Mean for antsImage Objects}
 \usage{
-\method{mean}{antsImage}(x, mask = NULL, na.rm = FALSE)
+\method{mean}{antsImage}(x, mask = NULL, na.rm = FALSE, ...)
 }
 \arguments{
 \item{x}{is an object of class \code{antsImage}.}
