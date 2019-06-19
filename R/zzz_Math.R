@@ -274,3 +274,14 @@ setMethod("lgamma", signature(x = "antsImage"),
           function(x) {
             return(.Call("antsImageMath", x, "lgamma", PACKAGE = "ANTsRCore"))
           })
+
+
+# setMethod("!")
+
+#' @rdname antsImagemath
+#' @aliases !,antsImage-method
+setMethod(f = "!", signature(x = "antsImage"), definition = function(x) {
+  # a2 = as.array(x)
+  # !a2
+  x == 0
+})

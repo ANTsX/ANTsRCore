@@ -87,13 +87,6 @@ setMethod("Logic", signature(e1 = "array", e2 = "antsImage"),
             return(res)
           })
 
-#' @rdname antsImagemath
-#' @aliases !,antsImage-method
-setMethod(f = "!", signature(x = "antsImage"), definition = function(x) {
-  # a2 = as.array(x)
-  # !a2
-  x == 0
-})
 
 #' @rdname antsImageops
 #' @aliases Logic,antsImage,logical-method
