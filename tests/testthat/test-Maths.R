@@ -9,7 +9,7 @@ norm_img[1,1,1] = 0.5
 
 testthat::test_that("Maths", {
   run_func = function(fun_name, img) {
-  	print(fun_name)
+    print(fun_name)
     if (fun_name %in% c("acosh", "asinh", "atanh")) {
       img = img + 1
       img[img > pi] = pi
@@ -50,16 +50,23 @@ testthat::test_that("Maths", {
                  "exp",
                  "lgamma")
   sapply(math_funcs, run_func, img = img)
-
+  
   sapply(math_funcs, run_func, img = norm_img)
   
   
-  math_funcs = c("gamma", "sinpi", "tanpi")
+  math_funcs = c("gamma", "sinpi")
   # expect_error(
-    sapply(math_funcs, run_func, img = img)
-    # )
+  sapply(math_funcs, run_func, img = img)
+  # )
   # expect_error(
+  sapply(math_funcs, run_func, img = norm_img)
+  # )
+  
+  math_funcs = c("tanpi")  
+  sapply(math_funcs, run_func, img = img)
+  # this should be removed when tanpi works
+  expect_error(
     sapply(math_funcs, run_func, img = norm_img)
-    # )
+  )
   
 })

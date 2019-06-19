@@ -202,16 +202,15 @@ unique.antsImage = function(x, incomparables = FALSE, ..., mask) {
 #' @description Calculates the SD of an image
 #'
 #' @param x an object for which we want to compute the SD
-#' @param \dots Any additional arguments to be passed to \code{sd}.
 #' @export
-sd = function(x, na.rm=FALSE, ...){
+sd = function(x, na.rm=FALSE){
   UseMethod("sd")
 }
 
 #' @rdname sd
 #' @export
 #' @importFrom stats sd
-sd.default = function(x, na.rm=FALSE, ...){
+sd.default = function(x, na.rm=FALSE){
   stats::sd(x, na.rm = FALSE)
 }
 

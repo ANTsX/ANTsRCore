@@ -6,9 +6,9 @@
 \alias{sd.antsImage}
 \title{SD generic}
 \usage{
-sd(x, na.rm = FALSE, ...)
+sd(x, na.rm = FALSE)
 
-\method{sd}{default}(x, na.rm = FALSE, ...)
+\method{sd}{default}(x, na.rm = FALSE)
 
 \method{sd}{antsImage}(x, na.rm = FALSE, mask = NULL)
 }
@@ -16,8 +16,6 @@ sd(x, na.rm = FALSE, ...)
 \item{x}{an object for which we want to compute the SD}
 
 \item{na.rm}{a logical value indicating whether NA should be removed}
-
-\item{\dots}{Any additional arguments to be passed to \code{sd}.}
 
 \item{mask}{is an object of class \code{antsImage}}
 }

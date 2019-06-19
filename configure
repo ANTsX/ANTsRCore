@@ -82,9 +82,9 @@ echo "all: \$(SHLIB)" >> Makevars
 # echo "all: \$(CHECKER) \$(SHLIB)" >> Makevars
 # echo "\$(CHECKER): ; @echo \"Myantssource is \${myantssource}\" && @echo \"PWD is \${PWD}\" && @echo \"ITK is \${ITK}\"" >> Makevars
 
-echo "\$(SHLIB): libs" >> Makevars
+echo "\$(SHLIB): libs cleaner" >> Makevars
 
-echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build && \$(MAKE) all install" >> Makevars
+echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build && \$(MAKE) all install && rm -rf \${PWD}/antb" >> Makevars
 
 echo "cleaner: ; cd libs/bin && rm -f antsRegistration antsApplyTransforms antsMotionCorr \
 antsAffineInitializer antsApplyTransformsToPoints LabelGeometryMeasures \
@@ -96,7 +96,7 @@ ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 # antsgit=https://github.com/muschellij2/ANTs.git
 # antstag=616ab869b510c1f95a3a63367719d737a86f3640
 antsgit=https://github.com/ANTsX/ANTs.git
-antstag=680942c1628c8ed142c6b25a4c8b9e47aadf3e01
+antstag=2b2ba01e7db0d52d1fd1e2c41734f01ab1cc880b
 antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants
@@ -128,8 +128,8 @@ cp -r ants/Temporary/* ../inst/include
 cd ./antb
 
 ${cmaker} -DITK_DIR:PATH=${ITKDIR} \
-    -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} -DNDEBUG  "\
-    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} -DNDEBUG  "\
+    -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} -DNDEBUG -Wself-assign-overloaded "\
+    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} -DNDEBUG -Wself-assign-overloaded "\
     -DBUILD_SHARED_LIBS=OFF \
     -DBUILD_ALL_ANTS_APPS=OFF \
     -DUSE_SYSTEM_ITK=OFF \
