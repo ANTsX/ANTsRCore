@@ -15,13 +15,12 @@ var(x, ...)
 \arguments{
 \item{x}{an object for which we want to compute the variance}
 
-\item{\dots}{Any additional arguments to be passed to \code{var}.}
+\item{\dots}{Any additional arguments to be passed to 
+\code{\link[stats]{var}}}
 
 \item{mask}{is an object of class \code{antsImage}}
 
 \item{na.rm}{a logical value indicating whether NA should be removed}
-
-\item{...}{addtional arguments passed to \code{\link[stats]{var}}}
 }
 \description{
 Calculates the variance of an image

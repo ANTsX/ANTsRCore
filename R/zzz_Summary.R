@@ -28,6 +28,7 @@
 #' @rdname antsImageSummary
 #' @param x is an object of class \code{antsImage}.
 #' @param ... further arguments passed to summary methods
+#' @param mask binary mask of values to subset
 #' @param na.rm logical: should missing values be removed?
 #' @examples
 #' vec = 1:64
@@ -211,7 +212,7 @@ sd = function(x, na.rm=FALSE, ...){
 #' @export
 #' @importFrom stats sd
 sd.default = function(x, na.rm=FALSE, ...){
-  stats::sd(x, na.rm=FALSE)
+  stats::sd(x, na.rm = FALSE)
 }
 
 #' @rdname sd
@@ -241,7 +242,8 @@ sd.antsImage = function(x, mask=NULL, na.rm=FALSE) {
 #' @description Calculates the variance of an image
 #'
 #' @param x an object for which we want to compute the variance
-#' @param \dots Any additional arguments to be passed to \code{var}.
+#' @param \dots Any additional arguments to be passed to 
+#' \code{\link[stats]{var}}
 #' @export
 var = function(x, ...){
   UseMethod("var")
@@ -258,7 +260,6 @@ var.default = function(x, ...){
 #' @export
 #' @param na.rm a logical value indicating whether NA should be removed
 #' @param mask is an object of class \code{antsImage}
-#' @param ... addtional arguments passed to \code{\link[stats]{var}}
 #' @examples
 #' img <- antsImageRead( getANTsRData( "r16" ) )
 #' var(img)

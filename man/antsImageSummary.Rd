@@ -41,6 +41,8 @@ all(x, ..., na.rm = FALSE)
 \item{...}{further arguments passed to summary methods}
 
 \item{na.rm}{logical: should missing values be removed?}
+
+\item{mask}{binary mask of values to subset}
 }
 \description{
 Overloaded Summary for antsImage objects
