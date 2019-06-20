@@ -58,11 +58,11 @@ iMath <- function(img, operation, param = NA, ...) {
   stopifnot(length(intersect(list_0, list_2)) == 0)
   stopifnot(length(intersect(list_2, list_1)) == 0)
   # input is usually an 'antsImage'
-  if (is.na(img))
+  if (missing(img))
   {
     stop("No input provided")
   }
-  if (is.na(operation) || (!is.character(operation)))
+  if (missing(operation) || (!is.character(operation)))
   {
     stop("operation must be a character string")
   }

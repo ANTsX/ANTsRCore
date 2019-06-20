@@ -27,7 +27,7 @@
 #'
 #' @export
 n4BiasFieldCorrection <- function(img ,
-                                  mask = NA,
+                                  mask = NULL,
                                   shrinkFactor = 4,
                                   convergence = list(iters = c(50, 50, 50, 50), tol = 0.0000001),
                                   splineParam = 200,
@@ -36,7 +36,7 @@ n4BiasFieldCorrection <- function(img ,
                                   weight_mask = NULL)
 {
   img = check_ants(img)
-  if (is.na(mask)) {
+  if (is.null(mask)) {
     mask <- getMask(img)
   }
   mask = check_ants(mask)

@@ -7,7 +7,7 @@
 createAntsrTransform(type = "AffineTransform", precision = "float",
   dimension = 3, matrix = NA, offset = NA, center = NA,
   translation = NA, parameters = NA, fixed.parameters = NA,
-  displacement.field = NA, supported.types = FALSE)
+  displacement.field = NULL, supported.types = FALSE)
 }
 \arguments{
 \item{type}{type of transform

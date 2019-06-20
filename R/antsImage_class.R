@@ -110,19 +110,19 @@ setMethod(f = "dim", signature(x = "antsImage"), definition = function(x) {
 #   return(length( which( as.array(x) != 0)))
 # })
 
-#' @rdname as.array
-#' @aliases is.na,antsImage-method .
-#' @export
-#' @examples
-#' outimg<-makeImage( c(2,10) , 1)
-#' is.na(outimg)
-setMethod(f = "is.na", signature(x = "antsImage"), definition = function(x) {
-  val <- .Call("antsImage_isna", x, PACKAGE = "ANTsRCore")
-  if (val > 0) {
-    return(TRUE)
-  }
-  return(FALSE)
-})
+# #' @rdname as.array
+# #' @aliases is.na,antsImage-method .
+# #' @export
+# #' @examples
+# #' outimg<-makeImage( c(2,10) , 1)
+# #' is.na(outimg)
+# setMethod(f = "is.na", signature(x = "antsImage"), definition = function(x) {
+#   val <- .Call("antsImage_isna", x, PACKAGE = "ANTsRCore")
+#   if (val > 0) {
+# return(TRUE)
+#   }
+#   return(FALSE)
+# })
 
 #' @rdname as.array
 #' @aliases as.numeric,antsImage-method

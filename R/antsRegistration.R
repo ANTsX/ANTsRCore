@@ -167,7 +167,7 @@ antsRegistration <- function(
   typeofTransform = "SyN",
   initialTransform = NA,
   outprefix = NULL,
-  mask = NA,
+  mask = NULL,
   gradStep=0.2,
   flowSigma=3,
   totalSigma=0,
@@ -318,7 +318,7 @@ antsRegistration <- function(
         m <- antsrGetPointerName(moving)
         wfo <- antsrGetPointerName(warpedfixout)
         wmo <- antsrGetPointerName(warpedmovout)
-        if (!is.na(mask)) {
+        if (!is.null(mask)) {
           if ( is.antsImage( mask ) ) {
             maskScale = mask - min( mask )
             maskScale = maskScale / max( maskScale ) * 255

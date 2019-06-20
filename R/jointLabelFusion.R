@@ -101,7 +101,7 @@ jointLabelFusion <- function(
   atlasList,
   beta=4,
   rad=2,
-  labelList=NA,
+  labelList = NULL,
   rho=0.01,
   usecor=FALSE,
   rSearch=3,
@@ -111,7 +111,7 @@ jointLabelFusion <- function(
   targetI = check_ants(targetI)
   targetIMask = check_ants(targetIMask)
   segpixtype = 'unsigned int'
-  if ( any( is.na( labelList ) ) ) doJif = TRUE else doJif = FALSE
+  if ( is.null( labelList ) ) doJif = TRUE else doJif = FALSE
   if ( ! doJif ) {
     if ( length(labelList) != length(atlasList) )
       stop("length(labelList) != length(atlasList)")
