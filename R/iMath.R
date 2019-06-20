@@ -31,7 +31,7 @@
 #' stopifnot(range(fh) == c(0, 1))
 #' filled = fh > 0
 #' @export iMath
-iMath <- function(img, operation, param = NA, ...) {
+iMath <- function(img, operation, param = NULL, ...) {
   img = check_ants(img)
   
   iMathOps <- NULL
@@ -104,7 +104,7 @@ iMath <- function(img, operation, param = NA, ...) {
       operation = "FillHoles"
     }
     args = list()
-    if (is.na(param))
+    if (is.null(param))
     {
       args = list(img, operation, ...)
     }
