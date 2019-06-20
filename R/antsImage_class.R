@@ -288,7 +288,7 @@ setGeneric(name = "as.antsImage", def = function(
   spacing = as.numeric(seq.int(from = 1, by = 0, length.out = length(dim(object)))),
   origin = as.numeric(seq.int(from = 0, by = 0, length.out = length(dim(object)))),
   direction = diag(length(dim(object))),
-  components = FALSE, reference = NA, ...) {
+  components = FALSE, reference = NULL, ...) {
   standardGeneric("as.antsImage")
 })
 
@@ -297,7 +297,7 @@ setGeneric(name = "as.antsImage", def = function(
 setMethod(f = "as.antsImage", signature(object = "matrix"), definition = function(object,
                                                                                   pixeltype = "float", spacing = as.numeric(seq.int(from = 1, by = 0, length.out = length(dim(object)))),
                                                                                   origin = as.numeric(seq.int(from = 0, by = 0, length.out = length(dim(object)))),
-                                                                                  direction = diag(length(dim(object))), components = FALSE, reference = NA) {
+                                                                                  direction = diag(length(dim(object))), components = FALSE, reference = NULL) {
   if ( is.antsImage(reference) )
   {
     pixeltype = reference@pixeltype
@@ -319,7 +319,7 @@ setMethod(f = "as.antsImage", signature(object = "matrix"), definition = functio
 setMethod(f = "as.antsImage", signature(object = "array"), definition = function(object,
                                                                                  pixeltype = "float", spacing = as.numeric(seq.int(from = 1, by = 0, length.out = length(dim(object)))),
                                                                                  origin = as.numeric(seq.int(from = 0, by = 0, length.out = length(dim(object)))),
-                                                                                 direction = diag(length(dim(object))), components = FALSE, reference = NA) {
+                                                                                 direction = diag(length(dim(object))), components = FALSE, reference = NULL) {
   if ( is.antsImage(reference) )
   {
     pixeltype = reference@pixeltype

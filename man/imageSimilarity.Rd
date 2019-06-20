@@ -6,8 +6,8 @@
 \usage{
 imageSimilarity(fixed, moving, type = c("MeanSquares",
   "MattesMutualInformation", "ANTSNeighborhoodCorrelation", "Correlation",
-  "Demons", "JointHistogramMutualInformation"), fixed.mask = NA,
-  moving.mask = NA, sampling.strategy = "none",
+  "Demons", "JointHistogramMutualInformation"), fixed.mask = NULL,
+  moving.mask = NULL, sampling.strategy = "none",
   sampling.percentage = 1, nBins = 32, radius = 3)
 }
 \arguments{
