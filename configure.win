@@ -50,7 +50,7 @@ PKG_LIBS="${PKG_LIBS} ${ADD_PKG_LIBS}"
 
 echo "PKG_LIBS=${PKG_LIBS} \${libitk} \${libants} \${libitk} \${libants} \${libitk} \
                \${libants} \${libitk} \${libants} \${libitk} \${libants} \${libitk} \
-               \${libants} \${libitk}" >> Makevars.win
+               \${libitk}" >> Makevars.win
 
 echo ".PHONY: all libs" >> Makevars.win
 
