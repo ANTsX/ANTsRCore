@@ -84,6 +84,14 @@ build_script:
   # - set PATH=%PATH%;C:\Windows\System32\WindowsPowerShell\v1.0\
   # - set PATH=%PATH%;C:\Program Files\7-Zip
   - travis-tool.sh install_deps
+  # FFTW for hackrf_sweep
+  - curl -fsS -o "C:\fftw-3.3.5.zip" "ftp://ftp.fftw.org/pub/fftw/fftw-3.3.5-dll64.zip"
+  - 7z x -y "C:\fftw-3.3.5.zip" -o"C:\fftw"
+  - rm -f C:/fftw-3.3.5.zip
+  - cd c:\fftw
+  - ps: lib /machine:x64 /def:libfftw3f-3.def  
+  - cd C:\run
+
 
 test_script:
   - R CMD INSTALL --build --no-multiarch .
