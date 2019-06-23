@@ -63,7 +63,7 @@ libants="-L${myantslib} ${libants}"
 
 echo "PKG_LIBS=${PKG_LIBS} ${libitk} ${libants} ${libitk} ${libants} ${libitk} \
                ${libants} ${libitk} ${libants} ${libitk} ${libants} ${libitk} \
-               ${libants}" >> Makevars.win
+               ${libants} ${libitk} ${libants} ${libitk} ${libants}" >> Makevars.win
 # echo "PKG_LIBS=${PKG_LIBS} -L${ITKRLIB} \${libants} \${libitk} \${libants} \${libitk} \
 #                \${libants} \${libitk} \${libants} \${libitk} \${libants} \${libitk} \
 #                \${libitk} \${libants}" >> Makevars.win
