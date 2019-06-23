@@ -61,9 +61,9 @@ str="${str}); x = sub('[.]a$', '', x); cat(paste0('-l', x), sep = ' ')"
 libants=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"`
 libants="-L${myantslib} ${libitk}"
 
-echo "PKG_LIBS=${PKG_LIBS} ${libants} ${libitk} ${libants} ${libitk} \
+echo "PKG_LIBS=${PKG_LIBS} ${libitk} ${libants} ${libitk} ${libants} ${libitk} \
                ${libants} ${libitk} ${libants} ${libitk} ${libants} ${libitk} \
-               ${libitk} ${libants}" >> Makevars.win
+               ${libants}" >> Makevars.win
 # echo "PKG_LIBS=${PKG_LIBS} -L${ITKRLIB} \${libants} \${libitk} \${libants} \${libitk} \
 #                \${libants} \${libitk} \${libants} \${libitk} \${libants} \${libitk} \
 #                \${libitk} \${libants}" >> Makevars.win
