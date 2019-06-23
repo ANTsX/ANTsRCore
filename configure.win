@@ -59,7 +59,7 @@ str="x = list.files(pattern = 'lib.*.a', path='"
 str="${str}${myantslib}'"
 str="${str}); x = sub('[.]a$', '', x); cat(paste0('-l', x), sep = ' ')"
 libants=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"`
-libants="-L${myantslib} ${libitk}"
+libants="-L${myantslib} ${libants}"
 
 echo "PKG_LIBS=${PKG_LIBS} ${libitk} ${libants} ${libitk} ${libants} ${libitk} \
                ${libants} ${libitk} ${libants} ${libitk} ${libants} ${libitk} \
