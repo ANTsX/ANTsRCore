@@ -25,6 +25,7 @@ cd ./src
 PWD=`pwd`
 # platform-specific Makevars
 echo "PWD=${PWD}" > Makevars.win
+myantslib=${PWD}/antb/lib/
 echo "myantssource=\${PWD}/ants" >> Makevars.win
 echo "ITK=\"${ITKRCMAKE}\"" >> Makevars.win
 
@@ -41,19 +42,28 @@ echo "SHLIB_CXXLD=${CMAKE_EXE_LINKER_FLAGS}"
 # echo "myantslib=\"\${PWD}/antb/lib/\"" >> Makevars.win
 echo "myantslib=\${PWD}/antb/lib/">> Makevars.win
 
-echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
-
+# echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
 # echo "libitk=\`find \"${ITKRLIB}\" -name \"lib*.a\"\`" >> Makevars.win
+
 PKG_LIBS="${PKG_LIBS} ${ADD_PKG_LIBS}"
 # echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk} \
 #                   \${libants} \${libitk} \${libants} \${itklib} \${libants} " >> Makevars.win
 
-str="x = list.files(pattern = 'lib.*.a'); x = sub('[.]a$', '', x); cat(paste0('-l', x), sep = ' ')"
+str="x = list.files(pattern = 'lib.*.a', path='"
+str="${str}${ITKRLIB}'"
+str="${str}$); x = sub('[.]a$', '', x); cat(paste0('-l', x), sep = ' ')"
 libitk=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"`
 libitk="-L${ITKRLIB} ${libitk}"
-echo "PKG_LIBS=${PKG_LIBS} \${libants} ${libitk} \${libants} ${libitk} \
-               \${libants} ${libitk} \${libants} ${libitk} \${libants} ${libitk} \
-               ${libitk} \${libants}" >> Makevars.win
+
+str="x = list.files(pattern = 'lib.*.a', path='"
+str="${str}${myantslib}'"
+str="${str}$); x = sub('[.]a$', '', x); cat(paste0('-l', x), sep = ' ')"
+libants=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"`
+libants="-L${myantslib} ${libitk}"
+
+echo "PKG_LIBS=${PKG_LIBS} ${libants} ${libitk} ${libants} ${libitk} \
+               ${libants} ${libitk} ${libants} ${libitk} ${libants} ${libitk} \
+               ${libitk} ${libants}" >> Makevars.win
 # echo "PKG_LIBS=${PKG_LIBS} -L${ITKRLIB} \${libants} \${libitk} \${libants} \${libitk} \
 #                \${libants} \${libitk} \${libants} \${libitk} \${libants} \${libitk} \
 #                \${libitk} \${libants}" >> Makevars.win
