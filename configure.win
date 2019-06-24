@@ -51,7 +51,7 @@ echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
 
 str="x = list.files(pattern = 'lib.*.a', path='"
 str="${str}${ITKRLIB}'"
-str="${str}); x = sub('[.]a$', '', x); cat(paste0('-l', x), sep = ' ')"
+str="${str}); x = sub('[.]a$', '', x); x = sub('^lib', '', x); cat(paste0('-l', x), sep = ' ')"
 libitk=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"`
 echo "Running libitk"
 libitk="-L${ITKRLIB} ${libitk}"
