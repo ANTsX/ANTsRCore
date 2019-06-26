@@ -84,7 +84,7 @@ antsrMetricCreate <- function(
   type=c("MeanSquares", "MattesMutualInformation",
          "ANTSNeighborhoodCorrelation", "Correlation",
          "Demons", "JointHistogramMutualInformation"),
-  fixed.mask=NA, moving.mask=NA,
+  fixed.mask=NULL, moving.mask=NULL,
   sampling.strategy="none", sampling.percentage=1, nBins=32, radius=3 )
 {
 
@@ -132,9 +132,16 @@ antsrMetricCreate <- function(
 
   metric = .Call("antsrMetric", pixeltype, dimension, type, isVector, fixed, moving, PACKAGE = "ANTsRCore")
 
+  if (!is.null(fixed.mask)) {
+    fixed.mask = check_ants(fixed.mask)
+  }
   if ( is.antsImage(fixed.mask) ) {
     antsrMetricSetFixedImageMask(metric, fixed.mask)
   }
+  
+  if (!is.null(moving.mask)) {
+    moving.mask = check_ants(moving.mask)
+  }  
   if ( is.antsImage(moving.mask) ) {
     antsrMetricSetMovingImageMask(metric, moving.mask)
   }

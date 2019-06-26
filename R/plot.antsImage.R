@@ -99,12 +99,12 @@
 #' @importFrom utils capture.output data download.file glob2rx install.packages
 #' @importFrom utils read.csv setTxtProgressBar tail txtProgressBar unzip
 #' @importFrom utils write.csv
-plot.antsImage <- function(x, y,
+plot.antsImage <- function(x, y = NULL,
   color.img = "white",
   color.overlay = c("jet", "red", "blue",  "green", "yellow", "viridis", "magma", "plasma", "inferno"),
   axis = 2,
   slices,
-  colorbar = missing(y),
+  colorbar = is.null(y),
   title.colorbar,
   title.img,
   title.line=NA,
@@ -119,7 +119,7 @@ plot.antsImage <- function(x, y,
   end = 1,
   newwindow = FALSE,
   nslices = 10,
-  domainImageMap = NA,
+  domainImageMap = NULL,
   ncolumns = 4,
   useAbsoluteScale = FALSE,
   doCropping = TRUE,
@@ -133,7 +133,7 @@ if ( x@components > 1 )
 if ( ! is.antsImage( x ) ) stop("input x should be an antsImage.")
 interpNN = 'NearestNeighbor'
 interpStyle = 'Linear'
-if ( ! missing( "y" ) )
+if ( ! is.null(y) )
   {
   if ( is.antsImage( y ) ) y <- list(y)
   for ( i in 1:length( y ) ) {
@@ -142,14 +142,14 @@ if ( ! missing( "y" ) )
       }
     }
   }
-if ( ! any( is.na( domainImageMap ) ) )
+if ( ! is.null( domainImageMap ) ) 
   {
   if ( is.antsImage( domainImageMap ) )
     {
     tx = new("antsrTransform", precision="float",
       type="AffineTransform", dimension = x@dimension )
     x = applyAntsrTransformToImage(tx, x, domainImageMap )
-    if ( ! missing( "y" ) )
+    if ( ! is.null( y ) )
       {
       if ( is.antsImage( y ) ) y <- list(y)
       for ( i in 1:length( y ) )
@@ -166,7 +166,7 @@ if ( ! any( is.na( domainImageMap ) ) )
       stop("domainImageMap list first entry list should be antsImage.")
     tx = domainImageMap[[2]]
     x = antsApplyTransforms( dimg, x, transformlist = tx )
-    if ( ! missing( "y" ) )
+    if ( ! is.null( y ) )
       {
       if ( is.antsImage( y ) ) y <- list(y)
       for ( i in 1:length( y ) )
@@ -195,8 +195,6 @@ if ( ! any( is.na( domainImageMap ) ) )
   }
   color.colorbar <- ifelse(missing(y), "white", color.overlay[1])
   myantsimage <- x
-  if (missing(y))
-    y <- NA
   if (is.antsImage(y))
     y <- list(y)
   imagedim <- length(dim(myantsimage))
@@ -281,7 +279,7 @@ if ( ! any( is.na( domainImageMap ) ) )
     colorfun(nlevels)
   }
 
-  if (all(is.na(y))) {
+  if (is.null(y)) {
     thresh <- "1.e9x1.e9"
   }
   # .................................................
@@ -377,7 +375,7 @@ if ( ! any( is.na( domainImageMap ) ) )
     window.img[ 1 ]<-min( x )
   bigslice[bigslice<window.img[1]] <- window.img[1]
   bigslice[bigslice>window.img[2]] <- window.img[2]
-  if ( colorbar & missing( y ) ){
+  if ( colorbar & is.null( y ) ){
     nlev = 50
     levels <- seq(window.img[1], window.img[2], length.out=nlev)
     # code taken from filled.contour
@@ -408,7 +406,7 @@ if ( ! any( is.na( domainImageMap ) ) )
     window.overlay[1] = window.overlay[1] - eps
     window.overlay[2] = window.overlay[2] + eps
     }
-  if(colorbar & !missing(y)){
+  if(colorbar & !is.null(y)){
     nlev = 50
     levels <- seq(window.overlay[1], window.overlay[2], length.out=nlev )
     # code taken from filled.contour
@@ -444,7 +442,7 @@ if ( ! any( is.na( domainImageMap ) ) )
   if (!missing(title.img))
     title(title.img, line=title.line)
 
-  if (missing(window.overlay) & !all(is.na(y))) {
+  if (missing(window.overlay) & !is.null(y)) {
     window.overlay <- range( y[[1]] )
     if(window.overlay[1] == window.overlay[2]){
       window.overlay[1] <- min(y[[1]])
@@ -459,12 +457,12 @@ if ( ! any( is.na( domainImageMap ) ) )
   }
   if ( ! missing( window.overlay ) )
   if ( ( window.overlay[1] > window.overlay[2] ) |
-         all( is.na( y ) ) ) {
+         is.null( y ) ) {
     if (!is.na(outname))
       dev.off()
     invisible(return())
   }
-  if ( ! all( is.na( y ) ) )
+  if ( ! is.null( y ) )
   {
   for (ind in 1:length( y )) {
 

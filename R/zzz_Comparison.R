@@ -1,3 +1,29 @@
+check_numeric_components = function(image, number) {
+  if (length(number) != components(image) &
+      components(image) > 1) {
+    stop(paste0(
+      "Comparison value not the same length as number of channels in image"))
+  }    
+}
+
+
+check_components = function(image) {
+  if (components(image) > 1) {    
+    stop(paste0(
+      "For multiple component images, comparison",
+      " is not implemented yet, use `splitChannels` and lapply, then mergeChannels"))
+  }    
+}
+
+rep_number = function(image, number) {
+  if (length(number) != components(image) &
+      components(image) > 1 & 
+      length(number) == 1) {
+    number = rep(number, components(image))
+  }    
+  return(number)
+}
+
 #' @rdname antsImageops
 #' @aliases ==,antsImage,antsImage-method
 #' @examples
@@ -72,6 +98,37 @@
 #' x <- is.antsImage(as.array(img01) != img01) 
 #' et(x)
 #' 
+#' ###########################
+#' # Multi image operations
+#' ######################## 
+#' fname = system.file("extdata",
+#' "multi_component_image.nii.gz", package="ANTsRCore")
+#' img = antsImageRead(fname)
+#' 
+#' testthat::expect_is(img > 0, "antsImage")
+#' testthat::expect_is(0 < img, "antsImage")
+#' testthat::expect_is(img > c(0, 0), "antsImage")
+#' 
+#' testthat::expect_is(img >= 0, "antsImage")
+#' testthat::expect_is(0 <= img, "antsImage")
+#' testthat::expect_is(img >= c(0, 0), "antsImage")
+#' 
+#' testthat::expect_is(img < 0, "antsImage")
+#' testthat::expect_is(0 > img, "antsImage")
+#' testthat::expect_is(img < c(0, 0), "antsImage")
+#' 
+#' testthat::expect_is(img <= 0, "antsImage")
+#' testthat::expect_is(0 >= img, "antsImage")
+#' testthat::expect_is(img <= c(0, 0), "antsImage")
+#' 
+#' testthat::expect_is(img == 0, "antsImage")
+#' testthat::expect_is(0 == img, "antsImage")
+#' testthat::expect_is(img == c(0, 0), "antsImage")
+#' 
+#' testthat::expect_is(img != 0, "antsImage")
+#' testthat::expect_is(0 != img, "antsImage")
+#' testthat::expect_is(img != c(0, 0), "antsImage")
+#' 
 setMethod("==", signature(e1 = "antsImage", e2 = "antsImage"),
           function(e1, e2) {
             operator = "=="
@@ -83,7 +140,7 @@ setMethod("==", signature(e1 = "antsImage", e2 = "antsImage"),
                         e1, e2, 
                         operator, PACKAGE = "ANTsRCore")
             return(res)
-
+            
           })
 
 #' @rdname antsImageops
@@ -118,12 +175,16 @@ setMethod("==", signature(e1 = "array", e2 = "antsImage"),
 setMethod("==", signature(e1 = "antsImage", e2 = "ANY"),
           function(e1, e2) {
             operator = "=="
-            if (length(e2) == 1) {
-              e2 = as.numeric(e2)
-              res = .Call("antsImageComparisonImageNumeric", 
-                          e1, e2, 
-                          operator, PACKAGE = "ANTsRCore")  
-              return(res)
+            if (components(e1) == 1) {
+              if (length(e2) == 1) {
+                e2 = as.numeric(e2)
+                # e2 = rep_number(e2, image = e1)
+                # check_numeric_components(image = e1, number = e2)
+                res = .Call("antsImageComparisonImageNumeric", 
+                            e1, e2, 
+                            operator, PACKAGE = "ANTsRCore")  
+                return(res)
+              }
             }
             a1 = as.array(e1)
             res = callGeneric(a1, e2)
@@ -135,6 +196,8 @@ setMethod("==", signature(e1 = "antsImage", e2 = "ANY"),
 #' @aliases ==,ANY,antsImage-method
 setMethod("==", signature(e1 = "ANY", e2 = "antsImage"),
           function(e1, e2) {
+            # e1 = rep_number(e1, image = e2)
+            # check_numeric_components(image = e2, number = e1)
             a2 = as.array(e2)
             res = callGeneric(e1, a2)
             res = as.antsImage(res, reference = e2)            
@@ -159,7 +222,7 @@ setMethod(">", signature(e1 = "antsImage", e2 = "antsImage"),
                         e1, e2, 
                         operator, PACKAGE = "ANTsRCore")
             return(res)
-
+            
           })
 
 #' @rdname antsImageops
@@ -194,12 +257,16 @@ setMethod(">", signature(e1 = "array", e2 = "antsImage"),
 setMethod(">", signature(e1 = "antsImage", e2 = "ANY"),
           function(e1, e2) {
             operator = ">"
-            if (length(e2) == 1) {
-              e2 = as.numeric(e2)
-              res = .Call("antsImageComparisonImageNumeric", 
-                          e1, e2, 
-                          operator, PACKAGE = "ANTsRCore")  
-              return(res)
+            if (components(e1) == 1) {
+              if (length(e2) == 1) {
+                e2 = as.numeric(e2)
+                # e2 = rep_number(e2, image = e1)
+                # check_numeric_components(image = e1, number = e2)
+                res = .Call("antsImageComparisonImageNumeric", 
+                            e1, e2, 
+                            operator, PACKAGE = "ANTsRCore")  
+                return(res)
+              }
             }
             a1 = as.array(e1)
             res = callGeneric(a1, e2)
@@ -211,6 +278,8 @@ setMethod(">", signature(e1 = "antsImage", e2 = "ANY"),
 #' @aliases >,ANY,antsImage-method
 setMethod(">", signature(e1 = "ANY", e2 = "antsImage"),
           function(e1, e2) {
+            # check_numeric_components(image = e2, number = e1)
+            # e1 = rep_number(e1, image = e2)
             a2 = as.array(e2)
             res = callGeneric(e1, a2)
             res = as.antsImage(res, reference = e2)            
@@ -235,7 +304,7 @@ setMethod("<", signature(e1 = "antsImage", e2 = "antsImage"),
                         e1, e2, 
                         operator, PACKAGE = "ANTsRCore")
             return(res)
-
+            
           })
 
 #' @rdname antsImageops
@@ -270,12 +339,16 @@ setMethod("<", signature(e1 = "array", e2 = "antsImage"),
 setMethod("<", signature(e1 = "antsImage", e2 = "ANY"),
           function(e1, e2) {
             operator = "<"
-            if (length(e2) == 1) {
-              e2 = as.numeric(e2)
-              res = .Call("antsImageComparisonImageNumeric", 
-                          e1, e2, 
-                          operator, PACKAGE = "ANTsRCore")  
-              return(res)
+            if (components(e1) == 1) {
+              if (length(e2) == 1) {
+                e2 = as.numeric(e2)
+                # e2 = rep_number(e2, image = e1)
+                # check_numeric_components(image = e1, number = e2)
+                res = .Call("antsImageComparisonImageNumeric", 
+                            e1, e2, 
+                            operator, PACKAGE = "ANTsRCore")  
+                return(res)
+              }
             }
             a1 = as.array(e1)
             res = callGeneric(a1, e2)
@@ -287,6 +360,8 @@ setMethod("<", signature(e1 = "antsImage", e2 = "ANY"),
 #' @aliases <,ANY,antsImage-method
 setMethod("<", signature(e1 = "ANY", e2 = "antsImage"),
           function(e1, e2) {
+            # check_numeric_components(image = e2, number = e1)
+            # e1 = rep_number(e1, image = e2)
             a2 = as.array(e2)
             res = callGeneric(e1, a2)
             res = as.antsImage(res, reference = e2)            
@@ -311,7 +386,7 @@ setMethod("!=", signature(e1 = "antsImage", e2 = "antsImage"),
                         e1, e2, 
                         operator, PACKAGE = "ANTsRCore")
             return(res)
-
+            
           })
 
 #' @rdname antsImageops
@@ -346,12 +421,16 @@ setMethod("!=", signature(e1 = "array", e2 = "antsImage"),
 setMethod("!=", signature(e1 = "antsImage", e2 = "ANY"),
           function(e1, e2) {
             operator = "!="
-            if (length(e2) == 1) {
-              e2 = as.numeric(e2)
-              res = .Call("antsImageComparisonImageNumeric", 
-                          e1, e2, 
-                          operator, PACKAGE = "ANTsRCore")  
-              return(res)
+            if (components(e1) == 1) {            
+              if (length(e2) == 1) {
+                e2 = as.numeric(e2)
+                # e2 = rep_number(e2, image = e1)
+                # check_numeric_components(image = e1, number = e2)
+                res = .Call("antsImageComparisonImageNumeric", 
+                            e1, e2, 
+                            operator, PACKAGE = "ANTsRCore")  
+                return(res)
+              }
             }
             a1 = as.array(e1)
             res = callGeneric(a1, e2)
@@ -363,6 +442,8 @@ setMethod("!=", signature(e1 = "antsImage", e2 = "ANY"),
 #' @aliases !=,ANY,antsImage-method
 setMethod("!=", signature(e1 = "ANY", e2 = "antsImage"),
           function(e1, e2) {
+            # check_numeric_components(image = e2, number = e1)
+            # e1 = rep_number(e1, image = e2)
             a2 = as.array(e2)
             res = callGeneric(e1, a2)
             res = as.antsImage(res, reference = e2)            
@@ -387,7 +468,7 @@ setMethod("<=", signature(e1 = "antsImage", e2 = "antsImage"),
                         e1, e2, 
                         operator, PACKAGE = "ANTsRCore")
             return(res)
-
+            
           })
 
 #' @rdname antsImageops
@@ -422,12 +503,16 @@ setMethod("<=", signature(e1 = "array", e2 = "antsImage"),
 setMethod("<=", signature(e1 = "antsImage", e2 = "ANY"),
           function(e1, e2) {
             operator = "<="
-            if (length(e2) == 1) {
-              e2 = as.numeric(e2)
-              res = .Call("antsImageComparisonImageNumeric", 
-                          e1, e2, 
-                          operator, PACKAGE = "ANTsRCore")  
-              return(res)
+            if (components(e1) == 1) {
+              if (length(e2) == 1) {
+                e2 = as.numeric(e2)
+                # e2 = rep_number(e2, image = e1)
+                # check_numeric_components(image = e1, number = e2)
+                res = .Call("antsImageComparisonImageNumeric", 
+                            e1, e2, 
+                            operator, PACKAGE = "ANTsRCore")  
+                return(res)
+              }
             }
             a1 = as.array(e1)
             res = callGeneric(a1, e2)
@@ -439,6 +524,8 @@ setMethod("<=", signature(e1 = "antsImage", e2 = "ANY"),
 #' @aliases <=,ANY,antsImage-method
 setMethod("<=", signature(e1 = "ANY", e2 = "antsImage"),
           function(e1, e2) {
+            # check_numeric_components(image = e2, number = e1)
+            # e1 = rep_number(e1, image = e2)
             a2 = as.array(e2)
             res = callGeneric(e1, a2)
             res = as.antsImage(res, reference = e2)            
@@ -463,7 +550,7 @@ setMethod(">=", signature(e1 = "antsImage", e2 = "antsImage"),
                         e1, e2, 
                         operator, PACKAGE = "ANTsRCore")
             return(res)
-
+            
           })
 
 #' @rdname antsImageops
@@ -498,12 +585,17 @@ setMethod(">=", signature(e1 = "array", e2 = "antsImage"),
 setMethod(">=", signature(e1 = "antsImage", e2 = "ANY"),
           function(e1, e2) {
             operator = ">="
-            if (length(e2) == 1) {
-              e2 = as.numeric(e2)
-              res = .Call("antsImageComparisonImageNumeric", 
-                          e1, e2, 
-                          operator, PACKAGE = "ANTsRCore")  
-              return(res)
+            if (components(e1) == 1) {            
+              
+              if (length(e2) == 1) {
+                e2 = as.numeric(e2)
+                # e2 = rep_number(e2, image = e1)
+                # check_numeric_components(image = e1, number = e2)
+                res = .Call("antsImageComparisonImageNumeric", 
+                            e1, e2, 
+                            operator, PACKAGE = "ANTsRCore")  
+                return(res)
+              }
             }
             a1 = as.array(e1)
             res = callGeneric(a1, e2)
@@ -515,6 +607,8 @@ setMethod(">=", signature(e1 = "antsImage", e2 = "ANY"),
 #' @aliases >=,ANY,antsImage-method
 setMethod(">=", signature(e1 = "ANY", e2 = "antsImage"),
           function(e1, e2) {
+            # check_numeric_components(image = e2, number = e1)
+            # e1 = rep_number(e1, image = e2)
             a2 = as.array(e2)
             res = callGeneric(e1, a2)
             res = as.antsImage(res, reference = e2)            

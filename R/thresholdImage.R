@@ -15,15 +15,17 @@
 #' img <- makeImage(c(5,5), rnorm(25)+0.5)
 #' imgt<-thresholdImage( img, 0.5, Inf )
 #' testthat::expect_equal(sum(imgt), 9)
+#' imgt<-thresholdImage( img > 0.5, 0.1, Inf )
+#' testthat::expect_equal(sum(imgt), 9)
 #' @export thresholdImage
 thresholdImage <- function(inimg,
   lothresh, hithresh, inval=1, outval=0) {
   inimg = check_ants(inimg)
-  
-  dim<-inimg@dimension
-  outimg<-antsImageClone( inimg )
+  inimg = antsImageClone(inimg, out_pixeltype = "float")
+  dim <- inimg@dimension
+  outimg <- antsImageClone( inimg )
   args <- list(dim, inimg, outimg, lothresh, hithresh, inval, outval)
-  temp<-.Call("ThresholdImage", .int_antsProcessArguments(args),
+  temp <- .Call("ThresholdImage", .int_antsProcessArguments(args),
     PACKAGE = "ANTsRCore")
   return(outimg)
 }

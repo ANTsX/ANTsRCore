@@ -51,6 +51,13 @@ setMethod("ceiling", signature(x = "antsImage"),
 
 #' @rdname antsImagemath
 #' @export
+setMethod("round", signature(x = "antsImage"),
+          function(x) {
+            return(.Call("antsImageMath", x, "round", PACKAGE = "ANTsRCore"))
+          })
+
+#' @rdname antsImagemath
+#' @export
 setMethod("floor", signature(x = "antsImage"),
           function(x) {
             return(.Call("antsImageMath", x, "floor", PACKAGE = "ANTsRCore"))
@@ -231,7 +238,17 @@ setMethod("sinpi", signature(x = "antsImage"),
 #' @export
 setMethod("tanpi", signature(x = "antsImage"),
           function(x) {
-            return(.Call("antsImageMath", x, "tanpi", PACKAGE = "ANTsRCore"))
+            masker = x == 0.5
+            suppressWarnings(check_res <- any(as.array(masker)))
+            if (check_res) {
+              warning(paste0("tanpi doesn't have correct behavior ", 
+                             "when x = 0.5 compared to R!"))
+            }
+            res = .Call("antsImageMath", x, "tanpi", PACKAGE = "ANTsRCore")
+            if (check_res) {
+              res[masker] = NaN
+            }
+            return(res)
           })
 
 #' @rdname antsImagemath
@@ -245,7 +262,10 @@ setMethod("exp", signature(x = "antsImage"),
 #' @export
 setMethod("gamma", signature(x = "antsImage"),
           function(x) {
-            return(.Call("antsImageMath", x, "gamma", PACKAGE = "ANTsRCore"))
+            mask = x == 0
+            res = .Call("antsImageMath", x, "gamma", PACKAGE = "ANTsRCore")
+            res[mask] = NaN
+            return(res)
           })
 
 #' @rdname antsImagemath
@@ -254,3 +274,14 @@ setMethod("lgamma", signature(x = "antsImage"),
           function(x) {
             return(.Call("antsImageMath", x, "lgamma", PACKAGE = "ANTsRCore"))
           })
+
+
+# setMethod("!")
+
+#' @rdname antsImagemath
+#' @aliases !,antsImage-method
+setMethod(f = "!", signature(x = "antsImage"), definition = function(x) {
+  # a2 = as.array(x)
+  # !a2
+  x == 0
+})

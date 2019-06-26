@@ -15,7 +15,26 @@
   Unimplemented:  "digamma", "trigamma", "expm1", "log1p", "cummax", "cummin", "cumprod", "cumsum"
 */
 
-
+float roundHalfToEven(float f)
+{
+  const float r = round(f); // Result is round-half-away-from-zero
+  const float d = r - f; // Difference
+  
+  // Result is not half, RHAFZ result same as RHTE
+  if ((d != 0.5f) && (d != -0.5f))
+  {
+    return r;
+  }
+  
+  // Check if RHAFZ result is even, then RHAFZ result same as RHTE
+  if (fmod(r, 2.0f) == 0.0f)
+  {
+    return r;
+  }
+  
+  // Switch to even value
+  return f - d;
+}
 
 namespace itk
    {
@@ -241,6 +260,43 @@ namespace itk
          return output;
        }
      };
+     
+     template< typename DataType >
+     class ANTsR_Round
+     {
+     public:
+        ANTsR_Round() {}
+        ~ANTsR_Round() {}
+        
+        typedef itk::DefaultConvertPixelTraits<DataType> ConvertType;
+        typedef itk::NumericTraits<DataType>             TraitsType;
+        typedef typename TraitsType::ValueType           ValueType;
+        typedef ANTsR_GetDataValue<DataType>             GetValueType;
+        
+        bool operator!=(const ANTsR_Round &) const
+        {
+           return false;
+        }
+        
+        bool operator==(const ANTsR_Round & other) const
+        {
+           return !( *this != other );
+        }
+        
+        inline DataType operator()(const DataType & A ) const
+        {
+           DataType output;
+           unsigned int nComponents = TraitsType::GetLength(A);
+           TraitsType::SetLength(output,nComponents);
+           
+           for ( unsigned int i=0; i<nComponents; i++) {
+             // as per https://stackoverflow.com/questions/31464146/rounding-to-nearest-even-number-in-c
+              ConvertType::SetNthComponent(i, output,
+                                           static_cast<ValueType>( roundHalfToEven(GetValueType::NthValue(i,A))) );
+           }
+           return output;
+        }
+     };     
 
      template< typename DataType >
      class ANTsR_Trunc
@@ -883,7 +939,7 @@ namespace itk
 
        for ( unsigned int i=0; i<nComponents; i++) {
          ConvertType::SetNthComponent(i, output,
-            static_cast<ValueType>( itk::Math::pi * sin(GetValueType::NthValue(i,A)) ));
+            static_cast<ValueType>( sin(itk::Math::pi * GetValueType::NthValue(i,A)) ));
        }
        return output;
      }
@@ -919,7 +975,7 @@ namespace itk
 
        for ( unsigned int i=0; i<nComponents; i++) {
          ConvertType::SetNthComponent(i, output,
-            static_cast<ValueType>( itk::Math::pi * tan(GetValueType::NthValue(i,A)) ));
+            static_cast<ValueType>( tan(itk::Math::pi * GetValueType::NthValue(i,A)) ));
        }
        return output;
      }
@@ -1107,6 +1163,18 @@ SEXP antsImageMath( SEXP r_antsimage, SEXP r_operator )
 
     return Rcpp::wrap(outImage);
   }
+  else if ( Rcpp::as< std::string >( r_operator ) == "round" )
+  {
+     typedef itk::UnaryFunctorImageFilter<ImageType, ImageType,
+       itk::Functor::ANTsR_Round<PixelType>  > FilterType;
+     
+     typename FilterType::Pointer filter = FilterType::New();
+     filter->SetInput( image );
+     filter->Update();
+     typename ImageType::Pointer outImage = filter->GetOutput();
+     
+     return Rcpp::wrap(outImage);
+  }  
   else if ( Rcpp::as< std::string >( r_operator ) == "trunc" )
   {
     typedef itk::UnaryFunctorImageFilter<ImageType, ImageType,

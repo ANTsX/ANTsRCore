@@ -62,7 +62,7 @@ extern SEXP antsImageLogicImageNumeric(SEXP, SEXP, SEXP);
 extern SEXP antsImageMath(SEXP, SEXP);
 extern SEXP antsImageMutualInformation(SEXP, SEXP);
 extern SEXP antsImageRead(SEXP, SEXP, SEXP, SEXP);
-extern SEXP antsImageStats(SEXP,SEXP,constexpr);
+extern SEXP antsImageStats(SEXP,SEXP,SEXP);
 extern SEXP antsImageWrite(SEXP, SEXP, SEXP);
 extern SEXP antsJointFusion(SEXP);
 extern SEXP antsMatrix(SEXP);

@@ -4,8 +4,6 @@
 \name{as.array}
 \alias{as.array}
 \alias{dim,antsImage-method}
-\alias{is.na,antsImage-method}
-\alias{.}
 \alias{as.numeric,antsImage-method}
 \alias{as.matrix,antsImage-method}
 \alias{as.matrix.antsImage}
@@ -21,8 +19,6 @@
 \title{Coerce antsImage objects to array}
 \usage{
 \S4method{dim}{antsImage}(x)
-
-\S4method{is.na}{antsImage}(x)
 
 \S4method{as.numeric}{antsImage}(x, mask = logical(),
   region = new("antsRegion", index = integer(), size = integer()))
@@ -75,8 +71,6 @@ data frame.}
 Converts antsImage, antsImage object to different data types
 }
 \examples{
-outimg<-makeImage( c(2,10) , 1)
-is.na(outimg)
 outimg<-makeImage( c(2,10) , rnorm(20))
 as.numeric(outimg)
 as.numeric(outimg, mask = outimg > 1)

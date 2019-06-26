@@ -4,16 +4,16 @@
 \alias{unique.antsImage}
 \title{Unique for antsImage Objects}
 \usage{
-\method{unique}{antsImage}(x, incomparables = FALSE, ..., mask)
+\method{unique}{antsImage}(x, incomparables = FALSE, mask = NULL, ...)
 }
 \arguments{
 \item{x}{is an object of class \code{antsImage}.}
 
 \item{incomparables}{a vector of values that cannot be compared.}
 
-\item{...}{additional arguments passed to \code{\link{unique}}}
-
 \item{mask}{binary mask of values to subset}
+
+\item{...}{additional arguments passed to \code{\link{unique}}}
 }
 \description{
 Overloaded uniqueness operation for antsImage objects

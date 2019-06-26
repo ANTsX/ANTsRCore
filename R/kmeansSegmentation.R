@@ -42,12 +42,12 @@
 #' tab = table(arr1, arr2)
 #' tab
 #' @export kmeansSegmentation
-kmeansSegmentation <- function(img, k, kmask = NA, mrf = 0.1, verbose=FALSE,
+kmeansSegmentation <- function(img, k, kmask = NULL, mrf = 0.1, verbose=FALSE,
                                ...) {
   img = check_ants(img)
   dim <- img@dimension
   kmimg = iMath(img, "Normalize")
-  if (is.na(kmask)) {
+  if (is.null(kmask)) {
     kmask <- getMask(kmimg, 0.01, 1, cleanup = 2)
   } else {
     kmask = check_ants(kmask)

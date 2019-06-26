@@ -60,8 +60,8 @@ ripmmarc <- function(
   patchSamples = 1000,
   patchVarEx   = 0.95,
   meanCenter   = TRUE,
-  canonicalFrame = NA,
-  evecBasis    = NA,
+  canonicalFrame = NULL,
+  evecBasis    = NULL,
   rotationInvariant = TRUE,
   regressProjections = TRUE,
   verbose = FALSE  ) {
@@ -72,10 +72,10 @@ ripmmarc <- function(
   inimg.float <- antsImageClone( img, "float" )
   mask.float <- antsImageClone( mask, "float" )
   outimg <- antsImageClone( inimg.float )
-  if ( any( is.na( evecBasis ) ) ) evecBasis = matrix( nrow=0, ncol=0 )
-  else if ( !any( is.na( evecBasis ) ) & is.na( canonicalFrame ) )
+  if ( is.null(evecBasis ) ) evecBasis = matrix( nrow=0, ncol=0 )
+  else if ( is.null(evecBasis ) & is.null( canonicalFrame ) )
     stop("The user must also pass in a canonical frame.")
-  if ( is.na( canonicalFrame ) ) {
+  if ( is.null( canonicalFrame ) ) {
     canonicalFrame = makeImage( rep( 1, img@dimension ), 0 )
   }
   # FIXME not sure why transpose is needed below ....
