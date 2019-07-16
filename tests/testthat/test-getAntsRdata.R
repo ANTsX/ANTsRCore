@@ -12,16 +12,20 @@ validlist = c(
   "rsbold", "rsboldmask", "rsboldseg", "rsboldpts", "decslice", "dtislice",
   "adfmri", "population", "surf", "blob", "rand")
 
-
-for (ilist in validlist) {
-  print(ilist)
-  suppressMessages({
-    res = getANTsRData(ilist, quiet = TRUE)
-  })
-  if (is.character(res)) {
-    print(res)
-    # res = antsImageRead(res)
+testthat::test_that("We can read in data ", {
+  for (ilist in validlist) {
+    print(ilist)
+    testthat::expect_silent(
+      suppressMessages({
+        res = getANTsRData(ilist, quiet = TRUE)
+      })
+    )
+    if (is.character(res)) {
+      print(res)
+      # res = antsImageRead(res)
+    }
+    # print(res)
+    # cloned = antsImageClone(res)
   }
-  # print(res)
-  # cloned = antsImageClone(res)
-}
+  
+})
