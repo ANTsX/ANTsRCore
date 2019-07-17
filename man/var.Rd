@@ -10,7 +10,7 @@ var(x, ...)
 
 \method{var}{default}(x, ...)
 
-\method{var}{antsImage}(x, ...)
+\method{var}{antsImage}(x, mask = NULL, na.rm = FALSE)
 }
 \arguments{
 \item{x}{an object for which we want to compute the variance}
