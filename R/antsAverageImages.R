@@ -5,6 +5,7 @@
 #' @param normalize boolean determines if image is divided by mean before
 #' averaging
 #' @param weights a vector of weights of length equal to imageList
+#' @param verbose print a progress bar
 #' @author Avants BB, Pustina D
 #' @examples
 #' f1 = getANTsRData('r16')
@@ -22,7 +23,8 @@
 #' testthat::expect_error(antsAverageImages(list(r64, diff_size)))
 #'
 #' @export
-antsAverageImages <- function( imageList, normalize = FALSE, weights )
+antsAverageImages <- function( imageList, normalize = FALSE, weights,
+                               verbose = TRUE)
   {
 
   # determine if input is list of images or filenames
@@ -48,7 +50,9 @@ antsAverageImages <- function( imageList, normalize = FALSE, weights )
   if ( length( weights ) != length( imageList ) )
     stop( "length( weights ) != length( imageList )" )
   ct = 1
-  pb = utils::txtProgressBar(min = 0, max = length(imageList))
+  if (verbose) {
+    pb = utils::txtProgressBar(min = 0, max = length(imageList))
+  }
   for (i in imageList) {
     if (isfile) {
       img = antsImageRead(i)
@@ -64,9 +68,13 @@ antsAverageImages <- function( imageList, normalize = FALSE, weights )
       img <- img / mean( img )
     }
     avg <- avg + img * weights[ ct ]
-    utils::setTxtProgressBar(pb, value = ct)
+    if (verbose) {
+      utils::setTxtProgressBar(pb, value = ct)
+    }
     ct = ct + 1
   }
-  close(pb)
+  if (verbose) {
+    close(pb)
+  }
   return( avg )
 }
