@@ -4,14 +4,14 @@
 \alias{mean.antsImage}
 \title{Mean for antsImage Objects}
 \usage{
-\method{mean}{antsImage}(x, mask = NULL, na.rm = FALSE)
+\method{mean}{antsImage}(x, ..., mask = NULL, na.rm = FALSE)
 }
 \arguments{
 \item{x}{is an object of class \code{antsImage}.}
 
 \item{mask}{binary mask of values to subset}
 
-\item{...}{additional arguments to pass to \code{\link{mean}}}
+\item{na.rm}{Remove missing values}
 }
 \description{
 Overloaded Mean for antsImage objects
@@ -26,4 +26,27 @@ setMethod(f = "xor", signature(x = "antsImage",
   xor(xx, yy)
   !a2
 })
+}
+\examples{
+img =  makeImage(c(10, 10, 10), rnorm(1000))
+mean(img)
+mean(img, na.rm = TRUE)
+mean(img > 0)
+mean(img > 0, na.rm = TRUE)
+mean(img, mask = img > 0)
+mean(img, mask = img > 0,  na.rm = TRUE)
+arr = as.array(img)
+arr[1,1,1] = NA
+img = as.antsImage(arr, reference = img)
+m = mean(img)
+stopifnot(is.nan(m))
+mean(img, na.rm = TRUE)
+m = mean(0 < img)
+stopifnot(is.nan(m))
+m = mean(img > 0)
+# stopifnot(is.nan(m))
+mean(img > 0, na.rm = TRUE)
+m = mean(img, mask = img > 0)
+stopifnot(is.nan(m))
+mean(img, mask = img > 0, na.rm = TRUE)
 }

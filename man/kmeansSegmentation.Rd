@@ -4,7 +4,7 @@
 \alias{kmeansSegmentation}
 \title{k means image segmentation.}
 \usage{
-kmeansSegmentation(img, k, kmask = NA, mrf = 0.1, verbose = FALSE,
+kmeansSegmentation(img, k, kmask = NULL, mrf = 0.1, verbose = FALSE,
   ...)
 }
 \arguments{

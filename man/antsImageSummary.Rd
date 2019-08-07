@@ -6,6 +6,8 @@
 \alias{Summary,antsImage-method}
 \alias{max}
 \alias{min}
+\alias{min,antsImage-method}
+\alias{max,antsImage-method}
 \alias{range}
 \alias{prod}
 \alias{sum}
@@ -13,11 +15,15 @@
 \alias{all}
 \title{Summary for antsImage Objects}
 \usage{
-\S4method{Summary}{antsImage}(x, ..., na.rm = FALSE)
+\S4method{Summary}{antsImage}(x, ..., mask = NULL, na.rm = FALSE)
 
 max(x, ..., na.rm = FALSE)
 
 min(x, ..., na.rm = FALSE)
+
+\S4method{min}{antsImage}(x, ..., mask = NULL, na.rm = FALSE)
+
+\S4method{max}{antsImage}(x, ..., mask = NULL, na.rm = FALSE)
 
 range(x, ..., na.rm = FALSE)
 
@@ -33,6 +39,8 @@ all(x, ..., na.rm = FALSE)
 \item{x}{is an object of class \code{antsImage}.}
 
 \item{...}{further arguments passed to summary methods}
+
+\item{mask}{binary mask of values to subset}
 
 \item{na.rm}{logical: should missing values be removed?}
 }

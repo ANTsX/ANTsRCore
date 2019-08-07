@@ -85,7 +85,7 @@ setMethod(f = "initialize", signature(.Object = "antsrTransform"), definition = 
 #' tx = createAntsrTransform( type="Euler3DTransform", translation=trans )
 #' @export
 createAntsrTransform <- function( type="AffineTransform", precision="float", dimension=3, matrix=NA,
-  offset=NA, center=NA, translation=NA, parameters=NA, fixed.parameters=NA, displacement.field=NA,
+  offset=NA, center=NA, translation=NA, parameters=NA, fixed.parameters=NA, displacement.field=NULL,
   supported.types=FALSE )
   {
 
@@ -159,7 +159,7 @@ createAntsrTransform <- function( type="AffineTransform", precision="float", dim
     }
 
     # If displacement field
-    if ( !is.na(displacement.field))
+    if ( !is.null(displacement.field))
     {
       return( antsrTransformFromDisplacementField(displacement.field) )
     }
@@ -260,10 +260,10 @@ displacementFieldFromAntsrTransform <- function( tx, reference=NA ) {
 #' setAntsrTransformParameters(tx, params*2)
 #' pt2 = applyAntsrTransform(tx, c(1,2,3))
 #' @export
-applyAntsrTransform <- function(transform, data, dataType="point", reference=NA, ...) {
+applyAntsrTransform <- function(transform, data, dataType="point", reference=NULL, ...) {
 
   if ( is.antsImage(data) ) {
-    if (is.na(reference) ) {
+    if (is.null(reference) ) {
       reference = data
     }
     return( applyAntsrTransformToImage( transform, data, reference, ...) )

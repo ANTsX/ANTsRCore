@@ -4,7 +4,7 @@
 \alias{iMath}
 \title{iMath}
 \usage{
-iMath(img, operation, param = NA, ...)
+iMath(img, operation, param = NULL, ...)
 }
 \arguments{
 \item{img}{input object, usually antsImage}

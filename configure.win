@@ -25,13 +25,14 @@ cd ./src
 PWD=`pwd`
 # platform-specific Makevars
 echo "PWD=${PWD}" > Makevars.win
+myantslib=${PWD}/antb/lib/
 echo "myantssource=\${PWD}/ants" >> Makevars.win
 echo "ITK=\"${ITKRCMAKE}\"" >> Makevars.win
 
 needVCL_CAN_STATIC_CONST_INIT_FLOAT=0
 echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
 echo "PKG_CPPFLAGS =${PKG_CPPFLAGS} -Wa,-mbig-obj -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
-  -I\${myantssource}/Utilities -I\${myantssource}/Examples/ -I../inst/include/\
+  -I\${myantssource}/Utilities -I\${myantssource}/Examples/ -I../inst/include/ \
   -I\${myantssource}/Tensor/ " >> Makevars.win
 
 echo "CXX_STD=CXX11" >> Makevars.win
@@ -39,28 +40,54 @@ echo "CXX_STD=CXX11" >> Makevars.win
 echo "SHLIB_CXXLD=${CMAKE_EXE_LINKER_FLAGS}"
 
 # echo "myantslib=\"\${PWD}/antb/lib/\"" >> Makevars.win
-echo "myantslib=\"./antb/lib/\"" >> Makevars.win
+echo "myantslib=\${PWD}/antb/lib/">> Makevars.win
 
-echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
+# echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
+# echo "libitk=\`find \"${ITKRLIB}\" -name \"lib*.a\"\`" >> Makevars.win
 
-echo "libitk=\`find \"${ITKRLIB}\" -name \"lib*.a\"\`" >> Makevars.win
-PKG_LIBS="${PKG_LIBS} ${ADD_PKG_LIBS}"
+# PKG_LIBS="${PKG_LIBS} ${ADD_PKG_LIBS}"
 # echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk} \
 #                   \${libants} \${libitk} \${libants} \${itklib} \${libants} " >> Makevars.win
 
-echo "PKG_LIBS=\"\${libitk}\" \"\${libants}\" \"\${libitk}\" \"\${libants}\" \"\${libitk}\" \
-               \"\${libants}\" \"\${libitk}\"  \"\${libants}\" \"\${libitk}\" \"\${libants}\"" >> Makevars.win
+str="x = list.files(pattern = 'lib.*.a', path='"
+str="${str}${ITKRLIB}'"
+str="${str}); x = sub('[.]a$', '', x); x = sub('^lib', '', x); cat(paste0('-l', x), sep = ' ')"
+libitk=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"`
+echo "Running libitk"
+libitk="-L${ITKRLIB} ${libitk}"
+echo "Running ${libitk}"
 
-echo ".PHONY: all libs cleaner" >> Makevars.win
+# str="x = list.files(pattern = 'lib.*.a', path='"
+# str="${str}${myantslib}'"
+# str="${str}); x = sub('[.]a$', '', x); cat(paste0('-l', x), sep = ' ')"
+# libants=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"`
+# echo "Running libants"
+# libants="-L${myantslib} ${libants}"
+# echo "Running ${libants}"
+libants="-L${myantslib} -lantsUtilities -ll_antsAffineInitializer -ll_antsApplyTransforms "
+libants="${libants} -ll_antsApplyTransformsToPoints -ll_antsJointFusion -ll_antsMotionCorr "
+libants="${libants} -ll_antsMotionCorrStats -ll_antsRegistration -ll_Atropos -ll_DenoiseImage "
+libants="${libants} -ll_KellyKapowski -ll_LabelClustersUniquely -ll_LabelGeometryMeasures "
+libants="${libants} -ll_N3BiasFieldCorrection -ll_N4BiasFieldCorrection -ll_ResampleImage "
+libants="${libants} -ll_sccan -ll_SurfaceBasedSmoothing -ll_ThresholdImage "
+
+echo "PKG_LIBS=${PKG_LIBS} ${libitk} ${libants} ${libitk} ${libants} ${libitk} ${libants} ${libitk} \
+               ${libants} ${libitk} ${libants} ${libitk} ${libants} ${libitk} \
+               ${libants}" >> Makevars.win
+# echo "PKG_LIBS=${PKG_LIBS} -L${ITKRLIB} \${libants} \${libitk} \${libants} \${libitk} \
+#                \${libants} \${libitk} \${libants} \${libitk} \${libants} \${libitk} \
+#                \${libitk} \${libants}" >> Makevars.win
+
+echo ".PHONY: all libs" >> Makevars.win
 
 echo "all: \$(SHLIB)" >> Makevars.win
 
 echo "\$(SHLIB): libs" >> Makevars.win
 # MAKER=c:/Rtools/mingw_64/bin${R_ARCH_BIN}/mingw32-make.exe
 MAKER=mingw32-make
-echo "libs: ; cd antb && ${MAKER} -j 4 && cd ANTS-build && ${MAKER} all install && cd ../../ && rm -rf antb && rm -rf ${myantssource}" >> Makevars.win
+echo "libs: ; mkdir -p libs; cd antb && ${MAKER} -j 4 && cd ANTS-build && ${MAKER} all install && rm -rf ${R_PACKAGE_DIR}/libs/bin && cd \${PWD}" >> Makevars.win
 
-echo "cleaner: ; cd libs/bin && rm -f antsRegistration antsApplyTransforms antsMotionCorr \
+echo "cleaner: ; cd ../libs/bin && rm -f antsRegistration antsApplyTransforms antsMotionCorr \
 antsAffineInitializer antsApplyTransformsToPoints LabelGeometryMeasures \
 antsMotionCorrStats ResampleImage Atropos KellyKapowski DenoiseImage \
 N3BiasFieldCorrection N4BiasFieldCorrection sccan antsJointFusion \
@@ -69,7 +96,10 @@ ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 
 # get / set up ANTs code
 antsgit=https://github.com/muschellij2/ANTs.git
-antstag=616ab869b510c1f95a3a63367719d737a86f3640
+antstag=2d026609093af654e2b72736c216c0211977060f
+# 2d026609093af654e2b72736c216c0211977060f close to ANTs without exe
+# antsgit=https://github.com/ANTsX/ANTs.git
+# antstag=680942c1628c8ed142c6b25a4c8b9e47aadf3e01
 antsrtag=`git log --pretty=format:'%H' -n 1`
 git clone $antsbranch $antsgit ants
 mkdir -p ../data
@@ -82,7 +112,7 @@ git checkout master;
 git pull;
 git checkout $antstag
 cd ../
-mkdir antb
+mkdir -p antb
 cp ../inst/include/antscore.h ./ants/Examples/include/ants.h
 cp -r ants/Examples/include/* ../inst/include/
 cp -r ants/Utilities/* ../inst/include/
@@ -120,18 +150,17 @@ ${cmaker} \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -Wa,-mbig-obj ${CMAKE_EXE_LINKER_FLAGS} ${compflags} -DNDEBUG -D_FILE_OFFSET_BITS=64"\
     -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -Wa,-mbig-obj ${compflags} -DNDEBUG  "\
     -DCMAKE_EXE_LINKER_FLAGS="${TRY_LINKER_FLAGS}" \
-    -DBUILD_SHARED_LIBS=ON \
+    -DBUILD_SHARED_LIBS=OFF \
     -DBUILD_ALL_ANTS_APPS=OFF \
     -DUSE_SYSTEM_ITK=OFF \
     -DBUILD_TESTING=OFF \
     -DBUILD_EXAMPLES:BOOL=OFF \
+    -DCMAKE_NEED_RESPONSE=1 \
     -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON \
     -DCOPY_SCRIPT_FILES_TO_BIN_DIR=OFF \
     -DCMAKE_INSTALL_PREFIX:PATH="${R_PACKAGE_DIR}/libs/" \
     -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}" \
     -DVNL_CONFIG_ENABLE_SSE2_ROUNDING:BOOL=ON \
-    -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON \
-	-DWINDOWS_BUILD=1 \
     -DVNL_CONFIG_ENABLE_SSE2:BOOL=ON \
     ../ants
 cd ../

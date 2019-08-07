@@ -5,7 +5,7 @@
 \title{applyAntsrTransform}
 \usage{
 applyAntsrTransform(transform, data, dataType = "point",
-  reference = NA, ...)
+  reference = NULL, ...)
 }
 \arguments{
 \item{transform}{antsrTransform}

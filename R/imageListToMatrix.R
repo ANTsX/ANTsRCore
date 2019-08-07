@@ -50,7 +50,7 @@ imageListToMatrix <- function(imageList, mask, sigma = NA, epsilon = 0 ) {
     if ( doSmooth )
       dataMatrix[ i, ] = listfunc(
          smoothImage( imageList[[ i ]], sigma,
-           sigmaInPhysicalCoordinates = T ) )
+           sigmaInPhysicalCoordinates = TRUE ) )
     else dataMatrix[ i, ] = listfunc( imageList[[ i ]] )
     }
   return( dataMatrix )

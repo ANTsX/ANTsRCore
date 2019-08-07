@@ -12,21 +12,21 @@ as.antsImage(object, pixeltype = "float",
   length(dim(object)))), origin = as.numeric(seq.int(from = 0, by = 0,
   length.out = length(dim(object)))),
   direction = diag(length(dim(object))), components = FALSE,
-  reference = NA, ...)
+  reference = NULL, ...)
 
 \S4method{as.antsImage}{matrix}(object, pixeltype = "float",
   spacing = as.numeric(seq.int(from = 1, by = 0, length.out =
   length(dim(object)))), origin = as.numeric(seq.int(from = 0, by = 0,
   length.out = length(dim(object)))),
   direction = diag(length(dim(object))), components = FALSE,
-  reference = NA)
+  reference = NULL)
 
 \S4method{as.antsImage}{array}(object, pixeltype = "float",
   spacing = as.numeric(seq.int(from = 1, by = 0, length.out =
   length(dim(object)))), origin = as.numeric(seq.int(from = 0, by = 0,
   length.out = length(dim(object)))),
   direction = diag(length(dim(object))), components = FALSE,
-  reference = NA)
+  reference = NULL)
 }
 \arguments{
 \item{object}{An object}
