@@ -15,7 +15,7 @@ var(x, ...)
 \arguments{
 \item{x}{an object for which we want to compute the variance}
 
-\item{\dots}{Any additional arguments to be passed to 
+\item{\dots}{Any additional arguments to be passed to
 \code{\link[stats]{var}}}
 
 \item{na.rm}{a logical value indicating whether NA should be removed}

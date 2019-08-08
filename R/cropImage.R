@@ -60,6 +60,9 @@ cropIndices <- function( image, lowerind, upperind ) {
   if ( image@dimension != length(lowerind) |
        image@dimension != length(upperind)  )
        stop("dimensionality and index length dont match")
+  if ( any( lowerind < 1 ) |
+       any( upperind > dim( image ) ) )
+       stop("lowerind is < 1 or upperind is > dim(image)")
   if ( image@components == 1 )
     return( .Call("cropImage",
       image, image, 1, 2, lowerind, upperind, PACKAGE = "ANTsRCore") )
