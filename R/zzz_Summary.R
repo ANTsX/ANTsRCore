@@ -181,7 +181,7 @@ mean.antsImage = function(x, ..., mask=NULL, na.rm=FALSE) {
 #' @rdname median
 #' @export
 #' @importFrom stats median
-median.antsImage = function(x, ..., mask = NULL, na.rm = FALSE) {
+median.antsImage = function(x, na.rm = FALSE, ..., mask = NULL) {
   args = list(...)
   # mask = args$mask
   x = mask_values(x, mask)
