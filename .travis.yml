@@ -12,6 +12,7 @@ dist: xenial
 os:
   - linux
   - osx
+  - windows
 
 # as xenial
 services:
@@ -26,6 +27,7 @@ matrix:
   allow_failures:
     - r: devel
     - os: osx
+    - os: windows
 
 latex: false
 compiler: clang
