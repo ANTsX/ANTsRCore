@@ -194,7 +194,7 @@ antsRegistration <- function(
       || is.null(outprefix)) {
     outprefix = tempfile()
   }
-  
+
   find_tx = function(outprefix) {
     alltx = Sys.glob( paste0( outprefix, "*", "[0-9]*") )
     findinv = grepl( "[0-9]InverseWarp.nii.gz", alltx )
@@ -209,7 +209,7 @@ antsRegistration <- function(
   all_tx = find_tx(outprefix)
   pre_transform = all_tx$alltx[ all_tx$findinv | all_tx$findfwd | all_tx$findaff]
   rm(list = "all_tx")
-  
+
   if ( numargs < 1 | missing(fixed) | missing(moving) )
   {
     cat("for simplified mode: \n")
@@ -227,7 +227,7 @@ antsRegistration <- function(
           PACKAGE = "ANTsRCore")
     return(0)
   }
-  
+
   args <- list(fixed, moving, typeofTransform, outprefix, ...)
   myl=0
   myfAff = "6x4x2x1"
@@ -292,11 +292,11 @@ antsRegistration <- function(
   }
   if (!is.null(moving)) {
     moving = check_ants(moving)
-  }  
+  }
   if (!is.character(fixed)) {
     fixed = check_ants(fixed)
     error_not_antsImage(fixed, "fixed")
-    
+
     moving = check_ants(moving)
     error_not_antsImage(moving, "moving")
     if (is.antsImage(fixed) & is.antsImage(moving)) {
@@ -338,18 +338,18 @@ antsRegistration <- function(
             maskScale = mask[[1]] - min( mask[[1]] )
             maskScale = maskScale / max( maskScale ) * 255
             charmask1 <- antsImageClone( maskScale , mskpx )
-            
+
             maskScale = mask[[2]] - min( mask[[2]] )
             maskScale = maskScale / max( maskScale ) * 255
             charmask2 <- antsImageClone( maskScale , mskpx )
-            
+
             maskopt <- paste("[",antsrGetPointerName(charmask1),",",
                              antsrGetPointerName(charmask2),"]",sep='')
           }
         } else {
           maskopt = NA
         }
-        
+
         if (is.na(initx)) {
           initx = paste("[", f, ",", m, ",1]", sep = "")
         }
@@ -517,7 +517,7 @@ antsRegistration <- function(
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
-        
+
         if (typeofTransform == "TRSAA") {
           itlen  = length( regIterations )
           itlenlow  = round( itlen/2 + 0.0001 )
@@ -561,7 +561,7 @@ antsRegistration <- function(
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
-        
+
         if (typeofTransform == "SyNabp") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
                        "-m", paste("mattes[", f, ",", m, ",1,32,regular,0.25]", sep = ""),
@@ -579,7 +579,7 @@ antsRegistration <- function(
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
-        
+
         if (typeofTransform == "SyNLessAggro") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.2]", sep = ""),
@@ -626,7 +626,7 @@ antsRegistration <- function(
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
-        
+
         if ( typeofTransform == "Elastic" ) {
           if ( is.na(gradStep) ) gradStep=0.25
           tvtx=paste("GaussianDisplacementField[",
@@ -642,8 +642,8 @@ antsRegistration <- function(
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
-        
-        
+
+
         if ( typeofTransform == "Rigid" |
              typeofTransform == "Similarity" |
              typeofTransform == "Translation" |
@@ -658,13 +658,13 @@ antsRegistration <- function(
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
-        
+
         if ( !missing( restrictTransformation ) ) {
           args[[ length(args)+1]]="-g"
           args[[ length(args)+1]]=paste( restrictTransformation, collapse='x')
         }
-        
-        
+
+
         args[[ length(args)+1]]="--float"
         args[[ length(args)+1]]="1"
         # set the random seed
@@ -678,15 +678,15 @@ antsRegistration <- function(
           args[[ length(args)+1]]="-v"
           args[[ length(args)+1]]="1"
         }
-        
+
         if ( printArgs ) print( args )
         args = .int_antsProcessArguments(c(args))
         .Call("antsRegistration", args, PACKAGE = "ANTsRCore")
-        
-        
-        
-        
-        
+
+
+
+
+
         all_tx = find_tx(outprefix)
         alltx = all_tx$alltx
         findinv = all_tx$findinv
@@ -695,7 +695,7 @@ antsRegistration <- function(
         rm(list = "all_tx")
         # this will make it so other file naming don't mess this up
         alltx = alltx[ findinv | findfwd | findaff]
-        
+
         if ( any( findinv )) {
           fwdtransforms = rev( alltx[ findfwd | findaff ] )
           invtransforms = alltx[ findinv | findaff ]
@@ -784,7 +784,6 @@ antsrGetPointerName <- function(img) {
 
 
 
-
 #' ANTs template building.
 #'
 #' Iteratively estimate a population shape and intensity average image.  This
@@ -798,6 +797,8 @@ antsrGetPointerName <- function(img) {
 #' information metric by default. See \code{antsRegistration.}
 #' @param iterations should be greater than 1 less than 10.
 #' @param gradientStep speed of template shape update step, less than 1.
+#' @param blendingWeight parameter between zero and one, default 0.5; higher
+#' values lead to sharper intensity but may also cause artifacts.
 #' @param segList segmentations for each target image, this will trigger a
 #' joint label fusion call for each iteration and use masks during registration.
 #' @param verbose print diagnostic messages,
@@ -816,11 +817,14 @@ buildTemplate <- function(
   typeofTransform,
   iterations = 3,
   gradientStep = 0.25,
+  blendingWeight = 0.5,
   segList,
   verbose = TRUE,
   ...
 ) {
   template = antsImageClone( initialTemplate )
+  if ( blendingWeight < 0 ) blendingWeight = 0
+  if ( blendingWeight > 1 ) blendingWeight = 1
   if ( ! missing( segList ) ) doJif = TRUE else doJif = FALSE
   for (i in 1:iterations ) {
     if (verbose) {
@@ -834,7 +838,7 @@ buildTemplate <- function(
         segreglist = list(
           thresholdImage( segmentation, 1, Inf ),
           thresholdImage( segList[[k]], 1, Inf )
-        )
+          )
         w1 = antsRegistration(
           template,
           imgList[[k]], typeofTransform = typeofTransform,
@@ -842,11 +846,11 @@ buildTemplate <- function(
           mask = segreglist,
           ...)
       } else {
-        w1 = antsRegistration(
-          template,
-          imgList[[k]], typeofTransform = typeofTransform,
-          verbose = verbose > 1,
-          ...)
+      w1 = antsRegistration(
+        template,
+        imgList[[k]], typeofTransform = typeofTransform,
+        verbose = verbose > 1,
+        ...)
       }
       avgIlist[[k]] = w1$warpedmovout
       avgWlist[ k ] = antsApplyTransforms(
@@ -864,12 +868,12 @@ buildTemplate <- function(
     template = antsAverageImages( avgIlist )
     if ( doJif ) {
       tempmask = thresholdImage( antsAverageImages( avgSlist ),
-                                 1/length(avgSlist), Inf )
+        1/length(avgSlist), Inf )
       jlf = jointLabelFusion( template,  tempmask, rSearch=3,
-                              avgIlist, labelList = avgSlist )
+        avgIlist, labelList = avgSlist )
       template = jlf$intensity
       segmentation = antsImageClone( jlf$segmentation, "float" )
-    }
+      }
     if (verbose) {
       message("Averaging warped composed transforms")
     }
@@ -880,11 +884,12 @@ buildTemplate <- function(
     template = antsApplyTransforms( template, template, wavgfn )
     if ( doJif )
       segmentation = antsApplyTransforms( segmentation, segmentation, wavgfn,
-                                          interpolator = 'nearestNeighbor' )
+        interpolator = 'nearestNeighbor' )
     if (verbose) {
-      message( paste0( "Sharpening template image", wmag ) )
+      message( paste0( "Blending template image", wmag ) )
     }
-    template = template * 0.5 + iMath( template, "Sharpen" ) * 0.5
+    template = template * ( 1.0 - blendingWeight ) +
+      iMath( template, "Sharpen" ) * blendingWeight
   }
   if ( doJif ) return( list( template = template, segmentation = segmentation ))
   return( template )
