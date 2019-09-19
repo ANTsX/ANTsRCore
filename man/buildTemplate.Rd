@@ -5,7 +5,8 @@
 \title{ANTs template building.}
 \usage{
 buildTemplate(initialTemplate, imgList, typeofTransform, iterations = 3,
-  gradientStep = 0.25, segList, verbose = TRUE, ...)
+  gradientStep = 0.25, blendingWeight = 0.5, segList, verbose = TRUE,
+  ...)
 }
 \arguments{
 \item{initialTemplate}{fixed image to which we register the population.}
@@ -18,6 +19,9 @@ information metric by default. See \code{antsRegistration.}}
 \item{iterations}{should be greater than 1 less than 10.}
 
 \item{gradientStep}{speed of template shape update step, less than 1.}
+
+\item{blendingWeight}{parameter between zero and one, default 0.5; higher
+values lead to sharper intensity but may also cause artifacts.}
 
 \item{segList}{segmentations for each target image, this will trigger a
 joint label fusion call for each iteration and use masks during registration.}
