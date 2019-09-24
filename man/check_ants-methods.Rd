@@ -10,19 +10,22 @@
 \alias{check_ants,list-method}
 \title{Check if antsImage or read in}
 \usage{
-check_ants(x)
+check_ants(x, ...)
 
-\S4method{check_ants}{antsImage}(x)
+\S4method{check_ants}{antsImage}(x, ...)
 
-\S4method{check_ants}{ANY}(x)
+\S4method{check_ants}{ANY}(x, ...)
 
-\S4method{check_ants}{character}(x)
+\S4method{check_ants}{character}(x, ...)
 
-\S4method{check_ants}{list}(x)
+\S4method{check_ants}{list}(x, ...)
 }
 \arguments{
 \item{x}{character path of image or 
 an object of class antsImage}
+
+\item{...}{arguments passed to other methods, 
+namely \code{\link{antsImageRead}}}
 }
 \value{
 antsImage object
