@@ -1022,10 +1022,6 @@ SEXP antsrTransform_LinearToDisplacementField( SEXP r_tx, SEXP r_ref )
   using PrecisionType = typename ImageType::InternalPixelType;
   using TransformType = typename itk::Transform<PrecisionType,ImageType::ImageDimension, ImageType::ImageDimension>;
   using TransformPointerType = typename TransformType::Pointer;
-  using DisplacementFieldTransformType = typename itk::DisplacementFieldTransform<PrecisionType, ImageType::ImageDimension>;
-  using DisplacementFieldTransformPointerType = typename DisplacementFieldTransformType::Pointer;
-  using DisplacementFieldType = typename DisplacementFieldTransformType::DisplacementFieldType;
-  using VectorType = typename DisplacementFieldType::PixelType;
   using PointType = typename ImageType::PointType;
   using ImageBaseType = typename itk::ImageBase<ImageType::ImageDimension>;
   using ImageBasePointerType = typename ImageBaseType::Pointer;
