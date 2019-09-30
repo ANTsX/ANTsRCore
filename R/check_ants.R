@@ -8,17 +8,19 @@
 #' @seealso \code{\link{antsImageRead}}
 #' @param x character path of image or 
 #' an object of class antsImage
+#' @param ... arguments passed to other methods, 
+#' namely \code{\link{antsImageRead}}
 #' @export 
 #' @import methods
 #' @author John Muschelli \email{muschellij2@@gmail.com}  
-setGeneric("check_ants", function(x) {
+setGeneric("check_ants", function(x, ...) {
   standardGeneric("check_ants")
 })
 
 #' @rdname check_ants-methods
 #' @aliases check_ants,antsImage-method
 #' @export
-setMethod("check_ants", "antsImage", function(x) { 
+setMethod("check_ants", "antsImage", function(x, ...) { 
   # x2 = antsImageClone(x)
   # return(x2)
   return(x)
@@ -27,7 +29,7 @@ setMethod("check_ants", "antsImage", function(x) {
 #' @rdname check_ants-methods
 #' @aliases check_ants,ANY-method
 #' @export
-setMethod("check_ants", "ANY", function(x) { 
+setMethod("check_ants", "ANY", function(x, ...) { 
   # just return the thing
   return(x)
 })
@@ -36,13 +38,13 @@ setMethod("check_ants", "ANY", function(x) {
 #' @aliases check_ants,character-method
 #'  
 #' @export
-setMethod("check_ants", "character", function(x) { 
+setMethod("check_ants", "character", function(x, ...) { 
   ### add vector capability
   if (length(x) > 1) {
-    file = lapply(x, check_ants)
+    file = lapply(x, check_ants, ... = ...)
     return(file)
   } else {
-    img = antsImageRead(x)
+    img = antsImageRead(x, ...)
     return(img)
   }
 })
@@ -51,9 +53,9 @@ setMethod("check_ants", "character", function(x) {
 #' @rdname check_ants-methods
 #' @aliases check_ants,list-method
 #' @export
-setMethod("check_ants", "list", function(x) { 
+setMethod("check_ants", "list", function(x, ...) { 
   ### add vector capability
-  file = lapply(x, check_ants)
+  file = lapply(x, check_ants, ... = ...)
   return(file)
 })
 

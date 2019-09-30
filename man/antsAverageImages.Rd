@@ -4,7 +4,8 @@
 \alias{antsAverageImages}
 \title{Computes average of image list}
 \usage{
-antsAverageImages(imageList, normalize = FALSE, weights)
+antsAverageImages(imageList, normalize = FALSE, weights,
+  verbose = TRUE)
 }
 \arguments{
 \item{imageList}{list of antsImages or a character vector of filenames}
@@ -13,6 +14,8 @@ antsAverageImages(imageList, normalize = FALSE, weights)
 averaging}
 
 \item{weights}{a vector of weights of length equal to imageList}
+
+\item{verbose}{print a progress bar}
 }
 \description{
 Calculate the mean of a list of antsImages

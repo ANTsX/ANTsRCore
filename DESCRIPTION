@@ -1,8 +1,8 @@
 Package: ANTsRCore
 Type: Package
 Title: Core Software Infrastructure for 'ANTsR'
-Version: 0.7.0
-Date: 2019-06-18
+Version: 0.7.1
+Date: 2019-09-19
 Authors@R: c(
     person(given = "Brian B.", family = "Avants", role = "cre",
     email = "stnava@gmail.com"),
@@ -45,3 +45,4 @@ NeedsCompilation: yes
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 Encoding: UTF-8
+
