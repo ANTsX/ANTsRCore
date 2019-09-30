@@ -32,7 +32,7 @@ SEXP antsrMetric( std::string type, SEXP r_fixed, SEXP r_moving )
     typename MetricType::Pointer metric = MetricType::New();
     metric->SetFixedImage( fixed );
     metric->SetMovingImage( moving );
-    metric->SetUseFixedSampledPointSet( false );
+    metric->SetUseSampledPointSet( false );
     metric->SetVirtualDomainFromImage( fixed );
     metric->SetUseMovingImageGradientFilter( gradientfilter );
     metric->SetUseFixedImageGradientFilter( gradientfilter );
@@ -43,7 +43,7 @@ SEXP antsrMetric( std::string type, SEXP r_fixed, SEXP r_moving )
     typename MetricType::Pointer metric = MetricType::New();
     metric->SetFixedImage( fixed );
     metric->SetMovingImage( moving );
-    metric->SetUseFixedSampledPointSet( false );
+    metric->SetUseSampledPointSet( false );
     metric->SetVirtualDomainFromImage( fixed );
     metric->SetUseMovingImageGradientFilter( gradientfilter );
     metric->SetUseFixedImageGradientFilter( gradientfilter );
@@ -54,7 +54,7 @@ SEXP antsrMetric( std::string type, SEXP r_fixed, SEXP r_moving )
     typename MetricType::Pointer metric = MetricType::New();
     metric->SetFixedImage( fixed );
     metric->SetMovingImage( moving );
-    metric->SetUseFixedSampledPointSet( false );
+    metric->SetUseSampledPointSet( false );
     metric->SetVirtualDomainFromImage( fixed );
     metric->SetUseMovingImageGradientFilter( gradientfilter );
     metric->SetUseFixedImageGradientFilter( gradientfilter );
@@ -71,7 +71,7 @@ SEXP antsrMetric( std::string type, SEXP r_fixed, SEXP r_moving )
     metric->SetFixedImage( fixed );
     metric->SetMovingImage( moving );
 
-    metric->SetUseFixedSampledPointSet( false );
+    metric->SetUseSampledPointSet( false );
     metric->SetVirtualDomainFromImage( fixed );
     metric->SetUseMovingImageGradientFilter( gradientfilter );
     metric->SetUseFixedImageGradientFilter( gradientfilter );
@@ -101,7 +101,7 @@ SEXP antsrMetric( std::string type, SEXP r_fixed, SEXP r_moving )
     typename MetricType::Pointer metric = MetricType::New();
     metric->SetFixedImage( fixed );
     metric->SetMovingImage( moving );
-    metric->SetUseFixedSampledPointSet( false );
+    metric->SetUseSampledPointSet( false );
     metric->SetVirtualDomainFromImage( fixed );
     metric->SetUseMovingImageGradientFilter( gradientfilter );
     metric->SetUseFixedImageGradientFilter( gradientfilter );
@@ -113,7 +113,7 @@ SEXP antsrMetric( std::string type, SEXP r_fixed, SEXP r_moving )
     typename MetricType::Pointer metric = MetricType::New();
     metric->SetFixedImage( fixed );
     metric->SetMovingImage( moving );
-    metric->SetUseFixedSampledPointSet( false );
+    metric->SetUseSampledPointSet( false );
     metric->SetVirtualDomainFromImage( fixed );
     metric->SetUseMovingImageGradientFilter( gradientfilter );
     metric->SetUseFixedImageGradientFilter( gradientfilter );
@@ -696,7 +696,7 @@ void antsrMetric_SetSampling( SEXP r_metric, std::string strategy, double percen
       ++count;
       }
       metric->SetFixedSampledPointSet( samplePointSet );
-      metric->SetUseFixedSampledPointSet( true );
+      metric->SetUseSampledPointSet( true );
     }
     else if (strategy == "random")
       {
@@ -721,7 +721,7 @@ void antsrMetric_SetSampling( SEXP r_metric, std::string strategy, double percen
           }
         }
         metric->SetFixedSampledPointSet( samplePointSet );
-        metric->SetUseFixedSampledPointSet( true );
+        metric->SetUseSampledPointSet( true );
       }
 
 
