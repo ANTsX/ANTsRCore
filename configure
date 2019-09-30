@@ -66,7 +66,9 @@ echo "PKG_CPPFLAGS= ${PKG_CPPFLAGS} -I\${ITK} -I\${PWD} -I\${myantssource}/Examp
 
 echo "CXX_STD = CXX11" >> Makevars
 
+# echo "myantslib=\${R_LIBS_USER}/libs/lib" >> Makevars
 echo "myantslib=\${PWD}/antb/ANTS-build/Examples/" >> Makevars
+
 
 echo "libants=\`find \${myantslib} -name \"lib*.a\"\`" >> Makevars
 
@@ -93,10 +95,8 @@ N3BiasFieldCorrection N4BiasFieldCorrection sccan antsJointFusion \
 ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 
 # get / set up ANTs code
-# antsgit=https://github.com/muschellij2/ANTs.git
-# antstag=2b2ba01e7db0d52d1fd1e2c41734f01ab1cc880b
 antsgit=https://github.com/ANTsX/ANTs.git
-antstag=c34666abc000952bc41f5f236c2542be8c0878b5 # gdevenyi compile fixes
+antstag=b1d9bf8cdf6558c4499aa2ca1f1b39188e06e2d1 # library installs
 antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants
@@ -135,7 +135,7 @@ ${cmaker} -DITK_DIR:PATH=${ITKDIR} \
     -DUSE_SYSTEM_ITK=OFF \
     -DBUILD_TESTING=OFF \
     -DCOPY_SCRIPT_FILES_TO_BIN_DIR=OFF \
-    -DCMAKE_INSTALL_PREFIX:PATH=${R_PACKAGE_DIR}/libs/  \
+    -DCMAKE_INSTALL_PREFIX:PATH=${R_PACKAGE_DIR}/libs/ \
     -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}"  ../ants
 cd ../
 # needed for warning
