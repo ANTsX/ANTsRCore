@@ -687,7 +687,7 @@ void antsrMetric_SetSampling( SEXP r_metric, std::string strategy, double percen
           {
           point[d] += randomizer->GetNormalVariate() * oneThirdVirtualSpacing[d];
           }
-        if( !metric->GetFixedImageMask() || metric->GetFixedImageMask()->IsInside( point ) )
+        if( !metric->GetFixedImageMask() || metric->GetFixedImageMask()->IsInsideInWorldSpace( point ) )
           {
           samplePointSet->SetPoint( index, point );
           ++index;
@@ -714,7 +714,7 @@ void antsrMetric_SetSampling( SEXP r_metric, std::string strategy, double percen
           {
           point[d] += randomizer->GetNormalVariate() * oneThirdVirtualSpacing[d];
           }
-        if( !metric->GetFixedImageMask() || metric->GetFixedImageMask()->IsInside( point ) )
+        if( !metric->GetFixedImageMask() || metric->GetFixedImageMask()->IsInsideInWorldSpace( point ) )
           {
           samplePointSet->SetPoint( index, point );
           ++index;
