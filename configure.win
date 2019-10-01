@@ -95,11 +95,9 @@ ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 
 
 # get / set up ANTs code
-antsgit=https://github.com/muschellij2/ANTs.git
-antstag=2d026609093af654e2b72736c216c0211977060f
-# 2d026609093af654e2b72736c216c0211977060f close to ANTs without exe
-# antsgit=https://github.com/ANTsX/ANTs.git
-# antstag=680942c1628c8ed142c6b25a4c8b9e47aadf3e01
+antsgit=https://github.com/ANTsX/ANTs.git
+antstag=b1d9bf8cdf6558c4499aa2ca1f1b39188e06e2d1 # library installs
+# antsgit=https://github.com/muschellij2/ANTs.git
 antsrtag=`git log --pretty=format:'%H' -n 1`
 git clone $antsbranch $antsgit ants
 mkdir -p ../data
