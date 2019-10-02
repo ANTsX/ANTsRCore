@@ -37,7 +37,7 @@ n4BiasFieldCorrection <- function( img,
 {
   img = check_ants(img)
   if ( var( img ) == 0 ) stop("Input image has no variation.")
-  if ( missing( mask ) ) {
+  if ( ! missing( mask ) ) {
     mask = check_ants(mask)
     error_not_antsImage(mask, "mask")
   }
