@@ -4,7 +4,7 @@
 \alias{n4BiasFieldCorrection}
 \title{Bias Field Correction}
 \usage{
-n4BiasFieldCorrection(img, mask = NULL, shrinkFactor = 4,
+n4BiasFieldCorrection(img, mask, shrinkFactor = 4,
   convergence = list(iters = c(50, 50, 50, 50), tol = 1e-07),
   splineParam = 200, returnBiasField = FALSE, verbose = FALSE,
   weight_mask = NULL)

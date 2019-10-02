@@ -36,12 +36,11 @@ n4BiasFieldCorrection <- function( img,
                                   weight_mask = NULL)
 {
   img = check_ants(img)
-  if ( all_equal( range( img ) ) ) stop("Input image has no variation.")
-  if ( missing( mask ) ) {
-    mask <- getMask( img )
+  if ( var( img ) == 0 ) stop("Input image has no variation.")
+  if ( ! missing( mask ) ) {
+    mask = check_ants(mask)
+    error_not_antsImage(mask, "mask")
   }
-  mask = check_ants(mask)
-  error_not_antsImage(mask, "mask")
   # if mask was character - silent change below - bad
   # if (!is.antsImage(mask)) {
   #   mask <- getMask(img)
@@ -79,12 +78,11 @@ n4BiasFieldCorrection <- function( img,
   args =
     list(d = outimg@dimension,
          i = img)
-  args$w = weight_mask
-
+  if ( ! missing( weight_mask ) ) args$w = weight_mask
   args$s = N4_SHRINK_FACTOR_1
   args$c = N4_CONVERGENCE_1
   args$b = N4_BSPLINE_PARAMS
-  args$x = mask
+  if ( ! missing( mask ) ) args$x = mask
   args$o = paste0("[",ptr1,",",ptr2,"]")
   args$v = as.numeric(verbose)
 
