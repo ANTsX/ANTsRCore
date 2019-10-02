@@ -26,8 +26,8 @@
 #'
 #'
 #' @export
-n4BiasFieldCorrection <- function(img ,
-                                  mask = NULL,
+n4BiasFieldCorrection <- function( img,
+                                  mask,
                                   shrinkFactor = 4,
                                   convergence = list(iters = c(50, 50, 50, 50), tol = 0.0000001),
                                   splineParam = 200,
@@ -36,8 +36,9 @@ n4BiasFieldCorrection <- function(img ,
                                   weight_mask = NULL)
 {
   img = check_ants(img)
-  if (is.null(mask)) {
-    mask <- getMask(img)
+  if ( all_equal( range( img ) ) ) stop("Input image has no variation.")
+  if ( missing( mask ) ) {
+    mask <- getMask( img )
   }
   mask = check_ants(mask)
   error_not_antsImage(mask, "mask")
