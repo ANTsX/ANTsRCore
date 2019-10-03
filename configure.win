@@ -1,4 +1,5 @@
 #!/bin/bash
+antsrtag=`git log --pretty=format:'%H' -n 1`
 CXX_STD=CXX11
 CC=`${R_HOME}/bin${R_ARCH_BIN}/R.exe CMD config CC`
 CXX=`${R_HOME}/bin${R_ARCH_BIN}/R.exe CMD config CXX`
@@ -22,7 +23,8 @@ ITKDIR=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'a<-ITKR::itkDir(); cat(a)'`
 
 CMAKE_BUILD_TYPE=Release
 cd ./src
-PWD=`pwd`
+# PWD=`pwd`
+PWD=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'cat(normalizePath(".", winslash="/"))'`
 # platform-specific Makevars
 echo "PWD=${PWD}" > Makevars.win
 myantslib=${PWD}/antb/lib/
@@ -99,8 +101,7 @@ ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 # antstag=c60752a7a6eca0371b0f5ff5ffa13385a5f5ea4f # n4 bug
 antsgit=https://github.com/muschellij2/ANTs.git
 antstag=a9e9e28fe56212bf81cc173d81fbfc6370414170
-antsrtag=`git log --pretty=format:'%H' -n 1`
-git clone $antsbranch $antsgit ants
+git clone $antsgit ants
 mkdir -p ../data
 
 echo "Dependency;GitTag" > ../data/antsVersions.csv
