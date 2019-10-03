@@ -107,6 +107,14 @@ echo "Dependency;GitTag" > ../data/antsVersions.csv
 echo "ANTs;${antstag}" >> ../data/antsVersions.csv
 echo "ANTsRCore;${antsrtag}" >> ../data/antsVersions.csv
 cd ants
+if [[ -a "./CMake/ITKSetStandardCompilerFlags.cmake" ]]; 
+then
+    str='fname="./CMake/ITKSetStandardCompilerFlags.cmake";'
+    str=${str}'if (file.exists(fname)) {x=readLines(fname); '
+    str=${str}'x = sub("set(VerboseWarningsFlag -W3 )", "set(VerboseWarningsFlag )", x); '
+    str=${str}'writeLines(x, "./CMake/ITKSetStandardCompilerFlags.cmake")}'
+    ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"
+fi
 git checkout master;
 git pull;
 git checkout $antstag
