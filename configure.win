@@ -110,10 +110,11 @@ echo "ANTsRCore;${antsrtag}" >> ../data/antsVersions.csv
 cd ants
 if [[ -a "./CMake/ITKSetStandardCompilerFlags.cmake" ]]; 
 then
+    echo "working on ITKSetStandardCompilerFlags.cmake"
     str='fname="./CMake/ITKSetStandardCompilerFlags.cmake";'
     str=${str}'if (file.exists(fname)) {x=readLines(fname); '
-    str=${str}'x = sub("set(VerboseWarningsFlag -W3 )", "set(VerboseWarningsFlag )", x); '
-    str=${str}'writeLines(x, "./CMake/ITKSetStandardCompilerFlags.cmake")}'
+    str=${str}'x = sub("VerboseWarningsFlag -W3", "set(VerboseWarningsFlag ", x); '
+    str=${str}'writeLines(x, fname)}'
     ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"
 fi
 git checkout master;
