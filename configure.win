@@ -113,7 +113,7 @@ then
     echo "working on ITKSetStandardCompilerFlags.cmake"
     str='fname="./CMake/ITKSetStandardCompilerFlags.cmake";'
     str=${str}'if (file.exists(fname)) {x=readLines(fname); '
-    str=${str}'x = sub("VerboseWarningsFlag -W3", "set(VerboseWarningsFlag ", x); '
+    str=${str}'x = sub("VerboseWarningsFlag -W3", "VerboseWarningsFlag ", x); '
     str=${str}'writeLines(x, fname)}'
     ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"
 fi
