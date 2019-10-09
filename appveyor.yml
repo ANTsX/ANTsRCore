@@ -104,9 +104,11 @@ test_script:
 
 
 on_failure:
-  - cat *.Rcheck/00install.out  
+  - 7z a whole.zip *
+  - appveyor PushArtifact whole.zip
   - 7z a failure.zip *.Rcheck\*
   - appveyor PushArtifact failure.zip
+  - cat *.Rcheck/00install.out  
 
 artifacts:
   - path: '*.Rcheck\**\*.log'
