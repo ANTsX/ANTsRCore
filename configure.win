@@ -18,6 +18,7 @@ ITKRCMAKE=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'a<-ITKR::itkIncludes(); ca
 ITKRLIB=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'a<-ITKR::itkLibs(); cat(a)'`
 compflags=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
 ITKDIR=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'a<-ITKR::itkDir(); cat(a)'`
+ITKTAG=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'env = asNamespace("ITKR"); if ("itkTag" %in% names(env)) cat(ITKR::itkTag()) else cat("")'`
 
 # compflags="${compflags} -Wno-c++11-long-long -Wa,-mbig-obj "
 
@@ -107,6 +108,8 @@ mkdir -p ../data
 echo "Dependency;GitTag" > ../data/antsVersions.csv
 echo "ANTs;${antstag}" >> ../data/antsVersions.csv
 echo "ANTsRCore;${antsrtag}" >> ../data/antsVersions.csv
+echo "ANTsURL;${antsgit}" >> ../data/antsVersions.csv
+echo "ITK;${ITKTAG}" >> ../data/antsVersions.csv
 cd ants
 if [[ -a "./CMake/ITKSetStandardCompilerFlags.cmake" ]]; 
 then
