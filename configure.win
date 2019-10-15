@@ -1,4 +1,5 @@
 #!/bin/bash
+antsrtag=`git log --pretty=format:'%H' -n 1`
 CXX_STD=CXX11
 CC=`${R_HOME}/bin${R_ARCH_BIN}/R.exe CMD config CC`
 CXX=`${R_HOME}/bin${R_ARCH_BIN}/R.exe CMD config CXX`
@@ -22,7 +23,8 @@ ITKDIR=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'a<-ITKR::itkDir(); cat(a)'`
 
 CMAKE_BUILD_TYPE=Release
 cd ./src
-PWD=`pwd`
+# PWD=`pwd`
+PWD=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'cat(normalizePath(".", winslash="/"))'`
 # platform-specific Makevars
 echo "PWD=${PWD}" > Makevars.win
 myantslib=${PWD}/antb/lib/
@@ -85,7 +87,7 @@ echo "all: \$(SHLIB)" >> Makevars.win
 echo "\$(SHLIB): libs" >> Makevars.win
 # MAKER=c:/Rtools/mingw_64/bin${R_ARCH_BIN}/mingw32-make.exe
 MAKER=mingw32-make
-echo "libs: ; mkdir -p libs; cd antb && ${MAKER} -j 4 && cd ANTS-build && ${MAKER} all install && rm -rf ${R_PACKAGE_DIR}/libs/bin && cd \${PWD}" >> Makevars.win
+echo "libs: ; mkdir -p libs; cd antb && ls && ${MAKER} -j 4 && cd ANTS-build && ls && ${MAKER} all install && rm -rf ${R_PACKAGE_DIR}/libs/bin && cd ../../" >> Makevars.win
 
 echo "cleaner: ; cd ../libs/bin && rm -f antsRegistration antsApplyTransforms antsMotionCorr \
 antsAffineInitializer antsApplyTransformsToPoints LabelGeometryMeasures \
@@ -95,19 +97,26 @@ ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 
 
 # get / set up ANTs code
-antsgit=https://github.com/muschellij2/ANTs.git
-antstag=2d026609093af654e2b72736c216c0211977060f
-# 2d026609093af654e2b72736c216c0211977060f close to ANTs without exe
 # antsgit=https://github.com/ANTsX/ANTs.git
-# antstag=680942c1628c8ed142c6b25a4c8b9e47aadf3e01
-antsrtag=`git log --pretty=format:'%H' -n 1`
-git clone $antsbranch $antsgit ants
+# antstag=c60752a7a6eca0371b0f5ff5ffa13385a5f5ea4f # n4 bug
+antsgit=https://github.com/muschellij2/ANTs.git
+antstag=7f5f7748c14b182e4072f9e433482bf165a811df
+git clone $antsgit ants
 mkdir -p ../data
 
 echo "Dependency;GitTag" > ../data/antsVersions.csv
 echo "ANTs;${antstag}" >> ../data/antsVersions.csv
 echo "ANTsRCore;${antsrtag}" >> ../data/antsVersions.csv
 cd ants
+if [[ -a "./CMake/ITKSetStandardCompilerFlags.cmake" ]]; 
+then
+    echo "working on ITKSetStandardCompilerFlags.cmake"
+    str='fname="./CMake/ITKSetStandardCompilerFlags.cmake";'
+    str=${str}'if (file.exists(fname)) {x=readLines(fname); '
+    str=${str}'x = sub("VerboseWarningsFlag -W3", "VerboseWarningsFlag ", x); '
+    str=${str}'writeLines(x, fname)}'
+    ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"
+fi
 git checkout master;
 git pull;
 git checkout $antstag
