@@ -5,6 +5,7 @@ ITKRCMAKE=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkIncludes(); cat(a)'`
 ITKRLIB=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkLibs(); cat(a)'`
 compflags=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
 ITKDIR=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkDir(); cat(a)'`
+ITKTAG=`${R_HOME}/bin/Rscript -e 'env = asNamespace("ITKR"); if ("itkTag" %in% names(env)) cat(ITKR::itkTag()) else cat("")'`
 
 # get a version of cmake
 cmaker=`${R_HOME}/bin/Rscript -e "x=Sys.which('cmake'); cat(x)"`
@@ -107,6 +108,8 @@ fi
 echo "Dependency;GitTag" > ../data/antsVersions.csv
 echo "ANTs;${antstag}" >> ../data/antsVersions.csv
 echo "ANTsRCore;${antsrtag}" >> ../data/antsVersions.csv
+echo "ANTsURL;${antsgit}" >> ../data/antsVersions.csv
+echo "ITK;${ITKTAG}" >> ../data/antsVersions.csv
 cd ants
 if [[ -d .git ]]; then
     git checkout master

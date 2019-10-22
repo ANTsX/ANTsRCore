@@ -20,6 +20,14 @@ Steps to reproduce the behavior:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
+**Session Info**
+
+Please include output from `R` of:
+```r
+ANTsRCore::antsVersions
+sessioninfo::session_info("ANTsRCore")
+````
+
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 

@@ -18,6 +18,7 @@ ITKRCMAKE=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'a<-ITKR::itkIncludes(); ca
 ITKRLIB=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'a<-ITKR::itkLibs(); cat(a)'`
 compflags=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
 ITKDIR=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'a<-ITKR::itkDir(); cat(a)'`
+ITKTAG=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'env = asNamespace("ITKR"); if ("itkTag" %in% names(env)) cat(ITKR::itkTag()) else cat("")'`
 
 # compflags="${compflags} -Wno-c++11-long-long -Wa,-mbig-obj "
 
@@ -100,13 +101,15 @@ ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 # antsgit=https://github.com/ANTsX/ANTs.git
 # antstag=c60752a7a6eca0371b0f5ff5ffa13385a5f5ea4f # n4 bug
 antsgit=https://github.com/muschellij2/ANTs.git
-antstag=7f5f7748c14b182e4072f9e433482bf165a811df
+antstag=c39585e656f7162cf74fd2d9b0438963671e03d2
 git clone $antsgit ants
 mkdir -p ../data
 
 echo "Dependency;GitTag" > ../data/antsVersions.csv
 echo "ANTs;${antstag}" >> ../data/antsVersions.csv
 echo "ANTsRCore;${antsrtag}" >> ../data/antsVersions.csv
+echo "ANTsURL;${antsgit}" >> ../data/antsVersions.csv
+echo "ITK;${ITKTAG}" >> ../data/antsVersions.csv
 cd ants
 if [[ -a "./CMake/ITKSetStandardCompilerFlags.cmake" ]]; 
 then
