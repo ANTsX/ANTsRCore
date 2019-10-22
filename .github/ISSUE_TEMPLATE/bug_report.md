@@ -20,7 +20,7 @@ Steps to reproduce the behavior:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**Sessio Info**
+**Session Info**
 
 Please include output from `R` of:
 ```r
