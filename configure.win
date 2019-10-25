@@ -87,8 +87,7 @@ echo "all: \$(SHLIB)" >> Makevars.win
 
 echo "\$(SHLIB): libs" >> Makevars.win
 # MAKER=c:/Rtools/mingw_64/bin${R_ARCH_BIN}/mingw32-make.exe
-# MAKER=mingw32-make
-MAKER=make
+MAKER=mingw32-make
 echo "libs: ; mkdir -p libs; cd antb && ls && ${MAKER} -j 4 && cd ANTS-build && ls && ${MAKER} all install && rm -rf ${R_PACKAGE_DIR}/libs/bin && cd ../../" >> Makevars.win
 
 echo "cleaner: ; cd ../libs/bin && rm -f antsRegistration antsApplyTransforms antsMotionCorr \
