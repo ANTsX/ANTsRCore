@@ -44,7 +44,7 @@ echo "SHLIB_CXXLD=${CMAKE_EXE_LINKER_FLAGS}"
 
 # echo "myantslib=\"\${PWD}/antb/lib/\"" >> Makevars.win
 echo "myantslib=\${PWD}/antb/lib/">> Makevars.win
-
+echo "antsexdir=\${PWD}/antb/ANTS-build/Examples/">> Makevars.win
 # echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
 # echo "libitk=\`find \"${ITKRLIB}\" -name \"lib*.a\"\`" >> Makevars.win
 
@@ -67,12 +67,12 @@ echo "Running ${libitk}"
 # echo "Running libants"
 # libants="-L${myantslib} ${libants}"
 # echo "Running ${libants}"
-libants="-L${myantslib} -lantsUtilities -lantsAffineInitializer -lantsApplyTransforms "
-libants="${libants} -lantsApplyTransformsToPoints -lantsJointFusion -lantsMotionCorr "
-libants="${libants} -lantsMotionCorrStats -lantsRegistration -lAtropos -lDenoiseImage "
-libants="${libants} -lKellyKapowski -lLabelClustersUniquely -lLabelGeometryMeasures "
-libants="${libants} -lN3BiasFieldCorrection -lN4BiasFieldCorrection -lResampleImage "
-libants="${libants} -lsccan -lSurfaceBasedSmoothing -lThresholdImage "
+libants="-L${myantslib} -L${antsexdir} -lantsUtilities -ll_antsAffineInitializer -ll_antsApplyTransforms "
+libants="${libants} -ll_antsApplyTransformsToPoints -ll_antsJointFusion -ll_antsMotionCorr "
+libants="${libants} -ll_antsMotionCorrStats -ll_antsRegistration -ll_Atropos -ll_DenoiseImage "
+libants="${libants} -ll_KellyKapowski -ll_LabelClustersUniquely -ll_LabelGeometryMeasures "
+libants="${libants} -ll_N3BiasFieldCorrection -ll_N4BiasFieldCorrection -ll_ResampleImage "
+libants="${libants} -ll_sccan -ll_SurfaceBasedSmoothing -ll_ThresholdImage "
 
 echo "PKG_LIBS=${PKG_LIBS} ${libitk} ${libants} ${libitk} ${libants} ${libitk} ${libants} ${libitk} \
                ${libants} ${libitk} ${libants} ${libitk} ${libants} ${libitk} \
