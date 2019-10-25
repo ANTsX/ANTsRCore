@@ -101,7 +101,7 @@ ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 # antsgit=https://github.com/ANTsX/ANTs.git
 # antstag=c60752a7a6eca0371b0f5ff5ffa13385a5f5ea4f # n4 bug
 antsgit=https://github.com/muschellij2/ANTs.git
-antstag=a400184125031566bd15fab0a6783bb9c4139731
+antstag=7ca882f532ae7fdf9b9a5ccb94810a39a98c9ef2
 git clone $antsgit ants
 mkdir -p ../data
 
