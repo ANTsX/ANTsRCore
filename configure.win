@@ -29,6 +29,7 @@ PWD=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'cat(normalizePath(".", winslash=
 # platform-specific Makevars
 echo "PWD=${PWD}" > Makevars.win
 myantslib=${PWD}/antb/lib/
+antsexdir=${PWD}/antb/ANTS-build/Examples/
 echo "myantssource=\${PWD}/ants" >> Makevars.win
 echo "ITK=\"${ITKRCMAKE}\"" >> Makevars.win
 
