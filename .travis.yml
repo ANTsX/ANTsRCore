@@ -12,7 +12,6 @@ dist: xenial
 os:
   - linux
   - osx
-  - windows
 
 # as xenial
 services:
