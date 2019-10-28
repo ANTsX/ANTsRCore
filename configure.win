@@ -3,7 +3,8 @@ git_exe=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "x=Sys.which('git'); cat(x)"`
 if [ -z "${git_exe}" ]; then
     ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'if (!requireNamespace("git2r")) install.packages("git2r")'
     str="repo = git2r::init();"
-    str="${str} x=git2r::sha(git2r::last_commit(repo));"
+    str="${str} if (length(git2r::commits(repo)) > 0) {"
+    str="${str} x=git2r::sha(git2r::last_commit(repo)) } else {x = ''};"
     str="${str} cat(x)"
     antsrtag=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"`
 else 
@@ -142,7 +143,7 @@ if [ -z "${git_exe}" ]; then
 else
     git checkout master;
     git pull;
-    git checkout $antstag
+    git checkout $antstag ;
 fi
 
 # windows workaround for warning
