@@ -91,5 +91,6 @@ n4BiasFieldCorrection <- function( img,
   return(outimg)
 }
 .helpn4BiasFieldCorrection <- function(...) {
-  .Call("N4BiasFieldCorrection", .int_antsProcessArguments(c(...)))
+  .Call("N4BiasFieldCorrection", .int_antsProcessArguments(c(...)),
+        PACKAGE = "ANTsRCore")
 }

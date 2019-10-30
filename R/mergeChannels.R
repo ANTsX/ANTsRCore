@@ -33,6 +33,6 @@ mergeChannels <- function(imageList) {
       }
   }
 
-  img = .Call("mergeChannels", imageList, package="ANTsR")
+  img = .Call("mergeChannels", imageList, package="ANTsRCore")
   return(img)
 }

@@ -40,5 +40,5 @@ imagesToMatrix <- function(imageList, mask) {
     print("Must pass a list of filenames")
     return(NA)
   }
-  return(.Call("imagesToMatrix", imageList, mask, n))
+  return(.Call("imagesToMatrix", imageList, mask, n, PACKAGE = "ANTsRCore"))
 }

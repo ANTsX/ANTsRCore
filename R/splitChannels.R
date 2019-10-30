@@ -32,6 +32,6 @@ splitChannels <- function(image) {
     stop( "input must have more than 1 components")
   }
 
-  img = .Call("splitChannels", image, package="ANTsR")
+  img = .Call("splitChannels", image, package="ANTsRCore")
   return(img)
 }

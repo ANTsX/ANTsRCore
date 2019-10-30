@@ -1,5 +1,15 @@
 #!/bin/bash
-antsrtag=`git log --pretty=format:'%H' -n 1`
+git_exe=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "x=Sys.which('git'); cat(x)"`
+if [ -z "${git_exe}" ]; then
+    ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'if (!requireNamespace("git2r")) install.packages("git2r")'
+    str="repo = git2r::init();"
+    str="${str} if (length(git2r::commits(repo)) > 0) {"
+    str="${str} x=git2r::sha(git2r::last_commit(repo)) } else {x = ''};"
+    str="${str} cat(x)"
+    antsrtag=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"`
+else 
+    antsrtag=`git log --pretty=format:'%H' -n 1`
+fi    
 CXX_STD=CXX11
 CC=`${R_HOME}/bin${R_ARCH_BIN}/R.exe CMD config CC`
 CXX=`${R_HOME}/bin${R_ARCH_BIN}/R.exe CMD config CXX`
@@ -29,6 +39,7 @@ PWD=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'cat(normalizePath(".", winslash=
 # platform-specific Makevars
 echo "PWD=${PWD}" > Makevars.win
 myantslib=${PWD}/antb/lib/
+antsexdir=${PWD}/antb/ANTS-build/Examples/
 echo "myantssource=\${PWD}/ants" >> Makevars.win
 echo "ITK=\"${ITKRCMAKE}\"" >> Makevars.win
 
@@ -44,7 +55,7 @@ echo "SHLIB_CXXLD=${CMAKE_EXE_LINKER_FLAGS}"
 
 # echo "myantslib=\"\${PWD}/antb/lib/\"" >> Makevars.win
 echo "myantslib=\${PWD}/antb/lib/">> Makevars.win
-
+echo "antsexdir=\${PWD}/antb/ANTS-build/Examples/">> Makevars.win
 # echo "libants=\`find \"\${myantslib}\" -name \"lib*.a\"\`" >> Makevars.win
 # echo "libitk=\`find \"${ITKRLIB}\" -name \"lib*.a\"\`" >> Makevars.win
 
@@ -67,19 +78,17 @@ echo "Running ${libitk}"
 # echo "Running libants"
 # libants="-L${myantslib} ${libants}"
 # echo "Running ${libants}"
-libants="-L${myantslib} -lantsUtilities -ll_antsAffineInitializer -ll_antsApplyTransforms "
+libants="-L${myantslib} -L${antsexdir} -lantsUtilities -ll_antsAffineInitializer -ll_antsApplyTransforms "
 libants="${libants} -ll_antsApplyTransformsToPoints -ll_antsJointFusion -ll_antsMotionCorr "
 libants="${libants} -ll_antsMotionCorrStats -ll_antsRegistration -ll_Atropos -ll_DenoiseImage "
 libants="${libants} -ll_KellyKapowski -ll_LabelClustersUniquely -ll_LabelGeometryMeasures "
 libants="${libants} -ll_N3BiasFieldCorrection -ll_N4BiasFieldCorrection -ll_ResampleImage "
 libants="${libants} -ll_sccan -ll_SurfaceBasedSmoothing -ll_ThresholdImage "
 
-echo "PKG_LIBS=${PKG_LIBS} ${libitk} ${libants} ${libitk} ${libants} ${libitk} ${libants} ${libitk} \
-               ${libants} ${libitk} ${libants} ${libitk} ${libants} ${libitk} \
-               ${libants}" >> Makevars.win
-# echo "PKG_LIBS=${PKG_LIBS} -L${ITKRLIB} \${libants} \${libitk} \${libants} \${libitk} \
-#                \${libants} \${libitk} \${libants} \${libitk} \${libants} \${libitk} \
-#                \${libitk} \${libants}" >> Makevars.win
+# echo "PKG_LIBS=${PKG_LIBS} ${libitk} ${libants} ${libitk} ${libants} ${libitk} ${libants} ${libitk} \
+#                ${libants} ${libitk} ${libants} ${libitk} ${libants} ${libitk} \
+#                ${libants}" >> Makevars.win
+echo "PKG_LIBS=${PKG_LIBS} ${libitk} ${libants} ${libitk} ${libants} " >> Makevars.win
 
 echo ".PHONY: all libs" >> Makevars.win
 
@@ -87,7 +96,10 @@ echo "all: \$(SHLIB)" >> Makevars.win
 
 echo "\$(SHLIB): libs" >> Makevars.win
 # MAKER=c:/Rtools/mingw_64/bin${R_ARCH_BIN}/mingw32-make.exe
-MAKER=mingw32-make
+# MAKER=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "x=normalizePath(Sys.which('make'), winslash = '/'); cat(x)"`
+MAKER=mingw32-make.exe
+echo "MAKE IS"
+echo "${MAKER}"
 echo "libs: ; mkdir -p libs; cd antb && ls && ${MAKER} -j 4 && cd ANTS-build && ls && ${MAKER} all install && rm -rf ${R_PACKAGE_DIR}/libs/bin && cd ../../" >> Makevars.win
 
 echo "cleaner: ; cd ../libs/bin && rm -f antsRegistration antsApplyTransforms antsMotionCorr \
@@ -101,8 +113,16 @@ ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 # antsgit=https://github.com/ANTsX/ANTs.git
 # antstag=c60752a7a6eca0371b0f5ff5ffa13385a5f5ea4f # n4 bug
 antsgit=https://github.com/muschellij2/ANTs.git
-antstag=c39585e656f7162cf74fd2d9b0438963671e03d2
-git clone $antsgit ants
+antstag=7ca882f532ae7fdf9b9a5ccb94810a39a98c9ef2
+if [ -z "${git_exe}" ]; then
+    ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'if (!requireNamespace("git2r")) install.packages("git2r")'
+    str="repo = git2r::clone(\""
+    str="${str}${antsgit}"
+    str="${str}\", local_path = \"./ants\")"
+    ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"  
+else
+    git clone $antsgit ants
+fi
 mkdir -p ../data
 
 echo "Dependency;GitTag" > ../data/antsVersions.csv
@@ -111,6 +131,23 @@ echo "ANTsRCore;${antsrtag}" >> ../data/antsVersions.csv
 echo "ANTsURL;${antsgit}" >> ../data/antsVersions.csv
 echo "ITK;${ITKTAG}" >> ../data/antsVersions.csv
 cd ants
+
+if [ -z "${git_exe}" ]; then
+    ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'if (!requireNamespace("git2r")) install.packages("git2r")'
+    str="repo = git2r::init()"   
+    if [ -n "${antstag}" ]; then
+        str="${str}; git2r::checkout(repo, branch = \""
+        str="${str}${antstag}"
+        str="${str}\");"
+    fi    
+    ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"
+else
+    git checkout master;
+    git pull;
+    git checkout $antstag ;
+fi
+
+# windows workaround for warning
 if [[ -a "./CMake/ITKSetStandardCompilerFlags.cmake" ]]; 
 then
     echo "working on ITKSetStandardCompilerFlags.cmake"
@@ -120,9 +157,7 @@ then
     str=${str}'writeLines(x, fname)}'
     ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"
 fi
-git checkout master;
-git pull;
-git checkout $antstag
+
 cd ../
 mkdir -p antb
 cp ../inst/include/antscore.h ./ants/Examples/include/ants.h
@@ -170,6 +205,7 @@ ${cmaker} \
     -DCMAKE_NEED_RESPONSE=1 \
     -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON \
     -DCOPY_SCRIPT_FILES_TO_BIN_DIR=OFF \
+    -DCMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE="../ants/lib/" \
     -DCMAKE_INSTALL_PREFIX:PATH="${R_PACKAGE_DIR}/libs/" \
     -DCMAKE_BUILD_TYPE:STRING="${CMAKE_BUILD_TYPE}" \
     -DVNL_CONFIG_ENABLE_SSE2_ROUNDING:BOOL=ON \
