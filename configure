@@ -97,7 +97,7 @@ ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 
 # get / set up ANTs code
 antsgit=https://github.com/ANTsX/ANTs.git
-antstag=1c421a5853f343a020aaae861a751545112e0807 # ANTs version default 000
+antstag=416b9d10458f6bbf78e788b823ad0be9db11d7e8 # many compile fixes
 antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants
