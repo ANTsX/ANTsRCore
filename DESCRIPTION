@@ -33,6 +33,7 @@ Imports:
     utils
 Suggests:
     abind,
+    colormap,
     covr,
     knitr,
     pixmap,
