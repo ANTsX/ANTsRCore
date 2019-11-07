@@ -142,7 +142,7 @@ if ( ! is.null(y) )
       }
     }
   }
-if ( ! is.null( domainImageMap ) ) 
+if ( ! is.null( domainImageMap ) )
   {
   if ( is.antsImage( domainImageMap ) )
     {
@@ -261,6 +261,8 @@ if ( ! is.null( domainImageMap ) )
     image(rotate270.matrix(z), ...)
   }
   makePalette <- function( mpcolor, nlevels=15){
+    if ( usePkg( "colormap" ) ) return(
+      colormap::colormap(colormap=mpcolor, nshades=nlevels ) )
     if ( mpcolor == "viridis") return( viridis::viridis( nlevels ) )
     if ( mpcolor == "magma") return( viridis::magma( nlevels ) )
     if ( mpcolor == "plasma") return( viridis::plasma( nlevels ) )
@@ -540,28 +542,33 @@ if ( ! is.null( domainImageMap ) )
     if (minind > 1)
       minind <- minind - 1
     colorfun = rainbow
-    heatvals <- heat.colors(nlevels, alpha = alpha)
-    heatvals <- rainbow(nlevels, alpha = alpha)
-    if ( color.overlay[ind] != "jet" & color.overlay[ind] != "viridis" & color.overlay[ind] != "magma" & color.overlay[ind] != "plasma" & color.overlay[ind] != "inferno"   )
-      colorfun <- colorRampPalette(c("white", color.overlay[ind]), interpolate = c("spline"),
-        space = "Lab")
-    if (color.overlay[ind] == "jet") {
-      # print('use jet')
-      colorfun <- colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan",
-        "#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"), interpolate = c("spline"),
-        space = "Lab")
-    }
-    if (color.overlay[ind] == "viridis") {
-      colorfun <- colorRampPalette( viridis::viridis( nlevels, alpha = alpha, direction = direction, begin = begin, end = end ) , interpolate = c("spline"),
-        space = "Lab")
-    }
-    heatvals <- colorfun(nlevels)
-    if ( color.overlay[ind] == "viridis" ) heatvals <- viridis::viridis( nlevels, alpha = alpha, direction = direction, begin = begin, end = end )
-    if ( color.overlay[ind] == "magma" ) heatvals <- viridis::magma( nlevels, alpha = alpha, direction = direction, begin = begin, end = end )
-    if ( color.overlay[ind] == "plasma" ) heatvals <- viridis::plasma( nlevels, alpha = alpha, direction = direction, begin = begin, end = end )
-    if ( color.overlay[ind] == "inferno" ) heatvals <- viridis::inferno( nlevels, alpha = alpha, direction = direction, begin = begin, end = end )
-    # fix to get alpha transparency correct
-    if (nchar(heatvals[1]) == 7 & alpha != 1) heatvals = paste0(heatvals,round(alpha*100,0))
+    if ( usePkg( "colormap" ) ) {
+      heatvals <- colormap::colormap(colormap=color.overlay[ind],
+        nshades=nlevels, alpha = alpha )
+      } else {
+        heatvals <- heat.colors(nlevels, alpha = alpha)
+        heatvals <- rainbow(nlevels, alpha = alpha)
+        if ( color.overlay[ind] != "jet" & color.overlay[ind] != "viridis" & color.overlay[ind] != "magma" & color.overlay[ind] != "plasma" & color.overlay[ind] != "inferno"   )
+          colorfun <- colorRampPalette(c("white", color.overlay[ind]), interpolate = c("spline"),
+            space = "Lab")
+        if (color.overlay[ind] == "jet") {
+          # print('use jet')
+          colorfun <- colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan",
+            "#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"), interpolate = c("spline"),
+            space = "Lab")
+        }
+        if (color.overlay[ind] == "viridis") {
+          colorfun <- colorRampPalette( viridis::viridis( nlevels, alpha = alpha, direction = direction, begin = begin, end = end ) , interpolate = c("spline"),
+            space = "Lab")
+        }
+        heatvals <- colorfun(nlevels)
+        if ( color.overlay[ind] == "viridis" ) heatvals <- viridis::viridis( nlevels, alpha = alpha, direction = direction, begin = begin, end = end )
+        if ( color.overlay[ind] == "magma" ) heatvals <- viridis::magma( nlevels, alpha = alpha, direction = direction, begin = begin, end = end )
+        if ( color.overlay[ind] == "plasma" ) heatvals <- viridis::plasma( nlevels, alpha = alpha, direction = direction, begin = begin, end = end )
+        if ( color.overlay[ind] == "inferno" ) heatvals <- viridis::inferno( nlevels, alpha = alpha, direction = direction, begin = begin, end = end )
+        # fix to get alpha transparency correct
+        if (nchar(heatvals[1]) == 7 & alpha != 1) heatvals = paste0(heatvals,round(alpha*100,0))
+      }
     if (locthresh[1] > 1)
       heatvals[1:(locthresh[1] - 1)] <- NA
     if (locthresh[2] < (nlevels - 1)) {
