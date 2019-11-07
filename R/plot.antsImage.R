@@ -261,7 +261,7 @@ if ( ! is.null( domainImageMap ) )
     image(rotate270.matrix(z), ...)
   }
   makePalette <- function( mpcolor, nlevels=15){
-    if ( usePkg( "colormap" ) ) return(
+    if ( usePkg( "colormap" & mpcolor %in% colormap::colormaps  ) ) return(
       colormap::colormap(colormap=mpcolor, nshades=nlevels ) )
     if ( mpcolor == "viridis") return( viridis::viridis( nlevels ) )
     if ( mpcolor == "magma") return( viridis::magma( nlevels ) )
@@ -542,7 +542,7 @@ if ( ! is.null( domainImageMap ) )
     if (minind > 1)
       minind <- minind - 1
     colorfun = rainbow
-    if ( usePkg( "colormap" ) ) {
+    if ( usePkg( "colormap" & mpcolor %in% colormap::colormaps ) ) {
       heatvals <- colormap::colormap(colormap=color.overlay[ind],
         nshades=nlevels, alpha = alpha )
       } else {
