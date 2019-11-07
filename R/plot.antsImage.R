@@ -542,7 +542,7 @@ if ( ! is.null( domainImageMap ) )
     if (minind > 1)
       minind <- minind - 1
     colorfun = rainbow
-    if ( usePkg( "colormap" & color.overlay[ind] %in% colormap::colormaps ) ) {
+    if ( usePkg( "colormap" ) & color.overlay[ind] %in% colormap::colormaps ) {
       heatvals <- colormap::colormap(colormap=color.overlay[ind],
         nshades=nlevels, alpha = alpha )
       } else {
