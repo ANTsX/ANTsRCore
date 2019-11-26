@@ -44,5 +44,16 @@ antsImageWrite <- function(image, filename, as.tensor=FALSE) {
     image@components = as.integer(1)
     }
   filename <- path.expand(filename)
+  ext = tolower(tools::file_ext(filename))
+  if (ext %in% c("jpg", "jpeg")) {
+    pt = pixeltype(image)
+    if (!pt %in% "unsigned char") {
+      warning(
+        paste0("Writing JPG file, but pixeltype is not unsigned char",
+               ", may want to convert")
+      )
+    }
+  }
+  
   invisible(.Call("antsImageWrite", image, filename, as.tensor, PACKAGE = "ANTsRCore"))
 }
