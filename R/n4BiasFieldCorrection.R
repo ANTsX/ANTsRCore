@@ -20,6 +20,7 @@
 #'  dims = c(50, 50)
 #'  img<-makeImage(imagesize = dims, rnorm(prod(dims)) )
 #'  n4img<-n4BiasFieldCorrection(img)
+#'  n4img<-n4BiasFieldCorrection(img, mask = img > 0)
 #'  testthat::expect_error(n4BiasFieldCorrection(img, weight_mask = "somepath"))
 #'  testthat::expect_error(n4BiasFieldCorrection(img, splineParam = rep(200, 3)))
 #'  n4img<-n4BiasFieldCorrection(img, splineParam = c(200, 20))
@@ -84,7 +85,7 @@ n4BiasFieldCorrection <- function( img,
   args$b = N4_BSPLINE_PARAMS
   if ( ! missing( mask ) ) args$x = mask
   args$o = paste0("[",ptr1,",",ptr2,"]")
-  args$v = as.numeric(verbose)
+  args$v = as.numeric(verbose > 0)
 
   .helpn4BiasFieldCorrection(args)
   if ( returnBiasField ) return( biasimg )
