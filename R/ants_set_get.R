@@ -191,7 +191,7 @@ antsSetDirection <- function(x, direction) {
   if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
-  if ((class(direction) != "matrix") & (class(direction) != "array")) {
+  if (!inherits(direction, "matrix") | !inherits(direction, "array")) {
     stop("direction must be of class 'matrix' or 'array'")
   }
   if ((dim(direction)[1] != length(dim(x))) || (dim(direction)[2] != length(dim(x)))) {
