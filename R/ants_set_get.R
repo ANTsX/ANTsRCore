@@ -143,7 +143,7 @@ antsSetOrigin <- function(x, origin) {
   if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
-  if ((class(origin) != "numeric") && (class(origin) != "array")) {
+  if (!is.numeric(origin) && !is.array(origin)) {
     stop("spacing must be of class 'numeric' or 'array'")
   }
   
@@ -191,7 +191,7 @@ antsSetDirection <- function(x, direction) {
   if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
-  if (!inherits(direction, "matrix") | !inherits(direction, "array")) {
+  if (!is.matrix(direction) && !is.array(array)) {
     stop("direction must be of class 'matrix' or 'array'")
   }
   if ((dim(direction)[1] != length(dim(x))) || (dim(direction)[2] != length(dim(x)))) {
