@@ -4,8 +4,12 @@
 \alias{applyAntsrTransformToImage}
 \title{applyAntsrTransformToImage}
 \usage{
-applyAntsrTransformToImage(transform, image, reference,
-  interpolation = "linear")
+applyAntsrTransformToImage(
+  transform,
+  image,
+  reference,
+  interpolation = "linear"
+)
 }
 \arguments{
 \item{transform}{antsrTransform}

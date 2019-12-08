@@ -4,8 +4,12 @@
 \alias{antsApplyTransformsToPoints}
 \title{Apply transforms to points.}
 \usage{
-antsApplyTransformsToPoints(dim, points, transformlist = "",
-  whichtoinvert = NA)
+antsApplyTransformsToPoints(
+  dim,
+  points,
+  transformlist = "",
+  whichtoinvert = NA
+)
 }
 \arguments{
 \item{dim}{dimensionality of the transformation.}

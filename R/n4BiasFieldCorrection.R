@@ -24,6 +24,11 @@
 #'  testthat::expect_error(n4BiasFieldCorrection(img, weight_mask = "somepath"))
 #'  testthat::expect_error(n4BiasFieldCorrection(img, splineParam = rep(200, 3)))
 #'  n4img<-n4BiasFieldCorrection(img, splineParam = c(200, 20))
+#'  
+#' fname = getANTsRData("r16")
+#' in_img = antsImageRead(fname)
+#' n4 = n4BiasFieldCorrection(in_img)
+#' n4 = n4BiasFieldCorrection(in_img, mask = in_img > 0)
 #'
 #'
 #' @export

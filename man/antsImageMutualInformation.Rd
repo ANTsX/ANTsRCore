@@ -4,8 +4,7 @@
 \alias{antsImageMutualInformation}
 \title{mutual information between two images}
 \usage{
-antsImageMutualInformation(in_image1, in_image2, sampling.percentage,
-  nBins)
+antsImageMutualInformation(in_image1, in_image2, sampling.percentage, nBins)
 }
 \arguments{
 \item{in_image1}{antsImage}

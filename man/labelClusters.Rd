@@ -4,8 +4,13 @@
 \alias{labelClusters}
 \title{Simple labelClustering function.}
 \usage{
-labelClusters(imagein, minClusterSize = 50, minThresh = 1e-06,
-  maxThresh = 1, fullyConnected = FALSE)
+labelClusters(
+  imagein,
+  minClusterSize = 50,
+  minThresh = 1e-06,
+  maxThresh = 1,
+  fullyConnected = FALSE
+)
 }
 \arguments{
 \item{imagein}{input antsImage e.g. a statistical map}

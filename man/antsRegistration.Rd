@@ -4,14 +4,29 @@
 \alias{antsRegistration}
 \title{Perform registration between two images.}
 \usage{
-antsRegistration(fixed = NULL, moving = NULL,
-  typeofTransform = "SyN", initialTransform = NA, outprefix = NULL,
-  mask = NULL, gradStep = 0.2, flowSigma = 3, totalSigma = 0,
-  affMetric = "mattes", affSampling = 32, synMetric = "mattes",
-  synSampling = 32, affIterations, regIterations = c(40, 20, 0),
-  multivariateExtras, restrictTransformation,
-  writeCompositeTransform = FALSE, verbose = FALSE,
-  printArgs = FALSE, ...)
+antsRegistration(
+  fixed = NULL,
+  moving = NULL,
+  typeofTransform = "SyN",
+  initialTransform = NA,
+  outprefix = NULL,
+  mask = NULL,
+  gradStep = 0.2,
+  flowSigma = 3,
+  totalSigma = 0,
+  affMetric = "mattes",
+  affSampling = 32,
+  synMetric = "mattes",
+  synSampling = 32,
+  affIterations,
+  regIterations = c(40, 20, 0),
+  multivariateExtras,
+  restrictTransformation,
+  writeCompositeTransform = FALSE,
+  verbose = FALSE,
+  printArgs = FALSE,
+  ...
+)
 }
 \arguments{
 \item{fixed}{fixed image to which we register the moving image.}

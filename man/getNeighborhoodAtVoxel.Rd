@@ -4,8 +4,7 @@
 \alias{getNeighborhoodAtVoxel}
 \title{Get a hypercube neighborhood at a voxel}
 \usage{
-getNeighborhoodAtVoxel(image, center, kernel,
-  physical.coordinates = FALSE)
+getNeighborhoodAtVoxel(image, center, kernel, physical.coordinates = FALSE)
 }
 \arguments{
 \item{image}{Image object of S4 class \code{antsImage} to get values from.}

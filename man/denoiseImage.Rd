@@ -4,8 +4,15 @@
 \alias{denoiseImage}
 \title{Denoise an image}
 \usage{
-denoiseImage(img, mask, shrinkFactor = 1, p = 1, r = 3,
-  noiseModel = c("Rician", "Gaussian"), verbose = FALSE)
+denoiseImage(
+  img,
+  mask,
+  shrinkFactor = 1,
+  p = 1,
+  r = 3,
+  noiseModel = c("Rician", "Gaussian"),
+  verbose = FALSE
+)
 }
 \arguments{
 \item{img}{scalar image to denoise.}

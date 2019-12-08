@@ -4,8 +4,12 @@
 \alias{resampleImage}
 \title{resampleImage}
 \usage{
-resampleImage(image, resampleParams, useVoxels = FALSE,
-  interpType = "nearestneighbor")
+resampleImage(
+  image,
+  resampleParams,
+  useVoxels = FALSE,
+  interpType = "nearestneighbor"
+)
 }
 \arguments{
 \item{image}{input antsImage}

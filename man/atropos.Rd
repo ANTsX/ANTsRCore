@@ -4,8 +4,17 @@
 \alias{atropos}
 \title{FMM Segmentation}
 \usage{
-atropos(a, x, i = "KMeans[3]", m = "[0.2,1x1]", c = "[5,0]",
-  priorweight = 0.25, verbose = FALSE, use_random_seed = FALSE, ...)
+atropos(
+  a,
+  x,
+  i = "KMeans[3]",
+  m = "[0.2,1x1]",
+  c = "[5,0]",
+  priorweight = 0.25,
+  verbose = FALSE,
+  use_random_seed = FALSE,
+  ...
+)
 }
 \arguments{
 \item{a}{One or more scalar images to segment. If priors are not used, the intensities
