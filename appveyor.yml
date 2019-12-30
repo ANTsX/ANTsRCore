@@ -99,7 +99,7 @@ test_script:
   - R CMD INSTALL --build --no-multiarch .
   # - travis-tool.sh run_tests
   - ls
-  - cp -r C:/run/* %APPVEYOR_BUILD_FOLDER%
+  - cp -r C:/run/* %APPVEYOR_BUILD_FOLDER% & exit 0 
   - cp C:/run/.Rbuildignore %APPVEYOR_BUILD_FOLDER%  
   - cd %APPVEYOR_BUILD_FOLDER%
   - ls
