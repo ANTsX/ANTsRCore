@@ -261,7 +261,7 @@ if ( ! is.null( domainImageMap ) )
     image(rotate270.matrix(z), ...)
   }
   makePalette <- function( mpcolor, nlevels=15){
-    if ( usePkg( "colormap" & mpcolor %in% colormap::colormaps  ) ) return(
+    if ( usePkg( "colormap" ) &  ( mpcolor %in% colormap::colormaps ) ) return(
       colormap::colormap(colormap=mpcolor, nshades=nlevels ) )
     if ( mpcolor == "viridis") return( viridis::viridis( nlevels ) )
     if ( mpcolor == "magma") return( viridis::magma( nlevels ) )
