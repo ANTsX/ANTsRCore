@@ -113,7 +113,7 @@ ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 # antsgit=https://github.com/ANTsX/ANTs.git
 # antstag=c60752a7a6eca0371b0f5ff5ffa13385a5f5ea4f # n4 bug
 antsgit=https://github.com/muschellij2/ANTs.git
-antstag=edb09f293344d44d6b56ed1b83240074459dcd86
+antstag=0f11c98ce81bbd8af8172d22c9db040e0f332191
 if [ -z "${git_exe}" ]; then
     ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'if (!requireNamespace("git2r")) install.packages("git2r")'
     str="repo = git2r::clone(\""
