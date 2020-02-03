@@ -41,6 +41,8 @@ resampleImageToTarget <- function(image, target, interpType = 'linear',
   if (missing(image) | missing(target)) {
     stop("missing input image or missing target")
   }
+  image = check_ants(image)
+  target = check_ants(target)
   if ( image@components > 1 | target@components > 1 )
     stop("Either input image or target has >1 channel/component pixels; please splitChannels before running this code.")
 
