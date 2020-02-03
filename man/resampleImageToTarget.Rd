@@ -37,7 +37,7 @@ output antsImage resampled with target's resolution/origin/orientation/direction
 }
 \description{
 Resample image by using another image as target reference.
-This function uses antsApplyTransform with an identity 
+This function uses antsApplyTransform with an identity
 matrix to achieve proper resampling.
 }
 \examples{
@@ -47,7 +47,6 @@ fi<-antsImageRead( fname)
 fi2mm <- resampleImage(fi, c(2, 2), useVoxels = 0, interpType = 'linear')
 resampled <- resampleImageToTarget(fi2mm, fi)
 testthat::expect_error(resampleImageToTarget(fi2mm))
-resampled <- resampleImageToTarget(fi2mm, fname, interpType = 0)
 
 }
 \author{

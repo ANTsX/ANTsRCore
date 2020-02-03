@@ -31,7 +31,6 @@
 #' fi2mm <- resampleImage(fi, c(2, 2), useVoxels = 0, interpType = 'linear')
 #' resampled <- resampleImageToTarget(fi2mm, fi)
 #' testthat::expect_error(resampleImageToTarget(fi2mm))
-#' resampled <- resampleImageToTarget(fi2mm, fname, interpType = 0)
 #'
 #' @export resampleImageToTarget
 #'
