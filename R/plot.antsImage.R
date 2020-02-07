@@ -543,12 +543,15 @@ if ( ! is.null( domainImageMap ) )
     if (minind > 1)
       minind <- minind - 1
     colorfun = rainbow
+    gotColorMap = FALSE
     if ( usePkg( "colormap" ) ) {
       if ( color.overlay[ind] %in% colormap::colormaps ) {
         heatvals <- colormap::colormap(colormap=color.overlay[ind],
           nshades=nlevels, alpha = alpha )
+        gotColorMap = TRUE
         }
-      } else {
+      }
+    if ( ! gotColorMap ) {
         heatvals <- heat.colors(nlevels, alpha = alpha)
         heatvals <- rainbow(nlevels, alpha = alpha)
         if ( color.overlay[ind] != "jet" & color.overlay[ind] != "viridis" & color.overlay[ind] != "magma" & color.overlay[ind] != "plasma" & color.overlay[ind] != "inferno"   )
