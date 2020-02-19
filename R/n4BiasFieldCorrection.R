@@ -30,8 +30,13 @@
 #' fname = getANTsRData("r16")
 #' in_img = antsImageRead(fname)
 #' n4 = n4BiasFieldCorrection(in_img)
-#' rm(n4)
-#' n4 = n4BiasFieldCorrection(in_img, mask = in_img > 0)
+#' rm(n4); gc()
+#' mask = in_img > 0
+#' mask2 = antsImageClone(mask, out_pixeltype = "float")
+#' # fails
+#' n4 = n4BiasFieldCorrection(in_img, mask = mask)
+#' # fails
+#' n4 = n4BiasFieldCorrection(in_img, mask = mask2)
 #'
 #'
 #' @export
