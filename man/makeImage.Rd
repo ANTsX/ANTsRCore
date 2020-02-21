@@ -4,8 +4,15 @@
 \alias{makeImage}
 \title{Simple makeImage function.}
 \usage{
-makeImage(imagesize, voxval = 0, spacing = c(NA), origin = c(NA),
-  direction = c(NA), components = FALSE, pixeltype = "float")
+makeImage(
+  imagesize,
+  voxval = 0,
+  spacing = c(NA),
+  origin = c(NA),
+  direction = c(NA),
+  components = FALSE,
+  pixeltype = "float"
+)
 }
 \arguments{
 \item{imagesize}{input image size or mask}

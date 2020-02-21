@@ -4,9 +4,18 @@
 \alias{morphology}
 \title{Morphological image operations}
 \usage{
-morphology(input, operation, radius, type = "binary", value = 1,
-  shape = "ball", radiusIsParametric = FALSE, thickness = 1,
-  lines = 3, includeCenter = FALSE)
+morphology(
+  input,
+  operation,
+  radius,
+  type = "binary",
+  value = 1,
+  shape = "ball",
+  radiusIsParametric = FALSE,
+  thickness = 1,
+  lines = 3,
+  includeCenter = FALSE
+)
 }
 \arguments{
 \item{input}{input image}

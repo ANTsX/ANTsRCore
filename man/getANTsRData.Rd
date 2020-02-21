@@ -4,9 +4,13 @@
 \alias{getANTsRData}
 \title{getANTsRData}
 \usage{
-getANTsRData(fileid, usefixedlocation = FALSE, verbose = FALSE,
+getANTsRData(
+  fileid,
+  usefixedlocation = FALSE,
+  verbose = FALSE,
   method = ifelse(Sys.info()["sysname"] == "Linux", "wget", "auto"),
-  quiet = FALSE)
+  quiet = FALSE
+)
 }
 \arguments{
 \item{fileid}{one of the permitted file ids or pass "show" to list all

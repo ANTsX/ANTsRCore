@@ -4,10 +4,19 @@
 \alias{createAntsrTransform}
 \title{createAntsrTransform}
 \usage{
-createAntsrTransform(type = "AffineTransform", precision = "float",
-  dimension = 3, matrix = NA, offset = NA, center = NA,
-  translation = NA, parameters = NA, fixed.parameters = NA,
-  displacement.field = NULL, supported.types = FALSE)
+createAntsrTransform(
+  type = "AffineTransform",
+  precision = "float",
+  dimension = 3,
+  matrix = NA,
+  offset = NA,
+  center = NA,
+  translation = NA,
+  parameters = NA,
+  fixed.parameters = NA,
+  displacement.field = NULL,
+  supported.types = FALSE
+)
 }
 \arguments{
 \item{type}{type of transform

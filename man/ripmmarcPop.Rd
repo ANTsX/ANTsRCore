@@ -4,8 +4,15 @@
 \alias{ripmmarcPop}
 \title{RIPMMARC population basis}
 \usage{
-ripmmarcPop(ilist, mask, patchRadius = 3, patchSamples = 1000,
-  patchVarEx = 0.95, meanCenter = TRUE, seed)
+ripmmarcPop(
+  ilist,
+  mask,
+  patchRadius = 3,
+  patchSamples = 1000,
+  patchVarEx = 0.95,
+  meanCenter = TRUE,
+  seed
+)
 }
 \arguments{
 \item{ilist}{list of antsImages from which to learn basis}
