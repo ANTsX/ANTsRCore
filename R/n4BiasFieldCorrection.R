@@ -20,9 +20,23 @@
 #'  dims = c(50, 50)
 #'  img<-makeImage(imagesize = dims, rnorm(prod(dims)) )
 #'  n4img<-n4BiasFieldCorrection(img)
+#'  n4img<-n4BiasFieldCorrection(img, mask = img > 0)
 #'  testthat::expect_error(n4BiasFieldCorrection(img, weight_mask = "somepath"))
 #'  testthat::expect_error(n4BiasFieldCorrection(img, splineParam = rep(200, 3)))
 #'  n4img<-n4BiasFieldCorrection(img, splineParam = c(200, 20))
+#'  
+#'  rm(img); gc()
+#'  rm(n4img); gc()
+#' fname = getANTsRData("r16")
+#' in_img = antsImageRead(fname)
+#' n4 = n4BiasFieldCorrection(in_img)
+#' rm(n4); gc()
+#' mask = in_img > 0
+#' mask2 = antsImageClone(mask, out_pixeltype = "float")
+#' # fails
+#' n4 = n4BiasFieldCorrection(in_img, mask = mask)
+#' # fails
+#' n4 = n4BiasFieldCorrection(in_img, mask = mask2)
 #'
 #'
 #' @export
@@ -84,7 +98,7 @@ n4BiasFieldCorrection <- function( img,
   args$b = N4_BSPLINE_PARAMS
   if ( ! missing( mask ) ) args$x = mask
   args$o = paste0("[",ptr1,",",ptr2,"]")
-  args$v = as.numeric(verbose)
+  args$v = as.numeric(verbose > 0)
 
   .helpn4BiasFieldCorrection(args)
   if ( returnBiasField ) return( biasimg )

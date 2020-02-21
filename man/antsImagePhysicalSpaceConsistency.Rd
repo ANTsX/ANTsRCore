@@ -4,9 +4,13 @@
 \alias{antsImagePhysicalSpaceConsistency}
 \title{Check for physical space consistency}
 \usage{
-antsImagePhysicalSpaceConsistency(img1, img2,
-  coordinate.tolerance = 0.01, direction.tolerance = 0.01,
-  data.type = FALSE)
+antsImagePhysicalSpaceConsistency(
+  img1,
+  img2,
+  coordinate.tolerance = 0.01,
+  direction.tolerance = 0.01,
+  data.type = FALSE
+)
 }
 \arguments{
 \item{img1}{Image object of S4 class \code{antsImage}.}

@@ -9,8 +9,7 @@
 \usage{
 \S4method{show}{antsrMetric}(object)
 
-\S4method{initialize}{antsrMetric}(.Object, dimension = 3,
-  type = "MeanSquares")
+\S4method{initialize}{antsrMetric}(.Object, dimension = 3, type = "MeanSquares")
 }
 \arguments{
 \item{object}{input object to convert}

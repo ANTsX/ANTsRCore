@@ -4,12 +4,19 @@
 \alias{antsApplyTransforms}
 \title{Apply transforms to images.}
 \usage{
-antsApplyTransforms(fixed, moving, transformlist = "",
-  interpolator = c("linear", "nearestNeighbor", "multiLabel", "gaussian",
-  "bSpline", "cosineWindowedSinc", "welchWindowedSinc",
-  "hammingWindowedSinc", "lanczosWindowedSinc", "genericLabel"),
-  imagetype = 0, whichtoinvert = NA, compose = NA, verbose = FALSE,
-  ...)
+antsApplyTransforms(
+  fixed,
+  moving,
+  transformlist = "",
+  interpolator = c("linear", "nearestNeighbor", "multiLabel", "gaussian", "bSpline",
+    "cosineWindowedSinc", "welchWindowedSinc", "hammingWindowedSinc",
+    "lanczosWindowedSinc", "genericLabel"),
+  imagetype = 0,
+  whichtoinvert = NA,
+  compose = NA,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{fixed}{fixed image defining domain into which the moving image is

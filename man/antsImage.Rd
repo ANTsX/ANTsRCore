@@ -9,8 +9,14 @@
 \usage{
 \S4method{show}{antsImage}(object)
 
-\S4method{initialize}{antsImage}(.Object, pixeltype = "float",
-  dimension = 3, components = 1, isVector = FALSE, filename = "")
+\S4method{initialize}{antsImage}(
+  .Object,
+  pixeltype = "float",
+  dimension = 3,
+  components = 1,
+  isVector = FALSE,
+  filename = ""
+)
 }
 \arguments{
 \item{object}{input object to convert}

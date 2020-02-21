@@ -4,9 +4,19 @@
 \alias{jointLabelFusion}
 \title{joint label and intensity fusion}
 \usage{
-jointLabelFusion(targetI, targetIMask, atlasList, beta = 4, rad = 2,
-  labelList = NULL, rho = 0.01, usecor = FALSE, rSearch = 3,
-  nonnegative = FALSE, verbose = FALSE)
+jointLabelFusion(
+  targetI,
+  targetIMask,
+  atlasList,
+  beta = 4,
+  rad = 2,
+  labelList = NULL,
+  rho = 0.01,
+  usecor = FALSE,
+  rSearch = 3,
+  nonnegative = FALSE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{targetI}{antsImage to be approximated}

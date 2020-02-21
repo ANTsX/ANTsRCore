@@ -4,8 +4,13 @@
 \alias{smoothImage}
 \title{Smooth image}
 \usage{
-smoothImage(inimg, sigma, sigmaInPhysicalCoordinates = TRUE,
-  FWHM = FALSE, max_kernel_width = 70)
+smoothImage(
+  inimg,
+  sigma,
+  sigmaInPhysicalCoordinates = TRUE,
+  FWHM = FALSE,
+  max_kernel_width = 70
+)
 }
 \arguments{
 \item{inimg}{Image to smooth}

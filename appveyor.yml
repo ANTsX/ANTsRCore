@@ -14,7 +14,9 @@ environment:
     WARNINGS_ARE_ERRORS: 1
   matrix:
     - R_VERSION: release
-      R_VER: 3.5
+      R_VER: 3.6  
+    - R_VERSION: devel
+      R_VER: 4.0      
 
 install:
   - ps: Bootstrap
@@ -97,7 +99,7 @@ test_script:
   - R CMD INSTALL --build --no-multiarch .
   # - travis-tool.sh run_tests
   - ls
-  - cp -r C:/run/* %APPVEYOR_BUILD_FOLDER%
+  - cp -r C:/run/* %APPVEYOR_BUILD_FOLDER% & exit 0 
   - cp C:/run/.Rbuildignore %APPVEYOR_BUILD_FOLDER%  
   - cd %APPVEYOR_BUILD_FOLDER%
   - ls

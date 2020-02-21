@@ -9,8 +9,7 @@
 \usage{
 \S4method{show}{antsImageIterator}(object)
 
-\S4method{initialize}{antsImageIterator}(.Object, pixeltype = "float",
-  dimension = 3, components = 1)
+\S4method{initialize}{antsImageIterator}(.Object, pixeltype = "float", dimension = 3, components = 1)
 }
 \arguments{
 \item{object}{input object to convert}

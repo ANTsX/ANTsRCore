@@ -4,9 +4,15 @@
 \alias{getNeighborhoodInMask}
 \title{Get neighborhoods for voxels within mask}
 \usage{
-getNeighborhoodInMask(image, mask, radius, physical.coordinates = FALSE,
-  boundary.condition = "NA", spatial.info = FALSE,
-  get.gradient = FALSE)
+getNeighborhoodInMask(
+  image,
+  mask,
+  radius,
+  physical.coordinates = FALSE,
+  boundary.condition = "NA",
+  spatial.info = FALSE,
+  get.gradient = FALSE
+)
 }
 \arguments{
 \item{image}{image object of S4 class \code{antsImage} to get values from.}

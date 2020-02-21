@@ -4,9 +4,17 @@
 \alias{buildTemplate}
 \title{ANTs template building.}
 \usage{
-buildTemplate(initialTemplate, imgList, typeofTransform, iterations = 3,
-  gradientStep = 0.25, blendingWeight = 0.5, segList, verbose = TRUE,
-  ...)
+buildTemplate(
+  initialTemplate,
+  imgList,
+  typeofTransform,
+  iterations = 3,
+  gradientStep = 0.25,
+  blendingWeight = 0.5,
+  segList,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{initialTemplate}{fixed image to which we register the population.}
