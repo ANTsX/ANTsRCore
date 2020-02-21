@@ -77,7 +77,6 @@ setMethod(f = "as.list", signature(x = "antsMatrix"), definition = function(x, .
 #' @param object An object
 #' @param elementtype e.g. "float" or "double"
 #' @param ... other parameters
-#' @rdname as.antsMatrix
 #' @examples
 #' as.antsMatrix(matrix(rnorm(10), nrow=2))
 #' @export
