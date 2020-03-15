@@ -14,7 +14,7 @@
 #' @param flowSigma smoothing for update field
 #' @param totalSigma smoothing for total field
 #' @param affMetric the metric for the affine part (GC, mattes, meansquares)
-#' @param affSampling the nbins or radius parameter for the syn metric
+#' @param affSampling the sampling parameter for the affine metric
 #' @param synMetric the metric for the syn part (CC, mattes, meansquares, demons)
 #' @param synSampling the nbins or radius parameter for the syn metric
 #' @param affIterations vector of iterations for low-dimensional registration.
