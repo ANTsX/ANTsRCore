@@ -50,7 +50,7 @@ information metric by default. See \code{Details.}}
 
 \item{affMetric}{the metric for the affine part (GC, mattes, meansquares)}
 
-\item{affSampling}{the nbins or radius parameter for the syn metric}
+\item{affSampling}{the sampling parameter for the affine metric}
 
 \item{synMetric}{the metric for the syn part (CC, mattes, meansquares, demons)}
 

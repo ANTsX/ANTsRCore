@@ -12,7 +12,7 @@
 #'
 #' @param .Object input object to convert
 #' @param elementtype string e.g. "float"
-#' 
+#'
 #' @slot elementtype string of the type of storage of the matrix e.g. "float"
 #' @slot pointer the memory location
 setClass(Class = "antsMatrix", representation(
@@ -21,7 +21,7 @@ setClass(Class = "antsMatrix", representation(
 #' @rdname antsMatrix_class
 #' @aliases initialize,antsMatrix-method
 #' @examples
-#' mat = as.antsMatrix(matrix(rnorm(10), nrow=2)) 
+#' mat = as.antsMatrix(matrix(rnorm(10), nrow=2))
 #' as.data.frame(mat)
 #' as.matrix(mat)
 setMethod(f = "initialize", signature(.Object = "antsMatrix"), definition = function(.Object,
@@ -77,7 +77,6 @@ setMethod(f = "as.list", signature(x = "antsMatrix"), definition = function(x, .
 #' @param object An object
 #' @param elementtype e.g. "float" or "double"
 #' @param ... other parameters
-#' @rdname as.antsMatrix
 #' @examples
 #' as.antsMatrix(matrix(rnorm(10), nrow=2))
 #' @export
