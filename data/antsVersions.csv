@@ -1,5 +1,5 @@
 Dependency;GitTag
-ANTs;b99b84051c5ada43995f37a73ef2715ddbf6a856
-ANTsRCore;5749f7c0396067d2c78bbd411584ddc0c856c8a3
+ANTs;0a4fedf3375ce8fd534b0df57abd24095feeac8a
+ANTsRCore;6ce1903d33451fe9d5850ce7aa0410b97ddde61e
 ANTsURL;https://github.com/ANTsX/ANTs.git
 ITK;bcd762e7bd743341c2dce84852ced49d8292f293

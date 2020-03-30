@@ -96,8 +96,8 @@ N3BiasFieldCorrection N4BiasFieldCorrection sccan antsJointFusion \
 ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 
 # get / set up ANTs code
-antsgit=https://github.com/ANTsX/ANTs.git
-antstag=0a4fedf3375ce8fd534b0df57abd24095feeac8a # N4 fix 3/20/2020
+antsgit=https://github.com/muschellij2/ANTs.git
+antstag=3cb292305e821753dafff3eea5e9d97a90ded60a # N4 fix 3/20/2020
 antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants
@@ -134,6 +134,7 @@ ${cmaker} -DITK_DIR:PATH=${ITKDIR} \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} -DNDEBUG "\
     -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} -DNDEBUG "\
     -DBUILD_SHARED_LIBS=OFF \
+    -DANTS_INSTALL_LIBS_ONLY=ON \
     -DBUILD_ALL_ANTS_APPS=OFF \
     -DUSE_SYSTEM_ITK=OFF \
     -DBUILD_TESTING=OFF \

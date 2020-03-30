@@ -60,7 +60,9 @@ rm(n4); gc()
 mask = in_img > 0
 mask2 = antsImageClone(mask, out_pixeltype = "float")
 # fails
-n4 = n4BiasFieldCorrection(in_img, mask = mask)
+mask 
+sum(mask)
+n4 = n4BiasFieldCorrection(in_img, mask = mask, verbose = TRUE)
 # fails
 n4 = n4BiasFieldCorrection(in_img, mask = mask2)
 
