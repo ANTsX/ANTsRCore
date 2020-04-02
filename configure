@@ -96,7 +96,7 @@ N3BiasFieldCorrection N4BiasFieldCorrection sccan antsJointFusion \
 ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 
 # get / set up ANTs code
-antsgit=https://github.com/muschellij2/ANTs.git
+antsgit=https://github.com/ANTsX/ANTs.git
 antstag=a5b426e09df9b80ea054adda0f6d0a0a25b18829 # N4 fix 3/20/2020
 antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
