@@ -3,7 +3,8 @@
 \name{iMathOps}
 \alias{iMathOps}
 \title{Operations for iMath Operator}
-\format{A data frame listing the following variables.
+\format{
+A data frame listing the following variables.
 \describe{
 \item{\code{Operation}}{Name of operation}
 \item{\code{OperationType}}{Enumerated type of the operation (filter, etc)}
@@ -12,7 +13,8 @@
 \item{\code{Description}}{free text description}
 \item{\code{OutputDimensionalityChange}}{NA if not image, otherwise
   increment to output image dimensionality relative to input image}
-}}
+}
+}
 \description{
 Examples, description and categorization of iMath operations.
 }

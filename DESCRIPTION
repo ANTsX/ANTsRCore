@@ -43,6 +43,6 @@ Suggests:
 SystemRequirements: cmake, git, clang, GNU make
 Remotes: stnava/ITKR
 NeedsCompilation: yes
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 VignetteBuilder: knitr
 Encoding: UTF-8

@@ -12,6 +12,7 @@ buildTemplate(
   gradientStep = 0.25,
   blendingWeight = 0.5,
   segList,
+  weights,
   verbose = TRUE,
   ...
 )
@@ -33,6 +34,8 @@ values lead to sharper intensity but may also cause artifacts.}
 
 \item{segList}{segmentations for each target image, this will trigger a
 joint label fusion call for each iteration and use masks during registration.}
+
+\item{weights}{numeric vector, length of number of images providing weights}
 
 \item{verbose}{print diagnostic messages,
 passed to \code{\link{antsRegistration}}}
