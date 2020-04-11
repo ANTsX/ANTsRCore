@@ -801,6 +801,7 @@ antsrGetPointerName <- function(img) {
 #' values lead to sharper intensity but may also cause artifacts.
 #' @param segList segmentations for each target image, this will trigger a
 #' joint label fusion call for each iteration and use masks during registration.
+#' @param weights numeric vector, length of number of images providing weights
 #' @param verbose print diagnostic messages,
 #' passed to \code{\link{antsRegistration}}
 #' @param ... Additional options to pass to \code{\link{antsRegistration}}
@@ -819,6 +820,7 @@ buildTemplate <- function(
   gradientStep = 0.25,
   blendingWeight = 0.5,
   segList,
+  weights,
   verbose = TRUE,
   ...
 ) {
@@ -826,6 +828,8 @@ buildTemplate <- function(
   if ( blendingWeight < 0 ) blendingWeight = 0
   if ( blendingWeight > 1 ) blendingWeight = 1
   if ( ! missing( segList ) ) doJif = TRUE else doJif = FALSE
+  if ( missing( weights ) ) weights = as.numeric( 1:length( imgList ) )
+  weights = weights / sum( weights )
   for (i in 1:iterations ) {
     if (verbose) {
       message(paste0("Iteration: ", i))
@@ -865,9 +869,9 @@ buildTemplate <- function(
     if (verbose) {
       message("Averaging images")
     }
-    template = antsAverageImages( avgIlist )
+    template = antsAverageImages( avgIlist, weights = weights )
     if ( doJif ) {
-      tempmask = thresholdImage( antsAverageImages( avgSlist ),
+      tempmask = thresholdImage( antsAverageImages( avgSlist, weights = weights  ),
         1/length(avgSlist), Inf )
       jlf = jointLabelFusion( template,  tempmask, rSearch=3,
         avgIlist, labelList = avgSlist )
@@ -877,7 +881,7 @@ buildTemplate <- function(
     if (verbose) {
       message("Averaging warped composed transforms")
     }
-    wavg = antsAverageImages( avgWlist ) * (-1.0 * gradientStep)
+    wavg = antsAverageImages( avgWlist, weights = weights ) * (-1.0 * gradientStep)
     wmag = sqrt( mean( wavg^2 ) )
     wavgfn = tempfile( fileext = ".nii.gz" )
     antsImageWrite( wavg, wavgfn )
