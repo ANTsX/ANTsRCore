@@ -312,7 +312,7 @@ applyAntsrTransform <- function(transform, data, dataType="point", reference=NUL
 applyAntsrTransformToPoint <- function(transform, points) {
 
   ismatrix=TRUE
-  if (class(points)=="numeric") {
+  if (class(points)[1]=="numeric") {
     points = t(as.matrix(points))
     ismatrix = FALSE
   }
