@@ -13,9 +13,9 @@
 #' testthat::expect_error(
 #' antsTransformIndexToPhysicalPoint(arr,c(2,2)), "antsImage")
 #' testthat::expect_error(
-#' antsTransformIndexToPhysicalPoint(img,c("2",2)), "index must be") 
+#' antsTransformIndexToPhysicalPoint(img,c("2",2)), "index must be")
 #' testthat::expect_error(
-#' antsTransformIndexToPhysicalPoint(img,c(2,2,2)), "matrix must be of")  
+#' antsTransformIndexToPhysicalPoint(img,c(2,2,2)), "matrix must be of")
 #'
 #' @export
 antsTransformIndexToPhysicalPoint <- function(x, index) {
@@ -23,19 +23,19 @@ antsTransformIndexToPhysicalPoint <- function(x, index) {
   if (!is.antsImage(x)) {
     stop("Input must be of class 'antsImage'")
   }
-  if ((class(index) != "numeric") && (class(index) != "matrix")) {
+  if ((class(index)[1] != "numeric") && (class(index)[1] != "matrix")) {
     stop("index must be of class 'numeric' or 'matrix'")
   }
-  
-  if (class(index) == "numeric") {
+
+  if (class(index)[1] == "numeric") {
     index <- t(as.matrix(index))
   }
-  
+
   imgdim <- length(dim(x))
   if (dim(index)[2] != imgdim) {
     stop(paste("Index matrix must be of size N x", imgdim))
   }
-  
+
   return(.Call("antsImage_TransformIndexToPhysicalPoint", x, index, PACKAGE = "ANTsRCore"))
 }
 
@@ -56,7 +56,7 @@ antsTransformIndexToPhysicalPoint <- function(x, index) {
 #' testthat::expect_error(
 #' antsTransformPhysicalPointToIndex(arr,c(2,2)), "antsImage")
 #' testthat::expect_error(
-#' antsTransformPhysicalPointToIndex(img,c("2",2)), "point must be") 
+#' antsTransformPhysicalPointToIndex(img,c("2",2)), "point must be")
 #' testthat::expect_error(
 #' antsTransformPhysicalPointToIndex(img,c(2,2,2)), "matrix must be of")
 #'
@@ -69,15 +69,15 @@ antsTransformPhysicalPointToIndex <- function(x, point) {
   if ((class(point) != "numeric") && (class(point) != "matrix")) {
     stop("point must be of class 'numeric' or 'matrix'")
   }
-  
+
   if (class(point) == "numeric") {
     point <- t(as.matrix(point))
   }
-  
+
   imgdim <- length(dim(x))
   if (dim(point)[2] != imgdim) {
     stop(paste("Point matrix must be of size N x", imgdim))
   }
-  
+
   return(.Call("antsImage_TransformPhysicalPointToIndex", x, point, PACKAGE = "ANTsRCore"))
 }
