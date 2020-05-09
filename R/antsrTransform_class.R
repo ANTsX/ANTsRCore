@@ -270,7 +270,7 @@ applyAntsrTransform <- function(transform, data, dataType="point", reference=NUL
   }
   else {
     ismatrix=TRUE
-    if (class(data)=="numeric") {
+    if (class(data)[1]=="numeric") {
       data = t(as.matrix(data))
       ismatrix = FALSE
     }
