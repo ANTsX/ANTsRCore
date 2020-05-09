@@ -25,7 +25,7 @@ try
   const size_t numDimensions =  imageIO->GetNumberOfDimensions();
   const size_t numComponents = imageIO->GetNumberOfComponents();
   const std::string pixelClass( imageIO->GetPixelTypeAsString(imageIO->GetPixelType()) );
-  const unsigned int pixelCode = imageIO->GetComponentType();
+  itk::ImageIOBase::IOComponentType pixelCode = imageIO->GetComponentType();
 
   Rcpp::NumericVector dimensions( numDimensions );
   Rcpp::NumericVector spacing( numDimensions );
