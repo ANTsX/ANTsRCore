@@ -310,7 +310,13 @@ antsRegistration <- function(
       # change this to a match.arg
       allowableTx <- c("Translation","Rigid", "Similarity", "Affine", "TRSAA",
                        "SyN","SyNRA","SyNOnly","SyNCC","SyNabp", "SyNBold", "SyNBoldAff",
-                       "SyNAggro", "SyNLessAggro", "TVMSQ","TVMSQC","ElasticSyN","Elastic")
+                       "SyNAggro", "SyNLessAggro", "TVMSQ","TVMSQC","ElasticSyN","Elastic",
+                       "antsRegistrationSyN[r]","antsRegistrationSyN[t]","antsRegistrationSyN[a]",
+                       "antsRegistrationSyN[b]","antsRegistrationSyN[s]","antsRegistrationSyN[br]",
+                       "antsRegistrationSyN[sr]","antsRegistrationSyN[bo]","antsRegistrationSyN[so]",
+                       "antsRegistrationSyNQuick[r]","antsRegistrationSyNQuick[t]","antsRegistrationSyNQuick[a]",
+                       "antsRegistrationSyNQuick[b]","antsRegistrationSyNQuick[s]","antsRegistrationSyNQuick[br]",
+                       "antsRegistrationSyNQuick[sr]","antsRegistrationSyNQuick[bo]","antsRegistrationSyNQuick[so]")
       ttexists <- typeofTransform %in% allowableTx
       if (ttexists) {
         initx = initialTransform
