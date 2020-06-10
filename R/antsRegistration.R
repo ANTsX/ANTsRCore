@@ -88,7 +88,12 @@
 #'   \item{"TVMSQC": }{time-varying diffeomorphism with mean square metric
 #'   for very large deformation}
 #'   \item{"Elastic": }{simple elastic deformation.  one might want to run an
-#' affine transformation before this.  may not produce diffeomorphic transformations.  user may need to explore gradient and sigma parameters.  this will not produce a valid inverse deformation.  \code{totalSigma} should be greater than zero.}
+#'   affine transformation before this.  may not produce diffeomorphic transformations.
+#'   user may need to explore gradient and sigma parameters.  this will not produce a valid inverse deformation.  \code{totalSigma} should be greater than zero.}
+#'   \item{"antsRegistrationSyN[x]":}{recreation of the antsRegistrationSyN.sh script in ANTs
+#'                                    where 'x' is one of the transforms available (e.g., 't', 'b', 's')}
+#'   \item{"antsRegistrationSyNQuick[x]":}{recreation of the antsRegistrationSyNQuick.sh script in ANTs
+#'                                    where 'x' is one of the transforms available (e.g., 't', 'b', 's')}
 #' }
 #' @return outputs a list containing:
 #' \itemize{
@@ -305,7 +310,13 @@ antsRegistration <- function(
       # change this to a match.arg
       allowableTx <- c("Translation","Rigid", "Similarity", "Affine", "TRSAA",
                        "SyN","SyNRA","SyNOnly","SyNCC","SyNabp", "SyNBold", "SyNBoldAff",
-                       "SyNAggro", "SyNLessAggro", "TVMSQ","TVMSQC","ElasticSyN","Elastic")
+                       "SyNAggro", "SyNLessAggro", "TVMSQ","TVMSQC","ElasticSyN","Elastic",
+                       "antsRegistrationSyN[r]","antsRegistrationSyN[t]","antsRegistrationSyN[a]",
+                       "antsRegistrationSyN[b]","antsRegistrationSyN[s]","antsRegistrationSyN[br]",
+                       "antsRegistrationSyN[sr]","antsRegistrationSyN[bo]","antsRegistrationSyN[so]",
+                       "antsRegistrationSyNQuick[r]","antsRegistrationSyNQuick[t]","antsRegistrationSyNQuick[a]",
+                       "antsRegistrationSyNQuick[b]","antsRegistrationSyNQuick[s]","antsRegistrationSyNQuick[br]",
+                       "antsRegistrationSyNQuick[sr]","antsRegistrationSyNQuick[bo]","antsRegistrationSyNQuick[so]")
       ttexists <- typeofTransform %in% allowableTx
       if (ttexists) {
         initx = initialTransform
@@ -659,11 +670,130 @@ antsRegistration <- function(
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
 
+        if( grepl( "antsRegistrationSyN", typeofTransform ) )
+          {
+          subtypeOfTransform <- 's'
+          if( grepl( '\\[', typeofTransform ) && grepl( '\\]', typeofTransform ) )
+            {
+            subtypeOfTransform <- strsplit( strsplit( typeofTransform, "\\[" )[[1]][2], "\\]" )[[1]][1]
+            }
+
+          doQuick <- FALSE
+          if( grepl( "Quick", typeofTransform ) )
+            {
+            doQuick <- TRUE
+            }
+
+          if( doQuick == TRUE )
+            {
+            rigidConvergence <- "[1000x500x250x0,1e-6,10]"
+            } else {
+            rigidConvergence <- "[1000x500x250x100,1e-6,10]"
+            }
+          rigidShrinkFactors <- "8x4x2x1"
+          rigidSmoothingSigmas <- "3x2x1x0vox"
+
+          if( doQuick == TRUE )
+            {
+            affineConvergence <- "[1000x500x250x0,1e-6,10]"
+            } else {
+            affineConvergence <- "[1000x500x250x100,1e-6,10]"
+            }
+          affineShrinkFactors <- "8x4x2x1"
+          affineSmoothingSigmas <- "3x2x1x0vox"
+
+          if( doQuick == TRUE )
+            {
+            synConvergence <- "[100x70x50x0,1e-6,10]"
+            synMetric <- paste0( "MI[", f, ",", m, ",1,32]" )
+            } else {
+            synConvergence <- "[100x70x50x20,1e-6,10]"
+            synMetric <- paste0( "CC[", f, ",", m, ",1,4]" )
+            }
+          synShrinkFactors <- "8x4x2x1"
+          synSmoothingSigmas <- "3x2x1x0vox"
+
+          tx <- "Rigid"
+          if( subtypeOfTransform == "t" )
+            {
+            tx <- "Translation"
+            }
+
+          rigidStage <- list( "--transform", paste0( tx, "[0.1]" ),
+                              "--metric", paste0( "MI[", f, ",", m, ",1,32,Regular,0.25]" ),
+                              "--convergence", rigidConvergence,
+                              "--shrink-factors", rigidShrinkFactors,
+                              "--smoothing-sigmas", rigidSmoothingSigmas
+                            )
+
+          affineStage <- list( "--transform", "Affine[0.1]",
+                               "--metric", paste0( "MI[", f, ",", m, ",1,32,Regular,0.25]" ),
+                               "--convergence", affineConvergence,
+                               "--shrink-factors", affineShrinkFactors,
+                               "--smoothing-sigmas", affineSmoothingSigmas
+                             )
+
+
+          if( subtypeOfTransform == "sr" || subtypeOfTransform == "br" )
+            {
+            if( doQuick == TRUE )
+              {
+              synConvergence <- "[50x0,1e-6,10]"
+              } else {
+              synConvergence <- "[50x20,1e-6,10]"
+              }
+            synShrinkFactors <- "2x1"
+            synSmoothingSigmas <- "1x0vox"
+            }
+
+          synTransform <- "SyN[0.1,3,0]"
+          if( subtypeOfTransform == "b" || subtypeOfTransform == "br" || subtypeOfTransform == "bo" )
+            {
+            synTransform <- "BSplineSyN[0.1,26,0,3]"
+            }
+          synStage <- list( "--transform", synTransform,
+                            "--metric", synMetric,
+                            "--convergence", synConvergence,
+                            "--shrink-factors", synShrinkFactors,
+                            "--smoothing-sigmas", synSmoothingSigmas
+                          )
+
+          args <- list(
+            "-d", as.character( fixed@dimension ),
+            "-r", initx,
+            "-o", paste0("[", outprefix, ",", wmo, ",", wfo, "]" ) )
+
+          if( subtypeOfTransform == "r" || subtypeOfTransform == "t" )
+            {
+            args <- lappend( args, rigidStage )
+            } else if( subtypeOfTransform == "a" ) {
+            args <- lappend( args, rigidStage )
+            args <- lappend( args, affineStage )
+            } else if( subtypeOfTransform == "b" || subtypeOfTransform == "s" ) {
+            args <- lappend( args, rigidStage )
+            args <- lappend( args, affineStage )
+            args <- lappend( args, synStage )
+            } else if( subtypeOfTransform == "br" || subtypeOfTransform == "sr" ) {
+            args <- lappend( args, rigidStage )
+            args <- lappend( args, synStage )
+            } else if( subtypeOfTransform == "bo" || subtypeOfTransform == "so" ) {
+            args <- lappend( args, synStage )
+            }
+
+          if( !is.na( maskopt ) )
+            {
+            args <- lappend( args, list( "-x", maskopt ) )
+            } else {
+            args <- lappend( args, list( "-x", "[NA,NA]" ) )
+            }
+
+          args <- as.list( unlist( args ) )
+          }
+
         if ( !missing( restrictTransformation ) ) {
           args[[ length(args)+1]]="-g"
           args[[ length(args)+1]]=paste( restrictTransformation, collapse='x')
         }
-
 
         args[[ length(args)+1]]="--float"
         args[[ length(args)+1]]="1"
@@ -682,10 +812,6 @@ antsRegistration <- function(
         if ( printArgs ) print( args )
         args = .int_antsProcessArguments(c(args))
         .Call("antsRegistration", args, PACKAGE = "ANTsRCore")
-
-
-
-
 
         all_tx = find_tx(outprefix)
         alltx = all_tx$alltx
