@@ -88,7 +88,12 @@
 #'   \item{"TVMSQC": }{time-varying diffeomorphism with mean square metric
 #'   for very large deformation}
 #'   \item{"Elastic": }{simple elastic deformation.  one might want to run an
-#' affine transformation before this.  may not produce diffeomorphic transformations.  user may need to explore gradient and sigma parameters.  this will not produce a valid inverse deformation.  \code{totalSigma} should be greater than zero.}
+#'   affine transformation before this.  may not produce diffeomorphic transformations.
+#'   user may need to explore gradient and sigma parameters.  this will not produce a valid inverse deformation.  \code{totalSigma} should be greater than zero.}
+#'   \item{"antsRegistrationSyN[x]":}{recreation of the antsRegistrationSyN.sh script in ANTs
+#'                                    where 'x' is one of the transforms available (e.g., 't', 'b', 's')}
+#'   \item{"antsRegistrationSyNQuick[x]":}{recreation of the antsRegistrationSyNQuick.sh script in ANTs
+#'                                    where 'x' is one of the transforms available (e.g., 't', 'b', 's')}
 #' }
 #' @return outputs a list containing:
 #' \itemize{
@@ -658,6 +663,131 @@ antsRegistration <- function(
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
+
+        if( grepl( "antsRegistrationSyN", typeofTransform ) )
+          {
+          subtypeOfTransform <- 's'
+          if( grepl( '\\[', typeofTransform ) && grepl( '\\]', typeofTransform ) )
+            {
+            subtypeOfTransform <- strsplit( strsplit( typeofTransform, "\\[" )[[1]][2], "\\]" )[[1]][1]
+            }
+
+          doQuick <- FALSE
+          if( grepl( "Quick", typeofTransform ) )
+            {
+            doQuick <- TRUE
+            }
+
+          if( doQuick == TRUE )
+            {
+            rigidConvergence <- "[1000x500x250x0,1e-6,10]"
+            } else {
+            rigidConvergence <- "[1000x500x250x100,1e-6,10]"
+            }
+          rigidShrinkFactors <- "8x4x2x1"
+          rigidSmoothingSigmas <- "3x2x1x0vox"
+
+          if( doQuick == TRUE )
+            {
+            affineConvergence <- "[1000x500x250x0,1e-6,10]"
+            } else {
+            affineConvergence <- "[1000x500x250x100,1e-6,10]"
+            }
+          affineShrinkFactors <- "8x4x2x1"
+          affineSmoothingSigmas <- "3x2x1x0vox"
+
+          if( doQuick == TRUE )
+            {
+            synConvergence <- "[100x70x50x0,1e-6,10]"
+            synMetric <- paste0( "MI[", f, ",", m, "1,32]" )
+            } else {
+            synConvergence <- "[100x70x50x20,1e-6,10]"
+            synMetric <- paste0( "CC[", f, ",", m, "1,4]" )
+            }
+          synShrinkFactors <- "8x4x2x1"
+          synSmoothingSigmas <- "3x2x1x0vox"
+
+          tx <- "Rigid"
+          if( subtypeOfTransform == "t" )
+            {
+            tx <- "Translation"
+            }
+
+          rigidStage <- list( "--transform", tx+"[0.1]",
+                              "--metric", paste0( "MI[", f, ",", m, "1,32,Regular,0.25]" ),
+                              "--convergence", rigidConvergence,
+                              "--shrink-factors", rigidShrinkFactors,
+                              "--smoothing-sigmas", rigidSmoothingSigmas
+                            )
+
+          affineStage <- list( "--transform", tx+"[0.1]",
+                               "--metric", paste0( "MI[", f, ",", m, "1,32,Regular,0.25]" ),
+                               "--convergence", affineConvergence,
+                               "--shrink-factors", affineShrinkFactors,
+                               "--smoothing-sigmas", affineSmoothingSigmas
+                             )
+
+
+          if( subtypeOfTransform == "sr" || subtype_of_transform == "br" )
+            {
+            if( doQuick == TRUE )
+              {
+              synConvergence <- "[50x0,1e-6,10]"
+              } else {
+              synConvergence <- "[50x20,1e-6,10]"
+              }
+            synShrinkFactors <- "2x1"
+            synSmoothingSigmas <- "1x0vox"
+            }
+
+          synStage <- list( "--metric", synMetric,
+                            "--convergence", synConvergence,
+                            "--shrink-factors", synShrinkFactors,
+                            "--smoothing-sigmas", synSmoothingSigmas
+                          )
+          if( subtypeOfTransform == "b" || subtypeOfTransform == "br" || subtypeOfTransform == "bo" )
+            {
+            synStage <- list.prepend( synStage, "BSplineSyN[0.1,26,0,3]" )
+            synStage <- list.prepend( synStage, "--transform" )
+            }
+          if( subtypeOfTransform == "s" || subtypeOfTransform == "sr" || subtypeOfTransform == "so" )
+            {
+            synStage <- list.prepend( synStage, "SyN[0.1,3,0]" )
+            synStage <- list.prepend( synStage, "--transform" )
+            }
+
+          args <- list(
+            "-d", as.character( fixed@dimension ),
+            "-r", initx,
+            "-o", paste0("[", outprefix, ",", wmo, ",", wfo, "]" ) )
+
+          if( subtypeOfTransform == "r" || subtypeOfTransform == "t" )
+            {
+            args <- args.append( rigidStage )
+            } else if( subtypeOfTransform == "a" ) {
+            args <- args.append( rigidStage )
+            args <- args.append( affineStage )
+            } else if( subtypeOfTransform == "b" || subtypeOfTransform == "s" ) {
+            args <- args.append( rigidStage )
+            args <- args.append( affineStage )
+            args <- args.append( synStage )
+            } else if( subtypeOfTransform == "br" || subtypeOfTransform == "sr" ) {
+            args <- args.append( rigidStage )
+            args <- args.append( synStage )
+            } else if( subtypeOfTransform == "bo" || subtypeOfTransform == "so" ) {
+            args <- args.append( rigidStage )
+            args <- args.append( synStage )
+            }
+
+          if( !is.na( maskopt ) )
+            {
+            args <- lappend( args, list( "-x", maskopt ) )
+            } else {
+            args=lappend( args, list( "-x", "[NA,NA]" ) )
+            }
+
+          args <- unlist( args )
+          }
 
         if ( !missing( restrictTransformation ) ) {
           args[[ length(args)+1]]="-g"
