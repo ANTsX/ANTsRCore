@@ -705,10 +705,10 @@ antsRegistration <- function(
           if( doQuick == TRUE )
             {
             synConvergence <- "[100x70x50x0,1e-6,10]"
-            synMetric <- paste0( "MI[", f, ",", m, "1,32]" )
+            synMetric <- paste0( "MI[", f, ",", m, ",1,32]" )
             } else {
             synConvergence <- "[100x70x50x20,1e-6,10]"
-            synMetric <- paste0( "CC[", f, ",", m, "1,4]" )
+            synMetric <- paste0( "CC[", f, ",", m, ",1,4]" )
             }
           synShrinkFactors <- "8x4x2x1"
           synSmoothingSigmas <- "3x2x1x0vox"
@@ -719,22 +719,22 @@ antsRegistration <- function(
             tx <- "Translation"
             }
 
-          rigidStage <- list( "--transform", tx+"[0.1]",
-                              "--metric", paste0( "MI[", f, ",", m, "1,32,Regular,0.25]" ),
+          rigidStage <- list( "--transform", paste0( tx, "[0.1]" ),
+                              "--metric", paste0( "MI[", f, ",", m, ",1,32,Regular,0.25]" ),
                               "--convergence", rigidConvergence,
                               "--shrink-factors", rigidShrinkFactors,
                               "--smoothing-sigmas", rigidSmoothingSigmas
                             )
 
-          affineStage <- list( "--transform", tx+"[0.1]",
-                               "--metric", paste0( "MI[", f, ",", m, "1,32,Regular,0.25]" ),
+          affineStage <- list( "--transform", "Affine[0.1]",
+                               "--metric", paste0( "MI[", f, ",", m, ",1,32,Regular,0.25]" ),
                                "--convergence", affineConvergence,
                                "--shrink-factors", affineShrinkFactors,
                                "--smoothing-sigmas", affineSmoothingSigmas
                              )
 
 
-          if( subtypeOfTransform == "sr" || subtype_of_transform == "br" )
+          if( subtypeOfTransform == "sr" || subtypeOfTransform == "br" )
             {
             if( doQuick == TRUE )
               {
@@ -746,21 +746,17 @@ antsRegistration <- function(
             synSmoothingSigmas <- "1x0vox"
             }
 
-          synStage <- list( "--metric", synMetric,
+          synTransform <- "SyN[0.1,3,0]"
+          if( subtypeOfTransform == "b" || subtypeOfTransform == "br" || subtypeOfTransform == "bo" )
+            {
+            synTransform <- "BSplineSyN[0.1,26,0,3]"
+            }
+          synStage <- list( "--transform", synTransform,
+                            "--metric", synMetric,
                             "--convergence", synConvergence,
                             "--shrink-factors", synShrinkFactors,
                             "--smoothing-sigmas", synSmoothingSigmas
                           )
-          if( subtypeOfTransform == "b" || subtypeOfTransform == "br" || subtypeOfTransform == "bo" )
-            {
-            synStage <- list.prepend( synStage, "BSplineSyN[0.1,26,0,3]" )
-            synStage <- list.prepend( synStage, "--transform" )
-            }
-          if( subtypeOfTransform == "s" || subtypeOfTransform == "sr" || subtypeOfTransform == "so" )
-            {
-            synStage <- list.prepend( synStage, "SyN[0.1,3,0]" )
-            synStage <- list.prepend( synStage, "--transform" )
-            }
 
           args <- list(
             "-d", as.character( fixed@dimension ),
@@ -769,37 +765,35 @@ antsRegistration <- function(
 
           if( subtypeOfTransform == "r" || subtypeOfTransform == "t" )
             {
-            args <- args.append( rigidStage )
+            args <- lappend( args, rigidStage )
             } else if( subtypeOfTransform == "a" ) {
-            args <- args.append( rigidStage )
-            args <- args.append( affineStage )
+            args <- lappend( args, rigidStage )
+            args <- lappend( args, affineStage )
             } else if( subtypeOfTransform == "b" || subtypeOfTransform == "s" ) {
-            args <- args.append( rigidStage )
-            args <- args.append( affineStage )
-            args <- args.append( synStage )
+            args <- lappend( args, rigidStage )
+            args <- lappend( args, affineStage )
+            args <- lappend( args, synStage )
             } else if( subtypeOfTransform == "br" || subtypeOfTransform == "sr" ) {
-            args <- args.append( rigidStage )
-            args <- args.append( synStage )
+            args <- lappend( args, rigidStage )
+            args <- lappend( args, synStage )
             } else if( subtypeOfTransform == "bo" || subtypeOfTransform == "so" ) {
-            args <- args.append( rigidStage )
-            args <- args.append( synStage )
+            args <- lappend( args, synStage )
             }
 
           if( !is.na( maskopt ) )
             {
             args <- lappend( args, list( "-x", maskopt ) )
             } else {
-            args=lappend( args, list( "-x", "[NA,NA]" ) )
+            args <- lappend( args, list( "-x", "[NA,NA]" ) )
             }
 
-          args <- unlist( args )
+          args <- as.list( unlist( args ) )
           }
 
         if ( !missing( restrictTransformation ) ) {
           args[[ length(args)+1]]="-g"
           args[[ length(args)+1]]=paste( restrictTransformation, collapse='x')
         }
-
 
         args[[ length(args)+1]]="--float"
         args[[ length(args)+1]]="1"
@@ -818,10 +812,6 @@ antsRegistration <- function(
         if ( printArgs ) print( args )
         args = .int_antsProcessArguments(c(args))
         .Call("antsRegistration", args, PACKAGE = "ANTsRCore")
-
-
-
-
 
         all_tx = find_tx(outprefix)
         alltx = all_tx$alltx
