@@ -450,7 +450,7 @@ antsRegistration <- function(
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
         if (typeofTransform == "ElasticOnly") {
-          mysyn = paste("Elastic[",gradStep,",",flowSigma,",",totalSigma,"]", sep = "")
+          mysyn = paste("GaussianDisplacementField[",gradStep,",",flowSigma,",",totalSigma,"]", sep = "")
         }
         if (typeofTransform == "SyNOnly" | typeofTransform == "ElasticOnly" ) {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
