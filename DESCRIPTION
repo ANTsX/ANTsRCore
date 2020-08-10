@@ -40,7 +40,7 @@ Suggests:
     rmarkdown,
     testthat,
     viridis
-SystemRequirements: cmake, git, clang, GNU make
+SystemRequirements: cmake, git, clang, GNU make, v8
 Remotes: stnava/ITKR
 NeedsCompilation: yes
 RoxygenNote: 7.1.0
