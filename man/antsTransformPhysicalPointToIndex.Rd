@@ -24,7 +24,7 @@ arr = as.array(img)
 testthat::expect_error(
 antsTransformPhysicalPointToIndex(arr,c(2,2)), "antsImage")
 testthat::expect_error(
-antsTransformPhysicalPointToIndex(img,c("2",2)), "point must be") 
+antsTransformPhysicalPointToIndex(img,c("2",2)), "point must be")
 testthat::expect_error(
 antsTransformPhysicalPointToIndex(img,c(2,2,2)), "matrix must be of")
 

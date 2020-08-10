@@ -30,7 +30,7 @@
 #' \code{ list( list( "nameOfMetric2", img, img, weight, metricParam ) ) }.
 #' Another example would be \code{ list( list( "MeanSquares", f2, m2, 0.5, 0 ),
 #' list( "CC", f2, m2, 0.5, 2 ) ) }.  This is only compatible with the
-#' \code{SyNOnly} transformation.
+#' \code{SyNOnly} or \code{ElasticOnly} transformation.
 #' @param restrictTransformation This option allows the user to restrict the
 #' optimization of the displacement field, translation, rigid or affine
 #' transform on a per-component basis. For example, if one wants to limit
@@ -72,6 +72,7 @@
 #'     Uses \code{synMetric} as optimization metric.  Assumes images are
 #'     aligned by an inital transformation. Can be useful if you want to run
 #'     an unmasked affine followed by masked deformable registration.}
+#'   \item{"ElasticOnly": }{Elastic normalization: no initial transformation.}
 #'   \item{"SyNCC": }{SyN, but with cross-correlation as the metric.
 #'     Note, the default or chosen parameters will be replaced with
 #'     \code{synMetric="CC", synSampling=4, synits="2100x1200x1200x20",
@@ -310,7 +311,7 @@ antsRegistration <- function(
       # change this to a match.arg
       allowableTx <- c("Translation","Rigid", "Similarity", "Affine", "TRSAA",
                        "SyN","SyNRA","SyNOnly","SyNCC","SyNabp", "SyNBold", "SyNBoldAff",
-                       "SyNAggro", "SyNLessAggro", "TVMSQ","TVMSQC","ElasticSyN","Elastic",
+                       "SyNAggro", "SyNLessAggro", "TVMSQ","TVMSQC","ElasticSyN","Elastic","ElasticOnly",
                        "antsRegistrationSyN[r]","antsRegistrationSyN[t]","antsRegistrationSyN[a]",
                        "antsRegistrationSyN[b]","antsRegistrationSyN[s]","antsRegistrationSyN[br]",
                        "antsRegistrationSyN[sr]","antsRegistrationSyN[bo]","antsRegistrationSyN[so]",
@@ -448,7 +449,10 @@ antsRegistration <- function(
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
         }
-        if (typeofTransform == "SyNOnly") {
+        if (typeofTransform == "ElasticOnly") {
+          mysyn = paste("Elastic[",gradStep,",",flowSigma,",",totalSigma,"]", sep = "")
+        }
+        if (typeofTransform == "SyNOnly" | typeofTransform == "ElasticOnly" ) {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
                        "-m", paste(synMetric,"[", f, ",", m, ",1,",synSampling,"]", sep = ""),
                        "-t", mysyn,
@@ -485,7 +489,8 @@ antsRegistration <- function(
           }
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
-        }
+          }
+
         if (typeofTransform == "SyNAggro") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.2]", sep = ""),
