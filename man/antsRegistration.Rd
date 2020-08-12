@@ -71,7 +71,7 @@ the list should be of the form
 \code{ list( list( "nameOfMetric2", img, img, weight, metricParam ) ) }.
 Another example would be \code{ list( list( "MeanSquares", f2, m2, 0.5, 0 ),
 list( "CC", f2, m2, 0.5, 2 ) ) }.  This is only compatible with the
-\code{SyNOnly} transformation.}
+\code{SyNOnly} or \code{ElasticOnly} transformation.}
 
 \item{restrictTransformation}{This option allows the user to restrict the
 optimization of the displacement field, translation, rigid or affine
@@ -133,6 +133,7 @@ typeofTransform can be one of:
     Uses \code{synMetric} as optimization metric.  Assumes images are
     aligned by an inital transformation. Can be useful if you want to run
     an unmasked affine followed by masked deformable registration.}
+  \item{"ElasticOnly": }{Elastic normalization: no initial transformation.}
   \item{"SyNCC": }{SyN, but with cross-correlation as the metric.
     Note, the default or chosen parameters will be replaced with
     \code{synMetric="CC", synSampling=4, synits="2100x1200x1200x20",
@@ -149,7 +150,12 @@ typeofTransform can be one of:
   \item{"TVMSQC": }{time-varying diffeomorphism with mean square metric
   for very large deformation}
   \item{"Elastic": }{simple elastic deformation.  one might want to run an
-affine transformation before this.  may not produce diffeomorphic transformations.  user may need to explore gradient and sigma parameters.  this will not produce a valid inverse deformation.  \code{totalSigma} should be greater than zero.}
+  affine transformation before this.  may not produce diffeomorphic transformations.
+  user may need to explore gradient and sigma parameters.  this will not produce a valid inverse deformation.  \code{totalSigma} should be greater than zero.}
+  \item{"antsRegistrationSyN[x]":}{recreation of the antsRegistrationSyN.sh script in ANTs
+                                   where 'x' is one of the transforms available (e.g., 't', 'b', 's')}
+  \item{"antsRegistrationSyNQuick[x]":}{recreation of the antsRegistrationSyNQuick.sh script in ANTs
+                                   where 'x' is one of the transforms available (e.g., 't', 'b', 's')}
 }
 }
 \examples{
