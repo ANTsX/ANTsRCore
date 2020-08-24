@@ -23,6 +23,7 @@ antsRegistration(
   multivariateExtras,
   restrictTransformation,
   writeCompositeTransform = FALSE,
+  randomSeed,
   verbose = FALSE,
   printArgs = FALSE,
   ...
@@ -82,6 +83,10 @@ this is possible by specifying a weight vector of \code{c(1,1,0)} for a
 Restriction currently only works if there are no preceding transformations.}
 
 \item{writeCompositeTransform}{if \code{TRUE}, will write transformations to h5 format.  Defaults to FALSE.}
+
+\item{randomSeed}{integer random seed. combine with setting
+ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS environment variable to limit the
+impact of numerical differences.}
 
 \item{verbose}{request verbose output (useful for debugging)}
 

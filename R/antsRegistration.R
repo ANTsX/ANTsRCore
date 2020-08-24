@@ -39,6 +39,9 @@
 #' 3D deformation field or \code{c(1,1,0,1,1,0)} for a rigid transformation.
 #' Restriction currently only works if there are no preceding transformations.
 #' @param writeCompositeTransform if \code{TRUE}, will write transformations to h5 format.  Defaults to FALSE.
+#' @param randomSeed integer random seed. combine with setting
+#' ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS environment variable to limit the
+#' impact of numerical differences.
 #' @param verbose request verbose output (useful for debugging)
 #' @param printArgs print raw command line (useful for debugging)
 #' @param ... additional options see antsRegistration in ANTs
@@ -186,6 +189,7 @@ antsRegistration <- function(
   multivariateExtras,
   restrictTransformation,
   writeCompositeTransform = FALSE,
+  randomSeed,
   verbose=FALSE,
   printArgs = FALSE, ... ) {
   numargs <- nargs()
@@ -803,8 +807,10 @@ antsRegistration <- function(
         args[[ length(args)+1]]="--float"
         args[[ length(args)+1]]="1"
         # set the random seed
-        myseed=Sys.getenv("ANTS_RANDOM_SEED")
-        if ( nchar(myseed) == 0 ) myseed = "1234"
+        if ( missing( randomSeed )) {
+          myseed=Sys.getenv("ANTS_RANDOM_SEED")
+          if ( nchar(myseed) == 0 ) myseed = "1234"
+          }
         args[[ length(args)+1]]="--random-seed"
         args[[ length(args)+1]]="1"
         args[[ length(args)+1]]="--write-composite-transform"
