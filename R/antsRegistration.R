@@ -207,13 +207,16 @@ antsRegistration <- function(
 
   find_tx = function(outprefix) {
     alltx = Sys.glob( paste0( outprefix, "*", "[0-9]*") )
+    alltx = alltx[!grepl( "VelocityField", alltx )]
     findinv = grepl( "[0-9]InverseWarp.nii.gz", alltx )
     findaff = grepl( "[0-9]GenericAffine.mat", alltx )
     findfwd = grepl( "[0-9]Warp.nii.gz", alltx )
+    velocityfield = Sys.glob( paste0( outprefix, "*VelocityField.nii.gz" ) )
     L = list(alltx = alltx,
              findinv = findinv,
              findfwd = findfwd,
-             findaff = findaff)
+             findaff = findaff,
+             velocityfield = velocityfield)
     return(L)
   }
   all_tx = find_tx(outprefix)
@@ -625,7 +628,7 @@ antsRegistration <- function(
                        "-c", paste("[",synits,",1e-7,8]",collapse=''),
                        "-s", smoothingsigmas,
                        "-f", shrinkfactors,
-                       "-u", "0", "-z", "1", "-l", myl,
+                       "-u", "0", "-z", "0", "-l", myl,
                        "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""))
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
@@ -641,7 +644,7 @@ antsRegistration <- function(
                        "-c", "[1200x1200x100x20x0,0,5]",
                        "-s", "8x6x4x2x1vox",
                        "-f", "8x6x4x2x1",
-                       "-u", "0", "-z", "1", "-l", myl,
+                       "-u", "0", "-z", "0", "-l", myl,
                        "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""))
           if ( !is.na(maskopt)  )
             args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
@@ -829,6 +832,7 @@ antsRegistration <- function(
         findinv = all_tx$findinv
         findfwd = all_tx$findfwd
         findaff = all_tx$findaff
+        velocityfield = all_tx$velocityfield
         rm(list = "all_tx")
         # this will make it so other file naming don't mess this up
         alltx = alltx[ findinv | findfwd | findaff]
@@ -852,13 +856,24 @@ antsRegistration <- function(
         }
         if ( sum(  fixed - warpedmovout ) == 0  ) # FIXME better error catching
           stop( "Registration failed. Use verbose mode to diagnose." )
-        return(
-          list( warpedmovout = antsImageClone(warpedmovout, inpixeltype),
-                warpedfixout = antsImageClone(warpedfixout, inpixeltype),
-                fwdtransforms = fwdtransforms,
-                invtransforms = invtransforms,
-                prev_transforms = pre_transform)
-        )
+
+        if( length( velocityfield ) == 0 )
+          {
+          return(
+            list( warpedmovout = antsImageClone(warpedmovout, inpixeltype),
+                  warpedfixout = antsImageClone(warpedfixout, inpixeltype),
+                  fwdtransforms = fwdtransforms,
+                  invtransforms = invtransforms,
+                  prev_transforms = pre_transform))
+          } else {
+          return(
+            list( warpedmovout = antsImageClone(warpedmovout, inpixeltype),
+                  warpedfixout = antsImageClone(warpedfixout, inpixeltype),
+                  fwdtransforms = fwdtransforms,
+                  invtransforms = invtransforms,
+                  prev_transforms = pre_transform,
+                  velocityfield = velocityfield))
+          }
       }
       if (!ttexists) {
         stop("Unrecognized transform type.")
