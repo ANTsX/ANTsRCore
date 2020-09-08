@@ -88,6 +88,9 @@
 #'     BOLD and T1 images, with additional affine step.}
 #'   \item{"SyNAggro": }{SyN, but with more aggressive registration
 #'     (fine-scale matching and more deformation).  Takes more time than \code{SyN}.}
+#'   \item{"TV[n]}": }{time-varying diffeomorphism with where 'n' indicates number of
+#'             time points in velocity field discretization.  The initial transform
+#'             should be computed, if needed, in a separate call to ants.registration.}
 #'   \item{"TVMSQ": }{time-varying diffeomorphism with mean square metric}
 #'   \item{"TVMSQC": }{time-varying diffeomorphism with mean square metric
 #'   for very large deformation}
@@ -204,7 +207,6 @@ antsRegistration <- function(
       || is.null(outprefix)) {
     outprefix = tempfile()
   }
-
   find_tx = function(outprefix) {
     alltx = Sys.glob( paste0( outprefix, "*", "[0-9]*") )
     alltx = alltx[!grepl( "VelocityField", alltx )]
@@ -309,16 +311,17 @@ antsRegistration <- function(
   if (!is.character(fixed)) {
     fixed = check_ants(fixed)
     error_not_antsImage(fixed, "fixed")
-
     moving = check_ants(moving)
     error_not_antsImage(moving, "moving")
     if (is.antsImage(fixed) & is.antsImage(moving)) {
       inpixeltype <- fixed@pixeltype
+      tvTypes <- c( paste0( "TV[", 1:8, "]" ) )
       ttexists <- FALSE
       # change this to a match.arg
       allowableTx <- c("Translation","Rigid", "Similarity", "Affine", "TRSAA",
                        "SyN","SyNRA","SyNOnly","SyNCC","SyNabp", "SyNBold", "SyNBoldAff",
-                       "SyNAggro", "SyNLessAggro", "TVMSQ","TVMSQC","ElasticSyN","Elastic","ElasticOnly",
+                       "SyNAggro", "SyNLessAggro", tvTypes,
+                       "TVMSQ","TVMSQC","ElasticSyN","Elastic","ElasticOnly",
                        "antsRegistrationSyN[r]","antsRegistrationSyN[t]","antsRegistrationSyN[a]",
                        "antsRegistrationSyN[b]","antsRegistrationSyN[s]","antsRegistrationSyN[br]",
                        "antsRegistrationSyN[sr]","antsRegistrationSyN[bo]","antsRegistrationSyN[so]",
@@ -644,6 +647,27 @@ antsRegistration <- function(
                        "-c", "[1200x1200x100x20x0,0,5]",
                        "-s", "8x6x4x2x1vox",
                        "-f", "8x6x4x2x1",
+                       "-u", "0", "-z", "0", "-l", myl,
+                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""))
+          if ( !is.na(maskopt)  )
+            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+        }
+        if( typeofTransform %in% tvTypes )
+        {
+          if( is.na( gradStep ) )
+            {
+            gradStep <- 1.0
+            }
+          nTimePoints <- as.numeric( strsplit( strsplit( typeofTransform, "\\[" )[[1]][2], "\\]" )[[1]][1] )
+          if ( is.na(gradStep) ) gradStep=1.0
+          tvtx=paste("TimeVaryingVelocityField[",
+                     gradStep,",", nTimePoints, ",",flowSigma,",0.0,",totalSigma,",0 ]",sep='')
+          args <- list("-d", as.character(fixed@dimension), # "-r", initx,
+                       "-m", paste(synMetric,"[", f, ",", m, ",1,",synSampling,"]", sep = ""),
+                       "-t", tvtx,
+                       "-c", paste("[",synits,",1e-7,8]",collapse=''),
+                       "-s", smoothingsigmas,
+                       "-f", shrinkfactors,
                        "-u", "0", "-z", "0", "-l", myl,
                        "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""))
           if ( !is.na(maskopt)  )

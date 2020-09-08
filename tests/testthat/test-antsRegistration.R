@@ -3,7 +3,7 @@ context("antsRegistration from Examples")
 test_that("read in trans", {
   #print help
   fi <- antsImageRead(getANTsRData("r16"))
-  mi <- antsImageRead(getANTsRData("r64"))  
+  mi <- antsImageRead(getANTsRData("r64"))
   rig <- antsRegistration(
     fixed = fi,
     moving = mi,
@@ -12,7 +12,7 @@ test_that("read in trans", {
   testthat::expect_is(trans, "antsrTransform")
   rm(rig)
   rm(trans)
-  
+
 })
 # "TVMSQC",
 
@@ -22,7 +22,7 @@ test_that("read in trans", {
 test_that("all the regs", {
   #print help
   fi <- antsImageRead(getANTsRData("r16"))
-  mi <- antsImageRead(getANTsRData("r64"))  
+  mi <- antsImageRead(getANTsRData("r64"))
   for (itype in c(
     "AffineFast",
     "BOLDAffine",
@@ -44,6 +44,7 @@ test_that("all the regs", {
     "SyNAggro",
     "SyNLessAggro",
     "TVMSQ",
+    "TV[3]",
     "ElasticSyN"
   )) {
     print(itype)
@@ -53,12 +54,12 @@ test_that("all the regs", {
     testthat::expect_true(all(file.exists(mytx2$fwdtransforms)))
     rm(mytx2)
   }
-  
+
 })
 
 
 test_that( "multivariateExtras", {
-  
+
   #print help
   fi <- antsImageRead(getANTsRData("r16"))
   mi <- antsImageRead(getANTsRData("r64"))
@@ -68,11 +69,11 @@ test_that( "multivariateExtras", {
     typeofTransform = "SyNOnly",
     multivariateExtras = list(list("MeanSquares", fi, mi, 0.5, 0))
   )
-  
-  
+
+
   testthat::expect_true(all(file.exists(mytx2$fwdtransforms)))
   rm(mytx2)
-  
+
 })
 
 
@@ -80,8 +81,8 @@ test_that("bad type of Transform", {
   #print help
   fi <- antsImageRead(getANTsRData("r16"))
   mi <- antsImageRead(getANTsRData("r64"))
-  
-  
+
+
   testthat::expect_error({
     res = antsRegistration(
       fixed = fi,
@@ -89,33 +90,33 @@ test_that("bad type of Transform", {
       typeofTransform = "sdf"
     )
   })
-  
+
 })
 
 
 test_that( "regIterations", {
   fi <- antsImageRead(getANTsRData("r16"))
   mi <- antsImageRead(getANTsRData("r64"))
-  
+
   bad <- antsRegistration(fixed = fi,
                           moving = mi,
-                          regIterations = 40)  
+                          regIterations = 40)
   testthat::expect_true(all(file.exists(bad$fwdtransforms)))
   rm(bad)
-  
-})  
+
+})
 
 
 test_that("affIterations",{
   fi <- antsImageRead(getANTsRData("r16"))
-  mi <- antsImageRead(getANTsRData("r64"))  
+  mi <- antsImageRead(getANTsRData("r64"))
   affIterations = c(3, 2, 1, 0)
   mytx2 <- antsRegistration(fixed = fi,
                             moving = mi,
                             affIterations = affIterations)
   testthat::expect_true(all(file.exists(mytx2$fwdtransforms)))
   rm(mytx2)
-})    
+})
 
 
 
