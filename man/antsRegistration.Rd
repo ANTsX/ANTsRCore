@@ -109,59 +109,7 @@ Register a pair of images either through the full or simplified interface
 to the ANTs registration method.
 }
 \details{
-typeofTransform can be one of:
-\itemize{
-  \item{"Translation": }{Translation transformation.}
-  \item{"Rigid": }{Rigid transformation: Only rotation and translation.}
-  \item{"Similarity": }{Similarity transformation: scaling, rotation and
-  translation.}
-  \item{"QuickRigid": }{Rigid transformation: Only rotation and translation.
-  May be useful for quick visualization fixes.'}
-  \item{"DenseRigid": }{Rigid transformation: Only rotation and translation.
-  Employs dense sampling during metric estimation.'}
-  \item{"BOLDRigid": }{Rigid transformation: Parameters typical for BOLD
-  to BOLD intrasubject registration'.'}
-  \item{"Affine": }{Affine transformation: Rigid + scaling.}
-  \item{"AffineFast": }{Fast version of \code{Affine}.}
-  \item{"BOLDAffine": }{Affine transformation: Parameters typical for BOLD
-  to BOLD intrasubject registration'.'}
-  \item{"TRSAA": }{translation, rigid, similarity, affine (twice). please set
-    \code{regIterations} if using this option.  this would be used in cases
-    where you want a really high quality affine mapping (perhaps with mask).}
-  \item{"ElasticSyN": }{Symmetric normalization: Affine + deformable transformation.
-    Uses \code{synMetric} as optimization metric and elastic regularization.}
-  \item{"SyN": }{Symmetric normalization: Affine + deformable transformation.
-    Uses \code{synMetric} as optimization metric.}
-  \item{"SyNRA": }{Symmetric normalization: Rigid + Affine + deformable transformation.
-    Uses \code{synMetric} as optimization metric.}
-  \item{"SyNOnly": }{Symmetric normalization: no initial transformation.
-    Uses \code{synMetric} as optimization metric.  Assumes images are
-    aligned by an inital transformation. Can be useful if you want to run
-    an unmasked affine followed by masked deformable registration.}
-  \item{"ElasticOnly": }{Elastic normalization: no initial transformation.}
-  \item{"SyNCC": }{SyN, but with cross-correlation as the metric.
-    Note, the default or chosen parameters will be replaced with
-    \code{synMetric="CC", synSampling=4, synits="2100x1200x1200x20",
-         smoothingsigmas="3x2x1x0", shrinkfactors="4x3x2x1"}. }
-  \item{"SyNabp": }{SyN optimized for abpBrainExtraction, forces mutual information
-    as optimization metric.}
-  \item{"SyNBold": }{SyN, but optimized for registrations between
-    BOLD and T1 images.}
-  \item{"SyNBoldAff": }{SyN, but optimized for registrations between
-    BOLD and T1 images, with additional affine step.}
-  \item{"SyNAggro": }{SyN, but with more aggressive registration
-    (fine-scale matching and more deformation).  Takes more time than \code{SyN}.}
-  \item{"TVMSQ": }{time-varying diffeomorphism with mean square metric}
-  \item{"TVMSQC": }{time-varying diffeomorphism with mean square metric
-  for very large deformation}
-  \item{"Elastic": }{simple elastic deformation.  one might want to run an
-  affine transformation before this.  may not produce diffeomorphic transformations.
-  user may need to explore gradient and sigma parameters.  this will not produce a valid inverse deformation.  \code{totalSigma} should be greater than zero.}
-  \item{"antsRegistrationSyN[x]":}{recreation of the antsRegistrationSyN.sh script in ANTs
-                                   where 'x' is one of the transforms available (e.g., 't', 'b', 's')}
-  \item{"antsRegistrationSyNQuick[x]":}{recreation of the antsRegistrationSyNQuick.sh script in ANTs
-                                   where 'x' is one of the transforms available (e.g., 't', 'b', 's')}
-}
+
 }
 \examples{
 
