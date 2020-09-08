@@ -19,7 +19,6 @@ src/ants/.git/*
 ^appveyor\.yml$
 comparison_operator_template\.R
 make_comparison_operator\.R
-
 R/\.Rhistory
 .Rhistory
 zzz_Comparison2\.R
@@ -27,3 +26,4 @@ zzz_Comparison2\.R
 ^data-raw$
 ^codecov\.yml$
 ^\.github$
+^~/\.boxr-oauth$
