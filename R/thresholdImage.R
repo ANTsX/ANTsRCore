@@ -31,6 +31,7 @@ thresholdImage <- function(inimg,
 }
 
 
+
 #' Integrate velocity field
 #'
 #' Utility function to integrate a velocity field and create a deformation field.
@@ -45,6 +46,19 @@ thresholdImage <- function(inimg,
 #' @param deltaTime the integration time step
 #' @return NULL
 #' @author Avants BB
+#' @examples
+#' \dontrun{
+#' set.seed(1234)
+#' fi <- ( ri(1) )
+#' mi <- ( ri(2) )
+#' mytx2 <- antsRegistration(fixed=fi, mi, typeofTransform = "TV[4]" )
+#' integrateVelocityField( fi, mytx2$velocityfield,  "/tmp/def.nii.gz" )
+#' qq=antsApplyTransforms( fi, mi, mytx2$fwdtransforms )
+#' pp=antsApplyTransforms( fi, mi, "/tmp/def.nii.gz" )
+#' antsImageMutualInformation( fi, mi )
+#' antsImageMutualInformation( fi, qq )
+#' antsImageMutualInformation( fi, pp )
+#' }
 #' @export integrateVelocityField
 integrateVelocityField <- function(
   referenceImage,
@@ -55,10 +69,6 @@ integrateVelocityField <- function(
   deltaTime = 0.01
 ) {
   referenceImage = check_ants(referenceImage)
-  dim <- referenceImage@dimension
-  args <- list( referenceImage, velocityFieldFileName, deformationFieldFileName,
-     lowerTime, upperTime, deltaTime )
-  temp <- .Call("ANTSIntegrateVelocityField", .int_antsProcessArguments(args),
-    PACKAGE = "ANTsRCore")
-  return(NULL)
+  temp <- .Call("ANTSIntegrateVelocityField",referenceImage, velocityFieldFileName, deformationFieldFileName,
+     lowerTime, upperTime, deltaTime, PACKAGE = "ANTsRCore")
 }

@@ -31,6 +31,20 @@ and zero for the inverse transformation.}
 \description{
 Utility function to integrate a velocity field and create a deformation field.
 }
+\examples{
+\dontrun{
+set.seed(1234)
+fi <- ( ri(1) )
+mi <- ( ri(2) )
+mytx2 <- antsRegistration(fixed=fi, mi, typeofTransform = "TV[4]" )
+integrateVelocityField( fi, mytx2$velocityfield,  "/tmp/def.nii.gz" )
+qq=antsApplyTransforms( fi, mi, mytx2$fwdtransforms )
+pp=antsApplyTransforms( fi, mi, "/tmp/def.nii.gz" )
+antsImageMutualInformation( fi, mi )
+antsImageMutualInformation( fi, qq )
+antsImageMutualInformation( fi, pp )
+}
+}
 \author{
 Avants BB
 }
