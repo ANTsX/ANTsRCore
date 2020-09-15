@@ -22,6 +22,12 @@
 #' @param usecor employ correlation as local similarity
 #' @param rSearch radius of search, default is 3
 #' @param nonnegative constrain weights to be non-negative
+#' @param maxLabelPlusOne boolean
+#' this will add max label plus one to the non-zero parts of each label where the target mask
+#' is greater than one.  NOTE: this will have a side effect of adding to the original label
+#' images that are passed to the program.  It also guarantees that every position in the
+#' labels have some label, rather than none.  Ie it guarantees to explicitly parcellate the
+#' input data.
 #' @param verbose boolean
 #' @return approximated image, segmentation and probabilities
 #' @author Brian B. Avants, Hongzhi Wang, Paul Yushkevich, Nicholas J. Tustison
@@ -106,6 +112,7 @@ jointLabelFusion <- function(
   usecor=FALSE,
   rSearch=3,
   nonnegative = FALSE,
+  maxLabelPlusOne = FALSE,
   verbose = FALSE )
 {
   targetI = check_ants(targetI)
@@ -121,6 +128,12 @@ jointLabelFusion <- function(
       inlabs = sort( unique( c( inlabs, labelList[[ n ]][ targetIMask == 1 ]  ) ) )
       labsum = labsum + labelList[[ n ]]
       }
+    maxLab = max(inlabs)
+    if ( maxLabelPlusOne ) {
+      for ( n in 1:length( labelList ) ) {
+        labelList[[ n ]][ labelList[[ n ]] == 0 ] = maxLab + 1
+        }
+    }
     mymask = antsImageClone( targetIMask )
     mymask[ labsum == 0 ] = 0
     } else mymask = ( targetIMask )
