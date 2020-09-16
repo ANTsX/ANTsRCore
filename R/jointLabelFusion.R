@@ -219,3 +219,91 @@ jointLabelFusion <- function(
     jlfmask = mymask )
     )
 }
+
+
+
+
+
+#' local joint label and intensity fusion
+#'
+#' A local version of joint label fusion that focuses on a specific label.
+#' This is primarily different from standard JLF because it performs registration
+#' on a per label basis and focuses JLF on that label alone.
+#'
+#' @param targetI antsImage to be approximated
+#' @param whichLabel a label number that exists in both the template and library
+#' @param targetMask a mask for the target image (optional)
+#' @param template a label number that exists in both the template and library
+#' @param templateLabels a label number that exists in both the template and library
+#' @param atlasList list containing antsImages with intensity images
+#' @param labelList optional list containing antsImages with segmentation labels
+#' @param typeofTransform passed to \code{antsRegistration}.
+#' @param verbose boolean
+#' @param ... extra parameters passed to JLF
+#' @return label probabilities
+#' @author Brian B. Avants
+#' @keywords fusion, template
+#' @examples
+#'
+#' @export localJointLabelFusion
+localJointLabelFusion <- function(
+  targetI,
+  whichLabel,
+  targetMask,
+  template,
+  templateLabels,
+  atlasList,
+  labelList,
+  submaskDilation = 10,
+  typeofTransform = 'SyN',
+  verbose = FALSE,
+  ...
+ )
+{
+  if ( sum( templateLabels == whichLabel ) == 0 )
+    stop("templateLabels should include whichLabel")
+  reg = antsRegistration( targetI, template, typeofTransform = typeofTransform )
+  # isolate region
+  myregion = thresholdImage( templateLabels, whichLabel, whichLabel )
+  myregionAroundRegion = thresholdImage( templateLabels, 1, Inf )
+  myregion = antsApplyTransforms( targetI, myregion,
+    transformlist = reg$fwdtransforms, interpolator = "nearestNeighbor" )
+  myregionAroundRegion = antsApplyTransforms( targetI, myregionAroundRegion,
+    transformlist = reg$fwdtransforms, interpolator = "nearestNeighbor" ) %>%
+    iMath( "MD", submaskDilation )
+  if ( ! missing(  targetMask ) ) myregionAroundRegion = myregionAroundRegion * targetMask
+  croppedImage = cropImage( targetI, iMath( myregion, "MD", submaskDilation ) )
+  croppedMask = cropImage( myregionAroundRegion, iMath( myregion, "MD", submaskDilation ) )
+  croppedmappedImages = list()
+  croppedmappedSegs = list()
+  for ( k in 1:length( atlasList ) ) {
+    if ( verbose ) cat(paste0(k,"..."))
+    libregion = thresholdImage( labelList[[k]], whichLabel, whichLabel )
+    # libregion = cropImage( targetI, iMath( myregion, "MD", submaskDilation ) )
+    initMap = antsRegistration( myregion, libregion,
+      typeofTransform = 'Similarity' )$fwdtransforms
+    localReg = antsRegistration( croppedImage, atlasList[[k]],
+      affIterations = c(0),
+      typeofTransform = typeofTransform, initialTransform = initMap )
+    transformedImage = antsApplyTransforms( croppedImage, atlasList[[k]],
+      localReg$fwdtransforms )
+    transformedLabels = antsApplyTransforms( croppedImage, labelList[[k]],
+      localReg$fwdtransforms, interpolator = "nearestNeighbor"  )
+    remappedseg = thresholdImage( transformedLabels, 1, Inf ) + 1
+    temp = thresholdImage( transformedLabels, whichLabel, whichLabel )
+    remappedseg[ temp == 1 ] = 3
+    croppedmappedImages[[k]] = transformedImage
+    croppedmappedSegs[[k]] = remappedseg
+  }
+  return( list(
+    jlf=jointLabelFusion(
+      croppedImage,
+      croppedMask,
+      atlasList = croppedmappedImages,
+      labelList = croppedmappedSegs,
+      verbose = verbose, ... ),
+    croppedmappedImages=croppedmappedImages,
+    croppedmappedSegs=croppedmappedSegs
+    )
+  )
+}
