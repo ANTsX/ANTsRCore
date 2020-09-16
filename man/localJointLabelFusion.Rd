@@ -6,31 +6,45 @@
 \usage{
 localJointLabelFusion(
   targetI,
-  whichLabel,
+  whichLabels,
+  targetMask,
   template,
   templateLabels,
   atlasList,
   labelList,
   submaskDilation = 10,
   typeofTransform = "SyN",
+  synMetric = "mattes",
+  synSampling = 32,
+  regIterations = c(40, 20, 0),
   verbose = FALSE,
   ...
 )
 }
 \arguments{
-\item{targetI}{antsImage to be approximated}
+\item{targetI}{antsImage to be labeled}
 
-\item{whichLabel}{a label number that exists in both the template and library}
+\item{whichLabels}{label number(s) that exist(s) in both the template and library}
 
-\item{template}{a label number that exists in both the template and library}
+\item{targetMask}{a mask for the target image (optional), passed to joint fusion}
 
-\item{templateLabels}{a label number that exists in both the template and library}
+\item{template}{an image, typically the population average, used to approximately locate the sub-region.}
+
+\item{templateLabels}{label set, same labels as library.  typically labels for the population average.}
 
 \item{atlasList}{list containing antsImages with intensity images}
 
-\item{labelList}{optional list containing antsImages with segmentation labels}
+\item{labelList}{list containing antsImages with segmentation labels}
 
 \item{typeofTransform}{passed to \code{antsRegistration}.}
+
+\item{synMetric}{the metric for the syn part (CC, mattes, meansquares, demons)}
+
+\item{synSampling}{the nbins or radius parameter for the syn metric}
+
+\item{regIterations}{vector of iterations for syn.  we will set the smoothing
+and multi-resolution parameters based on the length of this vector.
+passed to \code{antsRegistration}.}
 
 \item{verbose}{boolean}
 
