@@ -295,9 +295,9 @@ localJointLabelFusion <- function(
       for ( kk in whichLabels[-1] )
         libregion = libregion + thresholdImage( labelList[[k]], whichLabels[kk], whichLabels[kk] )
     initMap = antsRegistration( myregion, libregion,
-      typeofTransform = 'Affine' )$fwdtransforms
+      typeofTransform = 'Similarity' )$fwdtransforms
     localReg = antsRegistration( croppedImage, atlasList[[k]],
-      affIterations = c( 0 ),
+      # affIterations = c( 0 ),
       regIterations = regIterations,
       typeofTransform = typeofTransform, initialTransform = initMap )
     transformedImage = antsApplyTransforms( croppedImage, atlasList[[k]],
