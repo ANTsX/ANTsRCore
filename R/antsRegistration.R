@@ -88,7 +88,7 @@
 #'     BOLD and T1 images, with additional affine step.}
 #'   \item{"SyNAggro": }{SyN, but with more aggressive registration
 #'     (fine-scale matching and more deformation).  Takes more time than \code{SyN}.}
-#'   \item{"TV[n]}": }{time-varying diffeomorphism with where 'n' indicates number of
+#'   \item{"TV[n]": }{time-varying diffeomorphism with where 'n' indicates number of
 #'             time points in velocity field discretization.  The initial transform
 #'             should be computed, if needed, in a separate call to ants.registration.}
 #'   \item{"TVMSQ": }{time-varying diffeomorphism with mean square metric}
