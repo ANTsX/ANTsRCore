@@ -276,13 +276,14 @@ localJointLabelFusion <- function(
   myregion = thresholdImage( initialLabel, whichLabels[1], whichLabels[1] )
   if ( length( whichLabels ) > 1 )
     for ( k in 2:length(whichLabels) )
-      myregion = myregion + thresholdImage( templateLabels, whichLabels[k], whichLabels[k] )
+      myregion = myregion + thresholdImage( initialLabel, whichLabels[k], whichLabels[k] )
   if ( max( myregion ) == 0 )
     myregion = thresholdImage( initialLabel, 1, Inf )
   myregionAroundRegion = iMath( myregion, "MD", submaskDilation )
   if ( ! missing(  targetMask ) ) myregionAroundRegion = myregionAroundRegion * targetMask
   croppedImage = cropImage( targetI, myregionAroundRegion )
   croppedMask = cropImage( myregionAroundRegion, myregionAroundRegion )
+  croppedRegion = cropImage( myregion, myregionAroundRegion )
   croppedmappedImages = list()
   croppedmappedSegs = list()
   for ( k in 1:length( atlasList ) ) {
@@ -291,7 +292,7 @@ localJointLabelFusion <- function(
     if ( length( whichLabels ) > 1 )
       for ( kk in whichLabels[-1] )
         libregion = libregion + thresholdImage( labelList[[k]], whichLabels[kk], whichLabels[kk] )
-    initMap = antsRegistration( myregion, libregion,
+    initMap = antsRegistration( croppedRegion, libregion,
       typeofTransform = 'Similarity' )$fwdtransforms
     localReg = antsRegistration( croppedImage, atlasList[[k]],
       # affIterations = c( 0 ),
