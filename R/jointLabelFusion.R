@@ -271,8 +271,6 @@ localJointLabelFusion <- function(
   ...
  )
 {
-  if ( sum( templateLabels == whichLabels[1] ) == 0 )
-    stop("templateLabels should include whichLabels")
 #  reg = antsRegistration( targetI, template, typeofTransform = typeofTransform )
   # isolate region
   myregion = thresholdImage( initialLabel, whichLabels[1], whichLabels[1] )
