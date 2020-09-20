@@ -8,8 +8,7 @@ localJointLabelFusion(
   targetI,
   whichLabels,
   targetMask,
-  template,
-  templateLabels,
+  initialLabel,
   atlasList,
   labelList,
   submaskDilation = 10,
@@ -28,13 +27,14 @@ localJointLabelFusion(
 
 \item{targetMask}{a mask for the target image (optional), passed to joint fusion}
 
-\item{template}{an image, typically the population average, used to approximately locate the sub-region.}
-
-\item{templateLabels}{label set, same labels as library.  typically labels for the population average.}
+\item{initialLabel}{the initial approximate label(s) for the target region.}
 
 \item{atlasList}{list containing antsImages with intensity images}
 
 \item{labelList}{list containing antsImages with segmentation labels}
+
+\item{submaskDilation}{amount to dilate initial mask to define region on which
+we perform focused registration}
 
 \item{typeofTransform}{passed to \code{antsRegistration}.}
 
@@ -56,7 +56,10 @@ label probabilities
 \description{
 A local version of joint label fusion that focuses on a specific label.
 This is primarily different from standard JLF because it performs registration
-on a per label basis and focuses JLF on that label alone.
+on a per label basis and focuses JLF on that label alone.  It requires an
+initial segmentation of the target region which can be provided either by
+a manual or automated initialization.  Registration by SyN is a good choice
+for the latter approach.
 }
 \examples{
 
