@@ -226,15 +226,15 @@ jointLabelFusion <- function(
 
 #' local joint label and intensity fusion
 #'
-#' A local version of joint label fusion that focuses on a specific label.
+#' A local version of joint label fusion that focuses on one or more specific labels.
 #' This is primarily different from standard JLF because it performs registration
-#' on a per label basis and focuses JLF on that label alone.  It requires an
+#' on a per label basis and focuses JLF on the label(s) alone.  It requires an
 #' initial segmentation of the target region which can be provided either by
 #' a manual or automated initialization.  Registration by SyN is a good choice
 #' for the latter approach.
 #'
 #' @param targetI antsImage to be labeled
-#' @param whichLabels label number(s) that exist(s) in both the template and library
+#' @param whichLabels label number(s) from the library on which to focus
 #' @param targetMask a mask for the target image (optional), passed to joint fusion
 #' @param initialLabel the initial approximate label(s) for the target region.
 #' @param atlasList list containing antsImages with intensity images
@@ -249,7 +249,7 @@ jointLabelFusion <- function(
 #' passed to \code{antsRegistration}.
 #' @param verbose boolean
 #' @param ... extra parameters passed to JLF
-#' @return label probabilities
+#' @return label probabilities and segmentations
 #' @author Brian B. Avants
 #' @keywords fusion, template
 #' @examples
@@ -273,13 +273,11 @@ localJointLabelFusion <- function(
 {
 #  reg = antsRegistration( targetI, template, typeofTransform = typeofTransform )
   # isolate region
-  myregion = thresholdImage( initialLabel, whichLabels[1], whichLabels[1] )
-  if ( length( whichLabels ) > 1 )
-    for ( k in 2:length(whichLabels) )
-      myregion = myregion + thresholdImage( initialLabel, whichLabels[k], whichLabels[k] )
+  myregion = maskImage( initialLabel, initialLabel, level=whichLabels )
   if ( max( myregion ) == 0 )
     myregion = thresholdImage( initialLabel, 1, Inf )
-  myregionAroundRegion = iMath( myregion, "MD", submaskDilation )
+  myregionb = thresholdImage( myregion, 1, Inf )
+  myregionAroundRegion = iMath( myregionb, "MD", submaskDilation )
   if ( ! missing(  targetMask ) ) myregionAroundRegion = myregionAroundRegion * targetMask
   croppedImage = cropImage( targetI, myregionAroundRegion )
   croppedMask = cropImage( myregionAroundRegion, myregionAroundRegion )
@@ -288,12 +286,7 @@ localJointLabelFusion <- function(
   croppedmappedSegs = list()
   for ( k in 1:length( atlasList ) ) {
     if ( verbose ) cat(paste0(k,"..."))
-    libregion = thresholdImage( labelList[[k]], whichLabels[1], whichLabels[1] )
-    if ( length( whichLabels ) > 1 )
-      for ( kk in whichLabels[-1] )
-        libregion = libregion + thresholdImage( labelList[[k]], whichLabels[kk], whichLabels[kk] )
-#    initMap = antsRegistration( croppedRegion, libregion,
-#      typeofTransform = 'Similarity', affMetric = 'meansquares' )$fwdtransforms
+    libregion = maskImage( labelList[[k]], labelList[[k]], level=whichLabels )
     initMap = antsRegistration( croppedRegion, libregion,
       typeofTransform = 'Similarity', affSampling=16 )$fwdtransforms
     localReg = antsRegistration( croppedImage, atlasList[[k]],
@@ -303,13 +296,7 @@ localJointLabelFusion <- function(
       localReg$fwdtransforms )
     transformedLabels = antsApplyTransforms( croppedImage, labelList[[k]],
       localReg$fwdtransforms, interpolator = "nearestNeighbor"  )
-    remappedseg = thresholdImage( transformedLabels, 1, Inf ) + 1
-    temp = thresholdImage( transformedLabels, whichLabels[1], whichLabels[1] )
-    if ( length( whichLabels ) > 1 )
-      for ( kk in 2:length(whichLabels) ) {
-        temp = temp + thresholdImage( transformedLabels, whichLabels[kk], whichLabels[kk] )
-        }
-    remappedseg[ temp > 0 ] = 3
+    remappedseg = maskImage( transformedLabels, transformedLabels, whichLabels )
     croppedmappedImages[[k]] = transformedImage
     croppedmappedSegs[[k]] = remappedseg
   }
@@ -319,6 +306,7 @@ localJointLabelFusion <- function(
       croppedMask,
       atlasList = croppedmappedImages,
       labelList = croppedmappedSegs,
+      maxLabelPlusOne = TRUE,
       verbose = verbose, ... ),
     croppedmappedImages=croppedmappedImages,
     croppedmappedSegs=croppedmappedSegs

@@ -23,7 +23,7 @@ localJointLabelFusion(
 \arguments{
 \item{targetI}{antsImage to be labeled}
 
-\item{whichLabels}{label number(s) that exist(s) in both the template and library}
+\item{whichLabels}{label number(s) from the library on which to focus}
 
 \item{targetMask}{a mask for the target image (optional), passed to joint fusion}
 
@@ -51,12 +51,12 @@ passed to \code{antsRegistration}.}
 \item{...}{extra parameters passed to JLF}
 }
 \value{
-label probabilities
+label probabilities and segmentations
 }
 \description{
-A local version of joint label fusion that focuses on a specific label.
+A local version of joint label fusion that focuses on one or more specific labels.
 This is primarily different from standard JLF because it performs registration
-on a per label basis and focuses JLF on that label alone.  It requires an
+on a per label basis and focuses JLF on the label(s) alone.  It requires an
 initial segmentation of the target region which can be provided either by
 a manual or automated initialization.  Registration by SyN is a good choice
 for the latter approach.
