@@ -22,6 +22,12 @@
 #' @param usecor employ correlation as local similarity
 #' @param rSearch radius of search, default is 3
 #' @param nonnegative constrain weights to be non-negative
+#' @param maxLabelPlusOne boolean
+#' this will add max label plus one to the non-zero parts of each label where the target mask
+#' is greater than one.  NOTE: this will have a side effect of adding to the original label
+#' images that are passed to the program.  It also guarantees that every position in the
+#' labels have some label, rather than none.  Ie it guarantees to explicitly parcellate the
+#' input data.
 #' @param verbose boolean
 #' @return approximated image, segmentation and probabilities
 #' @author Brian B. Avants, Hongzhi Wang, Paul Yushkevich, Nicholas J. Tustison
@@ -106,6 +112,7 @@ jointLabelFusion <- function(
   usecor=FALSE,
   rSearch=3,
   nonnegative = FALSE,
+  maxLabelPlusOne = FALSE,
   verbose = FALSE )
 {
   targetI = check_ants(targetI)
@@ -121,6 +128,12 @@ jointLabelFusion <- function(
       inlabs = sort( unique( c( inlabs, labelList[[ n ]][ targetIMask == 1 ]  ) ) )
       labsum = labsum + labelList[[ n ]]
       }
+    maxLab = max(inlabs)
+    if ( maxLabelPlusOne ) {
+      for ( n in 1:length( labelList ) ) {
+        labelList[[ n ]][ labelList[[ n ]] == 0 ] = maxLab + 1
+        }
+    }
     mymask = antsImageClone( targetIMask )
     mymask[ labsum == 0 ] = 0
     } else mymask = ( targetIMask )
@@ -205,4 +218,98 @@ jointLabelFusion <- function(
     probabilityimages = probimgs,
     jlfmask = mymask )
     )
+}
+
+
+
+
+
+#' local joint label and intensity fusion
+#'
+#' A local version of joint label fusion that focuses on one or more specific labels.
+#' This is primarily different from standard JLF because it performs registration
+#' on a per label basis and focuses JLF on the label(s) alone.  It requires an
+#' initial segmentation of the target region which can be provided either by
+#' a manual or automated initialization.  Registration by SyN is a good choice
+#' for the latter approach.
+#'
+#' @param targetI antsImage to be labeled
+#' @param whichLabels label number(s) from the library on which to focus
+#' @param targetMask a mask for the target image (optional), passed to joint fusion
+#' @param initialLabel the initial approximate label(s) for the target region.
+#' @param atlasList list containing antsImages with intensity images
+#' @param labelList list containing antsImages with segmentation labels
+#' @param submaskDilation amount to dilate initial mask to define region on which
+#' we perform focused registration
+#' @param typeofTransform passed to \code{antsRegistration}.
+#' @param synMetric the metric for the syn part (CC, mattes, meansquares, demons)
+#' @param synSampling the nbins or radius parameter for the syn metric
+#' @param regIterations vector of iterations for syn.  we will set the smoothing
+#' and multi-resolution parameters based on the length of this vector.
+#' passed to \code{antsRegistration}.
+#' @param verbose boolean
+#' @param ... extra parameters passed to JLF
+#' @return label probabilities and segmentations
+#' @author Brian B. Avants
+#' @keywords fusion, template
+#' @examples
+#'
+#' @export localJointLabelFusion
+localJointLabelFusion <- function(
+  targetI,
+  whichLabels,
+  targetMask,
+  initialLabel,
+  atlasList,
+  labelList,
+  submaskDilation = 10,
+  typeofTransform = 'SyN',
+  synMetric = "mattes",
+  synSampling = 32,
+  regIterations = c(40,20,0),
+  verbose = FALSE,
+  ...
+ )
+{
+#  reg = antsRegistration( targetI, template, typeofTransform = typeofTransform )
+  # isolate region
+  myregion = maskImage( initialLabel, initialLabel, level=whichLabels )
+  if ( max( myregion ) == 0 )
+    myregion = thresholdImage( initialLabel, 1, Inf )
+  myregionb = thresholdImage( myregion, 1, Inf )
+  myregionAroundRegion = iMath( myregionb, "MD", submaskDilation )
+  if ( ! missing(  targetMask ) ) myregionAroundRegion = myregionAroundRegion * targetMask
+  croppedImage = cropImage( targetI, myregionAroundRegion )
+  croppedMask = cropImage( myregionAroundRegion, myregionAroundRegion )
+  croppedRegion = cropImage( myregion, myregionAroundRegion )
+  croppedmappedImages = list()
+  croppedmappedSegs = list()
+  for ( k in 1:length( atlasList ) ) {
+    if ( verbose ) cat(paste0(k,"..."))
+    libregion = maskImage( labelList[[k]], labelList[[k]], level=whichLabels )
+    initMap = antsRegistration( croppedRegion, libregion,
+      typeofTransform = 'Similarity', affSampling=16 )$fwdtransforms
+    localReg = antsRegistration( croppedImage, atlasList[[k]],
+      regIterations = regIterations,
+      typeofTransform = typeofTransform, initialTransform = initMap )
+    transformedImage = antsApplyTransforms( croppedImage, atlasList[[k]],
+      localReg$fwdtransforms )
+    transformedLabels = antsApplyTransforms( croppedImage, labelList[[k]],
+      localReg$fwdtransforms, interpolator = "nearestNeighbor"  )
+    remappedseg = maskImage( transformedLabels, transformedLabels, whichLabels )
+    croppedmappedImages[[k]] = transformedImage
+    croppedmappedSegs[[k]] = remappedseg
+  }
+  return( list(
+    jlf=jointLabelFusion(
+      croppedImage,
+      croppedMask,
+      atlasList = croppedmappedImages,
+      labelList = croppedmappedSegs,
+      maxLabelPlusOne = TRUE,
+      verbose = verbose, ... ),
+    croppedmappedImages=croppedmappedImages,
+    croppedmappedSegs=croppedmappedSegs
+    )
+  )
 }

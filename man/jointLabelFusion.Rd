@@ -15,6 +15,7 @@ jointLabelFusion(
   usecor = FALSE,
   rSearch = 3,
   nonnegative = FALSE,
+  maxLabelPlusOne = FALSE,
   verbose = FALSE
 )
 }
@@ -39,6 +40,13 @@ makes image converge to average}
 \item{rSearch}{radius of search, default is 3}
 
 \item{nonnegative}{constrain weights to be non-negative}
+
+\item{maxLabelPlusOne}{boolean
+this will add max label plus one to the non-zero parts of each label where the target mask
+is greater than one.  NOTE: this will have a side effect of adding to the original label
+images that are passed to the program.  It also guarantees that every position in the
+labels have some label, rather than none.  Ie it guarantees to explicitly parcellate the
+input data.}
 
 \item{verbose}{boolean}
 }
