@@ -284,11 +284,13 @@ localJointLabelFusion <- function(
   croppedRegion = cropImage( myregion, myregionAroundRegion )
   croppedmappedImages = list()
   croppedmappedSegs = list()
+  localMaskTransform = 'Affine'
+  localMaskTransform = 'Similarity'
   for ( k in 1:length( atlasList ) ) {
     if ( verbose ) cat(paste0(k,"..."))
     libregion = maskImage( labelList[[k]], labelList[[k]], level=whichLabels )
     initMap = antsRegistration( croppedRegion, libregion,
-      typeofTransform = 'Similarity', affSampling=16 )$fwdtransforms
+      typeofTransform = localMaskTransform, affSampling=32 )$fwdtransforms
     localReg = antsRegistration( croppedImage, atlasList[[k]],
       regIterations = regIterations,
       typeofTransform = typeofTransform, initialTransform = initMap )
