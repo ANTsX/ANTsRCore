@@ -247,6 +247,8 @@ jointLabelFusion <- function(
 #' @param regIterations vector of iterations for syn.  we will set the smoothing
 #' and multi-resolution parameters based on the length of this vector.
 #' passed to \code{antsRegistration}.
+#' @param localMaskTransform type of transform for local mask initialization;
+#' would usually set to Rigid, Similarity or Affine
 #' @param verbose boolean
 #' @param ... extra parameters passed to JLF
 #' @return label probabilities and segmentations
@@ -267,6 +269,7 @@ localJointLabelFusion <- function(
   synMetric = "mattes",
   synSampling = 32,
   regIterations = c(40,20,0),
+  localMaskTransform,
   verbose = FALSE,
   ...
  )
@@ -284,8 +287,7 @@ localJointLabelFusion <- function(
   croppedRegion = cropImage( myregion, myregionAroundRegion )
   croppedmappedImages = list()
   croppedmappedSegs = list()
-  localMaskTransform = 'Affine'
-  localMaskTransform = 'Similarity'
+  if ( missing( localMaskTransform ) ) localMaskTransform = 'Similarity'
   for ( k in 1:length( atlasList ) ) {
     if ( verbose ) cat(paste0(k,"..."))
     libregion = maskImage( labelList[[k]], labelList[[k]], level=whichLabels )
