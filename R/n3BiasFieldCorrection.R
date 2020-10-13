@@ -64,7 +64,7 @@ n3BiasFieldCorrection <- function( img, downsampleFactor, ... ) {
 #' n3 = n3BiasFieldCorrection2(in_img, mask = mask, verbose = TRUE)
 #' # fails
 #' n3 = n3BiasFieldCorrection2(in_img, mask = mask2)
-#' @export
+#' @export n3BiasFieldCorrection2
 n3BiasFieldCorrection2 <- function( img,
                                     mask,
                                     shrinkFactor = 4,
@@ -126,11 +126,11 @@ n3BiasFieldCorrection2 <- function( img,
   args$o = paste0("[",ptr1,",",ptr2,"]")
   args$v = as.numeric(verbose > 0)
 
-  .helpn3BiasFieldCorrection(args)
+  .helpn3BiasFieldCorrection2(args)
   if ( returnBiasField ) return( biasimg )
   return(outimg)
 }
-.helpn3iasFieldCorrection <- function(...) {
+.helpn3BiasFieldCorrection2 <- function(...) {
   .Call("N3BiasFieldCorrection", .int_antsProcessArguments(c(...)),
         PACKAGE = "ANTsRCore")
 }
