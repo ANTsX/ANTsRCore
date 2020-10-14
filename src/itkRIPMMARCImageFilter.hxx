@@ -30,7 +30,6 @@
 #include "itkNeighborhoodIterator.h"
 #include "itkProgressReporter.h"
 #include "itkStatisticsImageFilter.h"
-#include "itkVarianceImageFilter.h"
 
 #include <numeric>
 
