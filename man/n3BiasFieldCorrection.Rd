@@ -2,7 +2,7 @@
 % Please edit documentation in R/n3BiasFieldCorrection.R
 \name{n3BiasFieldCorrection}
 \alias{n3BiasFieldCorrection}
-\title{Bias Field Correction}
+\title{N3 bias field correction}
 \usage{
 n3BiasFieldCorrection(img, downsampleFactor, ...)
 }
@@ -17,7 +17,7 @@ n3BiasFieldCorrection(img, downsampleFactor, ...)
 antsImage
 }
 \description{
-Perform Bias Field Correction on the given image
+Perform N3 bias field correction on the given image
 }
 \examples{
 

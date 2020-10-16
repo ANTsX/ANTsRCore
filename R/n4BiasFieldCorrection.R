@@ -1,6 +1,6 @@
-#' Bias Field Correction
+#' N4 bias field correction
 #'
-#' Perform Bias Field Correction on the given image
+#' Perform N4 bias field correction on the given image
 #'
 #' @param img input antsImage
 #' @param mask input mask, if one is not passed one will be made
@@ -14,7 +14,7 @@
 #' @param weight_mask antsImage of weight mask
 #' @param returnBiasField bool, return the field instead of the corrected image.
 #' @param verbose enables verbose output.
-#' @return outimg Bias-corrected image
+#' @return bias corrected image or bias field
 #' @author BB Avants
 #' @examples
 #'  dims = c(50, 50)
@@ -24,7 +24,7 @@
 #'  testthat::expect_error(n4BiasFieldCorrection(img, weight_mask = "somepath"))
 #'  testthat::expect_error(n4BiasFieldCorrection(img, splineParam = rep(200, 3)))
 #'  n4img<-n4BiasFieldCorrection(img, splineParam = c(200, 20))
-#'  
+#'
 #'  rm(img); gc()
 #'  rm(n4img); gc()
 #' fname = getANTsRData("r16")
@@ -34,22 +34,20 @@
 #' mask = in_img > 0
 #' mask2 = antsImageClone(mask, out_pixeltype = "float")
 #' # fails
-#' mask 
+#' mask
 #' sum(mask)
 #' n4 = n4BiasFieldCorrection(in_img, mask = mask, verbose = TRUE)
 #' # fails
 #' n4 = n4BiasFieldCorrection(in_img, mask = mask2)
-#'
-#'
 #' @export
 n4BiasFieldCorrection <- function( img,
-                                  mask,
-                                  shrinkFactor = 4,
-                                  convergence = list(iters = c(50, 50, 50, 50), tol = 0.0000001),
-                                  splineParam = 200,
-                                  returnBiasField = FALSE,
-                                  verbose = FALSE,
-                                  weight_mask = NULL)
+                                   mask,
+                                   shrinkFactor = 4,
+                                   convergence = list(iters = c(50, 50, 50, 50), tol = 0.0000001),
+                                   splineParam = 200,
+                                   returnBiasField = FALSE,
+                                   verbose = FALSE,
+                                   weight_mask = NULL)
 {
   img = check_ants(img)
   if ( var( img ) == 0 ) stop("Input image has no variation.")
