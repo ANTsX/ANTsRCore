@@ -8,7 +8,7 @@ n4BiasFieldCorrection(
   img,
   mask,
   shrinkFactor = 4,
-  convergence = list(iters = c(50, 50, 50, 50), tol = 0.0000001),
+  convergence = list(iters = c(50, 50, 50, 50), tol = 1e-07),
   splineParam = 200,
   returnBiasField = FALSE,
   verbose = FALSE,
