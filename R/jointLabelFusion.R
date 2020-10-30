@@ -249,6 +249,12 @@ jointLabelFusion <- function(
 #' passed to \code{antsRegistration}.
 #' @param localMaskTransform type of transform for local mask initialization;
 #' would usually set to Rigid, Similarity or Affine
+#' @param maxLabelPlusOne boolean
+#' this will add max label plus one to the non-zero parts of each label where the target mask
+#' is greater than one.  NOTE: this will have a side effect of adding to the original label
+#' images that are passed to the program.  It also guarantees that every position in the
+#' labels have some label, rather than none.  Ie it guarantees to explicitly parcellate the
+#' input data.
 #' @param verbose boolean
 #' @param ... extra parameters passed to JLF
 #' @return label probabilities and segmentations
@@ -270,6 +276,7 @@ localJointLabelFusion <- function(
   synSampling = 32,
   regIterations = c(40,20,0),
   localMaskTransform,
+  maxLabelPlusOne=FALSE,
   verbose = FALSE,
   ...
  )
@@ -310,7 +317,7 @@ localJointLabelFusion <- function(
       croppedMask,
       atlasList = croppedmappedImages,
       labelList = croppedmappedSegs,
-      maxLabelPlusOne = TRUE,
+      maxLabelPlusOne = maxLabelPlusOne,
       verbose = verbose, ... ),
     croppedmappedImages=croppedmappedImages,
     croppedmappedSegs=croppedmappedSegs
