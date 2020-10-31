@@ -348,9 +348,9 @@ localJointLabelFusion <- function(
       localReg$fwdtransforms )
     transformedLabels = antsApplyTransforms( croppedImage, labelList[[k]],
       localReg$fwdtransforms, interpolator = "nearestNeighbor"  )
-    remappedseg = maskImage( transformedLabels, transformedLabels, whichLabels )
+#    remappedseg = maskImage( transformedLabels, transformedLabels, whichLabels )
     croppedmappedImages[[k]] = transformedImage
-    croppedmappedSegs[[k]] = remappedseg
+    croppedmappedSegs[[k]] = transformedLabels
   }
   return( list(
     jlf=jointLabelFusion(
