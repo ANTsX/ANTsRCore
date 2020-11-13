@@ -11,9 +11,9 @@ n3BiasFieldCorrection2(
   convergence = list(iters = 50, tol = 1e-07),
   splineParam = 200,
   numberOfFittingLevels = 4,
+  weight_mask = NULL,
   returnBiasField = FALSE,
-  verbose = FALSE,
-  weight_mask = NULL
+  verbose = FALSE
 )
 }
 \arguments{
@@ -31,11 +31,13 @@ iterations and \code{tol}, the convergence tolerance.}
 Either single value, indicating how many control points, or vector
 with one entry per dimension of image, indicating the spacing in each direction.}
 
+\item{numberOfFittingLevels}{Parameter controlling number of fitting levels.}
+
+\item{weight_mask}{antsImage of weight mask}
+
 \item{returnBiasField}{bool, return the field instead of the corrected image.}
 
 \item{verbose}{enables verbose output.}
-
-\item{weight_mask}{antsImage of weight mask}
 }
 \value{
 bias corrected image or bias field
@@ -50,7 +52,7 @@ Perform N3 bias field correction on the given image
  n3img<-n3BiasFieldCorrection2(img, mask = img > 0)
  testthat::expect_error(n3BiasFieldCorrection2(img, weight_mask = "somepath"))
  testthat::expect_error(n3BiasFieldCorrection2(img, splineParam = rep(200, 3)))
- n3img<-n3BiasFieldCorrection2(img, splineParam = c(200, 20))
+ # n3img<-n3BiasFieldCorrection2(img, splineParam = c(200, 20)) # long running
 
  rm(img); gc()
  rm(n3img); gc()

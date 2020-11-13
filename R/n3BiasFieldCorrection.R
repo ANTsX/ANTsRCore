@@ -36,6 +36,7 @@ n3BiasFieldCorrection <- function( img, downsampleFactor, ... ) {
 #' @param splineParam Parameter controlling number of control points in spline.
 #' Either single value, indicating how many control points, or vector
 #' with one entry per dimension of image, indicating the spacing in each direction.
+#' @param numberOfFittingLevels Parameter controlling number of fitting levels.
 #' @param weight_mask antsImage of weight mask
 #' @param returnBiasField bool, return the field instead of the corrected image.
 #' @param verbose enables verbose output.
@@ -48,7 +49,7 @@ n3BiasFieldCorrection <- function( img, downsampleFactor, ... ) {
 #'  n3img<-n3BiasFieldCorrection2(img, mask = img > 0)
 #'  testthat::expect_error(n3BiasFieldCorrection2(img, weight_mask = "somepath"))
 #'  testthat::expect_error(n3BiasFieldCorrection2(img, splineParam = rep(200, 3)))
-#'  n3img<-n3BiasFieldCorrection2(img, splineParam = c(200, 20))
+#'  # n3img<-n3BiasFieldCorrection2(img, splineParam = c(200, 20)) # long running
 #'
 #'  rm(img); gc()
 #'  rm(n3img); gc()
@@ -71,9 +72,9 @@ n3BiasFieldCorrection2 <- function( img,
                                     convergence = list(iters = 50, tol = 0.0000001),
                                     splineParam = 200,
                                     numberOfFittingLevels = 4,
+                                    weight_mask = NULL,
                                     returnBiasField = FALSE,
-                                    verbose = FALSE,
-                                    weight_mask = NULL )
+                                    verbose = FALSE )
 {
   img = check_ants(img)
   if ( var( img ) == 0 ) stop("Input image has no variation.")

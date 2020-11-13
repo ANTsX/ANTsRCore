@@ -73,9 +73,6 @@ initial segmentation of the target region which can be provided either by
 a manual or automated initialization.  Registration by SyN is a good choice
 for the latter approach.
 }
-\examples{
-
-}
 \author{
 Brian B. Avants
 }

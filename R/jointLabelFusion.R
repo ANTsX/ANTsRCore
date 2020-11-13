@@ -301,7 +301,6 @@ jointLabelFusion <- function(
 #' @return label probabilities and segmentations
 #' @author Brian B. Avants
 #' @keywords fusion, template
-#' @examples
 #'
 #' @export localJointLabelFusion
 localJointLabelFusion <- function(
