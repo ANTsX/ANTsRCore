@@ -198,26 +198,67 @@ jointLabelFusion <- function(
   probsout <- list.files(path = tdir,
     pattern = glob2rx(searchpattern), full.names = TRUE,
     recursive = FALSE)
-  pimg <- antsImageRead( probsout[1] )
-  probimgs <- c( pimg )
-  for (x in c( 2:length( probsout ) ) ) {
-    probimgs <- c( probimgs, antsImageRead( probsout[x] ) )
-  }
-  segmat = imageListToMatrix( probimgs, mymask )
-  finalsegvec = apply( segmat, FUN=which.max , MARGIN=2 )
-  finalsegvec2 = finalsegvec * 0
-  # map finalsegvec to original labels
-  inlabsNz = inlabs[ inlabs > 0 ]
-  for ( i in sort( unique( finalsegvec ) ) ) {
-    finalsegvec2[ finalsegvec == i ] = inlabsNz[ i ]
+
+  segmentation_numbers = rep( NA, length(probsout))
+  for ( i in 1:length(probsout) ) {
+    temp = unlist( strsplit(probsout[i], "prob") )
+    segnum = tools::file_path_sans_ext( temp[length(temp)], TRUE )
+    segmentation_numbers[i] = as.integer(segnum)
     }
-  outimg = makeImage( mymask, finalsegvec2 ) * mymask
-  return( list(
-    segmentation = outimg,
-    intensity = outimgi,
-    probabilityimages = probimgs,
-    jlfmask = mymask )
-    )
+
+  probimgs <- imageFileNames2ImageList( probsout )
+
+  if ( ! maxLabelPlusOne ) {
+    segmat = imageListToMatrix( probimgs, mymask )
+    finalsegvec = apply( segmat, FUN=which.max , MARGIN=2 )
+    finalsegvec2 = finalsegvec * 0
+
+    for ( i in 1:length(probsout) ) {
+      finalsegvec2[finalsegvec == i] = segmentation_numbers[i]
+      }
+
+    outimg = makeImage( mymask, finalsegvec2 ) * mymask
+    return( list(
+      segmentation = outimg,
+      intensity = outimgi,
+      probabilityimages = probimgs,
+      segmentationNumbers = segmentation_numbers,
+      jlfmask = mymask )
+      )
+    } else {
+      themaxlab = which( segmentation_numbers == max( segmentation_numbers ) )
+      backgroundProb = probimgs[[ themaxlab ]]
+      segmentation_numbers = segmentation_numbers[ -themaxlab ]
+      probsout = probsout[ -themaxlab ]
+      probimgs = probimgs[ -themaxlab ]
+      segmat = imageListToMatrix( probimgs, mymask )
+      fgndProb = colSums( segmat )
+      finalsegvec = apply( segmat, FUN=which.max , MARGIN=2 )
+      finalsegvec2 = finalsegvec * 0
+      for ( i in 1:length(probsout) ) {
+        finalsegvec2[finalsegvec == i] = segmentation_numbers[i]
+        }
+      outimg = makeImage( mymask, finalsegvec2 ) * mymask
+
+      # next decide what is "background" based on the sum of the first k labels vs the prob of the last one
+      firstK = probimgs[[1]] * 0
+      for ( i in 1:length( probimgs ) )
+        firstK = firstK + probimgs[[i]]
+
+      segmat = imageListToMatrix( list( backgroundProb, firstK ), mymask )
+      bkgsegvec = apply( segmat, FUN=which.max , MARGIN=2 ) - 1
+      bkgdseg = makeImage( mymask, bkgsegvec ) * mymask
+      return( list(
+        segmentation = outimg * bkgdseg,
+        segmentation_raw = outimg,
+        intensity = outimgi,
+        probabilityimages = probimgs,
+        segmentationNumbers = segmentation_numbers,
+        backgroundProb = backgroundProb,
+        jlfmask = mymask )
+        )
+
+    }
 }
 
 
@@ -249,12 +290,17 @@ jointLabelFusion <- function(
 #' passed to \code{antsRegistration}.
 #' @param localMaskTransform type of transform for local mask initialization;
 #' would usually set to Rigid, Similarity or Affine
+#' @param maxLabelPlusOne boolean
+#' this will add max label plus one to the non-zero parts of each label where the target mask
+#' is greater than one.  NOTE: this will have a side effect of adding to the original label
+#' images that are passed to the program.  It also guarantees that every position in the
+#' labels have some label, rather than none.  Ie it guarantees to explicitly parcellate the
+#' input data.
 #' @param verbose boolean
 #' @param ... extra parameters passed to JLF
 #' @return label probabilities and segmentations
 #' @author Brian B. Avants
 #' @keywords fusion, template
-#' @examples
 #'
 #' @export localJointLabelFusion
 localJointLabelFusion <- function(
@@ -270,6 +316,7 @@ localJointLabelFusion <- function(
   synSampling = 32,
   regIterations = c(40,20,0),
   localMaskTransform,
+  maxLabelPlusOne=FALSE,
   verbose = FALSE,
   ...
  )
@@ -300,9 +347,9 @@ localJointLabelFusion <- function(
       localReg$fwdtransforms )
     transformedLabels = antsApplyTransforms( croppedImage, labelList[[k]],
       localReg$fwdtransforms, interpolator = "nearestNeighbor"  )
-    remappedseg = maskImage( transformedLabels, transformedLabels, whichLabels )
+#    remappedseg = maskImage( transformedLabels, transformedLabels, whichLabels )
     croppedmappedImages[[k]] = transformedImage
-    croppedmappedSegs[[k]] = remappedseg
+    croppedmappedSegs[[k]] = transformedLabels
   }
   return( list(
     jlf=jointLabelFusion(
@@ -310,7 +357,7 @@ localJointLabelFusion <- function(
       croppedMask,
       atlasList = croppedmappedImages,
       labelList = croppedmappedSegs,
-      maxLabelPlusOne = TRUE,
+      maxLabelPlusOne = maxLabelPlusOne,
       verbose = verbose, ... ),
     croppedmappedImages=croppedmappedImages,
     croppedmappedSegs=croppedmappedSegs

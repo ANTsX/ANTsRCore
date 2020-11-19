@@ -2,7 +2,7 @@
 % Please edit documentation in R/n4BiasFieldCorrection.R
 \name{n4BiasFieldCorrection}
 \alias{n4BiasFieldCorrection}
-\title{Bias Field Correction}
+\title{N4 bias field correction}
 \usage{
 n4BiasFieldCorrection(
   img,
@@ -37,10 +37,10 @@ with one entry per dimension of image, indicating the spacing in each direction.
 \item{weight_mask}{antsImage of weight mask}
 }
 \value{
-outimg Bias-corrected image
+bias corrected image or bias field
 }
 \description{
-Perform Bias Field Correction on the given image
+Perform N4 bias field correction on the given image
 }
 \examples{
  dims = c(50, 50)
@@ -50,7 +50,7 @@ Perform Bias Field Correction on the given image
  testthat::expect_error(n4BiasFieldCorrection(img, weight_mask = "somepath"))
  testthat::expect_error(n4BiasFieldCorrection(img, splineParam = rep(200, 3)))
  n4img<-n4BiasFieldCorrection(img, splineParam = c(200, 20))
- 
+
  rm(img); gc()
  rm(n4img); gc()
 fname = getANTsRData("r16")
@@ -60,13 +60,11 @@ rm(n4); gc()
 mask = in_img > 0
 mask2 = antsImageClone(mask, out_pixeltype = "float")
 # fails
-mask 
+mask
 sum(mask)
 n4 = n4BiasFieldCorrection(in_img, mask = mask, verbose = TRUE)
 # fails
 n4 = n4BiasFieldCorrection(in_img, mask = mask2)
-
-
 }
 \author{
 BB Avants

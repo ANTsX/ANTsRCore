@@ -17,6 +17,7 @@ localJointLabelFusion(
   synSampling = 32,
   regIterations = c(40, 20, 0),
   localMaskTransform,
+  maxLabelPlusOne = FALSE,
   verbose = FALSE,
   ...
 )
@@ -50,6 +51,13 @@ passed to \code{antsRegistration}.}
 \item{localMaskTransform}{type of transform for local mask initialization;
 would usually set to Rigid, Similarity or Affine}
 
+\item{maxLabelPlusOne}{boolean
+this will add max label plus one to the non-zero parts of each label where the target mask
+is greater than one.  NOTE: this will have a side effect of adding to the original label
+images that are passed to the program.  It also guarantees that every position in the
+labels have some label, rather than none.  Ie it guarantees to explicitly parcellate the
+input data.}
+
 \item{verbose}{boolean}
 
 \item{...}{extra parameters passed to JLF}
@@ -64,9 +72,6 @@ on a per label basis and focuses JLF on the label(s) alone.  It requires an
 initial segmentation of the target region which can be provided either by
 a manual or automated initialization.  Registration by SyN is a good choice
 for the latter approach.
-}
-\examples{
-
 }
 \author{
 Brian B. Avants
