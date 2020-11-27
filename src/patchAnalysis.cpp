@@ -54,7 +54,7 @@ SEXP blobDetectionHelper(
     Rcpp::as< ImagePointerType >( r_outimg );
 
   using BlobFilterType = itk::MultiScaleLaplacianBlobDetectorImageFilter2<ImageType>;
-  using BlobPointer = typename BlobFilterType::BlobPointer;
+//  using BlobPointer = typename BlobFilterType::BlobPointer;
   using BlobsListType = typename BlobFilterType::BlobsListType;
 
   typename BlobFilterType::Pointer blobFixedImageFilter = BlobFilterType::New();
@@ -72,9 +72,9 @@ SEXP blobDetectionHelper(
     }
 
   Rcpp::NumericMatrix ripMat( fixedImageBlobs.size(), ImageDimension + 1 );
-  for( unsigned long r = 0; r < fixedImageBlobs.size(); r++ )
-    {
-    BlobPointer fixedBlob = fixedImageBlobs[r];
+  unsigned int r = 0;
+
+  for (auto const& fixedBlob : fixedImageBlobs) {
     IndexType index = fixedBlob->GetCenter();
     for( unsigned int c = 0; c < (ImageDimension); c++ )
       {
@@ -82,6 +82,7 @@ SEXP blobDetectionHelper(
       }
     ripMat( r, ImageDimension ) = fixedBlob->GetObjectRadius();
     outimg->SetPixel( index, fixedBlob->GetObjectRadius() );
+    r++;
     }
   return(
       Rcpp::List::create(

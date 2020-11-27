@@ -23,21 +23,24 @@
 // ===========================================================================
 //
 
-#ifndef __itkMultiScaleLaplacianBlobDetectorImageFilter2_hxx
-#define __itkMultiScaleLaplacianBlobDetectorImageFilter2_hxx
+#ifndef itkMultiScaleLaplacianBlobDetectorImageFilter2_hxx
+#define itkMultiScaleLaplacianBlobDetectorImageFilter2_hxx
 
 #include "itkMultiScaleLaplacianBlobDetectorImageFilter2.h"
 #include "itkEllipseSpatialObject.h"
 #include "itkCastImageFilter.h"
 #include "itkLaplacianRecursiveGaussianImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
+#include "itkProgressAccumulator.h"
 
 #include <iterator>
 
 namespace itk
 {
-template <typename TInputImage>
-MultiScaleLaplacianBlobDetectorImageFilter2<TInputImage>
+
+
+template < class TInputImage >
+MultiScaleLaplacianBlobDetectorImageFilter2< TInputImage >
 ::MultiScaleLaplacianBlobDetectorImageFilter2( void )
 {
   m_NumberOfBlobs = 1000;
@@ -46,24 +49,20 @@ MultiScaleLaplacianBlobDetectorImageFilter2<TInputImage>
   m_EndT = 128;
 }
 
-template <typename TInputImage>
-void MultiScaleLaplacianBlobDetectorImageFilter2<TInputImage>
+template < class TInputImage >
+void MultiScaleLaplacianBlobDetectorImageFilter2< TInputImage >
 ::GenerateData( void )
 {
   itkDebugMacro(<< " generating data ");
+
 
   const InputImageConstPointer inputImage( this->GetInput() );
 
   const InputImagePointer outputImage( this->GetOutput() );
 
-  this->m_BlobRadiusImage = BlobRadiusImageType::New();
-  this->m_BlobRadiusImage->CopyInformation( inputImage );
-  this->m_BlobRadiusImage->SetRegions( inputImage->GetRequestedRegion() );
-  this->m_BlobRadiusImage->Allocate();
-  this->m_BlobRadiusImage->FillBuffer( 0 );
-
   typedef itk::CastImageFilter<InputImageType, InputImageType> CasterFilterType;
   typename CasterFilterType::Pointer caster = CasterFilterType::New();
+  caster->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
   caster->InPlaceOff();
   caster->SetInput( inputImage );
 
@@ -71,41 +70,47 @@ void MultiScaleLaplacianBlobDetectorImageFilter2<TInputImage>
   caster->Update();
   this->GraftOutput( caster->GetOutput() );
 
+  // Create a process accumulator for tracking the progress of minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
 
   // prepare one time threaded data
-//  this->m_BlobHeapPerThread.resize( this->GetNumberOfThreads() );
-// FIXME THREAD ISSUE
-  this->m_BlobHeapPerThread.resize(
-    this->GetMultiThreader()->GetGlobalDefaultNumberOfThreads() );
+  this->m_BlobHeapPerThread.resize( this->GetNumberOfWorkUnits() );
+
 
   // we wish to add an additional laplacian before and after the user
   // defined range to check for maximums
   const double k = std::pow( 2.0, 1.0 / m_StepsPerOctave );
-  const double initial_sigma = std::sqrt(m_StartT) * 1.0 / k;
+  const double initial_sigma = std::sqrt(m_StartT) * 1.0/k;
 
   const unsigned int numberOfScales = std::ceil( std::log( std::sqrt( m_EndT ) / initial_sigma ) / std::log( k ) ) + 1.0;
 
-  typedef itk::LaplacianRecursiveGaussianImageFilter<InputImageType, RealImageType> LaplacianFilterType;
+  typedef itk::LaplacianRecursiveGaussianImageFilter< InputImageType, RealImageType> LaplacianFilterType;
   typename LaplacianFilterType::Pointer laplacianFilter[3];
-  for(auto & i : laplacianFilter)
+
+  for (unsigned int i = 0; i < 3; ++i )
     {
-    i = LaplacianFilterType::New();
-    // FIXME THREAD ISSUE
-    // i->SetNumberOfWorkUnits( 1 );
-    i->SetInput( inputImage );
-    i->SetNormalizeAcrossScale( true );
+    laplacianFilter[i] = LaplacianFilterType::New();
+    laplacianFilter[i]->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
+    laplacianFilter[i]->SetInput( inputImage );
+    laplacianFilter[i]->SetNormalizeAcrossScale( true );
+    progress->RegisterInternalFilter( laplacianFilter[i],   1.0 / numberOfScales );
     }
 
   BlobHeapType blobs;
   m_GlobalMinimalBestBlobValue = itk::NumericTraits<RealPixelType>::NonpositiveMin();
-  for( unsigned int i = 0; i < numberOfScales; ++i )
+
+  for ( unsigned int i = 0; i < numberOfScales; ++i )
     {
     // simga' = k^i * initial_sigma
     // t = sigma^2
-    const double sigma = initial_sigma * std::pow( k, double( numberOfScales - i - 1 ) );
-    //    const double t = itk::Math::sqr ( initial_sigma * std::pow( k, double( numberOfScales - i - 1 ) ) );
+    const double sigma = initial_sigma * std::pow( k, double( numberOfScales - i -1 ) );
 
-    itkDebugMacro( << "i: " << i << " sigma: " << sigma << " k: " << k );
+#if !defined( NDEBUG )
+    const double iterT = vnl_math_sqr( initial_sigma * std::pow( k, double( numberOfScales - i - 1 ) ) );
+#endif
+
+    itkDebugMacro( << "i: " << i << " sigma: " << sigma << " t: " << iterT << " k: " << k );
 
     // update largest index with new largest sigma
     laplacianFilter[2]->SetSigma( sigma );
@@ -113,111 +118,123 @@ void MultiScaleLaplacianBlobDetectorImageFilter2<TInputImage>
     laplacianFilter[2]->Update();
 
     // wait until all three laplacian filters have run
-    if( i > 1 )
+    if ( i > 1 )
       {
       // prepare for threaded execution
       this->m_LaplacianImage[0] = laplacianFilter[0]->GetOutput();
       this->m_LaplacianImage[1] = laplacianFilter[1]->GetOutput();
       this->m_LaplacianImage[2] = laplacianFilter[2]->GetOutput();
+      this->m_CurrentProgress = this->GetProgress();
 
       // Set up the multithreaded processing of the outputs
       typename Superclass::ThreadStruct str;
       str.Filter = this;
 
-// FIXME THREAD ISSUE
-//      this->GetMultiThreader()->SetNumberOfThreads( 1 );
+      this->GetMultiThreader()->SetNumberOfWorkUnits( this->GetNumberOfWorkUnits() );
       this->GetMultiThreader()->SetSingleMethod( Self::ThreaderCallback, &str );
 
       // multithread the execution
       this->GetMultiThreader()->SingleMethodExecute();
+
       // combine all the maximally sorted lists into a maximally
       // sorted one
-      for( unsigned int tt = 0; tt < m_BlobHeapPerThread.size(); ++tt )
+      for ( unsigned int t = 0; t < m_BlobHeapPerThread.size(); ++t )
         {
-        // after threaded execution the heap will be sorted
-        BlobHeapType & threadBlobs = m_BlobHeapPerThread[tt];
 
-        if( threadBlobs.empty() )
+        // after threaded execution the heap will be sorted
+        BlobHeapType &threadBlobs = m_BlobHeapPerThread[t];
+
+        if ( threadBlobs.empty() )
           {
           continue;
           }
 
         BlobHeapType temp;
-        std::swap(temp, blobs);
+        swap(temp, blobs);
         blobs.resize( threadBlobs.size() + temp.size() );
 
         std::merge( temp.begin(), temp.end(),
                     threadBlobs.begin(), threadBlobs.end(),
                     blobs.begin(), BlobValueGreaterCompare );
 
-        if( blobs.size() > m_NumberOfBlobs )
+
+        if ( blobs.size() > m_NumberOfBlobs )
           {
           blobs.resize( m_NumberOfBlobs );
           }
 
         threadBlobs.clear();
+
         }
 
       // set the minimal value
-      if( !blobs.empty() )
+      if ( !blobs.empty() )
         {
         m_GlobalMinimalBestBlobValue = blobs.back().m_Value;
         }
       }
 
     // circularly rotate laplacian filters down in scale
-    std::swap( laplacianFilter[2], laplacianFilter[1] );
-    std::swap( laplacianFilter[2], laplacianFilter[0] );
+    swap( laplacianFilter[2], laplacianFilter[1] );
+    swap( laplacianFilter[2], laplacianFilter[0] );
     // Current Sigma refers to the center filter, hence next it'll be
     // the center
     m_CurrentSigma = sigma;
+
+    // after each pass reset progress to accumulate next iteration
+    progress->ResetFilterProgressAndKeepAccumulatedProgress();
     }
 
   // clean up member variables
-  this->m_LaplacianImage[0] = nullptr;
-  this->m_LaplacianImage[1] = nullptr;
-  this->m_LaplacianImage[2] = nullptr;
+  this->m_LaplacianImage[0] = NULL;
+  this->m_LaplacianImage[1] = NULL;
+  this->m_LaplacianImage[2] = NULL;
   this->m_BlobHeapPerThread.clear();
 
   m_BlobList.clear();
-  //  typename InputImageType::SpacingType spacing = inputImage->GetSpacing();
+  //typename InputImageType::SpacingType spacing = inputImage->GetSpacing();
 
   typename BlobType::PointType zeroPoint;
   zeroPoint.Fill(0);
+
   // Convert to SpatialObject blob
-  for( typename BlobHeapType::const_iterator i = blobs.begin(); i != blobs.end(); ++i )
+  for ( typename BlobHeapType::const_iterator i = blobs.begin(); i != blobs.end(); ++i )
     {
-    const double sigma =  std::sqrt( InputImageType::ImageDimension / 2.0 ) * i->m_Sigma;
+    itkDebugMacro( "Blob detected at " << i->m_Center  << " with value " << i->m_Value << " and sigma: " << i->m_Sigma );
+
+    const double sigma =  std::sqrt( InputImageType::ImageDimension / 2.0 )* i->m_Sigma;
+
+    BlobPointer blob = BlobType::New();
+    blob->SetSigmaInObjectSpace( sigma );
+    blob->SetScaleSpaceValue( i->m_Value );
+    blob->SetCenter(  i->m_Center );
 
     // transform the center index into offset vector
     typename BlobType::PointType centerPoint;
     inputImage->TransformIndexToPhysicalPoint( i->m_Center, centerPoint );
 
-    BlobPointer blob = BlobType::New();
-    blob->SetSigmaInObjectSpace( sigma );
-    blob->SetScaleSpaceValue( i->m_Value );
-    blob->SetCenter( i->m_Center );
-
-    this->m_BlobRadiusImage->SetPixel( i->m_Center, ( int ) ( 0.5 + i->m_Sigma ) );
     const typename BlobType::VectorType centerVector = centerPoint - zeroPoint;
 
-    blob->GetModifiableObjectToParentTransform()->SetOffset(centerVector);
-    blob->Update();
+    blob->GetObjectToParentTransform()->SetOffset(centerVector);
+//    blob->ComputeBoundingBox();
 
     m_BlobList.push_back( blob );
     }
+
 }
 
-template <typename TInputImage>
-void MultiScaleLaplacianBlobDetectorImageFilter2<TInputImage>
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId )
+
+template < class TInputImage >
+void MultiScaleLaplacianBlobDetectorImageFilter2< TInputImage >
+::ThreadedGenerateData(const OutputImageRegionType &outputRegionForThread, ThreadIdType threadId )
 {
-  // unsigned int m_Number = 20;
+  //unsigned int m_Number = 20;
   //  const unsigned int numberOfScales = m_Number+2;
 //     const unsigned int numberOfFilters = numberOfScales + m_Number;
 
-  BlobHeapType & blobHeap = this->m_BlobHeapPerThread[threadId];
+//     ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels(), 100, m_CurrentProgress,  1.0/numberOfFilters);
 
+  BlobHeapType &blobHeap = this->m_BlobHeapPerThread[threadId];
   blobHeap.reserve( m_NumberOfBlobs );
 
   RealPixelType localMinimalBestBlobValue = m_GlobalMinimalBestBlobValue;
@@ -226,20 +243,25 @@ void MultiScaleLaplacianBlobDetectorImageFilter2<TInputImage>
   typename RealImageType::ConstPointer laplacianImage =  this->m_LaplacianImage[1];
   InputImagePointer outputImage( this->GetOutput() );
 
-  typedef itk::ConstNeighborhoodIterator<RealImageType> NeighborhoodIteratorType;
+
+  typedef itk::ConstNeighborhoodIterator< RealImageType > NeighborhoodIteratorType;
   typename NeighborhoodIteratorType::RadiusType radius;
   radius.Fill(1);
 
-  typedef itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<RealImageType> FaceCalculatorType;
+
+  typedef itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< RealImageType > FaceCalculatorType;
   FaceCalculatorType faceCalculator;
   typename FaceCalculatorType::FaceListType faceList;
   typename FaceCalculatorType::FaceListType::iterator fit;
 
   faceList = faceCalculator( laplacianImage, outputRegionForThread, radius );
 
+
   Point<double, RealImageType::ImageDimension> zeroPoint;
   zeroPoint.Fill(0);
-  for( fit = faceList.begin(); fit != faceList.end(); ++fit )
+
+
+  for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
     {
     NeighborhoodIteratorType n0( radius, this->m_LaplacianImage[0], *fit );
     NeighborhoodIteratorType n1( radius, this->m_LaplacianImage[1], *fit );
@@ -247,10 +269,11 @@ void MultiScaleLaplacianBlobDetectorImageFilter2<TInputImage>
 
     const size_t neighborhoodSize = n0.Size();
 
-    while( !n0.IsAtEnd() && !n1.IsAtEnd() && !n2.IsAtEnd() )
+
+    while ( !n0.IsAtEnd() && !n1.IsAtEnd() && !n2.IsAtEnd() )
       {
       const RealPixelType center = n1.GetCenterPixel();
-      bool                isUsable = true;
+      bool isUsable = true;
 
       if( center <  localMinimalBestBlobValue )
         {
@@ -258,43 +281,36 @@ void MultiScaleLaplacianBlobDetectorImageFilter2<TInputImage>
         }
       else
         {
-        for( size_t h = 0; h < neighborhoodSize && isUsable; ++h )
+        for ( size_t h = 0; h < neighborhoodSize && isUsable; ++h )
           {
-          if( center <  n0.GetPixel( h ) )
-            {
-            isUsable = false;
-            }
+          if ( center <  n0.GetPixel( h ) ) isUsable = false;
           }
-        for( size_t h = 0; h < neighborhoodSize && isUsable; ++h )
+        for ( size_t h = 0; h < neighborhoodSize && isUsable; ++h )
           {
-          if( center <  n1.GetPixel( h ) )
-            {
-            isUsable = false;
-            }
+          if ( center <  n1.GetPixel( h ) ) isUsable = false;
           }
-        for( size_t h = 0; h < neighborhoodSize && isUsable; ++h )
+        for ( size_t h = 0; h < neighborhoodSize && isUsable; ++h )
           {
-          if( center <  n2.GetPixel( h ) )
-            {
-            isUsable = false;
-            }
+          if ( center <  n2.GetPixel( h ) ) isUsable = false;
           }
         }
 
-      if( isUsable )
+      if ( isUsable )
         {
+
         // add blob to thread list
 
         Blob blob(  n1.GetIndex(), m_CurrentSigma, center );
 
+
         // maintain a minimum heap ( first element is less than all
         // others) no greater then the target number of blobs
-        if( blobHeap.size() < m_NumberOfBlobs )
+        if ( blobHeap.size() < m_NumberOfBlobs )
           {
           blobHeap.push_back( blob );
           std::push_heap( blobHeap.begin(), blobHeap.end(), BlobValueGreaterCompare );
           }
-        else if( blob.m_Value > localMinimalBestBlobValue )
+        else if (blob.m_Value > localMinimalBestBlobValue )
           {
           std::pop_heap( blobHeap.begin(), blobHeap.end(), BlobValueGreaterCompare );
           blobHeap.back() = blob;
@@ -302,16 +318,20 @@ void MultiScaleLaplacianBlobDetectorImageFilter2<TInputImage>
 
           localMinimalBestBlobValue = blobHeap.front().m_Value;
           }
+
         }
 
       ++n0, ++n1, ++n2;
 
+      //progress.CompletedPixel();
       }
     } // end face list
 
   //  sort the heap, the first element will now be maximal
   std::sort_heap( blobHeap.begin(), blobHeap.end(), BlobValueGreaterCompare );
-}
+
 }
 
-#endif // __itkMultiScaleLaplacianBlobDetectorImageFilter2_hxx
+}
+
+#endif // itkMultiScaleLaplacianBlobDetectorImageFilter2_hxx

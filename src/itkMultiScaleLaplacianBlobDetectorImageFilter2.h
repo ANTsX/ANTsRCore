@@ -23,36 +23,36 @@
 // ===========================================================================
 //
 
-#ifndef __itkMultiScaleLaplacianBlobDetectorImageFilter2_h
-#define __itkMultiScaleLaplacianBlobDetectorImageFilter2_h
+#ifndef itkMultiScaleLaplacianBlobDetectorImageFilter2_h
+#define itkMultiScaleLaplacianBlobDetectorImageFilter2_h
 
 #include "itkImageToImageFilter.h"
 #include "itkGaussianSpatialObject.h"
 
 namespace itk
 {
+
 /** \class ScaleSpaceBlobSpatialObject
  * \brief a spatial object to represent a gaussian blob with size
  *
  * The superclass parameter "Sigma" is the size of the blob if it was
  * a gaussian.
- * \ingroup ITKImageScaleSpace
+ *
+ * \ingroup ITKScaleSpace
  **/
-template <unsigned int TDimension = 3>
-class ScaleSpaceBlobSpatialObject final
-  : public GaussianSpatialObject<TDimension>
+template < unsigned int TDimension = 3 >
+class ScaleSpaceBlobSpatialObject
+  : public GaussianSpatialObject< TDimension>
 {
 public:
-  typedef ScaleSpaceBlobSpatialObject       Self;
-  typedef double                            ScalarType;
-  typedef SmartPointer<Self>                Pointer;
-  typedef SmartPointer<const Self>          ConstPointer;
-  typedef GaussianSpatialObject<TDimension> Superclass;
-  typedef SmartPointer<Superclass>          SuperclassPointer;
-  typedef typename Superclass::PointType    PointType;
-  typedef float                             RealPixelType;
-  typedef Image<RealPixelType, TDimension>  RealImageType;
-  typedef typename RealImageType::IndexType CenterType;
+  typedef ScaleSpaceBlobSpatialObject          Self;
+  typedef double                               ScalarType;
+  typedef SmartPointer< Self >                 Pointer;
+  typedef SmartPointer< const Self >           ConstPointer;
+  typedef GaussianSpatialObject< TDimension >  Superclass;
+  typedef SmartPointer< Superclass >           SuperclassPointer;
+  typedef typename Superclass::PointType       PointType;
+  typedef typename Superclass::IndexType       IndexType;
 
   itkStaticConstMacro(NumberOfDimensions, unsigned int,
                       TDimension);
@@ -63,27 +63,23 @@ public:
   /** Set/Get the normalized laplacian value of the extrema */
   itkGetMacro( ScaleSpaceValue, double );
   itkSetMacro( ScaleSpaceValue, double );
+  itkGetMacro( Center, IndexType );
+  itkSetMacro( Center, IndexType );
 
   /** The radius of the object if it is a solid hyper-sphere */
-  double GetObjectRadius( void ) const
-  {
-    return this->GetSigmaInObjectSpace() *  itk::Math::sqrt2;
-  }
+  double GetObjectRadius( void ) const { return this->GetSigmaInObjectSpace() *  vnl_math::sqrt2; }
 
   /** The sigma of the laplacian where the extrema occoured */
-  double GetScaleSpaceSigma( void ) const
-  {
-    return this->GetSigmaInObjectSpace() / ( std::sqrt( TDimension / 2.0 ) );
-  }
+  double GetScaleSpaceSigma( void ) const { return this->GetSigmaInObjectSpace() / ( std::sqrt( TDimension / 2.0 ) ); }
 
-  /** The location where the extrema occoured */
-  itkGetMacro( Center, CenterType );
-  itkSetMacro( Center, CenterType );
+
 private:
-  double     m_ScaleSpaceValue;
-  double     m_ObjectRadius;
-  CenterType m_Center;
+  double m_ScaleSpaceValue;
+  double m_ObjectRadius;
+  IndexType m_Center;
+
 };
+
 
 /** \class MultiScaleLaplacianBlobDetectorImageFilter2
  * \brief Performs detection of "blob" by searching for local extrema
@@ -98,32 +94,27 @@ private:
  *
  * \sa LaplacianRecursiveGaussianImageFilter
  *
- * \ingroup ITKImageScaleSpace
+ * \ingroup ITKScaleSpace
  *
  * \author Bradley Lowekamp
 */
-template <typename TInputImage>
-class MultiScaleLaplacianBlobDetectorImageFilter2 final
-  : public       ImageToImageFilter<TInputImage, TInputImage>
+template < class TInputImage >
+class ITK_EXPORT MultiScaleLaplacianBlobDetectorImageFilter2
+  : public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
   // todo figure out a better base class
 
   /** Standard class typedefs. */
-  typedef MultiScaleLaplacianBlobDetectorImageFilter2   Self;
-  typedef ImageToImageFilter<TInputImage, TInputImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef MultiScaleLaplacianBlobDetectorImageFilter2    Self;
+  typedef ImageToImageFilter<TInputImage,TInputImage>   Superclass;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
-  /** label image typedef */
-  typedef float                                                   BlobRadiusType;
-  typedef itk::Image<BlobRadiusType, TInputImage::ImageDimension> BlobRadiusImageType;
-  typedef typename BlobRadiusImageType::Pointer                   BlobRadiusImagePointer;
-
-  /** Blob typedef */
+   /** Blob typedef */
   typedef ScaleSpaceBlobSpatialObject<TInputImage::ImageDimension> BlobType;
   typedef typename BlobType::Pointer                               BlobPointer;
-  typedef std::vector<BlobPointer>                                 BlobsListType;
+  typedef std::list<BlobPointer>                                   BlobsListType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -132,9 +123,9 @@ public:
   itkTypeMacro(MultiScaleLaplacianBlobDetectorImageFilter2, ImageToImageFilter);
 
   /** Typedef to images */
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  typedef TInputImage                                 InputImageType;
+  typedef typename InputImageType::Pointer            InputImagePointer;
+  typedef typename InputImageType::ConstPointer       InputImageConstPointer;
 
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
@@ -160,64 +151,55 @@ public:
   itkSetMacro( NumberOfBlobs, size_t );
   itkGetMacro( NumberOfBlobs, size_t );
 
-  /** Set/Get the label image
-   */
-  itkSetMacro( BlobRadiusImage, BlobRadiusImagePointer );
-  itkGetMacro( BlobRadiusImage, BlobRadiusImagePointer );
-
   /** Pseudo-output
    * Get the list of circles. This recomputes the circles
   */
-  BlobsListType & GetBlobs( void )
-  {
-    return this->m_BlobList;
-  }
+  BlobsListType & GetBlobs( void ) { return this->m_BlobList; }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  // / \todo need to concepts checked
+  /// \todo need to concepts checked
   /** End concept checking */
 #endif
+
 protected:
   /** Internal Real ImageType */
-  typedef float                                             RealPixelType;
-  typedef Image<RealPixelType, TInputImage::ImageDimension> RealImageType;
-  typedef typename RealImageType::Pointer                   RealImagePointer;
-  typedef typename RealImageType::ConstPointer              RealImageConstPointer;
+  typedef float                                               RealPixelType;
+  typedef Image< RealPixelType, TInputImage::ImageDimension > RealImageType;
+  typedef typename RealImageType::Pointer                     RealImagePointer;
+  typedef typename RealImageType::ConstPointer                RealImageConstPointer;
 
-  MultiScaleLaplacianBlobDetectorImageFilter2();
+  MultiScaleLaplacianBlobDetectorImageFilter2( void );
 
-  // not defined or implemented as default works
-  // virtual ~MultiScaleLaplacianBlobDetectorImageFilter2( void ) {}
+  //not defined or implemented as default works
+  //virtual ~MultiScaleLaplacianBlobDetectorImageFilter2( void ) {}
 
-  void GenerateData() override;
+  virtual void GenerateData( void ) ITK_OVERRIDE;
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId ) override;
+  virtual void ThreadedGenerateData(const OutputImageRegionType &outputRegionForThread, ThreadIdType threadId ) ITK_OVERRIDE;
+
 
 private:
-  MultiScaleLaplacianBlobDetectorImageFilter2( const Self &) = delete;
-  void operator=( const Self &) = delete;
+  MultiScaleLaplacianBlobDetectorImageFilter2( const Self &); // purposely not implemented
+  void operator=( const Self &); // purposely not implemented
 
   class Blob
   {
-public:
-    Blob( void ) = default;
-
+  public:
+    Blob( void ) {}
     Blob( typename RealImageType::IndexType center, double sigma, RealPixelType value )
       : m_Center( center ),
-      m_Sigma( sigma ),
-      m_Value( value )
-    {
-    }
+        m_Sigma( sigma ),
+        m_Value( value )
+    {}
 
-    Blob( const Blob & b )
+    Blob( const Blob &b )
       : m_Center( b.m_Center ),
-      m_Sigma( b.m_Sigma ),
-      m_Value( b.m_Value )
-    {
-    }
+        m_Sigma( b.m_Sigma ),
+        m_Value( b.m_Value )
+    {}
 
-    Blob & operator=( const Blob & b )
+    Blob &operator=( const Blob &b )
     {
       this->m_Center = b.m_Center;
       this->m_Sigma = b.m_Sigma;
@@ -226,21 +208,21 @@ public:
     }
 
     typename RealImageType::IndexType m_Center;
-    double        m_Sigma;
+    double m_Sigma;
     RealPixelType m_Value;
   };
 
-  static bool BlobValueGreaterCompare(Blob & a, Blob & b)
+  static bool BlobValueGreaterCompare(Blob &a, Blob &b)
   {
     return a.m_Value > b.m_Value;
   }
 
-  static bool BlobValueLesserCompare(Blob & a, Blob & b)
+  static bool BlobValueLesserCompare(Blob &a, Blob &b)
   {
     return a.m_Value < b.m_Value;
   }
 
-  typedef std::vector<Blob> BlobHeapType;
+  typedef std::vector<Blob>                          BlobHeapType;
 
   // private member variable go here
   RealImageConstPointer     m_LaplacianImage[3];
@@ -253,18 +235,19 @@ public:
   // private IVAR
   size_t m_NumberOfBlobs;
 
-  BlobsListType m_BlobList;
+  BlobsListType    m_BlobList;
 
   unsigned int m_StepsPerOctave;
   double       m_StartT;
   double       m_EndT;
-
-  BlobRadiusImagePointer m_BlobRadiusImage;
 };
+
 }
+
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMultiScaleLaplacianBlobDetectorImageFilter2.hxx"
 #endif
 
-#endif // __itkMultiScaleLaplacianBlobDetectorImageFilter2_h
+
+#endif // itkMultiScaleLaplacianBlobDetectorImageFilter2_h
