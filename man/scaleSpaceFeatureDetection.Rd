@@ -32,7 +32,9 @@ function will return the blob descriptors as an image and data frame.
 }
 \examples{
 
-blob = scaleSpaceFeatureDetection( ri( 1 ), 50 )
+# WIP: should explore effect of parameters further
+blob1 = scaleSpaceFeatureDetection( ri( 1 ), 50 )
+blob2 = scaleSpaceFeatureDetection( max( ri( 1 ) ) - ri( 1 ), 50 )
 
 }
 \author{
