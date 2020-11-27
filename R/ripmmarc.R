@@ -1,3 +1,40 @@
+
+#' @title Scale space feature detector
+#' @description Deploy a multiscale laplacian blob detector on an image.  The
+#' function will return the blob descriptors as an image and data frame.
+#' @param image the input image
+#' @param numberOfBlobsToExtract the estimated blob count
+#' @param minScale the minimum amount of smoothing in scale space
+#' @param maxScale the maximum amount of smoothing in scale space
+#' @param stepsPerOctave the number of steps to take over scale space octaves
+#' @return list of antsImage and dataframe for blob descriptors
+#' @author Avants BB
+#' @examples
+#'
+#' blob = scaleSpaceFeatureDetection( ri( 1 ), 50 )
+#'
+#' @export scaleSpaceFeatureDetection
+scaleSpaceFeatureDetection <- function( image, numberOfBlobsToExtract,
+  minScale = 1.0,
+  maxScale = 2.0^10,
+  stepsPerOctave = 10
+ )
+{
+  outimg = antsImageClone(image)*0.0
+  outblob <- .Call("blobAnalysis",
+                     image,
+                     outimg,
+                     numberOfBlobsToExtract,
+                     minScale,
+                     maxScale,
+                     stepsPerOctave,
+                     PACKAGE = "ANTsRCore")
+  return( outblob )
+}
+
+
+
+
 #' @title Rotation Invariant Patch-based Multi-Modality Analysis aRChitecture
 #' @description Patch-based and rotation invariant image decomposition.  This
 #' is similar to patch-based dictionary learning in N-dimensions.  Warning:
@@ -65,7 +102,7 @@ ripmmarc <- function(
   rotationInvariant = TRUE,
   regressProjections = TRUE,
   verbose = FALSE  ) {
-  
+
   img = check_ants(img)
   mask = check_ants(mask)
   #  print("WARNING: WIP, this implementation of ripmmarc is not validated!!")
@@ -146,7 +183,7 @@ ripmmarcBasisImage <- function( canonicalFrame,
 #' greater than one, then it defines the number of eigenvectors.  Otherwise, it
 #' defines the target variance explained.
 #' @param meanCenter boolean whether we mean center the patches.
-#' @param seed seed to pass to \code{\link{randomMask}}.  This behavior is 
+#' @param seed seed to pass to \code{\link{randomMask}}.  This behavior is
 #' different than setting the seed globally and running as \code{\link{randomMask}}
 #' is called multiple times and that runs \code{\link{set.seed}}
 #' @return list including the canonical frame, the matrix basis and its
@@ -189,7 +226,7 @@ ripmmarcPop <- function(
   {
   maskIsList = class( mask ) == "list"
   if ( maskIsList ) {
-    randMask = randomMask( mask[[1]], patchSamples, perLabel = TRUE, 
+    randMask = randomMask( mask[[1]], patchSamples, perLabel = TRUE,
                            seed = seed)
   } else randMask = randomMask( mask, patchSamples, perLabel = TRUE, seed = seed)
   ripped <- ripmmarc( ilist[[1]], randMask, patchRadius = patchRadius,

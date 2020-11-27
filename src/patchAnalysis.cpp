@@ -28,6 +28,136 @@
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkRIPMMARCImageFilter.h"
+#include "itkMultiScaleLaplacianBlobDetectorImageFilter2.h"
+
+template< class ImageType >
+SEXP blobDetectionHelper(
+    SEXP r_inimg,
+    SEXP r_outimg,
+    SEXP r_numberOfBlobsToExtract,
+    SEXP r_minScale,
+    SEXP r_maxScale,
+    SEXP r_stepsPerOctave )
+{
+  //  RealType minScale = std::pow( 1.0, 1.0 );
+  //  RealType maxScale = std::pow( 2.0, 10.0 );
+  //  unsigned int stepsPerOctave = 10;
+  const unsigned int ImageDimension = ImageType::ImageDimension;
+  using IndexType = typename ImageType::IndexType;
+  typedef typename ImageType::Pointer ImagePointerType;
+  typename ImageType::Pointer fixedImage = Rcpp::as< ImagePointerType >( r_inimg );
+  float minScale = Rcpp::as< float >( r_minScale );
+  float maxScale = Rcpp::as< float >( r_maxScale );
+  unsigned int numberOfBlobsToExtract = Rcpp::as< unsigned int >( r_numberOfBlobsToExtract );
+  unsigned int stepsPerOctave = Rcpp::as< unsigned int >( r_stepsPerOctave );
+  typename ImageType::Pointer outimg =
+    Rcpp::as< ImagePointerType >( r_outimg );
+
+  using BlobFilterType = itk::MultiScaleLaplacianBlobDetectorImageFilter2<ImageType>;
+  using BlobPointer = typename BlobFilterType::BlobPointer;
+  using BlobsListType = typename BlobFilterType::BlobsListType;
+
+  typename BlobFilterType::Pointer blobFixedImageFilter = BlobFilterType::New();
+  blobFixedImageFilter->SetStartT( minScale );
+  blobFixedImageFilter->SetEndT( maxScale );
+  blobFixedImageFilter->SetStepsPerOctave( stepsPerOctave );
+  blobFixedImageFilter->SetNumberOfBlobs( numberOfBlobsToExtract );
+  blobFixedImageFilter->SetInput( fixedImage );
+  blobFixedImageFilter->Update();
+  BlobsListType fixedImageBlobs = blobFixedImageFilter->GetBlobs();
+  if( fixedImageBlobs.empty() )
+    {
+    std::cerr << "fixed image blobs list is empty." << std::endl;
+    return nullptr;
+    }
+
+  Rcpp::NumericMatrix ripMat( fixedImageBlobs.size(), ImageDimension + 1 );
+  for( unsigned long r = 0; r < fixedImageBlobs.size(); r++ )
+    {
+    BlobPointer fixedBlob = fixedImageBlobs[r];
+    IndexType index = fixedBlob->GetCenter();
+    for( unsigned int c = 0; c < (ImageDimension); c++ )
+      {
+      ripMat( r, c ) = index[c];
+      }
+    ripMat( r, ImageDimension ) = fixedBlob->GetObjectRadius();
+    outimg->SetPixel( index, fixedBlob->GetObjectRadius() );
+    }
+  return(
+      Rcpp::List::create(
+        Rcpp::Named("blobImage") = Rcpp::wrap( outimg ),
+        Rcpp::Named("blobDescriptor") = ripMat )
+      );
+}
+
+
+
+RcppExport SEXP blobAnalysis(
+  SEXP r_inimg,
+  SEXP r_outimg,
+  SEXP r_numberOfBlobsToExtract,
+  SEXP r_minScale,
+  SEXP r_maxScale,
+  SEXP r_stepsPerOctave )
+{
+try
+  {
+  Rcpp::S4 antsImage( r_inimg );
+  std::string pixeltype = Rcpp::as< std::string >( antsImage.slot( "pixeltype" ));
+  unsigned int dimension = Rcpp::as< int >( antsImage.slot( "dimension" ) );
+
+  if ( (pixeltype == "float") & ( dimension == 2 ) )
+    {
+    typedef float PixelType;
+    const unsigned int dim = 2;
+    typedef itk::Image< PixelType, dim > ImageType;
+    return Rcpp::wrap(
+      blobDetectionHelper< ImageType >(
+        r_inimg,
+        r_outimg,
+        r_numberOfBlobsToExtract,
+        r_minScale,
+        r_maxScale,
+        r_stepsPerOctave )
+      );
+    }
+  else if ( (pixeltype == "float") & ( dimension == 3 ) )
+    {
+    typedef float PixelType;
+    const unsigned int dim = 3;
+    typedef itk::Image< PixelType, dim > ImageType3D;
+    return Rcpp::wrap(
+      blobDetectionHelper< ImageType3D >(
+        r_inimg,
+        r_outimg,
+        r_numberOfBlobsToExtract,
+        r_minScale,
+        r_maxScale,
+        r_stepsPerOctave )
+      );
+    }
+  else
+    {
+    Rcpp::stop("Unsupported image dimension or pixel type.");
+    }
+}
+catch( itk::ExceptionObject & err )
+{
+  Rcpp::Rcout << "ITK ExceptionObject caught!" << std::endl;
+  forward_exception_to_r( err );
+}
+catch( const std::exception& exc )
+{
+  Rcpp::Rcout << "STD ExceptionObject caught!" << std::endl;
+  forward_exception_to_r( exc );
+}
+catch( ... )
+{
+  Rcpp::stop( "C++ exception (unknown reason)");
+}
+ return Rcpp::wrap(NA_REAL); // should not be reached
+}
+
 
 template< class ImageType >
 SEXP patchAnalysisHelper(
