@@ -28,7 +28,8 @@ list of antsImage and dataframe for blob descriptors
 }
 \description{
 Deploy a multiscale laplacian blob detector on an image.  The
-function will return the blob descriptors as an image and data frame.
+function will return the blob descriptors as an image and data frame. NOTE:
+you will get different features running on the raw image versus its negation.
 }
 \examples{
 

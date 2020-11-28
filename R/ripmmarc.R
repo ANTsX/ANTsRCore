@@ -1,7 +1,8 @@
 
 #' @title Scale space feature detector
 #' @description Deploy a multiscale laplacian blob detector on an image.  The
-#' function will return the blob descriptors as an image and data frame.
+#' function will return the blob descriptors as an image and data frame. NOTE:
+#' you will get different features running on the raw image versus its negation.
 #' @param image the input image
 #' @param numberOfBlobsToExtract the estimated blob count
 #' @param minScale the minimum amount of smoothing in scale space
@@ -23,8 +24,9 @@ scaleSpaceFeatureDetection <- function( image, numberOfBlobsToExtract,
  )
 {
   outimg = antsImageClone(image)*0.0
+  temp = max(image) - image
   outblob <- .Call("blobAnalysis",
-                     image,
+                     temp,
                      outimg,
                      numberOfBlobsToExtract,
                      minScale,
