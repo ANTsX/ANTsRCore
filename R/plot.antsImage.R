@@ -180,7 +180,7 @@ if ( ! is.null( domainImageMap ) )
   if(missing(slices)){
     plotimask<-getMask(x, cleanup=0)
     if ( max( plotimask ) == 0 ) plotimask = plotimask + 1
-    if ( doCropping ) x <- cropImage(x, plotimask )
+    if ( doCropping ) x <- cropImage(antsImageClone(x), plotimask )
     slices <- round(seq(1, dim(x)[axis], length.out=nslices))
   }
   startpar <- par(c("mar", "las", "mfrow"))$mar
@@ -195,7 +195,7 @@ if ( ! is.null( domainImageMap ) )
     }
   }
   color.colorbar <- ifelse(missing(y), "white", color.overlay[1])
-  myantsimage <- x
+  myantsimage <- ( x )
   if (is.antsImage(y))
     y <- list(y)
   imagedim <- length(dim(myantsimage))
