@@ -9,7 +9,8 @@ scaleSpaceFeatureDetection(
   numberOfBlobsToExtract,
   minScale = 1,
   maxScale = 2^10,
-  stepsPerOctave = 10
+  stepsPerOctave = 10,
+  negate = FALSE
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ scaleSpaceFeatureDetection(
 \item{maxScale}{the maximum amount of smoothing in scale space}
 
 \item{stepsPerOctave}{the number of steps to take over scale space octaves}
+
+\item{negate}{boolean to compute features from both image and its negation}
 }
 \value{
 list of antsImage and dataframe for blob descriptors

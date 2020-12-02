@@ -8,6 +8,7 @@
 #' @param minScale the minimum amount of smoothing in scale space
 #' @param maxScale the maximum amount of smoothing in scale space
 #' @param stepsPerOctave the number of steps to take over scale space octaves
+#' @param negate boolean to compute features from both image and its negation
 #' @return list of antsImage and dataframe for blob descriptors
 #' @author Avants BB
 #' @examples
@@ -20,7 +21,8 @@
 scaleSpaceFeatureDetection <- function( image, numberOfBlobsToExtract,
   minScale = 1.0,
   maxScale = 2.0^10,
-  stepsPerOctave = 10
+  stepsPerOctave = 10,
+  negate = FALSE
  )
 {
   outimg = antsImageClone(image)*0.0
@@ -33,6 +35,20 @@ scaleSpaceFeatureDetection <- function( image, numberOfBlobsToExtract,
                      maxScale,
                      stepsPerOctave,
                      PACKAGE = "ANTsRCore")
+  if ( negate ) {
+    outimgB = antsImageClone(image)*0.0
+    outblobB <- .Call("blobAnalysis",
+                       image,
+                       outimgB,
+                       numberOfBlobsToExtract,
+                       minScale,
+                       maxScale,
+                       stepsPerOctave,
+                       PACKAGE = "ANTsRCore")
+    outblob$blobImage = outblob$blobImage + outblobB$blobImage
+    outblob$blobDescriptor =
+      rbind( outblob$blobDescriptor, outblobB$blobDescriptor )
+  }
   return( outblob )
 }
 
