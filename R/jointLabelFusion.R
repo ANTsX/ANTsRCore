@@ -28,6 +28,8 @@
 #' images that are passed to the program.  It also guarantees that every position in the
 #' labels have some label, rather than none.  Ie it guarantees to explicitly parcellate the
 #' input data.
+#' @param noZeroes boolean will zero out target mask regions that have any zero label.
+#' this prevents JLF from computing a solution in regions not covered by the initial library.
 #' @param verbose boolean
 #' @return approximated image, segmentation and probabilities
 #' @author Brian B. Avants, Hongzhi Wang, Paul Yushkevich, Nicholas J. Tustison
@@ -113,6 +115,7 @@ jointLabelFusion <- function(
   rSearch=3,
   nonnegative = FALSE,
   maxLabelPlusOne = FALSE,
+  noZeroes = FALSE,
   verbose = FALSE )
 {
   targetI = check_ants(targetI)
@@ -122,6 +125,10 @@ jointLabelFusion <- function(
   if ( ! doJif ) {
     if ( length(labelList) != length(atlasList) )
       stop("length(labelList) != length(atlasList)")
+    if ( noZeroes ) {
+      for ( n in 1:length( labelList ) )
+        targetIMask[ labelList[[n]] == 0 ] = 0
+      }
     inlabs = sort( unique(  labelList[[ 1 ]][ targetIMask == 1 ]  ) )
     labsum = labelList[[1]]
     for ( n in 2:length( labelList ) ) {
@@ -296,6 +303,8 @@ jointLabelFusion <- function(
 #' images that are passed to the program.  It also guarantees that every position in the
 #' labels have some label, rather than none.  Ie it guarantees to explicitly parcellate the
 #' input data.
+#' @param noZeroes boolean will zero out target mask regions that have any zero label.
+#' this prevents JLF from computing a solution in regions not covered by the initial library.
 #' @param verbose boolean
 #' @param ... extra parameters passed to JLF
 #' @return label probabilities and segmentations
@@ -317,6 +326,7 @@ localJointLabelFusion <- function(
   regIterations = c(40,20,0),
   localMaskTransform,
   maxLabelPlusOne=FALSE,
+  noZeroes = FALSE,
   verbose = FALSE,
   ...
  )
