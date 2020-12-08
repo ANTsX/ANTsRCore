@@ -7,8 +7,8 @@
 scaleSpaceFeatureDetection(
   image,
   numberOfBlobsToExtract,
-  minScale = 1,
-  maxScale = 2^10,
+  minScale,
+  maxScale,
   stepsPerOctave = 10,
   negate = FALSE
 )
