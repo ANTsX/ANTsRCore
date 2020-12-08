@@ -19,12 +19,14 @@
 #'
 #' @export scaleSpaceFeatureDetection
 scaleSpaceFeatureDetection <- function( image, numberOfBlobsToExtract,
-  minScale = 1.0,
-  maxScale = 2.0^10,
+  minScale,
+  maxScale,
   stepsPerOctave = 10,
   negate = FALSE
  )
 {
+  if ( missing( minScale ) ) minScale = min( antsGetSpacing(image) )*0.1
+  if ( missing( maxScale ) ) maxScale = min( antsGetSpacing(image) )*64
   outimg = antsImageClone(image)*0.0
   temp = max(image) - image
   outblob <- .Call("blobAnalysis",
