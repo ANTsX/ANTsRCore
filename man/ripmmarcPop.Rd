@@ -30,7 +30,7 @@ defines the target variance explained.}
 
 \item{meanCenter}{boolean whether we mean center the patches.}
 
-\item{seed}{seed to pass to \code{\link{randomMask}}.  This behavior is 
+\item{seed}{seed to pass to \code{\link{randomMask}}.  This behavior is
 different than setting the seed globally and running as \code{\link{randomMask}}
 is called multiple times and that runs \code{\link{set.seed}}}
 }

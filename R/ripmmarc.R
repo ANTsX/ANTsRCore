@@ -1,3 +1,62 @@
+
+#' @title Scale space feature detector
+#' @description Deploy a multiscale laplacian blob detector on an image.  The
+#' function will return the blob descriptors as an image and data frame. NOTE:
+#' you will get different features running on the raw image versus its negation.
+#' @param image the input image
+#' @param numberOfBlobsToExtract the estimated blob count
+#' @param minScale the minimum amount of smoothing in scale space
+#' @param maxScale the maximum amount of smoothing in scale space
+#' @param stepsPerOctave the number of steps to take over scale space octaves
+#' @param negate boolean to compute features from both image and its negation
+#' @return list of antsImage and dataframe for blob descriptors
+#' @author Avants BB
+#' @examples
+#'
+#' # WIP: should explore effect of parameters further
+#' blob1 = scaleSpaceFeatureDetection( ri( 1 ), 50 )
+#' blob2 = scaleSpaceFeatureDetection( max( ri( 1 ) ) - ri( 1 ), 50 )
+#'
+#' @export scaleSpaceFeatureDetection
+scaleSpaceFeatureDetection <- function( image, numberOfBlobsToExtract,
+  minScale,
+  maxScale,
+  stepsPerOctave = 10,
+  negate = FALSE
+ )
+{
+  if ( missing( minScale ) ) minScale = min( antsGetSpacing(image) )*0.1
+  if ( missing( maxScale ) ) maxScale = min( antsGetSpacing(image) )*64
+  outimg = antsImageClone(image)*0.0
+  temp = max(image) - image
+  outblob <- .Call("blobAnalysis",
+                     temp,
+                     outimg,
+                     numberOfBlobsToExtract,
+                     minScale,
+                     maxScale,
+                     stepsPerOctave,
+                     PACKAGE = "ANTsRCore")
+  if ( negate ) {
+    outimgB = antsImageClone(image)*0.0
+    outblobB <- .Call("blobAnalysis",
+                       image,
+                       outimgB,
+                       numberOfBlobsToExtract,
+                       minScale,
+                       maxScale,
+                       stepsPerOctave,
+                       PACKAGE = "ANTsRCore")
+    outblob$blobImage = outblob$blobImage + outblobB$blobImage
+    outblob$blobDescriptor =
+      rbind( outblob$blobDescriptor, outblobB$blobDescriptor )
+  }
+  return( outblob )
+}
+
+
+
+
 #' @title Rotation Invariant Patch-based Multi-Modality Analysis aRChitecture
 #' @description Patch-based and rotation invariant image decomposition.  This
 #' is similar to patch-based dictionary learning in N-dimensions.  Warning:
@@ -65,7 +124,7 @@ ripmmarc <- function(
   rotationInvariant = TRUE,
   regressProjections = TRUE,
   verbose = FALSE  ) {
-  
+
   img = check_ants(img)
   mask = check_ants(mask)
   #  print("WARNING: WIP, this implementation of ripmmarc is not validated!!")
@@ -146,7 +205,7 @@ ripmmarcBasisImage <- function( canonicalFrame,
 #' greater than one, then it defines the number of eigenvectors.  Otherwise, it
 #' defines the target variance explained.
 #' @param meanCenter boolean whether we mean center the patches.
-#' @param seed seed to pass to \code{\link{randomMask}}.  This behavior is 
+#' @param seed seed to pass to \code{\link{randomMask}}.  This behavior is
 #' different than setting the seed globally and running as \code{\link{randomMask}}
 #' is called multiple times and that runs \code{\link{set.seed}}
 #' @return list including the canonical frame, the matrix basis and its
@@ -189,7 +248,7 @@ ripmmarcPop <- function(
   {
   maskIsList = class( mask ) == "list"
   if ( maskIsList ) {
-    randMask = randomMask( mask[[1]], patchSamples, perLabel = TRUE, 
+    randMask = randomMask( mask[[1]], patchSamples, perLabel = TRUE,
                            seed = seed)
   } else randMask = randomMask( mask, patchSamples, perLabel = TRUE, seed = seed)
   ripped <- ripmmarc( ilist[[1]], randMask, patchRadius = patchRadius,

@@ -180,12 +180,13 @@ if ( ! is.null( domainImageMap ) )
   if(missing(slices)){
     plotimask<-getMask(x, cleanup=0)
     if ( max( plotimask ) == 0 ) plotimask = plotimask + 1
-    if ( doCropping ) x <- cropImage(x, plotimask )
+    if ( doCropping ) x <- cropImage(antsImageClone(x), plotimask )
     slices <- round(seq(1, dim(x)[axis], length.out=nslices))
   }
   startpar <- par(c("mar", "las", "mfrow"))$mar
 
-  nonzeros <- x[x != 0]
+  lowValue = quantile(x,0.000001)
+  nonzeros <- x[x > lowValue]
   if(missing(window.img)){
     if (length(nonzeros) > 0 ){
       window.img <- quantile(nonzeros, c(0.05, 0.95))
@@ -194,7 +195,7 @@ if ( ! is.null( domainImageMap ) )
     }
   }
   color.colorbar <- ifelse(missing(y), "white", color.overlay[1])
-  myantsimage <- x
+  myantsimage <- ( x )
   if (is.antsImage(y))
     y <- list(y)
   imagedim <- length(dim(myantsimage))
@@ -287,6 +288,7 @@ if ( ! is.null( domainImageMap ) )
   }
   # .................................................
   img <- as.array(myantsimage)  # the background/template image
+  img[ img <= lowValue ] = lowValue
   if (imagedim == 2) {
     img <- rotate270.matrix(img)
   }
@@ -435,12 +437,18 @@ if ( ! is.null( domainImageMap ) )
     mar[4L] <- 1
     par(mar = mar)
   }
+  if ( max(bigslice) == min(bigslice) )
+    stop("No variability in slices targeted for plotting.")
+  if ( max(bigslice) < 1 ) {
+    bigslice = bigslice - min(bigslice)
+    bigslice = bigslice / max(bigslice) * 255
+    }
   img.plot <- suppressWarnings(pixmap::pixmapGrey(
     bigslice, bbox=bbox ) )
   # dd<-pixmapRGB(c(bigslice,bigslice,bigslice),nrow=nrow(bigslice),ncol=ncol(bigslice),bbox=c(0,0,wincols,winrows))
   # plot(dd)
   par(mar = c(0, 0, 0, 0) + 0)  # set margins to zero ! less wasted space
-  pixmap::plot(img.plot, bg = "white")
+  temp=pixmap::plot(img.plot, bg = "white")
 
   if (!missing(title.img))
     title(title.img, line=title.line)
@@ -605,5 +613,4 @@ if ( ! is.null( domainImageMap ) )
     text( x = text$x, y = text$y, label = text$label, cex = text$cex, col=text$col )
   if (!is.na(outname))
     dev.off()
-  invisible(return())
 }

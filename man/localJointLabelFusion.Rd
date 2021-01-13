@@ -18,6 +18,7 @@ localJointLabelFusion(
   regIterations = c(40, 20, 0),
   localMaskTransform,
   maxLabelPlusOne = FALSE,
+  noZeroes = FALSE,
   verbose = FALSE,
   ...
 )
@@ -57,6 +58,9 @@ is greater than one.  NOTE: this will have a side effect of adding to the origin
 images that are passed to the program.  It also guarantees that every position in the
 labels have some label, rather than none.  Ie it guarantees to explicitly parcellate the
 input data.}
+
+\item{noZeroes}{boolean will zero out target mask regions that have any zero label.
+this prevents JLF from computing a solution in regions not covered by the initial library.}
 
 \item{verbose}{boolean}
 

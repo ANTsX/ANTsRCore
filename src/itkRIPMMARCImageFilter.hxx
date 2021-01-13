@@ -357,11 +357,8 @@ template <typename TInputImage, typename TOutputImage, class TComputation>
 void RIPMMARCImageFilter<TInputImage, TOutputImage, TComputation>
 ::GetSamplePatchLocations()
 {
-  this->m_patchSeedPoints.set_size( this->m_NumberOfSamplePatches , ImageDimension );
 	vnl_vector< int > testPatchSeed( ImageDimension );
-	int  patchSeedIterator = 0;
-	int  patchSeedAttemptIterator = 0;
-	typename InputImageType::IndexType patchIndex;
+  int  patchSeedIterator = 0;
 	typename InputImageType::SizeType inputSize =
 			this->GetInput()->GetLargestPossibleRegion().GetSize();
   const MaskImageType* mask = this->GetMaskImage();
@@ -371,7 +368,36 @@ void RIPMMARCImageFilter<TInputImage, TOutputImage, TComputation>
 				" points out of " << inputSize << " possible points." << std::endl;
 	  }
 
-//    srand( time( NULL) );
+  itk::ImageRegionConstIteratorWithIndex<MaskImageType> it( mask, mask->GetLargestPossibleRegion() ) ;
+  it.GoToBegin();
+  while( !it.IsAtEnd() )
+      {
+      if ( it.Value() >= 0.5 )
+        {
+        ++patchSeedIterator;
+        }
+      ++it;
+      }
+  this->m_NumberOfSamplePatches = patchSeedIterator;
+  this->m_patchSeedPoints.set_size( patchSeedIterator , ImageDimension );
+  patchSeedIterator = 0;
+  it.GoToBegin();
+  while( !it.IsAtEnd() )
+      {
+      if ( it.Value() >= 0.5 )
+        {
+        for( int i = 0; i < ImageDimension; ++i)
+          {
+          testPatchSeed( i ) = it.GetIndex()[i];
+          }
+        this->m_patchSeedPoints.set_row( patchSeedIterator, testPatchSeed );
+        ++patchSeedIterator;
+        }
+      ++it;
+      }
+
+
+/**    srand( time( NULL) );
 	srand( 99 );
 	while( patchSeedIterator < this->m_NumberOfSamplePatches )
 	  {
@@ -392,6 +418,7 @@ void RIPMMARCImageFilter<TInputImage, TOutputImage, TComputation>
 				" points in " << patchSeedAttemptIterator <<
 				" attempts." << std::endl;
 	  }
+  */
 }
 
 template <typename TInputImage, typename TOutputImage, class TComputation>

@@ -95,6 +95,7 @@ extern SEXP antsrTransform_TransformPoint(SEXP, SEXP);
 extern SEXP antsrTransform_TransformVector(SEXP, SEXP);
 extern SEXP antsrTransform_Write(SEXP, SEXP);
 extern SEXP Atropos(SEXP);
+extern SEXP blobAnalysis(SEXP, SEXP, SEXP, SEXP, SEXP , SEXP );
 extern SEXP cropImage(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP DenoiseImage(SEXP);
 extern SEXP extractSlice(SEXP, SEXP, SEXP);
@@ -193,6 +194,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsrTransform_TransformVector",          (DL_FUNC) &antsrTransform_TransformVector,           2},
     {"antsrTransform_Write",                    (DL_FUNC) &antsrTransform_Write,                     2},
     {"Atropos",                                 (DL_FUNC) &Atropos,                                  1},
+    {"blobAnalysis",                            (DL_FUNC) &blobAnalysis,                             6},
     {"cropImage",                               (DL_FUNC) &cropImage,                                6},
     {"DenoiseImage",                            (DL_FUNC) &DenoiseImage,                             1},
     {"extractSlice",                            (DL_FUNC) &extractSlice,                             3},
