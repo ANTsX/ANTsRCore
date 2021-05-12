@@ -4,12 +4,14 @@
 \alias{rankIntensity}
 \title{rank intensity transformation for an image}
 \usage{
-rankIntensity(x, mask, method = "max")
+rankIntensity(x, mask, getMask = TRUE, method = "max")
 }
 \arguments{
 \item{x}{input image}
 
 \item{mask}{optional mask}
+
+\item{getMask}{boolean only used if mask is not present}
 
 \item{method}{optional method passed to \code{ties.method} in \code{rank}}
 }
