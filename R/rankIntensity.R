@@ -6,6 +6,7 @@
 #'
 #' @param x input image
 #' @param mask optional mask
+#' @param method optional method passed to \code{ties.method} in \code{rank}
 #' @return image is output
 #' @author Avants BB
 #' @examples
@@ -13,10 +14,10 @@
 #' rfi = rankIntensity( fi )
 #'
 #' @export rankIntensity
-rankIntensity <- function( x, mask ) {
+rankIntensity <- function( x, mask, method='max' ) {
   rx = antsImageClone( x )
   if ( missing( mask ) ) mask = x * 0 + 1
-  mat = robustMatrixTransform( matrix(x[mask==1],ncol=1) )
+  mat = rank( x[mask==1], ties.method=method )
   mat = mat - min( mat )
   rx[ mask == 1 ]=mat
   rx = iMath(rx,"Normalize") * mask

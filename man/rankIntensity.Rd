@@ -4,12 +4,14 @@
 \alias{rankIntensity}
 \title{rank intensity transformation for an image}
 \usage{
-rankIntensity(x, mask)
+rankIntensity(x, mask, method = "max")
 }
 \arguments{
 \item{x}{input image}
 
 \item{mask}{optional mask}
+
+\item{method}{optional method passed to \code{ties.method} in \code{rank}}
 }
 \value{
 image is output
