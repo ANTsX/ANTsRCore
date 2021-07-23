@@ -164,6 +164,8 @@ typeofTransform can be one of:
                                    where 'x' is one of the transforms available (e.g., 't', 'b', 's')}
   \item{"antsRegistrationSyNQuick[x]":}{recreation of the antsRegistrationSyNQuick.sh script in ANTs
                                    where 'x' is one of the transforms available (e.g., 't', 'b', 's')}
+  \item{"antsRegistrationSyNRepro[x]":}{reproducible registration.  x options as above.}
+  \item{"antsRegistrationSyNQuickRepro[x]":}{quick reproducible registration.  x options as above.}
 }
 }
 \examples{

@@ -101,6 +101,8 @@
 #'                                    where 'x' is one of the transforms available (e.g., 't', 'b', 's')}
 #'   \item{"antsRegistrationSyNQuick[x]":}{recreation of the antsRegistrationSyNQuick.sh script in ANTs
 #'                                    where 'x' is one of the transforms available (e.g., 't', 'b', 's')}
+#'   \item{"antsRegistrationSyNRepro[x]":}{reproducible registration.  x options as above.}
+#'   \item{"antsRegistrationSyNQuickRepro[x]":}{quick reproducible registration.  x options as above.}
 #' }
 #' @return outputs a list containing:
 #' \itemize{
@@ -327,7 +329,14 @@ antsRegistration <- function(
                        "antsRegistrationSyN[sr]","antsRegistrationSyN[bo]","antsRegistrationSyN[so]",
                        "antsRegistrationSyNQuick[r]","antsRegistrationSyNQuick[t]","antsRegistrationSyNQuick[a]",
                        "antsRegistrationSyNQuick[b]","antsRegistrationSyNQuick[s]","antsRegistrationSyNQuick[br]",
-                       "antsRegistrationSyNQuick[sr]","antsRegistrationSyNQuick[bo]","antsRegistrationSyNQuick[so]")
+                       "antsRegistrationSyNQuick[sr]","antsRegistrationSyNQuick[bo]","antsRegistrationSyNQuick[so]",
+                       "antsRegistrationSyNRepro[r]","antsRegistrationSyNRepro[t]","antsRegistrationSyNRepro[a]",
+                       "antsRegistrationSyNRepro[b]","antsRegistrationSyNRepro[s]","antsRegistrationSyNRepro[br]",
+                       "antsRegistrationSyNRepro[sr]","antsRegistrationSyNRepro[bo]","antsRegistrationSyNRepro[so]",
+                       "antsRegistrationSyNQuickRepro[r]","antsRegistrationSyNQuickRepro[t]","antsRegistrationSyNQuickRepro[a]",
+                       "antsRegistrationSyNQuickRepro[b]","antsRegistrationSyNQuickRepro[s]","antsRegistrationSyNQuickRepro[br]",
+                       "antsRegistrationSyNQuickRepro[sr]","antsRegistrationSyNQuickRepro[bo]","antsRegistrationSyNQuickRepro[so]"
+                       )
       ttexists <- typeofTransform %in% allowableTx
       if (ttexists) {
         initx = initialTransform
@@ -720,6 +729,12 @@ antsRegistration <- function(
             doQuick <- TRUE
             }
 
+          doRepro <- FALSE
+          if( grepl( "Repro", typeofTransform ) )
+            {
+            doRepro <- TRUE
+            }
+
           if( doQuick == TRUE )
             {
             rigidConvergence <- "[1000x500x250x0,1e-6,10]"
@@ -738,6 +753,14 @@ antsRegistration <- function(
           affineShrinkFactors <- "8x4x2x1"
           affineSmoothingSigmas <- "3x2x1x0vox"
 
+          linearMetric <- "MI"
+          linearMetricParameter <- "32"
+          if( doRepro == TRUE )
+            {
+            linearMetric <- "GC"
+            linearMetricParameter <- "1"
+            }
+
           if( doQuick == TRUE )
             {
             synConvergence <- "[100x70x50x0,1e-6,10]"
@@ -755,20 +778,30 @@ antsRegistration <- function(
             tx <- "Translation"
             }
 
+          if( doQuick == TRUE && doRepro == TRUE )
+            {
+            synConvergence <- "[100x70x50x0,1e-6,10]"
+            synMetric <- paste0( "CC[", f, ",", m, ",1,2]" )
+            }
+
+          if( missing( randomSeed ) && doRepro == TRUE )
+            {
+            randomSeed <- 1
+            }
+
           rigidStage <- list( "--transform", paste0( tx, "[0.1]" ),
-                              "--metric", paste0( "MI[", f, ",", m, ",1,32,Regular,0.25]" ),
+                               "--metric", paste0( linearMetric, "[", f, ",", m, ",1,", linearMetricParameter, ",Regular,0.25]" ),
                               "--convergence", rigidConvergence,
                               "--shrink-factors", rigidShrinkFactors,
                               "--smoothing-sigmas", rigidSmoothingSigmas
                             )
 
           affineStage <- list( "--transform", "Affine[0.1]",
-                               "--metric", paste0( "MI[", f, ",", m, ",1,32,Regular,0.25]" ),
+                               "--metric", paste0( linearMetric, "[", f, ",", m, ",1,", linearMetricParameter, ",Regular,0.25]" ),
                                "--convergence", affineConvergence,
                                "--shrink-factors", affineShrinkFactors,
                                "--smoothing-sigmas", affineSmoothingSigmas
                              )
-
 
           if( subtypeOfTransform == "sr" || subtypeOfTransform == "br" )
             {
