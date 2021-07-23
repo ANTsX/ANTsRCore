@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 CXX_STD=CXX11
 
 ITKRCMAKE=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkIncludes(); cat(a)'`
@@ -11,16 +9,16 @@ ITKTAG=`${R_HOME}/bin/Rscript -e 'env = asNamespace("ITKR"); if ("itkTag" %in% n
 # get a version of cmake
 cmaker=`${R_HOME}/bin/Rscript -e "x=Sys.which('cmake'); cat(x)"`
 if [[ -z "${cmaker}" ]]; then
-	res=`${R_HOME}/bin/Rscript -e "cat(('cmaker' %in% installed.packages())*1)"`
-	if [[ $res -eq 0 ]];
-		then
-	    git clone https://github.com/stnava/cmaker ;
-	    R CMD INSTALL cmaker ;
-	    rm -rf cmaker ;
-	fi
+  res=`${R_HOME}/bin/Rscript -e "cat(('cmaker' %in% installed.packages())*1)"`
+  if [[ $res -eq 0 ]];
+    then
+      git clone https://github.com/stnava/cmaker ;
+      R CMD INSTALL cmaker ;
+      rm -rf cmaker ;
+  fi
     cmaker=`${R_HOME}/bin/Rscript -e "x=cmaker::cmake()"`
 else
-	cmaker="cmake"
+  cmaker="cmake"
 fi
 
 # if [[ ! -x $cmaker ]] ; then # try r version
@@ -66,7 +64,7 @@ echo "PKG_CPPFLAGS= ${PKG_CPPFLAGS} -I\${ITK} -I\${PWD} -I\${myantssource}/Examp
   -I\${myantssource}/Utilities -I\${myantssource}/Examples/ -I../inst/include/ \
   -I\${myantssource}/Tensor/ " >> Makevars
 
-echo "CXX_STD = CXX11" >> Makevars
+echo "CXX_STD=CXX11" >> Makevars
 
 # echo "myantslib=\${R_LIBS_USER}/libs/lib" >> Makevars
 echo "myantslib=\${PWD}/antb/ANTS-build/Examples/" >> Makevars

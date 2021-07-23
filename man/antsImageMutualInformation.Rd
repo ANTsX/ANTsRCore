@@ -38,7 +38,3 @@ testthat::expect_error(antsImageMutualInformation(fi3,mi))
 \author{
 Brian B. Avants
 }
-\keyword{image}
-\keyword{information}
-\keyword{mutual}
-\keyword{similarity,}
