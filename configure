@@ -1,3 +1,4 @@
+#!/usr/local/bin/bash
 CXX_STD=CXX11
 
 ITKRCMAKE=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkIncludes(); cat(a)'`
