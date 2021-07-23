@@ -8,9 +8,9 @@ ITKTAG=`${R_HOME}/bin/Rscript -e 'env = asNamespace("ITKR"); if ("itkTag" %in% n
 
 # get a version of cmake
 cmaker=`${R_HOME}/bin/Rscript -e "x=Sys.which('cmake'); cat(x)"`
-if [[ -z "${cmaker}" ]]; then
+if [ -z "${cmaker}" ]; then
   res=`${R_HOME}/bin/Rscript -e "cat(('cmaker' %in% installed.packages())*1)"`
-  if [[ $res -eq 0 ]];
+  if [ $res -eq 0 ];
     then
       git clone https://github.com/stnava/cmaker ;
       R CMD INSTALL cmaker ;
@@ -21,23 +21,23 @@ else
   cmaker="cmake"
 fi
 
-# if [[ ! -x $cmaker ]] ; then # try r version
+# if [ ! -x $cmaker ] ; then # try r version
 #   cmaker=`${R_HOME}/bin/Rscript -e 'a<-cmaker::cmake()'`
 # fi
-if [[ `uname` -eq Darwin ]] ; then
+if [ `uname` -eq Darwin ] ; then
   CMAKE_BUILD_TYPE=Release
 fi
-if [[ $TRAVIS -eq true ]] ; then
+if [ $TRAVIS -eq true ] ; then
   CMAKE_BUILD_TYPE=Release
 fi
 
 
 gitcmd=`which git`
-if [[ ! -x $gitcmd ]] ; then # try install git
+if [ ! -x $gitcmd ] ; then # try install git
   apt-get install -y git-core
 fi
 gitcmd=`which git`
-if [[ ! -x $gitcmd ]] ; then # try install git
+if [ ! -x $gitcmd ] ; then # try install git
   exit 1
 fi
 
@@ -48,18 +48,18 @@ echo "myantssource=\${PWD}/ants" > Makevars
 echo "ITK=${ITKRCMAKE}" >> Makevars
 
 needVCL_CAN_STATIC_CONST_INIT_FLOAT=0
-if [[ ${#CC} -gt 0 ]] ; then # test the requested compiler
+if [ ${#CC} -gt 0 ] ; then # test the requested compiler
   temp=$(${CC} --version | grep clang)
-  if [[ ${#temp} -gt 0 ]] ; then
+  if [ ${#temp} -gt 0 ] ; then
     needVCL_CAN_STATIC_CONST_INIT_FLOAT=1
   fi
 else # just try gcc directly
   temp=$(gcc --version | grep clang)
-  if [[ ${#temp} -gt 0 ]] ; then
+  if [ ${#temp} -gt 0 ] ; then
     needVCL_CAN_STATIC_CONST_INIT_FLOAT=1
   fi
 fi
-echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
+# echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
 echo "PKG_CPPFLAGS= ${PKG_CPPFLAGS} -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
   -I\${myantssource}/Utilities -I\${myantssource}/Examples/ -I../inst/include/ \
   -I\${myantssource}/Tensor/ " >> Makevars
@@ -98,10 +98,10 @@ ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 antsgit=https://github.com/ANTsX/ANTs.git
 antstag=2251ca1dfca9d27a58623eb36784704a032d97a0 # reconciling KK params
 antsrtag=`git log --pretty=format:'%H' -n 1`
-if [[ ! -s ants/CMakeLists.txt  ]] ; then
+if [ ! -s ants/CMakeLists.txt  ] ; then
     git clone $antsbranch $antsgit ants
 fi
-if [[ ! -d ../data/ ]] ; then
+if [ ! -d ../data/ ] ; then
   mkdir -p ../data
 fi
 echo "Dependency;GitTag" > ../data/antsVersions.csv
@@ -110,13 +110,13 @@ echo "ANTsRCore;${antsrtag}" >> ../data/antsVersions.csv
 echo "ANTsURL;${antsgit}" >> ../data/antsVersions.csv
 echo "ITK;${ITKTAG}" >> ../data/antsVersions.csv
 cd ants
-if [[ -d .git ]]; then
+if [ -d .git ]; then
     git checkout master
     git pull
     git checkout $antstag
 fi
 cd ../
-if [[ ! -s antb ]] ; then
+if [ ! -s antb ] ; then
   mkdir antb
 fi
 cp ../inst/include/antscore.h ./ants/Examples/include/ants.h
