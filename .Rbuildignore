@@ -27,3 +27,7 @@ zzz_Comparison2\.R
 ^codecov\.yml$
 ^\.github$
 ^~/\.boxr-oauth$
+^DESCRIPTION\.bak$
+^autoci\.yml$
+^autoci_pkgdown\.yml$
+^tic\.R$
