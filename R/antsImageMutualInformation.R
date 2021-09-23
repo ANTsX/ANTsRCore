@@ -9,7 +9,6 @@
 #' @param nBins number of bins to use in joint histogram estimate, often set between 8 and 32
 #' @return mutual information value
 #' @author Brian B. Avants
-#' @keywords image information mutual similarity,
 #' @examples
 #'
 #' fi<-antsImageRead( getANTsRData("r16") ,2)

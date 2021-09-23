@@ -3,7 +3,6 @@
 *.so
 *.o
 zzz_Comparison2\.R
-
 # things to ignore in directory ANTsR/src
 src/Makevars
 src/*.o
@@ -393,3 +392,4 @@ inst/include/simpleSynRegistration.h
 inst/include/template_for_executables.cxx.in
 inst/include/TestSuite/*
 test_stuff.R
+~/.boxr-oauth

@@ -25,6 +25,7 @@ for segmentation tasks. best used with a mask.
 }
 \examples{
 
+fi <- makeImage( c(10,10,10), rnorm(1000) )
 rfi = rankIntensity( fi )
 
 }

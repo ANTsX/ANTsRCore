@@ -147,7 +147,7 @@ else
 fi
 
 # windows workaround for warning
-if [[ -a "./CMake/ITKSetStandardCompilerFlags.cmake" ]]; 
+if [ -a "./CMake/ITKSetStandardCompilerFlags.cmake" ]; 
 then
     echo "working on ITKSetStandardCompilerFlags.cmake"
     str='fname="./CMake/ITKSetStandardCompilerFlags.cmake";'
