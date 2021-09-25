@@ -62,9 +62,11 @@ n3BiasFieldCorrection <- function( img, downsampleFactor, ... ) {
 #' # fails
 #' mask
 #' sum(mask)
+#' \dontrun{
 #' n3 = n3BiasFieldCorrection2(in_img, mask = mask, verbose = TRUE)
 #' # fails
 #' n3 = n3BiasFieldCorrection2(in_img, mask = mask2)
+#' }
 #' @export n3BiasFieldCorrection2
 n3BiasFieldCorrection2 <- function( img,
                                     mask,

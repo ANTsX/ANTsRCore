@@ -1,0 +1,238 @@
+on:
+  push:
+  workflow_dispatch:
+
+name: Check
+jobs:
+  create_release:
+    name: Create release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      - name: Get tag name
+        id: get_tag_name
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      - name: Attempt to Delete Release
+        uses: adigherman/actions/delete-release-by-tag@master
+        id: delete-release
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          tag: ${{ steps.get_tag_name.outputs.VERSION }}
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.get_tag_name.outputs.VERSION }}
+          release_name: Neuroc Release ${{ steps.get_tag_name.outputs.VERSION }}
+          draft: false
+          prerelease: false
+
+  neuroconductor_check:
+    needs: create_release
+    runs-on: ${{ matrix.config.os }}
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: macOS-latest,   r: '3.5',     r_ver: '3.5', latex: "true", vdiffr: false}
+          - {os: macOS-latest,   r: 'oldrel',  r_ver: '3.6', latex: "true", vdiffr: false}
+          - {os: macOS-latest,   r: 'release', r_ver: '4.0', latex: "true", vdiffr: false}
+          - {os: macOS-latest,   r: 'devel',   r_ver: '4.1', latex: "true", vdiffr: false}
+          - {os: windows-latest, r: '3.5',     r_ver: '3.5'}
+          - {os: windows-latest, r: 'oldrel',  r_ver: '3.6'}
+          - {os: windows-latest, r: 'release', r_ver: '4.0'}
+          - {os: windows-latest, r: 'devel',   r_ver: '4.1'}
+          - {os: ubuntu-20.04,   r: '3.5',     r_ver: '3.5', latex: "true", rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
+          - {os: ubuntu-20.04,   r: 'oldrel',  r_ver: '3.6', latex: "true", rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
+          - {os: ubuntu-20.04,   r: 'release', r_ver: '4.0', latex: "true", rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest", coveralls: "true"}
+          - {os: ubuntu-20.04,   r: 'devel',   r_ver: '4.1', latex: "true", rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      TIC_DEPLOY_KEY: ${{ secrets.TIC_DEPLOY_KEY }}
+      RSPM: ${{ matrix.config.rspm }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      COVERALLS_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+      continue-on-error: ${{ startsWith(matrix.config.r, 'devel') }}
+      VDIFFR_RUN_TESTS: ${{ matrix.config.vdiffr }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@master
+        with:
+          r-version: ${{ matrix.config.r }}
+
+      - uses: r-lib/actions/setup-tinytex@master
+        if: matrix.config.latex == 'true'
+
+      - name: Install additional latex modules
+        if: matrix.config.latex == 'true'
+        run: |
+          tlmgr update --self
+          tlmgr install filecontents upquote courier courier-scaled biber biblatex collection-luatex ae thumbpdf grfext
+          tlmgr update --all
+
+      - uses: r-lib/actions/setup-pandoc@master
+
+      - name: Setup git identity
+        run: |
+          git config user.name adigherman
+          git config user.email adig@jhu.edu
+
+      - name: Install system dependencies (unix)
+        if: runner.os == 'Linux'
+        uses: adigherman/actions/install-sysdeps-linux@master
+
+      - name: Install system dependencies (macos)
+        if: runner.os == 'macOS'
+        uses: adigherman/actions/install-sysdeps-macos@master
+
+      - name: Setup msys2 (windows)
+        if: runner.os == 'Windows'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: git mingw-w64-x86_64-toolchain
+
+      - name: Install system dependencies (windows)
+        if: runner.os == 'Windows'
+        uses: adigherman/actions/install-sysdeps-windows@master
+
+      - name: Get repo name
+        uses: adigherman/actions/get-repo-name@master
+        id: get-name
+        with:
+          github_slug: ${{ github.repository }}
+
+      - name: Get package version
+        uses: adigherman/actions/get-repo-version@master
+        id: get-version-number
+
+      - name: Get release asset info
+        uses: adigherman/actions/get-release-asset@master
+        id: get-release-asset
+        with:
+          repo_name: ${{ steps.get-name.outputs.repo_name }}
+          repo_version: ${{ steps.get-version-number.outputs.package_version }}
+          runner_os: ${{ runner.os }}
+          R_version: ${{ matrix.config.r_ver }}
+
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Cache R packages
+        if: runner.os != 'Windows'
+        uses: actions/cache@v1
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install system dependencies
+        if: runner.os == 'Linux'
+        env:
+          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
+        run: |
+          Rscript -e "remotes::install_github('r-hub/sysreqs')"
+          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
+          sudo -s eval "$sysreqs"
+
+      - name: Install helper packages
+        run: |
+          remotes::install_github("ropensci/tic")
+          remotes::install_github("muschellij2/ghtravis")
+          remotes::install_github("muschellij2/aghast")
+          remotes::install_cran("covr")
+        shell: Rscript {0}
+
+#      - name: Install Binaries
+#        run: Rscript -e "tic::before_install()"
+
+      - name: Install dependencies
+        run: |
+          remotes::install_deps(dependencies = TRUE)
+          remotes::install_cran("rcmdcheck")
+          remotes::install_cran("markdown")
+        shell: Rscript {0}
+
+      - name: Session info
+        run: |
+          options(width = 100)
+          pkgs <- installed.packages()[, "Package"]
+          sessioninfo::session_info(pkgs, include_base = TRUE)
+        shell: Rscript {0}
+
+      - name: "Check"
+        run: |
+          Rscript -e 'tic::script()'
+          ls -l check
+        shell: bash
+
+      - name: Show testthat output
+        if: always()
+        run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
+
+      - name: Upload check results
+        if: failure()
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
+          path: check
+
+      - name: Before Deploy
+        run: Rscript -e "tic::before_deploy()"
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.get-release-asset.outputs.asset_path }}
+          asset_name: ${{ steps.get-release-asset.outputs.asset_name }}
+          asset_content_type: application/octet-stream
+
+      - name: Deploy
+        run: Rscript -e "tic::deploy()"
+
+      - name: After Deploy
+        run: Rscript -e "tic::after_deploy()"
+
+      - name: Enable Repo on Coveralls
+        if: matrix.config.coveralls == 'true'
+        id: enable_coveralls
+        run: |
+          curl -s -H "Accept: application/json" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $COVERALLS_TOKEN" \
+            -d '{"repo": {"service": "github","name": "'$GITHUB_REPOSITORY'"}}' \
+            -X POST https://coveralls.io/api/repos
+
+      - name: Get Coveralls Repo Token
+        if: matrix.config.coveralls == 'true'
+        id: get_coverall_repo_token
+        run: |
+          echo "COVERALLS_REPO_TOKEN=$(\
+            curl -s -H "Accept: application/json" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token $COVERALLS_TOKEN" \
+            https://coveralls.io/api/repos/github/$GITHUB_REPOSITORY \
+            | jq '.token')" >> $GITHUB_ENV
+
+      - name: Generate and Upload R Package Coverage
+        if: matrix.config.coveralls == 'true'
+        continue-on-error: true
+        run: covr::coveralls(service_name='drone', repo_token=${{ env.COVERALLS_REPO_TOKEN }})
+        shell: Rscript {0}

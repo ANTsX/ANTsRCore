@@ -107,7 +107,7 @@ void MultiScaleLaplacianBlobDetectorImageFilter2< TInputImage >
     const double sigma = initial_sigma * std::pow( k, double( numberOfScales - i -1 ) );
 
 #if !defined( NDEBUG )
-    const double iterT = vnl_math_sqr( initial_sigma * std::pow( k, double( numberOfScales - i - 1 ) ) );
+    const double iterT = vnl_math::sqr( initial_sigma * std::pow( k, double( numberOfScales - i - 1 ) ) );
 #endif
 
     itkDebugMacro( << "i: " << i << " sigma: " << sigma << " t: " << iterT << " k: " << k );

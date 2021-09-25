@@ -62,9 +62,11 @@ mask2 = antsImageClone(mask, out_pixeltype = "float")
 # fails
 mask
 sum(mask)
+\dontrun{
 n4 = n4BiasFieldCorrection(in_img, mask = mask, verbose = TRUE)
 # fails
 n4 = n4BiasFieldCorrection(in_img, mask = mask2)
+}
 }
 \author{
 BB Avants

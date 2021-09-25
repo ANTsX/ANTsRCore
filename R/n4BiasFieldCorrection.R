@@ -36,9 +36,11 @@
 #' # fails
 #' mask
 #' sum(mask)
+#' \dontrun{
 #' n4 = n4BiasFieldCorrection(in_img, mask = mask, verbose = TRUE)
 #' # fails
 #' n4 = n4BiasFieldCorrection(in_img, mask = mask2)
+#' }
 #' @export
 n4BiasFieldCorrection <- function( img,
                                    mask,
