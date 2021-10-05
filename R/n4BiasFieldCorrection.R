@@ -11,6 +11,7 @@
 #' @param splineParam Parameter controlling number of control points in spline.
 #' Either single value, indicating how many control points, or vector
 #' with one entry per dimension of image, indicating the spacing in each direction.
+#' Default is a mesh size of 1 per dimension.
 #' @param weight_mask antsImage of weight mask
 #' @param returnBiasField bool, return the field instead of the corrected image.
 #' @param verbose enables verbose output.
@@ -43,8 +44,8 @@
 n4BiasFieldCorrection <- function( img,
                                    mask,
                                    shrinkFactor = 4,
-                                   convergence = list(iters = c(50, 50, 50, 50), tol = 0.0000001),
-                                   splineParam = 200,
+                                   convergence = list(iters = c(50, 50, 50, 50), tol = 0.0),
+                                   splineParam = NULL,
                                    returnBiasField = FALSE,
                                    verbose = FALSE,
                                    weight_mask = NULL)
@@ -54,6 +55,9 @@ n4BiasFieldCorrection <- function( img,
   if ( ! missing( mask ) ) {
     mask = check_ants(mask)
     error_not_antsImage(mask, "mask")
+  }
+  if ( is.null( splineParam ) ) {
+    splineParam <- rep( 1, img@dimension )
   }
   # if mask was character - silent change below - bad
   # if (!is.antsImage(mask)) {
@@ -96,6 +100,7 @@ n4BiasFieldCorrection <- function( img,
   args$s = N4_SHRINK_FACTOR_1
   args$c = N4_CONVERGENCE_1
   args$b = N4_BSPLINE_PARAMS
+  args$r = 1
   if ( ! missing( mask ) ) args$x = mask
   args$o = paste0("[",ptr1,",",ptr2,"]")
   args$v = as.numeric(verbose > 0)

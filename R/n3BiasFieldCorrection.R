@@ -36,6 +36,7 @@ n3BiasFieldCorrection <- function( img, downsampleFactor, ... ) {
 #' @param splineParam Parameter controlling number of control points in spline.
 #' Either single value, indicating how many control points, or vector
 #' with one entry per dimension of image, indicating the spacing in each direction.
+#' Default is a mesh size of 1 per dimension.
 #' @param numberOfFittingLevels Parameter controlling number of fitting levels.
 #' @param weight_mask antsImage of weight mask
 #' @param returnBiasField bool, return the field instead of the corrected image.
@@ -69,8 +70,8 @@ n3BiasFieldCorrection <- function( img, downsampleFactor, ... ) {
 n3BiasFieldCorrection2 <- function( img,
                                     mask,
                                     shrinkFactor = 4,
-                                    convergence = list(iters = 50, tol = 0.0000001),
-                                    splineParam = 200,
+                                    convergence = list(iters = 50, tol = 0.0),
+                                    splineParam = NULL,
                                     numberOfFittingLevels = 4,
                                     weight_mask = NULL,
                                     returnBiasField = FALSE,
@@ -82,6 +83,10 @@ n3BiasFieldCorrection2 <- function( img,
     mask = check_ants(mask)
     error_not_antsImage(mask, "mask")
   }
+  if ( is.null( splineParam ) ) {
+    splineParam <- rep( 1, img@dimension )
+  }
+
   # if mask was character - silent change below - bad
   # if (!is.antsImage(mask)) {
   #   mask <- getMask(img)
@@ -123,6 +128,7 @@ n3BiasFieldCorrection2 <- function( img,
   args$s = N3_SHRINK_FACTOR_1
   args$c = N3_CONVERGENCE_1
   args$b = N3_BSPLINE_PARAMS
+  args$r = 1
   if ( ! missing( mask ) ) args$x = mask
   args$o = paste0("[",ptr1,",",ptr2,"]")
   args$v = as.numeric(verbose > 0)
