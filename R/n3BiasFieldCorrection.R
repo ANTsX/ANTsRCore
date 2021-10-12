@@ -137,7 +137,7 @@ n3BiasFieldCorrection2 <- function( img,
   args$s = N3_SHRINK_FACTOR_1
   args$c = N3_CONVERGENCE_1
   args$b = N3_BSPLINE_PARAMS
-  args$r = as.numeric(r escaleIntensities )
+  args$r = as.numeric( rescaleIntensities )
   if ( ! missing( mask ) ) args$x = mask
   args$o = paste0("[",ptr1,",",ptr2,"]")
   args$v = as.numeric(verbose > 0)
