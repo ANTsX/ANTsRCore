@@ -4,14 +4,23 @@
 #'
 #' @param img input antsImage
 #' @param mask input mask, if one is not passed one will be made
+#' @param rescaleIntensities At each iteration, a new intensity mapping is
+#' calculated and applied but there is nothing which constrains the new
+#' intensity range to be within certain values. The result is that the
+#' range can "drift" from the original at each iteration. This option
+#' rescales to the [min,max] range of the original image intensities within
+#' the user-specified mask. A mask is required to perform rescaling.  Default
+#' is FALSE in ANTsR/ANTsPy but TRUE in ANTs.
 #' @param shrinkFactor Shrink factor for multi-resolution correction,
-#' typically integer less than 4
+#' typically integer less than 4.
 #' @param convergence List of:  \code{iters}, vector of maximum number of
 #' iterations for each shrinkage factor, and \code{tol}, the convergence tolerance.
+#' Default tolerance is 1e-7 in ANTsR/ANTsPy but 0.0 in ANTs.
 #' @param splineParam Parameter controlling number of control points in spline.
 #' Either single value, indicating how many control points, or vector
 #' with one entry per dimension of image, indicating the spacing in each direction.
-#' Default is a mesh size of 1 per dimension.
+#' Default in ANTsR/ANTsPy is 200 mm per mesh element in each dimension.  The ANTs
+#' default is a mesh size of 1 per dimension.
 #' @param weight_mask antsImage of weight mask
 #' @param returnBiasField bool, return the field instead of the corrected image.
 #' @param verbose enables verbose output.
@@ -43,9 +52,10 @@
 #' @export
 n4BiasFieldCorrection <- function( img,
                                    mask,
+                                   rescaleIntensities = FALSE,
                                    shrinkFactor = 4,
-                                   convergence = list(iters = c(50, 50, 50, 50), tol = 0.0),
-                                   splineParam = NULL,
+                                   convergence = list(iters = c(50, 50, 50, 50), tol = 1e-7),
+                                   splineParam = 200,
                                    returnBiasField = FALSE,
                                    verbose = FALSE,
                                    weight_mask = NULL)
@@ -55,9 +65,6 @@ n4BiasFieldCorrection <- function( img,
   if ( ! missing( mask ) ) {
     mask = check_ants(mask)
     error_not_antsImage(mask, "mask")
-  }
-  if ( is.null( splineParam ) ) {
-    splineParam <- rep( 1, img@dimension )
   }
   # if mask was character - silent change below - bad
   # if (!is.antsImage(mask)) {
@@ -100,7 +107,7 @@ n4BiasFieldCorrection <- function( img,
   args$s = N4_SHRINK_FACTOR_1
   args$c = N4_CONVERGENCE_1
   args$b = N4_BSPLINE_PARAMS
-  args$r = 1
+  args$r = as.numeric(rescaleIntensities)
   if ( ! missing( mask ) ) args$x = mask
   args$o = paste0("[",ptr1,",",ptr2,"]")
   args$v = as.numeric(verbose > 0)
