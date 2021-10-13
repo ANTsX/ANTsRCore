@@ -21,7 +21,7 @@
 #' with one entry per dimension of image, indicating the spacing in each direction.
 #' Default in ANTsR/ANTsPy is 200 mm per mesh element in each dimension.  The ANTs
 #' default is a mesh size of 1 per dimension.
-#' @param weight_mask antsImage of weight mask
+#' @param weightMask antsImage of weight mask
 #' @param returnBiasField bool, return the field instead of the corrected image.
 #' @param verbose enables verbose output.
 #' @return bias corrected image or bias field
@@ -31,7 +31,7 @@
 #'  img<-makeImage(imagesize = dims, rnorm(prod(dims)) )
 #'  n4img<-n4BiasFieldCorrection(img)
 #'  n4img<-n4BiasFieldCorrection(img, mask = img > 0)
-#'  testthat::expect_error(n4BiasFieldCorrection(img, weight_mask = "somepath"))
+#'  testthat::expect_error(n4BiasFieldCorrection(img, weightMask = "somepath"))
 #'  testthat::expect_error(n4BiasFieldCorrection(img, splineParam = rep(200, 3)))
 #'  n4img<-n4BiasFieldCorrection(img, splineParam = c(200, 20))
 #'
@@ -58,7 +58,7 @@ n4BiasFieldCorrection <- function( img,
                                    splineParam = 200,
                                    returnBiasField = FALSE,
                                    verbose = FALSE,
-                                   weight_mask = NULL)
+                                   weightMask = NULL)
 {
   img = check_ants(img)
   if ( var( img ) == 0 ) stop("Input image has no variation.")
@@ -89,9 +89,9 @@ n4BiasFieldCorrection <- function( img,
     stop("Length of splineParam must either be 1 or dimensionality of image.")
   }
 
-  if (!is.null(weight_mask)) {
-    weight_mask = check_ants(weight_mask)
-    if (!is.antsImage(weight_mask)) {
+  if (!is.null(weightMask)) {
+    weightMask = check_ants(weightMask)
+    if (!is.antsImage(weightMask)) {
       stop("Weight Image must be an antsImage")
     }
   }
@@ -103,7 +103,7 @@ n4BiasFieldCorrection <- function( img,
   args =
     list(d = outimg@dimension,
          i = img)
-  if ( ! missing( weight_mask ) ) args$w = weight_mask
+  if ( ! missing( weightMask ) ) args$w = weightMask
   args$s = N4_SHRINK_FACTOR_1
   args$c = N4_CONVERGENCE_1
   args$b = N4_BSPLINE_PARAMS
