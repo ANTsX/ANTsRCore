@@ -80,7 +80,7 @@ n3BiasFieldCorrection2 <- function( img,
                                     rescaleIntensities = FALSE,
                                     shrinkFactor = 4,
                                     convergence = list(iters = 50, tol = 1e-7),
-                                    splineParam = NULL,
+                                    splineParam = 200,
                                     numberOfFittingLevels = 4,
                                     weightMask = NULL,
                                     returnBiasField = FALSE,
@@ -91,9 +91,6 @@ n3BiasFieldCorrection2 <- function( img,
   if ( ! missing( mask ) ) {
     mask = check_ants(mask)
     error_not_antsImage(mask, "mask")
-  }
-  if ( is.null( splineParam ) ) {
-    splineParam <- rep( 1, img@dimension )
   }
 
   # if mask was character - silent change below - bad
