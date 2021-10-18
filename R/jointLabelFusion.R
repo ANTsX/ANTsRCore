@@ -333,9 +333,10 @@ localJointLabelFusion <- function(
 {
 #  reg = antsRegistration( targetI, template, typeofTransform = typeofTransform )
   # isolate region
-  myregion = maskImage( initialLabel, initialLabel, level=whichLabels )
+  myregion = maskImage( initialLabel, initialLabel, level=whichLabels, binarize=FALSE )
   if ( max( myregion ) == 0 )
     myregion = thresholdImage( initialLabel, 1, Inf )
+  if ( max( myregion ) == 0 ) stop(paste( "Target Mask is empty in maskImage call in localJointLabelFusion: case:", k ) )
   myregionb = thresholdImage( myregion, 1, Inf )
   myregionAroundRegion = iMath( myregionb, "MD", submaskDilation )
   if ( ! missing(  targetMask ) ) myregionAroundRegion = myregionAroundRegion * targetMask
@@ -347,12 +348,13 @@ localJointLabelFusion <- function(
   if ( missing( localMaskTransform ) ) localMaskTransform = 'Similarity'
   for ( k in 1:length( atlasList ) ) {
     if ( verbose ) cat(paste0(k,"..."))
-    libregion = maskImage( labelList[[k]], labelList[[k]], level=whichLabels )
+    libregion = maskImage( labelList[[k]], labelList[[k]], level=whichLabels, binarize=FALSE )
+    if ( max( libregion ) == 0 ) stop(paste( "Lib Mask is empty in maskImage call in localJointLabelFusion: case:", k ) )
     initMap = antsRegistration( croppedRegion, libregion,
-      typeofTransform = localMaskTransform, affSampling=32 )$fwdtransforms
+      typeofTransform = localMaskTransform, affMetric='GC', verbose=verbose )$fwdtransforms
     localReg = antsRegistration( croppedImage, atlasList[[k]],
-      regIterations = regIterations,
-      typeofTransform = typeofTransform, initialTransform = initMap )
+      regIterations = regIterations, synMetric=synMetric, synSampling=synSampling,
+      typeofTransform = typeofTransform, initialTransform = initMap, verbose=verbose )
     transformedImage = antsApplyTransforms( croppedImage, atlasList[[k]],
       localReg$fwdtransforms )
     transformedLabels = antsApplyTransforms( croppedImage, labelList[[k]],
