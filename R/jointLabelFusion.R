@@ -349,9 +349,9 @@ localJointLabelFusion <- function(
     if ( verbose ) cat(paste0(k,"..."))
     libregion = maskImage( labelList[[k]], labelList[[k]], level=whichLabels )
     initMap = antsRegistration( croppedRegion, libregion,
-      typeofTransform = localMaskTransform, affSampling=32 )$fwdtransforms
+      typeofTransform = localMaskTransform, affMetric='GC' )$fwdtransforms
     localReg = antsRegistration( croppedImage, atlasList[[k]],
-      regIterations = regIterations,
+      regIterations = regIterations, synSampling=synSampling, synMetric=synMetric,
       typeofTransform = typeofTransform, initialTransform = initMap )
     transformedImage = antsApplyTransforms( croppedImage, atlasList[[k]],
       localReg$fwdtransforms )
