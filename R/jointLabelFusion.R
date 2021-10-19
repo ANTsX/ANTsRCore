@@ -290,6 +290,7 @@ jointLabelFusion <- function(
 #' @param submaskDilation amount to dilate initial mask to define region on which
 #' we perform focused registration
 #' @param typeofTransform passed to \code{antsRegistration}.
+#' @param affMetric the metric for the affine part (GC, mattes, meansquares)
 #' @param synMetric the metric for the syn part (CC, mattes, meansquares, demons)
 #' @param synSampling the nbins or radius parameter for the syn metric
 #' @param regIterations vector of iterations for syn.  we will set the smoothing
@@ -321,6 +322,7 @@ localJointLabelFusion <- function(
   labelList,
   submaskDilation = 10,
   typeofTransform = 'SyN',
+  affMetric = "meansquares",
   synMetric = "mattes",
   synSampling = 32,
   regIterations = c(40,20,0),
@@ -351,7 +353,7 @@ localJointLabelFusion <- function(
     libregion = maskImage( labelList[[k]], labelList[[k]], level=whichLabels, binarize=FALSE )
     if ( max( libregion ) == 0 ) stop(paste( "Lib Mask is empty in maskImage call in localJointLabelFusion: case:", k ) )
     initMap = antsRegistration( croppedRegion, libregion,
-      typeofTransform = localMaskTransform, affMetric='GC', verbose=verbose )$fwdtransforms
+      typeofTransform = localMaskTransform, affMetric=affMetric, verbose=verbose )$fwdtransforms
     localReg = antsRegistration( croppedImage, atlasList[[k]],
       regIterations = regIterations, synMetric=synMetric, synSampling=synSampling,
       typeofTransform = typeofTransform, initialTransform = initMap, verbose=verbose )

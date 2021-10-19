@@ -13,6 +13,7 @@ localJointLabelFusion(
   labelList,
   submaskDilation = 10,
   typeofTransform = "SyN",
+  affMetric = "meansquares",
   synMetric = "mattes",
   synSampling = 32,
   regIterations = c(40, 20, 0),
@@ -40,6 +41,8 @@ localJointLabelFusion(
 we perform focused registration}
 
 \item{typeofTransform}{passed to \code{antsRegistration}.}
+
+\item{affMetric}{the metric for the affine part (GC, mattes, meansquares)}
 
 \item{synMetric}{the metric for the syn part (CC, mattes, meansquares, demons)}
 

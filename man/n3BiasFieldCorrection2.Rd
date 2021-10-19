@@ -7,11 +7,12 @@
 n3BiasFieldCorrection2(
   img,
   mask,
+  rescaleIntensities = FALSE,
   shrinkFactor = 4,
   convergence = list(iters = 50, tol = 1e-07),
   splineParam = 200,
   numberOfFittingLevels = 4,
-  weight_mask = NULL,
+  weightMask = NULL,
   returnBiasField = FALSE,
   verbose = FALSE
 )
@@ -21,19 +22,29 @@ n3BiasFieldCorrection2(
 
 \item{mask}{input mask, if one is not passed one will be made}
 
+\item{rescaleIntensities}{At each iteration, a new intensity mapping is
+calculated and applied but there is nothing which constrains the new
+intensity range to be within certain values. The result is that the
+range can "drift" from the original at each iteration. This option
+rescales to the [min,max] range of the original image intensities within
+the user-specified mask. A mask is required to perform rescaling.  Default
+is FALSE in ANTsR/ANTsPy but TRUE in ANTs.}
+
 \item{shrinkFactor}{Shrink factor for multi-resolution correction,
 typically integer less than 4}
 
 \item{convergence}{List of:  \code{iters}, maximum number of
-iterations and \code{tol}, the convergence tolerance.}
+iterations and \code{tol}, the convergence tolerance.
+Default tolerance is 1e-7 in ANTsR/ANTsPy but 0.0 in ANTs.}
 
 \item{splineParam}{Parameter controlling number of control points in spline.
 Either single value, indicating how many control points, or vector
-with one entry per dimension of image, indicating the spacing in each direction.}
+with one entry per dimension of image, indicating the spacing in each direction.
+Default is a mesh size of 1 per dimension.}
 
 \item{numberOfFittingLevels}{Parameter controlling number of fitting levels.}
 
-\item{weight_mask}{antsImage of weight mask}
+\item{weightMask}{antsImage of weight mask}
 
 \item{returnBiasField}{bool, return the field instead of the corrected image.}
 
@@ -50,7 +61,7 @@ Perform N3 bias field correction on the given image
  img<-makeImage(imagesize = dims, rnorm(prod(dims)) )
  n3img<-n3BiasFieldCorrection2(img)
  n3img<-n3BiasFieldCorrection2(img, mask = img > 0)
- testthat::expect_error(n3BiasFieldCorrection2(img, weight_mask = "somepath"))
+ testthat::expect_error(n3BiasFieldCorrection2(img, weightMask = "somepath"))
  testthat::expect_error(n3BiasFieldCorrection2(img, splineParam = rep(200, 3)))
  # n3img<-n3BiasFieldCorrection2(img, splineParam = c(200, 20)) # long running
 
