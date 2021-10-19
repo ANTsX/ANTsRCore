@@ -7,12 +7,13 @@
 n4BiasFieldCorrection(
   img,
   mask,
+  rescaleIntensities = FALSE,
   shrinkFactor = 4,
   convergence = list(iters = c(50, 50, 50, 50), tol = 1e-07),
   splineParam = 200,
   returnBiasField = FALSE,
   verbose = FALSE,
-  weight_mask = NULL
+  weightMask = NULL
 )
 }
 \arguments{
@@ -20,21 +21,32 @@ n4BiasFieldCorrection(
 
 \item{mask}{input mask, if one is not passed one will be made}
 
+\item{rescaleIntensities}{At each iteration, a new intensity mapping is
+calculated and applied but there is nothing which constrains the new
+intensity range to be within certain values. The result is that the
+range can "drift" from the original at each iteration. This option
+rescales to the [min,max] range of the original image intensities within
+the user-specified mask. A mask is required to perform rescaling.  Default
+is FALSE in ANTsR/ANTsPy but TRUE in ANTs.}
+
 \item{shrinkFactor}{Shrink factor for multi-resolution correction,
-typically integer less than 4}
+typically integer less than 4.}
 
 \item{convergence}{List of:  \code{iters}, vector of maximum number of
-iterations for each shrinkage factor, and \code{tol}, the convergence tolerance.}
+iterations for each shrinkage factor, and \code{tol}, the convergence tolerance.
+Default tolerance is 1e-7 in ANTsR/ANTsPy but 0.0 in ANTs.}
 
 \item{splineParam}{Parameter controlling number of control points in spline.
 Either single value, indicating how many control points, or vector
-with one entry per dimension of image, indicating the spacing in each direction.}
+with one entry per dimension of image, indicating the spacing in each direction.
+Default in ANTsR/ANTsPy is 200 mm per mesh element in each dimension.  The ANTs
+default is a mesh size of 1 per dimension.}
 
 \item{returnBiasField}{bool, return the field instead of the corrected image.}
 
 \item{verbose}{enables verbose output.}
 
-\item{weight_mask}{antsImage of weight mask}
+\item{weightMask}{antsImage of weight mask}
 }
 \value{
 bias corrected image or bias field
@@ -47,7 +59,7 @@ Perform N4 bias field correction on the given image
  img<-makeImage(imagesize = dims, rnorm(prod(dims)) )
  n4img<-n4BiasFieldCorrection(img)
  n4img<-n4BiasFieldCorrection(img, mask = img > 0)
- testthat::expect_error(n4BiasFieldCorrection(img, weight_mask = "somepath"))
+ testthat::expect_error(n4BiasFieldCorrection(img, weightMask = "somepath"))
  testthat::expect_error(n4BiasFieldCorrection(img, splineParam = rep(200, 3)))
  n4img<-n4BiasFieldCorrection(img, splineParam = c(200, 20))
 

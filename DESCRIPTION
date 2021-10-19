@@ -18,10 +18,10 @@ Imports: Rcpp, ITKR (>= 0.5.0), RcppEigen, tools, magrittr, stats, utils
 Suggests: abind, colormap, covr, knitr, pixmap, rmarkdown, testthat, viridis
 SystemRequirements: cmake, git, clang, GNU make, v8
 NeedsCompilation: yes
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 VignetteBuilder: knitr
 Encoding: UTF-8
 Repository: Neuroconductor
-Remotes:  
+Remotes: 
     adigherman/ITKR@186128b016e099931fa4fe8fea84f4810b835cd7
 biocViews: 
