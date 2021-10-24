@@ -338,7 +338,7 @@ localJointLabelFusion <- function(
   myregion = maskImage( initialLabel, initialLabel, level=whichLabels, binarize=FALSE )
   if ( max( myregion ) == 0 )
     myregion = thresholdImage( initialLabel, 1, Inf )
-  if ( max( myregion ) == 0 ) stop(paste( "Target Mask is empty in maskImage call in localJointLabelFusion: case:", k ) )
+  if ( max( myregion ) == 0 ) stop(paste( "Target Mask is empty in maskImage call in localJointLabelFusion" ) )
   myregionb = thresholdImage( myregion, 1, Inf )
   myregionAroundRegion = iMath( myregionb, "MD", submaskDilation )
   if ( ! missing(  targetMask ) ) myregionAroundRegion = myregionAroundRegion * targetMask
