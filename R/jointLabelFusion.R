@@ -296,6 +296,7 @@ jointLabelFusion <- function(
 #' @param regIterations vector of iterations for syn.  we will set the smoothing
 #' and multi-resolution parameters based on the length of this vector.
 #' passed to \code{antsRegistration}.
+#' @param affIterations vector of iterations for low-dimensional transforms.
 #' @param localMaskTransform type of transform for local mask initialization;
 #' would usually set to Rigid, Similarity or Affine
 #' @param maxLabelPlusOne boolean
@@ -326,6 +327,7 @@ localJointLabelFusion <- function(
   synMetric = "mattes",
   synSampling = 32,
   regIterations = c(40,20,0),
+  affIterations,
   localMaskTransform,
   maxLabelPlusOne=FALSE,
   noZeroes = FALSE,
@@ -352,8 +354,13 @@ localJointLabelFusion <- function(
     if ( verbose ) cat(paste0(k,"..."))
     libregion = maskImage( labelList[[k]], labelList[[k]], level=whichLabels, binarize=FALSE )
     if ( max( libregion ) == 0 ) stop(paste( "Lib Mask is empty in maskImage call in localJointLabelFusion: case:", k ) )
-    initMap = antsRegistration( croppedRegion, libregion,
-      typeofTransform = localMaskTransform, affMetric=affMetric, verbose=verbose )$fwdtransforms
+    if ( missing( affIterations ) ) {
+      initMap = antsRegistration( croppedRegion, libregion,
+        typeofTransform = localMaskTransform, affMetric=affMetric, verbose=verbose )$fwdtransforms
+      } else {
+      initMap = antsRegistration( croppedRegion, libregion,   affIterations=affIterations,
+        typeofTransform = localMaskTransform, affMetric=affMetric, verbose=verbose )$fwdtransforms
+      }
     localReg = antsRegistration( croppedImage, atlasList[[k]],
       regIterations = regIterations, synMetric=synMetric, synSampling=synSampling,
       typeofTransform = typeofTransform, initialTransform = initMap, verbose=verbose )

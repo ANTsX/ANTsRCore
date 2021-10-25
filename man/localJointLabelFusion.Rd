@@ -17,6 +17,7 @@ localJointLabelFusion(
   synMetric = "mattes",
   synSampling = 32,
   regIterations = c(40, 20, 0),
+  affIterations,
   localMaskTransform,
   maxLabelPlusOne = FALSE,
   noZeroes = FALSE,
@@ -51,6 +52,8 @@ we perform focused registration}
 \item{regIterations}{vector of iterations for syn.  we will set the smoothing
 and multi-resolution parameters based on the length of this vector.
 passed to \code{antsRegistration}.}
+
+\item{affIterations}{vector of iterations for low-dimensional transforms.}
 
 \item{localMaskTransform}{type of transform for local mask initialization;
 would usually set to Rigid, Similarity or Affine}
