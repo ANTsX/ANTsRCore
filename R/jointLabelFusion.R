@@ -355,10 +355,14 @@ localJointLabelFusion <- function(
     libregion = maskImage( labelList[[k]], labelList[[k]], level=whichLabels, binarize=FALSE )
     if ( max( libregion ) == 0 ) stop(paste( "Lib Mask is empty in maskImage call in localJointLabelFusion: case:", k ) )
     if ( missing( affIterations ) ) {
-      initMap = antsRegistration( croppedRegion, libregion,
+      initMap = antsRegistration( 
+        smoothImage(croppedRegion,1,sigmaInPhysicalCoordinates=FALSE), 
+        smoothImage(libregionm,1,sigmaInPhysicalCoordinates=FALSE),
         typeofTransform = localMaskTransform, affMetric=affMetric, verbose=verbose )$fwdtransforms
       } else {
-      initMap = antsRegistration( croppedRegion, libregion,   affIterations=affIterations,
+      initMap = antsRegistration( 
+        smoothImage(croppedRegion,1,sigmaInPhysicalCoordinates=FALSE), 
+        smoothImage(libregionm,1,sigmaInPhysicalCoordinates=FALSE), affIterations=affIterations,
         typeofTransform = localMaskTransform, affMetric=affMetric, verbose=verbose )$fwdtransforms
       }
     localReg = antsRegistration( croppedImage, atlasList[[k]],
