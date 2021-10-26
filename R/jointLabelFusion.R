@@ -352,34 +352,56 @@ localJointLabelFusion <- function(
   if ( missing( localMaskTransform ) ) localMaskTransform = 'Similarity'
   for ( k in 1:length( atlasList ) ) {
     if ( verbose ) cat(paste0(k,"..."))
+    initMap=NA
     libregion = maskImage( labelList[[k]], labelList[[k]], level=whichLabels, binarize=FALSE )
     if ( max( libregion ) == 0 ) stop(paste( "Lib Mask is empty in maskImage call in localJointLabelFusion: case:", k ) )
     if ( missing( affIterations ) ) {
-      initMap = antsRegistration( 
+      
+      initMap <- tryCatch({
+        antsRegistration( 
         smoothImage(croppedRegion,1,sigmaInPhysicalCoordinates=FALSE), 
         smoothImage(libregion,1,sigmaInPhysicalCoordinates=FALSE),
         typeofTransform = localMaskTransform, affMetric=affMetric,
         samplingPercentage=1.0,
+        estimateLearningRateOnce=TRUE,
         verbose=verbose )$fwdtransforms
+        },
+        error = function(e) {
+        }, finally = {
+        })
+
       } else {
-      initMap = antsRegistration( 
+
+      initMap <- tryCatch({
+        antsRegistration( 
         smoothImage(croppedRegion,1,sigmaInPhysicalCoordinates=FALSE), 
-        smoothImage(libregion,1,sigmaInPhysicalCoordinates=FALSE), 
+        smoothImage(libregion,1,sigmaInPhysicalCoordinates=FALSE),
+        typeofTransform = localMaskTransform, affMetric=affMetric,
         samplingPercentage=1.0,
+        estimateLearningRateOnce=TRUE,
         affIterations=affIterations,
-        typeofTransform = localMaskTransform, affMetric=affMetric, verbose=verbose )$fwdtransforms
+        verbose=verbose )$fwdtransforms
+        },
+        error = function(e) {
+        }, finally = {
+        })
+      
       }
-    localReg = antsRegistration( croppedImage, atlasList[[k]],
-      regIterations = regIterations, synMetric=synMetric, synSampling=synSampling,
-      typeofTransform = typeofTransform, initialTransform = initMap, verbose=verbose )
-    transformedImage = antsApplyTransforms( croppedImage, atlasList[[k]],
-      localReg$fwdtransforms )
-    transformedLabels = antsApplyTransforms( croppedImage, labelList[[k]],
-      localReg$fwdtransforms, interpolator = "nearestNeighbor"  )
-#    remappedseg = maskImage( transformedLabels, transformedLabels, whichLabels )
-    croppedmappedImages[[k]] = transformedImage
-    croppedmappedSegs[[k]] = transformedLabels
+    print( initMap )
+    if ( ! is.na( initMap ) ) {
+      localReg = antsRegistration( croppedImage, atlasList[[k]],
+        regIterations = regIterations, synMetric=synMetric, synSampling=synSampling,
+        typeofTransform = typeofTransform, initialTransform = initMap, verbose=verbose )
+      transformedImage = antsApplyTransforms( croppedImage, atlasList[[k]],
+        localReg$fwdtransforms )
+      transformedLabels = antsApplyTransforms( croppedImage, labelList[[k]],
+        localReg$fwdtransforms, interpolator = "nearestNeighbor"  )
+      croppedmappedImages[[k]] = transformedImage
+      croppedmappedSegs[[k]] = transformedLabels
+      }
   }
+  croppedmappedImages <- croppedmappedImages[!sapply(croppedmappedImages,is.null)]
+  croppedmappedSegs <- croppedmappedSegs[!sapply(croppedmappedSegs,is.null)]
   return( list(
     jlf=jointLabelFusion(
       croppedImage,
