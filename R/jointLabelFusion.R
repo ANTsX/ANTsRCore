@@ -358,11 +358,15 @@ localJointLabelFusion <- function(
       initMap = antsRegistration( 
         smoothImage(croppedRegion,1,sigmaInPhysicalCoordinates=FALSE), 
         smoothImage(libregion,1,sigmaInPhysicalCoordinates=FALSE),
-        typeofTransform = localMaskTransform, affMetric=affMetric, verbose=verbose )$fwdtransforms
+        typeofTransform = localMaskTransform, affMetric=affMetric,
+        samplingPercentage=1.0,
+        verbose=verbose )$fwdtransforms
       } else {
       initMap = antsRegistration( 
         smoothImage(croppedRegion,1,sigmaInPhysicalCoordinates=FALSE), 
-        smoothImage(libregion,1,sigmaInPhysicalCoordinates=FALSE), affIterations=affIterations,
+        smoothImage(libregion,1,sigmaInPhysicalCoordinates=FALSE), 
+        samplingPercentage=1.0,
+        affIterations=affIterations,
         typeofTransform = localMaskTransform, affMetric=affMetric, verbose=verbose )$fwdtransforms
       }
     localReg = antsRegistration( croppedImage, atlasList[[k]],
