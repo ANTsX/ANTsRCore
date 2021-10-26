@@ -42,6 +42,10 @@
 #' @param randomSeed integer random seed. combine with setting
 #' ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS environment variable to limit the
 #' impact of numerical differences.
+#' @param estimateLearningRateOnce a change to internal optimizer parameters that
+#' may permit a cleaner convergence at very fine scale.
+#' @param samplingPercentage value between zero and one that allows the percentage
+#' of points sampled to be controlled in low-dimensional metric estimation.
 #' @param verbose request verbose output (useful for debugging)
 #' @param printArgs print raw command line (useful for debugging)
 #' @param ... additional options see antsRegistration in ANTs
@@ -195,6 +199,8 @@ antsRegistration <- function(
   restrictTransformation,
   writeCompositeTransform = FALSE,
   randomSeed,
+  estimateLearningRateOnce=FALSE,
+  samplingPercentage=0.2,
   verbose=FALSE,
   printArgs = FALSE, ... ) {
   numargs <- nargs()
@@ -247,6 +253,7 @@ antsRegistration <- function(
 
   args <- list(fixed, moving, typeofTransform, outprefix, ...)
   myl=0
+  if ( estimateLearningRateOnce ) myl = 1
   myfAff = "6x4x2x1"
   mysAff = "3x2x1x0"
   metsam = 0.2
@@ -387,7 +394,7 @@ antsRegistration <- function(
         if (typeofTransform == "SyNBold") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",
-                                   affSampling,",regular,0.2]", sep = ""),
+                                   affSampling,",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Rigid[0.25]", "-c", "[1200x1200x100,1e-6,5]", "-s", "2x1x0",
                        "-f", "4x2x1",
                        "-x", "[NA,NA]",
@@ -401,12 +408,12 @@ antsRegistration <- function(
         if (typeofTransform == "SyNBoldAff") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,
-                                   ",regular,0.2]", sep = ""),
+                                   ",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Rigid[0.25]", "-c", "[1200x1200x100,1e-6,5]", "-s", "2x1x0",
                        "-f", "4x2x1",
                        "-x", "[NA,NA]",
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,
-                                   ",regular,0.2]", sep = ""),
+                                   ",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Affine[0.25]", "-c", "[200x20,1e-6,5]", "-s", "1x0",
                        "-f", "2x1",
                        "-x", "[NA,NA]",
@@ -421,7 +428,7 @@ antsRegistration <- function(
         }
         if (typeofTransform == "ElasticSyN") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
-                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.2]", sep = ""),
+                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Affine[0.25]", "-c", "2100x1200x200x0", "-s", "3x2x1x0",
                        "-f", "4x2x2x1",
                        "-x", "[NA,NA]",
@@ -436,7 +443,7 @@ antsRegistration <- function(
         }
         if (typeofTransform == "SyN") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
-                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.2]", sep = ""),
+                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Affine[0.25]", "-c", "2100x1200x1200x0", "-s", "3x2x1x0",
                        "-f", "4x2x2x1",
                        "-x", "[NA,NA]",
@@ -451,11 +458,11 @@ antsRegistration <- function(
         }
         if (typeofTransform == "SyNRA") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
-                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.2]", sep = ""),
+                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Rigid[0.25]", "-c", "2100x1200x1200x0", "-s", "3x2x1x0",
                        "-f", "4x2x2x1",
                        "-x", "[NA,NA]",
-                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.2]", sep = ""),
+                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Affine[0.25]", "-c", "2100x1200x1200x0", "-s", "3x2x1x0",
                        "-f", "4x2x2x1",
                        "-x", "[NA,NA]",
@@ -512,7 +519,7 @@ antsRegistration <- function(
 
         if (typeofTransform == "SyNAggro") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
-                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.2]", sep = ""),
+                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Affine[0.25]", "-c", "2100x1200x1200x100", "-s", "3x2x1x0",
                        "-f", "4x2x2x1",
                        "-x", "[NA,NA]",
@@ -533,13 +540,13 @@ antsRegistration <- function(
           shrinkfactors="4x3x2x1"
           mysyn=paste("SyN[0.15,3,0]", sep = "")
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
-                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.2]", sep = ""),
+                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Rigid[1]",
                        "-c", "2100x1200x1200x0",
                        "-s", "3x2x1x0",
                        "-f", "4x4x2x1",
                        "-x", "[NA,NA]",
-                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.2]", sep = ""),
+                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Affine[1]", "-c", "1200x1200x100", "-s", "2x1x0",
                        "-f", "4x2x1",
                        "-x", "[NA,NA]",
@@ -599,11 +606,11 @@ antsRegistration <- function(
 
         if (typeofTransform == "SyNabp") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
-                       "-m", paste("mattes[", f, ",", m, ",1,32,regular,0.25]", sep = ""),
+                       "-m", paste("mattes[", f, ",", m, ",1,32,regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Rigid[0.1]", "-c", "1000x500x250x100", "-s", "4x2x1x0",
                        "-f", "8x4x2x1",
                        "-x", "[NA,NA]",
-                       "-m", paste("mattes[", f, ",", m, ",1,32,regular,0.25]", sep = ""),
+                       "-m", paste("mattes[", f, ",", m, ",1,32,regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Affine[0.1]", "-c", "1000x500x250x100", "-s", "4x2x1x0",
                        "-f", "8x4x2x1",
                        "-x", "[NA,NA]",
@@ -617,7 +624,7 @@ antsRegistration <- function(
 
         if (typeofTransform == "SyNLessAggro") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
-                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.2]", sep = ""),
+                       "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Affine[0.25]", "-c", "2100x1200x1200x100", "-s", "3x2x1x0",
                        "-f", "4x2x2x1",
                        "-x", "[NA,NA]",
@@ -790,14 +797,14 @@ antsRegistration <- function(
             }
 
           rigidStage <- list( "--transform", paste0( tx, "[0.1]" ),
-                               "--metric", paste0( linearMetric, "[", f, ",", m, ",1,", linearMetricParameter, ",Regular,0.25]" ),
+                               "--metric", paste0( linearMetric, "[", f, ",", m, ",1,", linearMetricParameter, ",regular,",samplingPercentage,"]" ),
                               "--convergence", rigidConvergence,
                               "--shrink-factors", rigidShrinkFactors,
                               "--smoothing-sigmas", rigidSmoothingSigmas
                             )
 
           affineStage <- list( "--transform", "Affine[0.1]",
-                               "--metric", paste0( linearMetric, "[", f, ",", m, ",1,", linearMetricParameter, ",Regular,0.25]" ),
+                               "--metric", paste0( linearMetric, "[", f, ",", m, ",1,", linearMetricParameter, ",regular,",samplingPercentage,"]" ),
                                "--convergence", affineConvergence,
                                "--shrink-factors", affineShrinkFactors,
                                "--smoothing-sigmas", affineSmoothingSigmas
