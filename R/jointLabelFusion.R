@@ -387,8 +387,8 @@ localJointLabelFusion <- function(
         })
       
       }
-    print( initMap )
-    if ( ! is.na( initMap ) ) {
+    rr = readAntsrTransform( initMap )
+    if ( ! is.na( initMap ) & all( !is.na( getAntsrTransformParameters( rr ) ) ) ) {
       localReg = antsRegistration( croppedImage, atlasList[[k]],
         regIterations = regIterations, synMetric=synMetric, synSampling=synSampling,
         typeofTransform = typeofTransform, initialTransform = initMap, verbose=verbose )
