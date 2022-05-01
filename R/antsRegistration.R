@@ -317,6 +317,9 @@ antsRegistration <- function(
   if (!is.null(moving)) {
     moving = check_ants(moving)
   }
+  if (fixed@dimension != moving@dimension) {
+    stop("Fixed and moving image dimensions are not the same.")
+  }
   if (!is.character(fixed)) {
     fixed = check_ants(fixed)
     error_not_antsImage(fixed, "fixed")
