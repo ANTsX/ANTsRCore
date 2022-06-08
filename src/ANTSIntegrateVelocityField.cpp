@@ -84,7 +84,8 @@ void velocityIntegrationHelper(
   integrator->SetUpperTimeBound( finishtime );
   integrator->SetNumberOfIntegrationSteps( static_cast<unsigned int>( std::round( 1.0 / dT ) ) );
   integrator->Update();
-  WriteImage<DisplacementFieldType>( integrator->GetOutput(), r_deformation.c_str() );
+//  r_deformation = integrator->GetOutput();
+  ANTs::WriteImage<DisplacementFieldType>( integrator->GetOutput(), r_deformation.c_str() );
   return;
 }
 
