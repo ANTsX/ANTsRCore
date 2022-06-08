@@ -66,7 +66,7 @@ echo "PKG_CPPFLAGS= ${PKG_CPPFLAGS} -I\${ITK} -I\${PWD} -I\${myantssource}/Examp
   -I\${myantssource}/Utilities -I\${myantssource}/Examples/ -I../inst/include/ \
   -I\${myantssource}/Tensor/ " >> Makevars
 
-echo "CXX_STD = CXX11" >> Makevars
+echo "CXX_STD = CXX14" >> Makevars
 
 # echo "myantslib=\${R_LIBS_USER}/libs/lib" >> Makevars
 echo "myantslib=\${PWD}/antb/ANTS-build/Examples/" >> Makevars
