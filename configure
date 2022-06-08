@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CXX_STD=CXX11
+CXX_STD=CXX14
 
 ITKRCMAKE=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkIncludes(); cat(a)'`
 ITKRLIB=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkLibs(); cat(a)'`
@@ -98,7 +98,7 @@ ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 
 # get / set up ANTs code
 antsgit=https://github.com/ANTsX/ANTs.git
-antstag=2251ca1dfca9d27a58623eb36784704a032d97a0 # reconciling KK params
+antstag=d30526f9cb5159bc0a3e9011f7ae5f409b3634c8 # with itk v5.3rc03
 antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants

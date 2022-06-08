@@ -7,9 +7,9 @@ if [ -z "${git_exe}" ]; then
     str="${str} x=git2r::sha(git2r::last_commit(repo)) } else {x = ''};"
     str="${str} cat(x)"
     antsrtag=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"`
-else 
+else
     antsrtag=`git log --pretty=format:'%H' -n 1`
-fi    
+fi
 CXX_STD=CXX11
 CC=`${R_HOME}/bin${R_ARCH_BIN}/R.exe CMD config CC`
 CXX=`${R_HOME}/bin${R_ARCH_BIN}/R.exe CMD config CXX`
@@ -112,13 +112,13 @@ ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 # get / set up ANTs code
 # antsgit=https://github.com/ANTsX/ANTs.git
 antsgit=https://github.com/muschellij2/ANTs.git
-antstag=5b7c090b0dd8f911b013b374a06177fc0ac5c60e
+antstag=d30526f9cb5159bc0a3e9011f7ae5f409b3634c8 # with itk v5.3rc03
 if [ -z "${git_exe}" ]; then
     ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'if (!requireNamespace("git2r")) install.packages("git2r")'
     str="repo = git2r::clone(\""
     str="${str}${antsgit}"
     str="${str}\", local_path = \"./ants\")"
-    ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"  
+    ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"
 else
     git clone $antsgit ants
 fi
@@ -133,12 +133,12 @@ cd ants
 
 if [ -z "${git_exe}" ]; then
     ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e 'if (!requireNamespace("git2r")) install.packages("git2r")'
-    str="repo = git2r::init()"   
+    str="repo = git2r::init()"
     if [ -n "${antstag}" ]; then
         str="${str}; git2r::checkout(repo, branch = \""
         str="${str}${antstag}"
         str="${str}\");"
-    fi    
+    fi
     ${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "${str}"
 else
     git checkout master;
@@ -147,7 +147,7 @@ else
 fi
 
 # windows workaround for warning
-if [ -a "./CMake/ITKSetStandardCompilerFlags.cmake" ]; 
+if [ -a "./CMake/ITKSetStandardCompilerFlags.cmake" ];
 then
     echo "working on ITKSetStandardCompilerFlags.cmake"
     str='fname="./CMake/ITKSetStandardCompilerFlags.cmake";'
