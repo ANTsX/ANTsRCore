@@ -42,8 +42,6 @@
 #' @param randomSeed integer random seed. combine with setting
 #' ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS environment variable to limit the
 #' impact of numerical differences.
-#' @param estimateLearningRateOnce a change to internal optimizer parameters that
-#' may permit a cleaner convergence at very fine scale.
 #' @param samplingPercentage value between zero and one that allows the percentage
 #' of points sampled to be controlled in low-dimensional metric estimation.
 #' @param verbose request verbose output (useful for debugging)
@@ -199,7 +197,6 @@ antsRegistration <- function(
   restrictTransformation,
   writeCompositeTransform = FALSE,
   randomSeed,
-  estimateLearningRateOnce=FALSE,
   samplingPercentage=0.2,
   verbose=FALSE,
   printArgs = FALSE, ... ) {
@@ -252,8 +249,6 @@ antsRegistration <- function(
   }
 
   args <- list(fixed, moving, typeofTransform, outprefix, ...)
-  myl=0
-  if ( estimateLearningRateOnce ) myl = 1
   myfAff = "6x4x2x1"
   mysAff = "3x2x1x0"
   metsam = 0.2
@@ -281,7 +276,6 @@ antsRegistration <- function(
     myfAff="2x1"
     mysAff="1x0"
     myiterations <- "100x20"
-    myl=1
   }
   if ( typeofTransform == "QuickRigid" ) {
     typeofTransform <- "Rigid"
@@ -296,7 +290,6 @@ antsRegistration <- function(
     myfAff="2x1"
     mysAff="1x0"
     myiterations <- "100x20"
-    myl=1
   }
   mysyn = paste("SyN[",gradStep,",",flowSigma,",",totalSigma,"]", sep = "")
   itlen = length( regIterations )-1
@@ -947,10 +940,6 @@ antsRegistration <- function(
       }
     }
     return(0)
-  }
-  if ( estimateLearningRateOnce ) {
-    args[[ length(args)+1]]="-l"
-    args[[ length(args)+1]]="1"
   }
   args[[ length(args)+1]]="--float"
   args[[ length(args)+1]]="1"
