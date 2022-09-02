@@ -30,7 +30,7 @@
 #' \code{ list( list( "nameOfMetric2", img, img, weight, metricParam ) ) }.
 #' Another example would be \code{ list( list( "MeanSquares", f2, m2, 0.5, 0 ),
 #' list( "CC", f2, m2, 0.5, 2 ) ) }.  This is only compatible with the
-#' \code{SyNOnly} or \code{ElasticOnly} transformation.
+#' \code{SyNOnly}, \code{ElasticOnly}, or \code{antsRegistrationSyN*} transformations.
 #' @param restrictTransformation This option allows the user to restrict the
 #' optimization of the displacement field, translation, rigid or affine
 #' transform on a per-component basis. For example, if one wants to limit
@@ -824,11 +824,30 @@ antsRegistration <- function(
             synTransform <- "BSplineSyN[0.1,26,0,3]"
             }
           synStage <- list( "--transform", synTransform,
-                            "--metric", synMetric,
+                            "--metric", synMetric )
+
+          if( ! missing( multivariateExtras ) )
+            {
+            for( mm in seq.int( multivariateExtras ) )
+              {
+              if( length( multivariateExtras[[mm]] ) != 5 )
+                stop(paste0("multivariate metric needs 5 entries: ",
+                            "name of metric, fixed, moving, weight, ",
+                            "samplingParam"))
+              synStage <- lappend( args1, list(
+                "--metric", paste(
+                  as.character( multivariateExtras[[mm]][[1]] ), "[",
+                  antsrGetPointerName( multivariateExtras[[mm]][[2]] ), ",",
+                  antsrGetPointerName( multivariateExtras[[mm]][[3]] ), ",",
+                  as.character( multivariateExtras[[mm]][[4]] ), ",",
+                  as.character( multivariateExtras[[mm]][[5]] ), "]", sep = "") ) )
+              }
+            }
+          synStage <- lappend( synStage, list(
                             "--convergence", synConvergence,
                             "--shrink-factors", synShrinkFactors,
                             "--smoothing-sigmas", synSmoothingSigmas
-                          )
+                          ) )
 
           args <- list(
             "-d", as.character( fixed@dimension ),
