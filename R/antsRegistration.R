@@ -721,9 +721,20 @@ antsRegistration <- function(
         if( grepl( "antsRegistrationSyN", typeofTransform ) )
           {
           subtypeOfTransform <- 's'
+          splineDistance <- 26
           if( grepl( '\\[', typeofTransform ) && grepl( '\\]', typeofTransform ) )
             {
             subtypeOfTransform <- strsplit( strsplit( typeofTransform, "\\[" )[[1]][2], "\\]" )[[1]][1]
+            if( grepl( ',', subtypeOfTransform ) ) 
+              {
+              subtypeOfTransformArgs <- strsplit( subtypeOfTransform, "," )[[1]]
+              subtypeOfTransform <- subtypeOfTransformArgs[1]
+              if( subtypeOfTransform != 'b' )
+                {
+                stop( "Extra parameters are only valid for B-spline SyN transform." ) 
+                }
+              splineDistance <- subtypeOfTransformArgs[2]
+              }
             }
 
           doQuick <- FALSE
@@ -821,7 +832,7 @@ antsRegistration <- function(
           synTransform <- "SyN[0.1,3,0]"
           if( subtypeOfTransform == "b" || subtypeOfTransform == "br" || subtypeOfTransform == "bo" )
             {
-            synTransform <- "BSplineSyN[0.1,26,0,3]"
+            synTransform <- paste0( "BSplineSyN[0.1,", splineDistance, ",0,3]" )
             }
           synStage <- list( "--transform", synTransform,
                             "--metric", synMetric )
