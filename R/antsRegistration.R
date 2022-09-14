@@ -30,7 +30,7 @@
 #' \code{ list( list( "nameOfMetric2", img, img, weight, metricParam ) ) }.
 #' Another example would be \code{ list( list( "MeanSquares", f2, m2, 0.5, 0 ),
 #' list( "CC", f2, m2, 0.5, 2 ) ) }.  This is only compatible with the
-#' \code{SyNOnly} or \code{ElasticOnly} transformation.
+#' \code{SyNOnly}, \code{ElasticOnly}, or \code{antsRegistrationSyN*} transformations.
 #' @param restrictTransformation This option allows the user to restrict the
 #' optimization of the displacement field, translation, rigid or affine
 #' transform on a per-component basis. For example, if one wants to limit
@@ -721,9 +721,20 @@ antsRegistration <- function(
         if( grepl( "antsRegistrationSyN", typeofTransform ) )
           {
           subtypeOfTransform <- 's'
+          splineDistance <- 26
           if( grepl( '\\[', typeofTransform ) && grepl( '\\]', typeofTransform ) )
             {
             subtypeOfTransform <- strsplit( strsplit( typeofTransform, "\\[" )[[1]][2], "\\]" )[[1]][1]
+            if( grepl( ',', subtypeOfTransform ) ) 
+              {
+              subtypeOfTransformArgs <- strsplit( subtypeOfTransform, "," )[[1]]
+              subtypeOfTransform <- subtypeOfTransformArgs[1]
+              if( subtypeOfTransform != 'b' )
+                {
+                stop( "Extra parameters are only valid for B-spline SyN transform." ) 
+                }
+              splineDistance <- subtypeOfTransformArgs[2]
+              }
             }
 
           doQuick <- FALSE
@@ -821,14 +832,33 @@ antsRegistration <- function(
           synTransform <- "SyN[0.1,3,0]"
           if( subtypeOfTransform == "b" || subtypeOfTransform == "br" || subtypeOfTransform == "bo" )
             {
-            synTransform <- "BSplineSyN[0.1,26,0,3]"
+            synTransform <- paste0( "BSplineSyN[0.1,", splineDistance, ",0,3]" )
             }
           synStage <- list( "--transform", synTransform,
-                            "--metric", synMetric,
+                            "--metric", synMetric )
+
+          if( ! missing( multivariateExtras ) )
+            {
+            for( mm in seq.int( length( multivariateExtras ) ) )
+              {
+              if( length( multivariateExtras[[mm]] ) != 5 )
+                stop(paste0("multivariate metric needs 5 entries: ",
+                            "name of metric, fixed, moving, weight, ",
+                            "samplingParam"))
+              synStage <- lappend( synStage, list(
+                "--metric", paste(
+                  as.character( multivariateExtras[[mm]][[1]] ), "[",
+                  antsrGetPointerName( multivariateExtras[[mm]][[2]] ), ",",
+                  antsrGetPointerName( multivariateExtras[[mm]][[3]] ), ",",
+                  as.character( multivariateExtras[[mm]][[4]] ), ",",
+                  as.character( multivariateExtras[[mm]][[5]] ), "]", sep = "") ) )
+              }
+            }
+          synStage <- lappend( synStage, list(
                             "--convergence", synConvergence,
                             "--shrink-factors", synShrinkFactors,
                             "--smoothing-sigmas", synSmoothingSigmas
-                          )
+                          ) )
 
           args <- list(
             "-d", as.character( fixed@dimension ),

@@ -22,6 +22,5 @@ RoxygenNote: 7.1.2
 VignetteBuilder: knitr
 Encoding: UTF-8
 Repository: Neuroconductor
-Remotes: 
-    adigherman/ITKR@186128b016e099931fa4fe8fea84f4810b835cd7
+Remotes: stnava/ITKR
 biocViews: 

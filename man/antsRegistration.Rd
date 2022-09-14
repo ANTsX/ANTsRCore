@@ -24,7 +24,6 @@ antsRegistration(
   restrictTransformation,
   writeCompositeTransform = FALSE,
   randomSeed,
-  estimateLearningRateOnce = FALSE,
   samplingPercentage = 0.2,
   verbose = FALSE,
   printArgs = FALSE,
@@ -74,7 +73,7 @@ the list should be of the form
 \code{ list( list( "nameOfMetric2", img, img, weight, metricParam ) ) }.
 Another example would be \code{ list( list( "MeanSquares", f2, m2, 0.5, 0 ),
 list( "CC", f2, m2, 0.5, 2 ) ) }.  This is only compatible with the
-\code{SyNOnly} or \code{ElasticOnly} transformation.}
+\code{SyNOnly}, \code{ElasticOnly}, or \code{antsRegistrationSyN*} transformations.}
 
 \item{restrictTransformation}{This option allows the user to restrict the
 optimization of the displacement field, translation, rigid or affine
@@ -89,9 +88,6 @@ Restriction currently only works if there are no preceding transformations.}
 \item{randomSeed}{integer random seed. combine with setting
 ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS environment variable to limit the
 impact of numerical differences.}
-
-\item{estimateLearningRateOnce}{a change to internal optimizer parameters that
-may permit a cleaner convergence at very fine scale.}
 
 \item{samplingPercentage}{value between zero and one that allows the percentage
 of points sampled to be controlled in low-dimensional metric estimation.}
