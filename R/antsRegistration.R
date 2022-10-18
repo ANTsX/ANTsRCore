@@ -326,21 +326,10 @@ antsRegistration <- function(
       allowableTx <- c("Translation","Rigid", "Similarity", "Affine", "TRSAA",
                        "SyN","SyNRA","SyNOnly","SyNCC","SyNabp", "SyNBold", "SyNBoldAff",
                        "SyNAggro", "SyNLessAggro", tvTypes,
-                       "TVMSQ","TVMSQC","ElasticSyN","Elastic","ElasticOnly",
-                       "antsRegistrationSyN[r]","antsRegistrationSyN[t]","antsRegistrationSyN[a]",
-                       "antsRegistrationSyN[b]","antsRegistrationSyN[s]","antsRegistrationSyN[br]",
-                       "antsRegistrationSyN[sr]","antsRegistrationSyN[bo]","antsRegistrationSyN[so]",
-                       "antsRegistrationSyNQuick[r]","antsRegistrationSyNQuick[t]","antsRegistrationSyNQuick[a]",
-                       "antsRegistrationSyNQuick[b]","antsRegistrationSyNQuick[s]","antsRegistrationSyNQuick[br]",
-                       "antsRegistrationSyNQuick[sr]","antsRegistrationSyNQuick[bo]","antsRegistrationSyNQuick[so]",
-                       "antsRegistrationSyNRepro[r]","antsRegistrationSyNRepro[t]","antsRegistrationSyNRepro[a]",
-                       "antsRegistrationSyNRepro[b]","antsRegistrationSyNRepro[s]","antsRegistrationSyNRepro[br]",
-                       "antsRegistrationSyNRepro[sr]","antsRegistrationSyNRepro[bo]","antsRegistrationSyNRepro[so]",
-                       "antsRegistrationSyNQuickRepro[r]","antsRegistrationSyNQuickRepro[t]","antsRegistrationSyNQuickRepro[a]",
-                       "antsRegistrationSyNQuickRepro[b]","antsRegistrationSyNQuickRepro[s]","antsRegistrationSyNQuickRepro[br]",
-                       "antsRegistrationSyNQuickRepro[sr]","antsRegistrationSyNQuickRepro[bo]","antsRegistrationSyNQuickRepro[so]"
+                       "TVMSQ","TVMSQC","ElasticSyN","Elastic","ElasticOnly"
                        )
-      ttexists <- typeofTransform %in% allowableTx
+      # Perform checking of antsRegistrationSyN transforms later
+      ttexists <- typeofTransform %in% allowableTx || grepl( "antsRegistrationSyN", typeofTransform )
       if (ttexists) {
         initx = initialTransform
         if ( class( initx ) == "antsrTransform" )
