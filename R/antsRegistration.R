@@ -718,7 +718,7 @@ antsRegistration <- function(
               {
               subtypeOfTransformArgs <- strsplit( subtypeOfTransform, "," )[[1]]
               subtypeOfTransform <- subtypeOfTransformArgs[1]
-              if( subtypeOfTransform != 'b' )
+              if( !( subtypeOfTransform == 'b' || subtypeOfTransform == 'br' || subtypeOfTransform == 'br' ) )
                 {
                 stop( "Extra parameters are only valid for B-spline SyN transform." ) 
                 }
