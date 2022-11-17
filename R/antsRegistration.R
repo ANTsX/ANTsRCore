@@ -709,8 +709,20 @@ antsRegistration <- function(
 
         if( grepl( "antsRegistrationSyN", typeofTransform ) )
           {
+          doQuick <- FALSE
+          if( grepl( "Quick", typeofTransform ) )
+            {
+            doQuick <- TRUE
+            }
+
           subtypeOfTransform <- 's'
           splineDistance <- 26
+          metricParameter <- 4
+          if( doQuick )
+            {
+            metricParameter <- 32
+            }
+
           if( grepl( '\\[', typeofTransform ) && grepl( '\\]', typeofTransform ) )
             {
             subtypeOfTransform <- strsplit( strsplit( typeofTransform, "\\[" )[[1]][2], "\\]" )[[1]][1]
@@ -718,19 +730,23 @@ antsRegistration <- function(
               {
               subtypeOfTransformArgs <- strsplit( subtypeOfTransform, "," )[[1]]
               subtypeOfTransform <- subtypeOfTransformArgs[1]
-              if( !( subtypeOfTransform == 'b' || subtypeOfTransform == 'br' || subtypeOfTransform == 'br' ) )
+              if( !( subtypeOfTransform == 'b' || 
+                     subtypeOfTransform == 'br' || 
+                     subtypeOfTransform == 'bo' ||
+                     subtypeOfTransform == 's' || 
+                     subtypeOfTransform == 'sr' || 
+                     subtypeOfTransform == 'so' ) )
                 {
                 stop( "Extra parameters are only valid for B-spline SyN transform." ) 
                 }
-              splineDistance <- subtypeOfTransformArgs[2]
+              metricParameter <- subtypeOfTransformArgs[2]
+              if( length( subtypeOfTransformArgs ) > 2 )
+                {  
+                splineDistance <- subtypeOfTransformArgs[3]
+                }
               }
             }
 
-          doQuick <- FALSE
-          if( grepl( "Quick", typeofTransform ) )
-            {
-            doQuick <- TRUE
-            }
 
           doRepro <- FALSE
           if( grepl( "Repro", typeofTransform ) )
@@ -767,10 +783,10 @@ antsRegistration <- function(
           if( doQuick == TRUE )
             {
             synConvergence <- "[100x70x50x0,1e-6,10]"
-            synMetric <- paste0( "MI[", f, ",", m, ",1,32]" )
+            synMetric <- paste0( "MI[", f, ",", m, ",1,", metricParameter, "]" )
             } else {
             synConvergence <- "[100x70x50x20,1e-6,10]"
-            synMetric <- paste0( "CC[", f, ",", m, ",1,4]" )
+            synMetric <- paste0( "CC[", f, ",", m, ",1,", metricParameter, "]" )
             }
           synShrinkFactors <- "8x4x2x1"
           synSmoothingSigmas <- "3x2x1x0vox"
@@ -784,7 +800,7 @@ antsRegistration <- function(
           if( doQuick == TRUE && doRepro == TRUE )
             {
             synConvergence <- "[100x70x50x0,1e-6,10]"
-            synMetric <- paste0( "CC[", f, ",", m, ",1,2]" )
+            synMetric <- paste0( "CC[", f, ",", m, ",1", metricParameter, "]" )
             }
 
           if( missing( randomSeed ) && doRepro == TRUE )
