@@ -113,6 +113,10 @@ decropImage <- function( croppedImage, fullImage ) {
 #' @param image antsImage to crop
 #' @param slice which slice, integer
 #' @param direction which axis, integer
+#' @param collapseStrategy collapse sub-matrix. 
+#' 0: Collapse sub-matrix if positive definite.  Otherwise, thrown exception. Default.
+#' 1: Set sub-matrix to identity.  2: Collapse if positive definite.  Otherwise,
+#' set to identity.
 #' @return antsImage of dimension - 1
 #' @author Brian B. Avants, Nicholas J. Tustison
 #' @keywords extract
@@ -122,13 +126,17 @@ decropImage <- function( croppedImage, fullImage ) {
 #' slice <- extractSlice( fi, 1, 1 )
 #'
 #' @export extractSlice
-extractSlice <- function( image, slice, direction ) {
+extractSlice <- function( image, slice, direction, collapseStrategy = 0 ) {
   image = check_ants(image)
   if ( image@pixeltype != "float"  ) {
     stop("input images must have float pixeltype")
   }
-  if ( image@dimension < 3 ) stop("can extract 1-d image")
+  if ( image@dimension < 3 ) stop("can't extract 1-d image")
   if ( direction > image@dimension  )
        stop("dimensionality and index length dont match")
-  .Call("extractSlice", image, slice-1, direction-1, PACKAGE = "ANTsRCore")
+  if( collapseStrategy != 0 && collapseStrategy != 1 && collapseStrategy != 2 )
+    {
+    stop( "collapseStrategy must be 0, 1, or 2." )
+    }  
+  .Call("extractSlice", image, slice-1, direction-1, collapseStrategy, PACKAGE = "ANTsRCore")
 }
