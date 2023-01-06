@@ -297,7 +297,7 @@ RcppExport SEXP cropImage( SEXP r_in_image1 ,
 template< class ImageType, class ImageDM1Type >
 typename ImageDM1Type::Pointer extractSliceHelper(
   typename ImageType::Pointer image,
-  SEXP r_slice, SEXP r_direction )
+  SEXP r_slice, SEXP r_direction, SEXP r_collapseStrategy )
 {
 enum { ImageDimension = ImageType::ImageDimension };
 typedef itk::Image< float, ImageDimension - 1> SliceType;
@@ -316,14 +316,24 @@ typedef itk::ExtractImageFilter<ImageType, SliceType> ExtracterType;
 typename ExtracterType::Pointer extracter = ExtracterType::New();
 extracter->SetInput( image );
 extracter->SetExtractionRegion( region );
-extracter->SetDirectionCollapseToIdentity();
+if( Rcpp::as<unsigned int>( r_collapseStrategy ) == 0 )
+  { 
+  extracter->SetDirectionCollapseToSubmatrix();
+  } 
+else if( Rcpp::as<unsigned int>( r_collapseStrategy ) == 1 )
+  {
+  extracter->SetDirectionCollapseToIdentity();
+  } 
+else // if( Rcpp::as<unsigned int>( r_collapseStrategy ) == 2 ) 
+  {
+  extracter->SetDirectionCollapseToGuess();
+  } 
 extracter->Update();
 return extracter->GetOutput();
 }
 
-
 RcppExport SEXP extractSlice( SEXP r_in_image1,
-  SEXP r_slice, SEXP r_direction  )
+  SEXP r_slice, SEXP r_direction, SEXP r_collapseStrategy  )
 {
   if( r_in_image1 == NULL  )
     {
@@ -355,7 +365,7 @@ RcppExport SEXP extractSlice( SEXP r_in_image1,
     out_image_ptr_ptr =
           new ImageDM1PointerType(
             extractSliceHelper<ImageType, ImageDM1Type>(
-              *antsimage_xptr1, r_slice, r_direction )
+              *antsimage_xptr1, r_slice, r_direction, r_collapseStrategy )
             );
     Rcpp::XPtr< ImageDM1PointerType >
         out_image_xptr( out_image_ptr_ptr , true );
@@ -373,7 +383,7 @@ RcppExport SEXP extractSlice( SEXP r_in_image1,
     out_image_ptr_ptr =
             new ImageDM1PointerType(
               extractSliceHelper<ImageType, ImageDM1Type>(
-                *antsimage_xptr1, r_slice, r_direction )
+                *antsimage_xptr1, r_slice, r_direction, r_collapseStrategy )
               );
     Rcpp::XPtr< ImageDM1PointerType >
           out_image_xptr( out_image_ptr_ptr , true );
