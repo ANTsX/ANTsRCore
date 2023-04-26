@@ -11,6 +11,8 @@ antsRegistration(
   initialTransform = NA,
   outprefix = NULL,
   mask = NULL,
+  movingMask = NULL,
+  maskAllStages = False,
   gradStep = 0.2,
   flowSigma = 3,
   totalSigma = 0,
@@ -42,7 +44,11 @@ information metric by default. See \code{Details.}}
 
 \item{outprefix}{output will be named with this prefix.}
 
-\item{mask}{mask the registration.  can be a single mask or pair of the form \code{list(maskFixed,maskMoving)}}
+\item{mask}{Registration metric mask in the fixed image space.}
+
+\item{movingMask}{Registration metric mask in the moving image space.}
+
+\item{maskAllStages}{If true, apply metric mask(s) to all registration stages, instead of just the final stage.}
 
 \item{gradStep}{gradient step size (not for all tx)}
 
