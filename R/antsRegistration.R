@@ -9,7 +9,9 @@
 #' information metric by default. See \code{Details.}
 #' @param initialTransform transforms to prepend
 #' @param outprefix output will be named with this prefix.
-#' @param mask mask the registration.  can be a single mask or pair of the form \code{list(maskFixed,maskMoving)}
+#' @param mask Registration metric mask in the fixed image space.
+#' @param movingMask Registration metric mask in the moving image space.
+#' @param maskAllStages If true, apply metric mask(s) to all registration stages, instead of just the final stage.
 #' @param gradStep gradient step size (not for all tx)
 #' @param flowSigma smoothing for update field
 #' @param totalSigma smoothing for total field
@@ -184,9 +186,11 @@ antsRegistration <- function(
   initialTransform = NA,
   outprefix = NULL,
   mask = NULL,
-  gradStep=0.2,
-  flowSigma=3,
-  totalSigma=0,
+  movingMask = NULL,
+  maskAllStages = FALSE,
+  gradStep = 0.2,
+  flowSigma = 3,
+  totalSigma = 0,
   affMetric = "mattes",
   affSampling=32,
   synMetric = "mattes",
@@ -348,30 +352,43 @@ antsRegistration <- function(
         m <- antsrGetPointerName(moving)
         wfo <- antsrGetPointerName(warpedfixout)
         wmo <- antsrGetPointerName(warpedmovout)
-        if (!is.null(mask)) {
-          mask = check_ants(mask)
-          if ( is.antsImage( mask ) ) {
-            maskScale = mask - min( mask )
-            maskScale = maskScale / max( maskScale ) * 255
-            charmask <- antsImageClone( maskScale , "unsigned char")
-            maskopt <- paste("[",antsrGetPointerName(charmask),",NA]",sep='')
-          }
-          if ( is.list( mask ) ) {
-            mskpx = "unsigned char"
-            maskScale = mask[[1]] - min( mask[[1]] )
-            maskScale = maskScale / max( maskScale ) * 255
-            charmask1 <- antsImageClone( maskScale , mskpx )
 
-            maskScale = mask[[2]] - min( mask[[2]] )
-            maskScale = maskScale / max( maskScale ) * 255
-            charmask2 <- antsImageClone( maskScale , mskpx )
+        fMaskStr <- "NA"
+        mMaskStr <- "NA"
 
-            maskopt <- paste("[",antsrGetPointerName(charmask1),",",
-                             antsrGetPointerName(charmask2),"]",sep='')
+        if( is.list( mask ) && !is.null( movingMask ) )
+          {
+          stop( "Ambiguous definition for the moving mask." )
           }
-        } else {
-          maskopt = NA
-        }
+
+        if( is.list( mask ) ) 
+          {
+          fixedMaskBinary <- antsImageClone( thresholdImage( mask[[1]], 0, 0, 0, 1 ), "unsigned char" )
+          fMaskStr <- antsrGetPointerName( fixedMaskBinary )
+
+          movingMaskBinary <- antsImageClone( thresholdImage( mask[[2]], 0, 0, 0, 1 ), "unsigned char" )
+          mMaskStr <- antsrGetPointerName( movingMaskBinary )          
+          } else {
+
+          if( !is.null( mask ) ) 
+            {
+            fixedMaskBinary <- antsImageClone( thresholdImage( mask, 0, 0, 0, 1 ), "unsigned char" )
+            fMaskStr <- antsrGetPointerName( fixedMaskBinary )
+            }
+          if( !is.null( movingMask ) ) 
+            {
+            movingMaskBinary <- antsImageClone( thresholdImage( movingMask, 0, 0, 0, 1 ), "unsigned char" )
+            mMaskStr <- antsrGetPointerName( movingMaskBinary )
+            }
+          }
+
+        maskOption <- paste0( "[", fMaskStr, ",", mMaskStr, "]" )
+        if( maskAllStages ) 
+          {
+          earlyMaskOption <- maskOption
+          } else {
+          earlyMaskOption <- "[NA,NA]"
+          }
 
         if (is.na(initx)) {
           initx = paste("[", f, ",", m, ",1]", sep = "")
@@ -382,13 +399,12 @@ antsRegistration <- function(
                                    affSampling,",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Rigid[0.25]", "-c", "[1200x1200x100,1e-6,5]", "-s", "2x1x0",
                        "-f", "4x2x1",
-                       "-x", "[NA,NA]",
+                       "-x", earlyMaskOption,
                        "-m", paste(synMetric,"[", f, ",", m, ",1,",synSampling,"]", sep = ""),
                        "-t", mysyn, "-c", paste("[",synits,",1e-7,8]",collapse=''),
                        "-s", smoothingsigmas, "-f", shrinkfactors, "-u", "0", "-z", "1",
-                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""))
-          if ( !is.na( maskopt )  )
-            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""),
+                       "-x", maskOption )
         }
         if (typeofTransform == "SyNBoldAff") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
@@ -396,69 +412,65 @@ antsRegistration <- function(
                                    ",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Rigid[0.25]", "-c", "[1200x1200x100,1e-6,5]", "-s", "2x1x0",
                        "-f", "4x2x1",
-                       "-x", "[NA,NA]",
+                       "-x", earlyMaskOption,
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,
                                    ",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Affine[0.25]", "-c", "[200x20,1e-6,5]", "-s", "1x0",
                        "-f", "2x1",
-                       "-x", "[NA,NA]",
+                       "-x", earlyMaskOption,
                        "-m", paste(synMetric,"[", f, ",", m, ",1,",synSampling,
                                    "]", sep = ""),
                        "-t", mysyn,
                        "-c", paste("[",synits,",1e-7,8]",collapse=''),
                        "-s", smoothingsigmas, "-f", shrinkfactors, "-u", "0", "-z", "1",
-                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""))
-          if ( !is.na( maskopt )  )
-            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""),
+                       "-x", maskOption)
         }
         if (typeofTransform == "ElasticSyN") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Affine[0.25]", "-c", "2100x1200x200x0", "-s", "3x2x1x0",
                        "-f", "4x2x2x1",
-                       "-x", "[NA,NA]",
+                       "-x", earlyMaskOption,
                        "-m", paste(synMetric,"[", f, ",", m, ",1,",synSampling,"]", sep = ""),
                        "-t", mysyn,
                        "-c", paste("[",synits,",1e-7,8]",collapse=''),
                        "-s", smoothingsigmas, "-f", shrinkfactors,
                        "-u", "0", "-z", "1",
-                       "-o", paste("[", outprefix, ",",wmo, ",", wfo, "]", sep = ""))
-          if ( !is.na(maskopt)  )
-            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+                       "-o", paste("[", outprefix, ",",wmo, ",", wfo, "]", sep = ""),
+                       "-x", maskOption)
         }
         if (typeofTransform == "SyN") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Affine[0.25]", "-c", "2100x1200x1200x0", "-s", "3x2x1x0",
                        "-f", "4x2x2x1",
-                       "-x", "[NA,NA]",
+                       "-x", earlyMaskOption,
                        "-m", paste(synMetric,"[", f, ",", m, ",1,",synSampling,"]", sep = ""),
                        "-t", mysyn,
                        "-c", paste("[",synits,",1e-7,8]",collapse=''),
-                       "-s", smoothingsigmas, "-f", shrinkfactors, "-u",
-                       "0", "-z", "1",  "-o", paste("[", outprefix, ",",
-                                                              wmo, ",", wfo, "]", sep = ""))
-          if ( !is.na(maskopt)  )
-            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+                       "-s", smoothingsigmas, "-f", shrinkfactors, "-u", "0", "-z", "1",  
+                      "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""),
+                       "-x", maskOption 
+                      )
         }
         if (typeofTransform == "SyNRA") {
           args <- list("-d", as.character(fixed@dimension), "-r", initx,
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Rigid[0.25]", "-c", "2100x1200x1200x0", "-s", "3x2x1x0",
                        "-f", "4x2x2x1",
-                       "-x", "[NA,NA]",
+                       "-x", earlyMaskOption,
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Affine[0.25]", "-c", "2100x1200x1200x0", "-s", "3x2x1x0",
                        "-f", "4x2x2x1",
-                       "-x", "[NA,NA]",
+                       "-x", earlyMaskOption,
                        "-m", paste(synMetric,"[", f, ",", m, ",1,",synSampling,"]", sep = ""),
                        "-t", mysyn,
                        "-c", paste("[",synits,",1e-7,8]",collapse=''),
                        "-s", smoothingsigmas, "-f", shrinkfactors, "-u",
                        "0", "-z", "1",  "-o", paste("[", outprefix, ",",
-                                                              wmo, ",", wfo, "]", sep = ""))
-          if ( !is.na(maskopt)  )
-            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+                                                              wmo, ",", wfo, "]", sep = ""),
+                       "-x", maskOption)
         }
         if (typeofTransform == "ElasticOnly") {
           mysyn = paste("GaussianDisplacementField[",gradStep,",",flowSigma,",",totalSigma,"]", sep = "")
@@ -498,8 +510,7 @@ antsRegistration <- function(
             args=lappend(args0,args1)
             args=lappend(args,args2)
           }
-          if ( !is.na(maskopt)  )
-            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+            args=lappend( args, list( "-x", maskOption ) )
           }
 
         if (typeofTransform == "SyNAggro") {
@@ -507,15 +518,14 @@ antsRegistration <- function(
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Affine[0.25]", "-c", "2100x1200x1200x100", "-s", "3x2x1x0",
                        "-f", "4x2x2x1",
-                       "-x", "[NA,NA]",
+                       "-x", earlyMaskOption,
                        "-m", paste(synMetric,"[", f, ",", m, ",1,",synSampling,"]", sep = ""),
                        "-t", mysyn,
                        "-c", paste("[",synits,",1e-7,8]",collapse=''),
                        "-s", smoothingsigmas,
                        "-f", shrinkfactors, "-u", "0", "-z", "1",
-                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""))
-          if ( !is.na(maskopt)  )
-            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""),
+                       "-x", maskOption )
         }
         if (typeofTransform == "SyNCC") {
           synMetric="CC"
@@ -530,19 +540,18 @@ antsRegistration <- function(
                        "-c", "2100x1200x1200x0",
                        "-s", "3x2x1x0",
                        "-f", "4x4x2x1",
-                       "-x", "[NA,NA]",
+                       "-x", earlyMaskOption,
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Affine[1]", "-c", "1200x1200x100", "-s", "2x1x0",
                        "-f", "4x2x1",
-                       "-x", "[NA,NA]",
+                       "-x", earlyMaskOption,
                        "-m", paste(synMetric,"[", f, ",", m, ",1,",synSampling,"]", sep = ""),
                        "-t", mysyn,
                        "-c", paste("[",synits,",1e-7,8]",collapse=''),
                        "-s", smoothingsigmas,
                        "-f", shrinkfactors, "-u", "0", "-z", "1",
-                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""))
-          if ( !is.na(maskopt)  )
-            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""),
+                       "-x", maskOption )
         }
 
         if (typeofTransform == "TRSAA") {
@@ -559,34 +568,33 @@ antsRegistration <- function(
                        "-c", myconvlow,
                        "-s", smoothingsigmas,
                        "-f", shrinkfactors,
-                       "-x", "[NA,NA]",
+                       "-x", earlyMaskOption,
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.3]", sep = ""),
                        "-t", "Rigid[1]",
                        "-c", myconvlow,
                        "-s", smoothingsigmas,
                        "-f", shrinkfactors,
-                       "-x", "[NA,NA]",
+                       "-x", earlyMaskOption,
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.3]", sep = ""),
                        "-t", "Similarity[1]",
                        "-c", myconvlow,
                        "-s", smoothingsigmas,
                        "-f", shrinkfactors,
-                       "-x", "[NA,NA]",
+                       "-x", earlyMaskOption,
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.3]", sep = ""),
                        "-t", "Affine[1]",
                        "-c", myconvhi,
                        "-s", smoothingsigmas,
                        "-f", shrinkfactors,
-                       "-x", "[NA,NA]",
+                       "-x", earlyMaskOption,
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,0.3]", sep = ""),
                        "-t", "Affine[1]",
                        "-c", myconvhi,
                        "-s", smoothingsigmas,
                        "-f", shrinkfactors,
                        "-u", "0", "-z", "1",
-                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""))
-          if ( !is.na(maskopt)  )
-            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""),
+                       "-x", maskOption )
         }
 
         if (typeofTransform == "SyNabp") {
@@ -594,17 +602,16 @@ antsRegistration <- function(
                        "-m", paste("mattes[", f, ",", m, ",1,32,regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Rigid[0.1]", "-c", "1000x500x250x100", "-s", "4x2x1x0",
                        "-f", "8x4x2x1",
-                       "-x", "[NA,NA]",
+                       "-x", earlyMaskOption,
                        "-m", paste("mattes[", f, ",", m, ",1,32,regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Affine[0.1]", "-c", "1000x500x250x100", "-s", "4x2x1x0",
                        "-f", "8x4x2x1",
-                       "-x", "[NA,NA]",
+                       "-x", earlyMaskOption,
                        "-m", paste("CC[", f, ",", m, ",0.5,4]", sep = ""),
                        "-t", paste("SyN[0.1,3,0]", sep = ""), "-c", "50x10x0",
                        "-s", "2x1x0", "-f", "4x2x1", "-u", "0", "-z", "1",
-                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""))
-          if ( !is.na(maskopt)  )
-            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""),
+                       "-x", maskOption )
         }
 
         if (typeofTransform == "SyNLessAggro") {
@@ -612,15 +619,14 @@ antsRegistration <- function(
                        "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,",samplingPercentage,"]", sep = ""),
                        "-t", "Affine[0.25]", "-c", "2100x1200x1200x100", "-s", "3x2x1x0",
                        "-f", "4x2x2x1",
-                       "-x", "[NA,NA]",
+                       "-x", earlyMaskOption,
                        "-m", paste(synMetric,"[", f, ",", m, ",1,",synSampling,"]", sep = ""),
                        "-t", mysyn,
                        "-c", paste("[",synits,",1e-7,8]",collapse=''),
                        "-s", smoothingsigmas,
                        "-f", shrinkfactors, "-u", "0", "-z", "1",
-                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""))
-          if ( !is.na(maskopt)  )
-            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""),
+                       "-x", maskOption )
         }
         if ( typeofTransform == "TVMSQ" ) {
           if ( is.na(gradStep) ) gradStep=1.0
@@ -633,9 +639,8 @@ antsRegistration <- function(
                        "-s", smoothingsigmas,
                        "-f", shrinkfactors,
                        "-u", "0", "-z", "0",
-                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""))
-          if ( !is.na(maskopt)  )
-            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""),
+                       "-x", maskOption )
         }
         if ( typeofTransform == "TVMSQC" ) {
           if ( is.na(gradStep) ) gradStep=2.0
@@ -649,9 +654,8 @@ antsRegistration <- function(
                        "-s", "8x6x4x2x1vox",
                        "-f", "8x6x4x2x1",
                        "-u", "0", "-z", "0",
-                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""))
-          if ( !is.na(maskopt)  )
-            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""),
+                       "-x", maskOption )
         }
         if( typeofTransform %in% tvTypes )
         {
@@ -670,9 +674,8 @@ antsRegistration <- function(
                        "-s", smoothingsigmas,
                        "-f", shrinkfactors,
                        "-u", "0", "-z", "0",
-                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""))
-          if ( !is.na(maskopt)  )
-            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""),
+                       "-x", maskOption )
         }
 
         if ( typeofTransform == "Elastic" ) {
@@ -686,9 +689,8 @@ antsRegistration <- function(
                        "-s", smoothingsigmas,
                        "-f", shrinkfactors,
                        "-u", "0", "-z", "1",
-                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""))
-          if ( !is.na(maskopt)  )
-            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+                       "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""),
+                       "-x", maskOption )
         }
 
 
@@ -702,9 +704,8 @@ antsRegistration <- function(
             "-m", paste(affMetric,"[", f, ",", m, ",1,",affSampling,",regular,",metsam,"]", sep = ""),
             "-t", paste(typeofTransform, "[0.25]", sep = ""), "-c", myiterations,
             "-s", mysAff, "-f", myfAff, "-u", "0", "-z", "1",
-            "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""))
-          if ( !is.na(maskopt)  )
-            args=lappend(  args, list( "-x", maskopt ) ) else args=lappend( args, list( "-x", "[NA,NA]" ) )
+            "-o", paste("[", outprefix, ",", wmo, ",", wfo, "]", sep = ""),
+            "-x", maskOption )
         }
 
         if( grepl( "antsRegistrationSyN", typeofTransform ) )
@@ -809,7 +810,7 @@ antsRegistration <- function(
             }
 
           rigidStage <- list( "--transform", paste0( tx, "[0.1]" ),
-                               "--metric", paste0( linearMetric, "[", f, ",", m, ",1,", linearMetricParameter, ",regular,",samplingPercentage,"]" ),
+                              "--metric", paste0( linearMetric, "[", f, ",", m, ",1,", linearMetricParameter, ",regular,",samplingPercentage,"]" ),
                               "--convergence", rigidConvergence,
                               "--shrink-factors", rigidShrinkFactors,
                               "--smoothing-sigmas", rigidSmoothingSigmas
@@ -886,13 +887,7 @@ antsRegistration <- function(
             } else if( subtypeOfTransform == "bo" || subtypeOfTransform == "so" ) {
             args <- lappend( args, synStage )
             }
-
-          if( !is.na( maskopt ) )
-            {
-            args <- lappend( args, list( "-x", maskopt ) )
-            } else {
-            args <- lappend( args, list( "-x", "[NA,NA]" ) )
-            }
+          args <- lappend( args, list( "-x", maskOption ) )
 
           args <- as.list( unlist( args ) )
           }
@@ -918,7 +913,10 @@ antsRegistration <- function(
           args[[ length(args)+1]]="1"
         }
 
-        if ( printArgs ) print( args )
+        if ( printArgs ) 
+          {
+          cat( "antsRegistration", paste( unlist( args ) ), "\n" )
+          } 
         args = .int_antsProcessArguments(c(args))
         .Call("antsRegistration", args, PACKAGE = "ANTsRCore")
 
@@ -982,7 +980,11 @@ antsRegistration <- function(
     args[[ length(args)+1]]="-v"
     args[[ length(args)+1]]="1"
   }
-  if ( printArgs ) print( args )
+
+  if ( printArgs ) 
+    {
+    cat( "antsRegistration", paste( unlist( args ) ), "\n" )
+    } 
   args = .int_antsProcessArguments(c(args))
   .Call("antsRegistration", args, PACKAGE = "ANTsRCore")
 }
