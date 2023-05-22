@@ -46,8 +46,12 @@ antsIncludes <- function() {
 #' @export antsLibs
 antsLibs <- function() {
   antslibs <- paste( system.file("libs", package="ANTsRCore"), '/lib/', sep="")
-  if ( ! file.exists(antslibs) )
-    print("antsLibs: ants libs do not exist")
+  if ( ! file.exists(antslibs) ) {
+    # Check for libraries under /lib64
+    antslibs <- paste( system.file("libs", package="ANTsRCore"), '/lib64/', sep="")
+    if ( ! file.exists(antslibs) )
+        print("antsLibs: ants libs not found")
+  }
   cat( antslibs )
 }
 
