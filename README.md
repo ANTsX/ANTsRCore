@@ -61,3 +61,11 @@ git push  --tags origin
 ## 0.0.0
 
 First attempt release.
+
+## other
+
+if you see an error like: `error: src refspec refs/heads/master matches more than one` then try
+
+```
+git push origin master:master
+```
