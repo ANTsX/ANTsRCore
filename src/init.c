@@ -113,6 +113,7 @@ extern SEXP smoothImage(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP splitChannels(SEXP, SEXP);
 extern SEXP ThresholdImage(SEXP);
 extern SEXP ANTSIntegrateVelocityField(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP ANTSIntegrateVectorField(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
     {"antsApplyTransforms",                     (DL_FUNC) &antsApplyTransforms,                      1},
@@ -212,6 +213,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"splitChannels",                           (DL_FUNC) &splitChannels,                            2},
     {"ThresholdImage",                          (DL_FUNC) &ThresholdImage,                           1},
     {"ANTSIntegrateVelocityField",              (DL_FUNC) &ANTSIntegrateVelocityField,               6},
+    {"ANTSIntegrateVectorField",              (DL_FUNC) &ANTSIntegrateVectorField,               6},
     {NULL, NULL, 0}
 };
 

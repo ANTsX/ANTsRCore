@@ -72,3 +72,44 @@ integrateVelocityField <- function(
   temp <- .Call("ANTSIntegrateVelocityField",referenceImage, velocityFieldFileName, deformationFieldFileName,
      lowerTime, upperTime, deltaTime, PACKAGE = "ANTsRCore")
 }
+
+
+
+
+#' Integrate vector field
+#'
+#' Utility function to integrate a vector field and create a deformation field.
+#'
+#' @param referenceImage defines the image domain
+#' @param velocityFieldFileName the velocity field exists on disk.
+#' @param deformationFieldFileName the deformation field output file name.
+#' @param lowerTime the starting time, usually zero for forward transformation
+#' and one for the inverse transformation.
+#' @param upperTime the ending time, usually one for forward transformation
+#' and zero for the inverse transformation.
+#' @param deltaTime the integration time step
+#' @return NULL
+#' @author Avants BB
+#' @examples
+#' \dontrun{
+#' set.seed(1234)
+#' fi <- ( ri(1) )
+#' mi <- ( ri(2) )
+#' mytx2 <- antsRegistration(fixed=fi, mi, typeofTransform = "SyN" )
+#' integrateVectorField( fi, mytx2$velocityfield,  "/tmp/def.nii.gz" )
+#' }
+#' @export integrateVectorField
+integrateVectorField <- function(
+  referenceImage,
+  vectorFieldFileName,
+  deformationFieldFileName,
+  lowerTime = 0.0,
+  upperTime = 1.0,
+  deltaTime = 0.01
+) {
+  referenceImage = check_ants(referenceImage)
+  veccer = antsImageRead( vectorFieldFileName )
+  antsImageWrite( veccerdplus1, deformationFieldFileName )
+  temp <- .Call("ANTSIntegrateVectorField",referenceImage, deformationFieldFileName, deformationFieldFileName,
+     lowerTime, upperTime, deltaTime, PACKAGE = "ANTsRCore")
+}
