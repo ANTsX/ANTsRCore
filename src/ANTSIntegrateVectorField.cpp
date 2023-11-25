@@ -30,7 +30,7 @@
 
 
 template< class ImageType >
-void velocityIntegrationHelper(
+void vectorIntegrationHelper(
     SEXP r_refimg,
     std::string r_velocity,
     std::string r_deformation,
@@ -49,7 +49,7 @@ void velocityIntegrationHelper(
   typename ImageType::Pointer input = Rcpp::as<ImagePointerType>( r_refimg );
 
   using DisplacementFieldType = itk::Image<VectorType, Dimension>;
-  using TimeVaryingVelocityFieldType = itk::Image<VectorType, Dimension + 1>;
+  using TimeVaryingVelocityFieldType = itk::Image<VectorType, Dimension>;
   using tvt = TimeVaryingVelocityFieldType;
   typename tvt::Pointer timeVaryingVelocity;
 
@@ -89,7 +89,7 @@ void velocityIntegrationHelper(
   return;
 }
 
-RcppExport SEXP ANTSIntegrateVelocityField(
+RcppExport SEXP ANTSIntegrateVectorField(
   SEXP r_refimg,
   SEXP r_velocity,
   SEXP r_deformation,
@@ -111,7 +111,7 @@ try
     typedef float PixelType;
     const unsigned int dim = 2;
     typedef itk::Image< PixelType, dim > ImageType;
-    velocityIntegrationHelper< ImageType >( r_refimg,
+    vectorIntegrationHelper< ImageType >( r_refimg,
       Rcpp::as<std::string>(r_velocity),
       Rcpp::as<std::string>(r_deformation),
       r_t0,
@@ -124,7 +124,7 @@ try
     typedef float PixelType;
     const unsigned int dim = 3;
     typedef itk::Image< PixelType, dim > ImageType;
-    velocityIntegrationHelper< ImageType >( r_refimg,
+    vectorIntegrationHelper< ImageType >( r_refimg,
       Rcpp::as<std::string>(r_velocity),
       Rcpp::as<std::string>(r_deformation),
       r_t0,

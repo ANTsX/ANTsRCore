@@ -98,7 +98,7 @@ extern SEXP Atropos(SEXP);
 extern SEXP blobAnalysis(SEXP, SEXP, SEXP, SEXP, SEXP , SEXP );
 extern SEXP cropImage(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP DenoiseImage(SEXP);
-extern SEXP extractSlice(SEXP, SEXP, SEXP);
+extern SEXP extractSlice(SEXP, SEXP, SEXP, SEXP);
 extern SEXP imagesToMatrix(SEXP, SEXP, SEXP);
 extern SEXP iMathInterface(SEXP);
 extern SEXP iMathInterface1(SEXP);
@@ -198,7 +198,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"blobAnalysis",                            (DL_FUNC) &blobAnalysis,                             6},
     {"cropImage",                               (DL_FUNC) &cropImage,                                6},
     {"DenoiseImage",                            (DL_FUNC) &DenoiseImage,                             1},
-    {"extractSlice",                            (DL_FUNC) &extractSlice,                             3},
+    {"extractSlice",                            (DL_FUNC) &extractSlice,                             4},
     {"imagesToMatrix",                          (DL_FUNC) &imagesToMatrix,                           3},
     {"iMathInterface",                          (DL_FUNC) &iMathInterface,                           1},
     {"iMathInterface1",                         (DL_FUNC) &iMathInterface1,                          1},
@@ -212,8 +212,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"smoothImage",                             (DL_FUNC) &smoothImage,                              5},
     {"splitChannels",                           (DL_FUNC) &splitChannels,                            2},
     {"ThresholdImage",                          (DL_FUNC) &ThresholdImage,                           1},
-    {"ANTSIntegrateVelocityField",              (DL_FUNC) &ANTSIntegrateVelocityField,               6},
-    {"ANTSIntegrateVectorField",              (DL_FUNC) &ANTSIntegrateVectorField,               6},
     {NULL, NULL, 0}
 };
 

@@ -4,7 +4,7 @@
 \alias{extractSlice}
 \title{extract a slice from an image}
 \usage{
-extractSlice(image, slice, direction)
+extractSlice(image, slice, direction, collapseStrategy = 0)
 }
 \arguments{
 \item{image}{antsImage to crop}
@@ -12,6 +12,11 @@ extractSlice(image, slice, direction)
 \item{slice}{which slice, integer}
 
 \item{direction}{which axis, integer}
+
+\item{collapseStrategy}{collapse sub-matrix. 
+0: Collapse sub-matrix if positive definite.  Otherwise, thrown exception. Default.
+1: Set sub-matrix to identity.  2: Collapse if positive definite.  Otherwise,
+set to identity.}
 }
 \value{
 antsImage of dimension - 1
