@@ -66,7 +66,7 @@ simulateDisplacementField <- function(
       as.numeric( enforceStationaryBoundary ),
       as.numeric( numberOfFittingLevels ),
       as.numeric( numberOfControlPoints ),
-      PACKAGE = "ANTsR" )
+      PACKAGE = "ANTsRCore" )
     return( outputField )
 
     } else if( fieldType == 'exponential' ) {
@@ -77,7 +77,7 @@ simulateDisplacementField <- function(
       as.numeric( sdNoise ),
       as.numeric( enforceStationaryBoundary ),
       as.numeric( sdSmoothing ),
-      PACKAGE = "ANTsR" )
+      PACKAGE = "ANTsRCore" )
     return( outputField )
 
     } else {

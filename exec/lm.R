@@ -1,4 +1,4 @@
-library(ANTsR)
+library(ANTsRCore)
 layout(matrix(1:8,nrow=4,byrow=T))
 # these are in inst extdata
 img=antsImageRead("r16slice.jpg")

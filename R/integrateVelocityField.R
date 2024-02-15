@@ -34,6 +34,6 @@ integrateVelocityField <- function(
     as.numeric( lowerIntegrationBound ), 
     as.numeric( upperIntegrationBound ),
     as.numeric( numberOfIntegrationSteps ),
-    PACKAGE = "ANTsR")
+    PACKAGE = "ANTsRCore")
   return( integratedField )
 }

@@ -24,7 +24,7 @@ hausdorffDistance <- function( inputImage1, inputImage2 )
   inputImage2 <- check_ants( inputImage2 )
 
   hausdorff <- .Call( "HausdorffDistanceR",
-    inputImage1, inputImage2, PACKAGE = "ANTsR" )
+    inputImage1, inputImage2, PACKAGE = "ANTsRCore" )
 
   return( hausdorff )
 }

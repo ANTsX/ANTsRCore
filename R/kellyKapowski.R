@@ -68,6 +68,6 @@ kellyKapowski <- function( s, g, w,
     o = outimg, v = as.numeric( verbose ),
     ...)
   temp<-.Call( "KellyKapowski", .int_antsProcessArguments(c(kkargs)),
-    PACKAGE = "ANTsR" )
+    PACKAGE = "ANTsRCore" )
   return(outimg)
 }

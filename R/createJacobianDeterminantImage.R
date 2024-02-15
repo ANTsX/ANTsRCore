@@ -33,6 +33,6 @@ createJacobianDeterminantImage <- function(
       antsImageClone( domainImg ), txuse,
       as.numeric( doLog ),
       as.numeric( geom ),
-      PACKAGE = "ANTsR")
+      PACKAGE = "ANTsRCore")
   return( outimg )
 }

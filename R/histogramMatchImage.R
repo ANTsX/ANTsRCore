@@ -32,6 +32,6 @@ histogramMatchImage <- function(
     as.numeric( numberOfHistogramBins ), 
     as.numeric( numberOfMatchPoints ),
     as.numeric( useThresholdAtMeanIntensity ),
-    PACKAGE = "ANTsR")
+    PACKAGE = "ANTsRCore")
   return( outputImage )
 }

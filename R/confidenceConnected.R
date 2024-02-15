@@ -56,6 +56,6 @@ confidenceConnected <- function(inimg, seed,
   outimg <- .Call("confidenceConnectedImage",
                   inimg.float, outimg, seed,
                   radius, multiplier, iterations,
-                  PACKAGE = "ANTsR")
+                  PACKAGE = "ANTsRCore")
   return(antsImageClone(outimg, inimg@pixeltype))
 }

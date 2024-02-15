@@ -284,7 +284,7 @@ sparseDecom2 <- function(
                   verbose,
                   priorWeight,
                   maxBased,
-                  PACKAGE="ANTsR" )
+                  PACKAGE="ANTsRCore" )
   p1 = inputMatrices[[1]] %*% t(outval$eig1)
   p2 = inputMatrices[[2]] %*% t(outval$eig2)
   outcorrs = diag( cor( p1 , p2  ) )

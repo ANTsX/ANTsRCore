@@ -21,6 +21,6 @@ composeDisplacementFields <- function(
     dimensionality,
     displacementField,
     warpingField,
-    PACKAGE = "ANTsR" )
+    PACKAGE = "ANTsRCore" )
   return( compField )
 }

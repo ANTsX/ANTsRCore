@@ -15,6 +15,6 @@
 #'
 #' @export fsl2antsrTransform
 fsl2antsrTransform <- function( matrix, reference, moving ) {
-  retval = .Call("fsl2antsrTransform", matrix, reference, moving, 1, PACKAGE="ANTsR")
+  retval = .Call("fsl2antsrTransform", matrix, reference, moving, 1, PACKAGE="ANTsRCore")
   return( retval )
 }

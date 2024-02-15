@@ -42,7 +42,7 @@ reorientImage <- function(img, axis1, axis2 = NA,
     txfn = tempfile(fileext = ".mat")
   .Call("reorientImage", img, txfn, axis1, axis2, doreflection,
     doscale = doscale,
-    PACKAGE = "ANTsR")
+    PACKAGE = "ANTsRCore")
   img2 <- antsApplyTransforms(img, img, transformlist = c(txfn))
   return(list(reoimg = img2, txfn = txfn))
 }
@@ -75,6 +75,6 @@ getCenterOfMass <- function( img ) {
     print("input images must have float pixeltype")
     return(NA)
   }
-  mycom = .Call("centerOfMass", img, PACKAGE = "ANTsR")
+  mycom = .Call("centerOfMass", img, PACKAGE = "ANTsRCore")
   return( mycom )
 }

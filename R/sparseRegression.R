@@ -89,7 +89,7 @@ sparseRegression <- function(inmatrix, demog, outcome, mask = NULL, sparseness =
   args <- list("--svd", paste("network[", matname, ",", mfn, ",", sparseness, ",",
     demog.name, "]", sep = ""), "--l1", 1, "-i", its, "--PClusterThresh", cthresh,
     "-n", nvecs, "-o", outfn, "-z", z, "-s", smooth)
-  .Call("sccanX", .int_antsProcessArguments(c(args)), PACKAGE = "ANTsR")
+  .Call("sccanX", .int_antsProcessArguments(c(args)), PACKAGE = "ANTsRCore")
   mydecomp <- read.csv(decomp)
   if (!is.null(mask)) {
     glb <- paste("spca*View1vec*.nii.gz", sep = "")

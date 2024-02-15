@@ -144,14 +144,14 @@ sparseDecom <- function(inmatrix = NA, inmask = NULL,
                     inmask, sparseness, nvecs, its, cthresh, z, smooth,
                     initializationList, mycoption, ell1, verbose, powerit,
                     priorWeight, maxBased,
-                    PACKAGE="ANTsR" )
+                    PACKAGE="ANTsRCore" )
   } else {
     outval = .Call( "eigenanatomyCpp",
                     inmatrix,
                     inmask, sparseness, nvecs, its, cthresh, z, smooth,
                     initializationList, mycoption, ell1, verbose, powerit,
                     priorWeight, maxBased,
-                    PACKAGE="ANTsR" )
+                    PACKAGE="ANTsRCore" )
   }
   time2 <- (Sys.time())
   outval = lappend( outval,  (time2 - time1) )

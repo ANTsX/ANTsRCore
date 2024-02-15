@@ -45,6 +45,6 @@ connectedThresholdImage <- function(inimg, seed,
   outimg <- .Call("connectedThresholdImage",
                   inimg.float, outimg, seed,
                   upper, lower,
-                  PACKAGE = "ANTsR")
+                  PACKAGE = "ANTsRCore")
   return(antsImageClone(outimg, inimg@pixeltype))
 }

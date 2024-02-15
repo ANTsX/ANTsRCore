@@ -89,6 +89,6 @@ fitThinPlateSplineDisplacementField <- function(
     dimensionality,
     displacementOrigins, displacements,
     origin, spacing, size, direction,
-    PACKAGE = "ANTsR" )
+    PACKAGE = "ANTsRCore" )
   return( tpsField )
 }

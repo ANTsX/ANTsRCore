@@ -65,6 +65,6 @@ addNoiseToImage <- function(
     antsImageClone( image ),
     whichNoiseModel,
     as.numeric( noiseParameters ),
-    PACKAGE = "ANTsR" )
+    PACKAGE = "ANTsRCore" )
   return( outputImage )
 }

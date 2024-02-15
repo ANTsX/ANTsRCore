@@ -173,6 +173,6 @@ fitBsplineDisplacementField <- function(
     origin, spacing, size, direction,
     numberOfFittingLevels, numberOfControlPoints, splineOrder,
     enforceStationaryBoundary, estimateInverse, rasterizePoints,
-    PACKAGE = "ANTsR" )
+    PACKAGE = "ANTsRCore" )
   return( bsplineField )
 }

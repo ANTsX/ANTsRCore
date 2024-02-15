@@ -167,6 +167,6 @@ fitBsplineObjectToScatteredData <- function(
     parametricDomainSize, isParametricDimensionClosed,
     numberOfFittingLevels, numberOfControlPoints,
     splineOrder,
-    PACKAGE = "ANTsR" )
+    PACKAGE = "ANTsRCore" )
   return( bsplineObject )
 }

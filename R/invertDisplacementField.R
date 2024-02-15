@@ -33,6 +33,6 @@ invertDisplacementField <- function(
     as.numeric( meanErrorToleranceThreshold ),
     as.numeric( maxErrorToleranceThreshold ),
     as.numeric( enforceBoundaryCondition ),
-    PACKAGE = "ANTsR")
+    PACKAGE = "ANTsRCore")
   return( inverseField )
 }
