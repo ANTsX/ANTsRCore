@@ -29,17 +29,17 @@
 #'
 #' @export kellyKapowski
 kellyKapowski <- function( s, g, w,
-                           its = 45, r = 0.025,
-                           m = 1.5,  x = FALSE,
-                           e = FALSE,
-                           q = NULL,
-                           timeSigma = 1,
-                           verbose = FALSE, ...) {
+   its = 45, r = 0.025,
+   m = 1.5,  x = FALSE,
+   e = FALSE,
+   q = NULL,
+   timeSigma = 1,
+   verbose = FALSE, ...) {
   s = check_ants(s)
   g = check_ants(g)
   w = check_ants(w)
   if (missing(s) | missing(g) | missing(w) |
-      is.null(s) | is.null(g) | is.null(w)) {
+    is.null(s) | is.null(g) | is.null(w)) {
     print("Input error - check params & usage")
     return(NULL)
   }
@@ -47,27 +47,27 @@ kellyKapowski <- function( s, g, w,
   if (is.antsImage(s)) {
     s <- antsImageClone(s, "unsigned int")
   }
-  
+
   timestring = 0
   if ( ! is.null(q) ) {
     timedim = dim(  g  )[ g@dimension ]
     timestring = paste0( q, collapse='x')
     if ( length(q) != timedim ) {
       message( paste("timedim is",timedim, "and timestring is",timestring,  ":these should be of equal length."))
-    }
+      }
     timestring = paste0( "[",timestring,",",timeSigma,"]" )
   }
-  
+
   # kellyKapowski( d=3, s=simg, g=gimg,w=wimg,c=10,r=0.5,m=1,o=oimg )
   d=s@dimension
   outimg=antsImageClone(g)
   itsstring = paste0( "[",its,",0,10]" )
   kkargs <- list(d = d, s = s, g = g, w = w,
-                 c = itsstring, r = r, m = m, e = as.numeric( e ), x = as.numeric( x ),
-                 q = timestring,
-                 o = outimg, v = as.numeric( verbose ),
-                 ...)
+    c = itsstring, r = r, m = m, e = as.numeric( e ), x = as.numeric( x ),
+    q = timestring,
+    o = outimg, v = as.numeric( verbose ),
+    ...)
   temp<-.Call( "KellyKapowski", .int_antsProcessArguments(c(kkargs)),
-               PACKAGE = "ANTsR" )
+    PACKAGE = "ANTsR" )
   return(outimg)
 }
