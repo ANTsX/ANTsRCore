@@ -17,8 +17,7 @@
 #' velocityField <- antsImageRead( reg$velocityfield )
 #' field <- integrateVelocityField( velocityField, 0.0, 1.0, 10 )
 #'
-#' @export integrateVelocityField
-
+#' @export
 integrateVelocityField <- function(
   velocityField,
   lowerIntegrationBound = 0.0,

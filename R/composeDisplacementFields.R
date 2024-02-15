@@ -8,8 +8,7 @@
 #'
 #' @author NJ Tustison
 #'
-#' @export composeDisplacementFields
-
+#' @export
 composeDisplacementFields <- function(
   displacementField,
   warpingField

@@ -52,15 +52,15 @@ thresholdImage <- function(inimg,
 #' fi <- ( ri(1) )
 #' mi <- ( ri(2) )
 #' mytx2 <- antsRegistration(fixed=fi, mi, typeofTransform = "TV[4]" )
-#' integrateVelocityField( fi, mytx2$velocityfield,  "/tmp/def.nii.gz" )
+#' integrateVelocityField2( fi, mytx2$velocityfield,  "/tmp/def.nii.gz" )
 #' qq=antsApplyTransforms( fi, mi, mytx2$fwdtransforms )
 #' pp=antsApplyTransforms( fi, mi, "/tmp/def.nii.gz" )
 #' antsImageMutualInformation( fi, mi )
 #' antsImageMutualInformation( fi, qq )
 #' antsImageMutualInformation( fi, pp )
 #' }
-#' @export integrateVelocityField
-integrateVelocityField <- function(
+#' @export
+integrateVelocityField2 <- function(
   referenceImage,
   velocityFieldFileName,
   deformationFieldFileName,

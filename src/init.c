@@ -8,6 +8,7 @@
   e.g., with different numbers of arguments:
 
     antsrMetric
+    integrateVelocityField (in R; cpp fns differ by ANTS* prefix)
 
   This needs to be resolved in the tables and any declarations.
 */
@@ -121,7 +122,7 @@ extern SEXP antsAffineInitializer(SEXP);
 extern SEXP antsMotionCorr(SEXP);
 extern SEXP antsMotionCorrStats(SEXP, SEXP, SEXP, SEXP);
 extern SEXP centerOfMass(SEXP);
-extern SEXP composeDisplacementFields(SEXP, SEXP, SEXP);
+//extern SEXP composeDisplacementFields(SEXP, SEXP, SEXP);
 extern SEXP createJacobianDeterminantImageR(SEXP, SEXP, SEXP, SEXP);
 extern SEXP eigenanatomyCpp(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP fastMarchingExtension(SEXP, SEXP, SEXP);
@@ -252,7 +253,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"antsMotionCorr",                          (DL_FUNC) &antsMotionCorr,                         1},
     {"antsMotionCorrStats",                     (DL_FUNC) &antsMotionCorrStats,                    4},
     {"centerOfMass",                            (DL_FUNC) &centerOfMass,                           1},
-    {"composeDisplacementFields",               (DL_FUNC) &composeDisplacementFields,              3},
+    //{"composeDisplacementFields",               (DL_FUNC) &composeDisplacementFields,              3},
     {"createJacobianDeterminantImageR",         (DL_FUNC) &createJacobianDeterminantImageR,        4},
     {"eigenanatomyCpp",                         (DL_FUNC) &eigenanatomyCpp,                       15},
     {"fastMarchingExtension",                   (DL_FUNC) &fastMarchingExtension,                  3},
