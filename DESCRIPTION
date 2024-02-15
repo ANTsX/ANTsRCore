@@ -12,15 +12,38 @@ Description: 'ANTsR' interfaces state of the art image processing with R statist
 License: Apache License (>= 2.0)
 LazyLoad: yes
 LazyData: true
-Depends: methods, R (>= 2.10)
-LinkingTo: Rcpp, ITKR
-Imports: Rcpp, ITKR (>= 0.5.0), RcppEigen, tools, magrittr, stats, utils
-Suggests: abind, colormap, covr, knitr, pixmap, rmarkdown, testthat, viridis
-SystemRequirements: cmake, git, clang, GNU make, v8
+Depends: 
+  R (>= 2.10),
+  methods,
+  ITKR
+LinkingTo: 
+  Rcpp, 
+  ITKR
+Imports: 
+  Rcpp, 
+  ITKR (>= 0.5.0), 
+  RcppEigen, 
+  tools, 
+  magrittr, 
+  stats, 
+  utils
+Suggests: 
+  abind, 
+  colormap, 
+  covr, 
+  knitr, 
+  pixmap, 
+  rmarkdown, 
+  testthat, 
+  viridis
+SystemRequirements: 
+  cmake, 
+  git, 
+  clang, 
+  GNU make, 
+  v8
 NeedsCompilation: yes
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Encoding: UTF-8
-Repository: Neuroconductor
 Remotes: stnava/ITKR
-biocViews: 

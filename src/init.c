@@ -105,7 +105,7 @@ extern SEXP iMathInterface(SEXP);
 extern SEXP iMathInterface1(SEXP);
 extern SEXP iMathInterface2(SEXP);
 extern SEXP LabelClustersUniquely(SEXP);
-extern SEXP labelStats(SEXP, SEXP);
+extern SEXP labelStats(SEXP);
 extern SEXP mergeChannels(SEXP, SEXP);
 extern SEXP N3BiasFieldCorrection(SEXP);
 extern SEXP N4BiasFieldCorrection(SEXP);
