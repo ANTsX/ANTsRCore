@@ -127,8 +127,9 @@ SEXP antsrMetric( std::string type, SEXP r_fixed, SEXP r_moving )
   return( Rcpp::wrap(NA_REAL) );
 }
 
-//pixeltype, precision, dimension, type, isVector
-RcppExport SEXP antsrMetric( SEXP r_pixeltype,
+
+// [[Rcpp::export]]
+SEXP antsrMetric( SEXP r_pixeltype,
   SEXP r_dimension, SEXP r_type, SEXP r_isVector, SEXP r_fixed, SEXP r_moving )
 {
 try
@@ -247,7 +248,8 @@ void antsrMetric_SetImage( SEXP r_metric, SEXP r_antsimage, bool isFixed, bool i
 }
 
 
-RcppExport SEXP antsrMetric_SetImage( SEXP r_metric,
+// [[Rcpp::export]]
+SEXP antsrMetric_SetImage( SEXP r_metric,
   SEXP r_antsimage, SEXP r_isFixed, SEXP r_isMask )
 {
 try
@@ -360,7 +362,8 @@ void antsrMetric_SetTransform( SEXP r_metric, SEXP r_antsrtransform, bool isFixe
 }
 
 
-RcppExport SEXP antsrMetric_SetTransform( SEXP r_metric,
+// [[Rcpp::export]]
+SEXP antsrMetric_SetTransform( SEXP r_metric,
   SEXP r_antsrtransform, SEXP r_isFixed )
 {
 try
@@ -455,7 +458,8 @@ SEXP antsrMetric_GetValue( SEXP r_metric )
 }
 
 //pixeltype, precision, dimension, type, isVector
-RcppExport SEXP antsrMetric_GetValue( SEXP r_metric )
+// [[Rcpp::export]]
+SEXP antsrMetric_GetValue( SEXP r_metric )
 {
 try
 {
@@ -560,7 +564,8 @@ SEXP antsrMetric_GetDerivative( SEXP r_metric )
 }
 
 //pixeltype, precision, dimension, type, isVector
-RcppExport SEXP antsrMetric_GetDerivative( SEXP r_metric )
+// [[Rcpp::export]]
+SEXP antsrMetric_GetDerivative( SEXP r_metric )
 {
 try
 {
@@ -728,7 +733,8 @@ void antsrMetric_SetSampling( SEXP r_metric, std::string strategy, double percen
 }
 
 //pixeltype, precision, dimension, type, isVector
-RcppExport SEXP antsrMetric_SetSampling( SEXP r_metric,
+// [[Rcpp::export]]
+SEXP antsrMetric_SetSampling( SEXP r_metric,
   SEXP r_strategy, SEXP r_percentage )
 {
 try
@@ -850,7 +856,8 @@ void antsrMetric_SetNumberOfHistogramBins( SEXP r_metric, unsigned int nBins )
 
 }
 
-RcppExport SEXP antsrMetric_SetNumberOfHistogramBins( SEXP r_metric, SEXP r_nBins )
+// [[Rcpp::export]]
+SEXP antsrMetric_SetNumberOfHistogramBins( SEXP r_metric, SEXP r_nBins )
 {
 try
 {
@@ -959,7 +966,8 @@ void antsrMetric_SetRadius( SEXP r_metric, unsigned int radius )
 
 }
 
-RcppExport SEXP antsrMetric_SetRadius( SEXP r_metric, SEXP r_radius )
+// [[Rcpp::export]]
+SEXP antsrMetric_SetRadius( SEXP r_metric, SEXP r_radius )
 {
 try
 {
@@ -1050,7 +1058,8 @@ void antsrMetric_Initialize( SEXP r_metric )
   metric->Initialize();
 }
 
-RcppExport SEXP antsrMetric_Initialize( SEXP r_metric )
+// [[Rcpp::export]]
+SEXP antsrMetric_Initialize( SEXP r_metric )
 {
 try
 {

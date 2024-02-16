@@ -1,3 +1,6 @@
+*.tgz
+..Rcheck/
+
 # ignore all the backup files created by editors
 *~
 *.so

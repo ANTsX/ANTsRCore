@@ -55,7 +55,8 @@ SEXP antsImageLogicImageNumeric( typename itk::Image< PixelType , Dimension >::P
   return Rcpp::wrap(NA_REAL);
 }
 
-RcppExport SEXP antsImageLogicImageNumeric( SEXP r_antsimage, SEXP r_numeric, SEXP r_operator ) {
+// [[Rcpp::export]]
+SEXP antsImageLogicImageNumeric( SEXP r_antsimage, SEXP r_numeric, SEXP r_operator ) {
 try
   {
   if( r_antsimage == NULL || r_numeric == NULL || r_operator == NULL )
@@ -202,7 +203,8 @@ SEXP antsImageLogicImageImage( typename itk::Image< PixelType , Dimension >::Poi
   return Rcpp::wrap(NA_REAL);
 }
 
-RcppExport SEXP antsImageLogicImageImage( SEXP r_antsimage1, SEXP r_antsimage2, SEXP r_operator ) {
+// [[Rcpp::export]]
+SEXP antsImageLogicImageImage( SEXP r_antsimage1, SEXP r_antsimage2, SEXP r_operator ) {
 try
   {
   if( r_antsimage1 == NULL || r_antsimage2 == NULL || r_operator == NULL )

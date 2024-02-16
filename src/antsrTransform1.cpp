@@ -74,7 +74,8 @@ SEXP antsrTransform( SEXP r_precision, SEXP r_dimension, SEXP r_type )
   return Rcpp::wrap(NA_REAL);
 }
 
-RcppExport SEXP antsrTransform( SEXP r_precision, SEXP r_dimension, SEXP r_type )
+// [[Rcpp::export]]
+SEXP antsrTransform( SEXP r_precision, SEXP r_dimension, SEXP r_type )
 {
 try
 {
@@ -346,7 +347,8 @@ SEXP antsrTransform_MatrixOffset( SEXP r_type, SEXP r_precision, SEXP r_dimensio
   return Rcpp::wrap( itkTransform );
 }
 
-RcppExport SEXP antsrTransform_MatrixOffset( SEXP r_type, SEXP r_precision, SEXP r_dimension,
+// [[Rcpp::export]]
+SEXP antsrTransform_MatrixOffset( SEXP r_type, SEXP r_precision, SEXP r_dimension,
   SEXP r_matrix, SEXP r_offset, SEXP r_center, SEXP r_translation,
   SEXP r_parameters, SEXP r_fixedparameters )
 {
@@ -443,8 +445,8 @@ SEXP antsrTransform_GetParameters( SEXP r_transform )
   return parameters;
 }
 
-
-RcppExport SEXP antsrTransform_GetParameters( SEXP r_transform )
+// [[Rcpp::export]]
+SEXP antsrTransform_GetParameters( SEXP r_transform )
 {
 try
 {
@@ -543,7 +545,8 @@ SEXP antsrTransform_SetParameters( SEXP r_transform, SEXP r_parameters )
   return(Rcpp::wrap(true));
 }
 
-RcppExport SEXP antsrTransform_SetParameters( SEXP r_transform, SEXP r_parameters )
+// [[Rcpp::export]]
+SEXP antsrTransform_SetParameters( SEXP r_transform, SEXP r_parameters )
 {
 try
 {
@@ -632,8 +635,8 @@ SEXP antsrTransform_GetFixedParameters( SEXP r_transform )
   return parameters;
 }
 
-
-RcppExport SEXP antsrTransform_GetFixedParameters( SEXP r_transform )
+// [[Rcpp::export]]
+SEXP antsrTransform_GetFixedParameters( SEXP r_transform )
 {
 try
 {
@@ -732,7 +735,8 @@ SEXP antsrTransform_SetFixedParameters( SEXP r_transform, SEXP r_parameters )
   return(Rcpp::wrap(true));
 }
 
-RcppExport SEXP antsrTransform_SetFixedParameters( SEXP r_transform, SEXP r_parameters )
+// [[Rcpp::export]]
+SEXP antsrTransform_SetFixedParameters( SEXP r_transform, SEXP r_parameters )
 {
 try
 {

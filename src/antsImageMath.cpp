@@ -1444,8 +1444,8 @@ SEXP antsImageMath( SEXP r_antsimage, SEXP r_operator )
   return Rcpp::wrap(NA_REAL);
 }
 
-
-RcppExport SEXP antsImageMath( SEXP r_antsimage, SEXP r_operator ) {
+// [[Rcpp::export]]
+SEXP antsImageMath( SEXP r_antsimage, SEXP r_operator ) {
 try
   {
   if( r_antsimage == NULL || r_operator == NULL )

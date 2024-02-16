@@ -56,8 +56,8 @@ SEXP antsImageStats( SEXP r_antsimage, SEXP r_mask, SEXP r_narm )
   return Rcpp::wrap(L);
 }
 
-
-RcppExport SEXP antsImageStats( SEXP r_antsimage, SEXP r_mask, SEXP r_narm ) {
+// [[Rcpp::export]]
+SEXP antsImageStats( SEXP r_antsimage, SEXP r_mask, SEXP r_narm ) {
 try
   {
   if( r_antsimage == NULL )

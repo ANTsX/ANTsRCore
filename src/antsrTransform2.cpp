@@ -85,7 +85,8 @@ SEXP antsrTransform_TransformPoint( SEXP r_transform, SEXP r_point )
 }
 
 
-RcppExport SEXP antsrTransform_TransformPoint( SEXP r_transform, SEXP r_point )
+// [[Rcpp::export]]
+SEXP antsrTransform_TransformPoint( SEXP r_transform, SEXP r_point )
 {
 try
 {
@@ -192,7 +193,8 @@ SEXP antsrTransform_TransformVector( SEXP r_transform, SEXP r_vector )
 }
 
 
-RcppExport SEXP antsrTransform_TransformVector( SEXP r_transform, SEXP r_vector )
+// [[Rcpp::export]]
+SEXP antsrTransform_TransformVector( SEXP r_transform, SEXP r_vector )
 {
 try
 {
@@ -502,7 +504,8 @@ SEXP antsrTransform_TransformImage( SEXP r_transform, SEXP r_image, SEXP r_ref, 
 }
 
 
-RcppExport SEXP antsrTransform_TransformImage( SEXP r_transform, SEXP r_image, SEXP r_ref, SEXP r_iterpolation )
+// [[Rcpp::export]]
+SEXP antsrTransform_TransformImage( SEXP r_transform, SEXP r_image, SEXP r_ref, SEXP r_iterpolation )
 {
 try
 {
@@ -673,7 +676,8 @@ SEXP antsrTransform_Read( SEXP r_filename, SEXP r_precision )
   return antsrTransform;
 }
 
-RcppExport SEXP antsrTransform_Read( SEXP r_filename, SEXP r_dimension, SEXP r_precision )
+// [[Rcpp::export]]
+SEXP antsrTransform_Read( SEXP r_filename, SEXP r_dimension, SEXP r_precision )
 {
 try
 {
@@ -788,7 +792,8 @@ SEXP antsrTransform_Compose( SEXP r_list, SEXP r_precision )
   return antsrTransform;
 }
 
-RcppExport SEXP antsrTransform_Compose( SEXP r_list, SEXP r_dimension, SEXP r_precision )
+// [[Rcpp::export]]
+SEXP antsrTransform_Compose( SEXP r_list, SEXP r_dimension, SEXP r_precision )
 {
 try
 {
@@ -916,7 +921,8 @@ SEXP antsrTransform_FromDisplacementField( SEXP r_field, std::string precision )
   return antsrTransform;
 }
 
-RcppExport SEXP antsrTransform_FromDisplacementField( SEXP r_field )
+// [[Rcpp::export]]
+SEXP antsrTransform_FromDisplacementField( SEXP r_field )
 {
 try
 {
@@ -1102,7 +1108,8 @@ SEXP antsrTransform_WarpToDisplacementField( SEXP r_tx )
 
 }
 
-RcppExport SEXP antsrTransform_ToDisplacementField( SEXP r_tx, SEXP r_ref )
+// [[Rcpp::export]]
+SEXP antsrTransform_ToDisplacementField( SEXP r_tx, SEXP r_ref )
 {
 try
 {
@@ -1256,7 +1263,8 @@ SEXP antsrTransform_Inverse( SEXP r_transform )
 }
 
 
-RcppExport SEXP antsrTransform_Inverse( SEXP r_transform )
+// [[Rcpp::export]]
+SEXP antsrTransform_Inverse( SEXP r_transform )
 {
 try
 {
@@ -1347,7 +1355,8 @@ SEXP antsrTransform_Write( SEXP r_transform ,SEXP filename_ )
   return Rcpp::wrap(true);
 
 }
-RcppExport SEXP antsrTransform_Write( SEXP r_transform ,SEXP filename_)
+// [[Rcpp::export]]
+SEXP antsrTransform_Write( SEXP r_transform ,SEXP filename_)
 {
   try
   {

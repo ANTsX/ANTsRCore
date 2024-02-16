@@ -30,7 +30,8 @@ SEXP antsImageIterator( SEXP r_antsimage )
 }
 
 
-RcppExport SEXP antsImageIterator( SEXP r_antsimage )
+// [[Rcpp::export]]
+SEXP antsImageIterator( SEXP r_antsimage )
 {
 try
 {
@@ -164,8 +165,8 @@ SEXP antsImageIterator_Get( SEXP r_antsimageiterator )
   return Rcpp::wrap( iterator.Get() );
 }
 
-
-RcppExport SEXP antsImageIterator_Get( SEXP r_antsimageiterator )
+// [[Rcpp::export]]
+SEXP antsImageIterator_Get( SEXP r_antsimageiterator )
 {
 try
 {
@@ -303,7 +304,8 @@ SEXP antsImageIterator_Set( SEXP r_antsimageiterator, SEXP r_value )
 }
 
 
-RcppExport SEXP antsImageIterator_Set( SEXP r_antsimageiterator, SEXP r_value )
+// [[Rcpp::export]]
+SEXP antsImageIterator_Set( SEXP r_antsimageiterator, SEXP r_value )
 {
 try
 {
@@ -438,7 +440,8 @@ SEXP antsImageIterator_Next( SEXP r_antsimageiterator )
   return Rcpp::wrap( iterator );
 }
 
-RcppExport SEXP antsImageIterator_Next( SEXP r_antsimageiterator )
+// [[Rcpp::export]]
+SEXP antsImageIterator_Next( SEXP r_antsimageiterator )
 {
 try
 {
@@ -572,7 +575,8 @@ SEXP antsImageIterator_Previous( SEXP r_antsimageiterator )
   return Rcpp::wrap( iterator );
 }
 
-RcppExport SEXP antsImageIterator_Previous( SEXP r_antsimageiterator )
+// [[Rcpp::export]]
+SEXP antsImageIterator_Previous( SEXP r_antsimageiterator )
 {
 try
 {
@@ -705,7 +709,8 @@ SEXP antsImageIterator_IsAtEnd( SEXP r_antsimageiterator )
   return Rcpp::wrap( iterator.IsAtEnd() );
 }
 
-RcppExport SEXP antsImageIterator_IsAtEnd( SEXP r_antsimageiterator )
+// [[Rcpp::export]]
+SEXP antsImageIterator_IsAtEnd( SEXP r_antsimageiterator )
 {
 try
 {
@@ -840,7 +845,8 @@ SEXP antsImageIterator_GoToBegin( SEXP r_antsimageiterator )
   return Rcpp::wrap( iterator );
 }
 
-RcppExport SEXP antsImageIterator_GoToBegin( SEXP r_antsimageiterator )
+// [[Rcpp::export]]
+SEXP antsImageIterator_GoToBegin( SEXP r_antsimageiterator )
 {
 try
 {
@@ -981,7 +987,8 @@ SEXP antsImageIterator_GetIndex( SEXP r_antsimageiterator )
   return Rcpp::wrap( index_r );
 }
 
-RcppExport SEXP antsImageIterator_GetIndex( SEXP r_antsimageiterator )
+// [[Rcpp::export]]
+SEXP antsImageIterator_GetIndex( SEXP r_antsimageiterator )
 {
 try
 {
@@ -1125,7 +1132,8 @@ SEXP antsImageIterator_SetIndex( SEXP r_antsimageiterator, SEXP r_index )
   return Rcpp::wrap( iterator );
 }
 
-RcppExport SEXP antsImageIterator_SetIndex( SEXP r_antsimageiterator, SEXP r_index )
+// [[Rcpp::export]]
+SEXP antsImageIterator_SetIndex( SEXP r_antsimageiterator, SEXP r_index )
 {
 try
 {
@@ -1261,7 +1269,8 @@ SEXP antsImageIterator_Remaining( SEXP r_antsimageiterator )
   return Rcpp::wrap( iterator.Remaining() );
 }
 
-RcppExport SEXP antsImageIterator_Remaining( SEXP r_antsimageiterator )
+// [[Rcpp::export]]
+SEXP antsImageIterator_Remaining( SEXP r_antsimageiterator )
 {
 try
 {
@@ -1395,7 +1404,8 @@ SEXP antsImageIterator_GoToReverseBegin( SEXP r_antsimageiterator )
   return Rcpp::wrap( iterator );
 }
 
-RcppExport SEXP antsImageIterator_GoToReverseBegin( SEXP r_antsimageiterator )
+// [[Rcpp::export]]
+SEXP antsImageIterator_GoToReverseBegin( SEXP r_antsimageiterator )
 {
 try
 {
@@ -1528,7 +1538,8 @@ SEXP antsImageIterator_IsAtReverseEnd( SEXP r_antsimageiterator )
   return Rcpp::wrap( iterator.IsAtReverseEnd() );
 }
 
-RcppExport SEXP antsImageIterator_IsAtReverseEnd( SEXP r_antsimageiterator )
+// [[Rcpp::export]]
+SEXP antsImageIterator_IsAtReverseEnd( SEXP r_antsimageiterator )
 {
 try
 {

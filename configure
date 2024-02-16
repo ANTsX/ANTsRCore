@@ -8,24 +8,7 @@ compflags=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
 ITKDIR=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkDir(); cat(a)'`
 ITKTAG=`${R_HOME}/bin/Rscript -e 'env = asNamespace("ITKR"); if ("itkTag" %in% names(env)) cat(ITKR::itkTag()) else cat("")'`
 
-# get a version of cmake
-cmaker=`${R_HOME}/bin/Rscript -e "x=Sys.which('cmake'); cat(x)"`
-if [[ -z "${cmaker}" ]]; then
-  res=`${R_HOME}/bin/Rscript -e "cat(('cmaker' %in% installed.packages())*1)"`
-  if [[ $res -eq 0 ]];
-    then
-      git clone https://github.com/stnava/cmaker ;
-      R CMD INSTALL cmaker ;
-      rm -rf cmaker ;
-  fi
-    cmaker=`${R_HOME}/bin/Rscript -e "x=cmaker::cmake()"`
-else
-  cmaker="cmake"
-fi
 
-# if [[ ! -x $cmaker ]] ; then # try r version
-#   cmaker=`${R_HOME}/bin/Rscript -e 'a<-cmaker::cmake()'`
-# fi
 if [[ `uname` -eq Darwin ]] ; then
   CMAKE_BUILD_TYPE=Release
 fi
@@ -131,7 +114,7 @@ cp -r ants/ImageSegmentation/* ../inst/include/
 cp -r ants/Temporary/* ../inst/include
 cd ./antb
 
-${cmaker} -DITK_DIR:PATH=${ITKDIR} \
+cmake -DITK_DIR:PATH=${ITKDIR} \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} -DNDEBUG "\
     -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} -DNDEBUG "\
     -DBUILD_SHARED_LIBS=OFF \

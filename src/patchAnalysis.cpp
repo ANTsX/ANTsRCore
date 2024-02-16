@@ -92,8 +92,8 @@ SEXP blobDetectionHelper(
 }
 
 
-
-RcppExport SEXP blobAnalysis(
+// [[Rcpp::export]]
+SEXP blobAnalysis(
   SEXP r_inimg,
   SEXP r_outimg,
   SEXP r_numberOfBlobsToExtract,
@@ -279,7 +279,8 @@ SEXP patchAnalysisHelper(
       );
 }
 
-RcppExport SEXP patchAnalysis(
+// [[Rcpp::export]]
+SEXP patchAnalysis(
   SEXP r_inimg,
   SEXP r_maskimg,
   SEXP r_outimg,

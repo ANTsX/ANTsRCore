@@ -4,7 +4,8 @@
 #include "ants.h"
 #include "antsr.h"
 
-RcppExport SEXP antsApplyTransforms( SEXP r_args )
+// [[Rcpp::export]]
+SEXP antsApplyTransforms( SEXP r_args )
 try
 {
   std::vector< std::string > args = Rcpp::as< std::vector< std::string > >( r_args ) ;

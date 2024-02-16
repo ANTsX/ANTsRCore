@@ -55,7 +55,8 @@ namespace
 
 } // namespace
 
-RcppExport SEXP N3BiasFieldCorrection( SEXP r_args )
+// [[Rcpp::export]]
+SEXP N3BiasFieldCorrection( SEXP r_args )
 try
 {
   std::vector< std::string > args = Rcpp::as< std::vector< std::string > >( r_args ) ;

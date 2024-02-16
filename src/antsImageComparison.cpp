@@ -120,7 +120,8 @@ SEXP antsImageComparisonImageNumeric( typename itk::Image< PixelType , Dimension
   return Rcpp::wrap(NA_REAL);
 }
 
-RcppExport SEXP antsImageComparisonImageNumeric( SEXP r_antsimage, SEXP r_numeric, SEXP r_operator ) {
+// [[Rcpp::export]]
+SEXP antsImageComparisonImageNumeric( SEXP r_antsimage, SEXP r_numeric, SEXP r_operator ) {
 try
   {
   if( r_antsimage == NULL || r_numeric == NULL || r_operator == NULL )
@@ -390,7 +391,8 @@ SEXP antsImageComparisonImageImage( typename itk::Image< PixelType , Dimension >
   return Rcpp::wrap(NA_REAL);
 }
 
-RcppExport SEXP antsImageComparisonImageImage( SEXP r_antsimage1, SEXP r_antsimage2, SEXP r_operator ) {
+// [[Rcpp::export]]
+SEXP antsImageComparisonImageImage( SEXP r_antsimage1, SEXP r_antsimage2, SEXP r_operator ) {
 try
   {
   if( r_antsimage1 == NULL || r_antsimage2 == NULL || r_operator == NULL )

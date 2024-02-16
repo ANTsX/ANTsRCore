@@ -6,7 +6,8 @@
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
 
-RcppExport SEXP antsMatrix( SEXP r_elementtype )
+// [[Rcpp::export]]
+SEXP antsMatrix( SEXP r_elementtype )
 try
 {
   if( r_elementtype == NULL )
@@ -81,7 +82,8 @@ catch( const std::exception& exc )
     return Rcpp::wrap( 1 ) ;
   }
 
-RcppExport SEXP antsMatrix_asList( SEXP r_antsmatrix )
+// [[Rcpp::export]]
+SEXP antsMatrix_asList( SEXP r_antsmatrix )
 try
 {
   if( r_antsmatrix == NULL )
@@ -165,7 +167,8 @@ catch( const std::exception& exc )
     return Rcpp::wrap( 1 ) ;
   }
 
-RcppExport SEXP antsMatrix_asantsMatrix( SEXP r_list , SEXP r_elementtype )
+// [[Rcpp::export]]
+SEXP antsMatrix_asantsMatrix( SEXP r_list , SEXP r_elementtype )
 try
 {
   if( r_list == NULL || r_elementtype == NULL )

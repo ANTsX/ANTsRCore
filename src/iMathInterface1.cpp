@@ -249,7 +249,8 @@ SEXP iMathTruncateIntensity( Rcpp::List args )
   return Rcpp::wrap(output);
 }
 
-RcppExport SEXP iMathInterface1( SEXP r_args )
+// [[Rcpp::export]]
+SEXP iMathInterface1( SEXP r_args )
 {
 try
 {
