@@ -9,7 +9,7 @@ n4BiasFieldCorrection(
   mask,
   rescaleIntensities = FALSE,
   shrinkFactor = 4,
-  convergence = list(iters = c(50, 50, 50, 50), tol = 1e-07),
+  convergence = list(iters = c(50, 50, 50, 50), tol = 0.0000001),
   splineParam = 200,
   returnBiasField = FALSE,
   verbose = FALSE,
@@ -19,7 +19,7 @@ n4BiasFieldCorrection(
 \arguments{
 \item{img}{input antsImage}
 
-\item{mask}{input mask, if one is not passed one will be made}
+\item{mask}{input mask.  If not specified, the entire image will be used.}
 
 \item{rescaleIntensities}{At each iteration, a new intensity mapping is
 calculated and applied but there is nothing which constrains the new

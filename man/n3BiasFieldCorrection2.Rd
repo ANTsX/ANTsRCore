@@ -9,7 +9,7 @@ n3BiasFieldCorrection2(
   mask,
   rescaleIntensities = FALSE,
   shrinkFactor = 4,
-  convergence = list(iters = 50, tol = 1e-07),
+  convergence = list(iters = 50, tol = 0.0000001),
   splineParam = 200,
   numberOfFittingLevels = 4,
   weightMask = NULL,
@@ -20,7 +20,7 @@ n3BiasFieldCorrection2(
 \arguments{
 \item{img}{input antsImage}
 
-\item{mask}{input mask, if one is not passed one will be made}
+\item{mask}{input mask.  If not specified, the entire image will be used.}
 
 \item{rescaleIntensities}{At each iteration, a new intensity mapping is
 calculated and applied but there is nothing which constrains the new
