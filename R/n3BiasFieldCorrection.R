@@ -28,7 +28,7 @@ n3BiasFieldCorrection <- function( img, downsampleFactor, ... ) {
 #' Perform N3 bias field correction on the given image
 #'
 #' @param img input antsImage
-#' @param mask input mask, if one is not passed one will be made
+#' @param mask input mask.  If not specified, the entire image will be used.
 #' @param rescaleIntensities At each iteration, a new intensity mapping is
 #' calculated and applied but there is nothing which constrains the new
 #' intensity range to be within certain values. The result is that the
