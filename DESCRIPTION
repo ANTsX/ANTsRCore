@@ -1,8 +1,8 @@
 Package: ANTsRCore
 Type: Package
 Title: Core Software Infrastructure for 'ANTsR'
-Version: 0.7.5
-Date: 2021-07-23
+Version: 0.8.0
+Date: 2024-03-22
 Authors@R: c( person(given = "Brian B.", family = "Avants", role = "cre", email = "stnava@gmail.com"), person(given =
               "Benjamin M.", family = "Kandel", role = "aut"), person(given = "Philip A.", family = "Cook", role = "aut"),
               person(given = "Nicholas J.", family = "Tustison", role = "aut"), person(given = "John", family = "Muschelli",
@@ -15,12 +15,11 @@ LazyData: true
 Depends: methods, R (>= 2.10)
 LinkingTo: Rcpp, ITKR
 Imports: Rcpp (>= 1.0.12), ITKR (>= 0.5.0), RcppEigen, tools, magrittr, stats, utils
-Suggests: abind, colormap, covr, knitr, pixmap, rmarkdown, testthat, viridis
+Suggests: abind, covr, knitr, rmarkdown, testthat
 SystemRequirements: cmake, git, clang, GNU make, v8
 NeedsCompilation: yes
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Encoding: UTF-8
-Repository: Neuroconductor
 Remotes: stnava/ITKR
 biocViews: 

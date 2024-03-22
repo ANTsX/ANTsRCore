@@ -1,71 +1,42 @@
-[ANTsR Instagram](https://www.instagram.com/antsrx/)
-
-![ants edie](http://i.imgur.com/DcV1NVT.png)
-
 # ANTsRCore
 
 <!-- badges: start -->
-[![R build status](https://github.com/ANTsX/ANTsRCore/workflows/R-CMD-check/badge.svg)](https://github.com/ANTsX/ANTsRCore/actions)
-[![Travis Build Status](https://travis-ci.org/ANTsX/ANTsRCore.png?branch=master)](https://travis-ci.org/ANTsX/ANTsRCore)
-[![Coverage status](https://codecov.io/gh/ANTsX/ANTsRCore/branch/master/graph/badge.svg)](https://codecov.io/github/ANTsX/ANTsRCore?branch=master)
-muschellij2 coverage badge:
 [![Coverage status](https://codecov.io/gh/muschellij2/ANTsRCore/branch/master/graph/badge.svg)](https://codecov.io/github/muschellij2/ANTsRCore?branch=master)  
 <!-- badges: end -->
-A package providing core features for [ANTsR](http://stnava.github.io/ANTsR/).
 
-## Description
+The ANTsRCore package wraps the C++ ANTs package in R. This package provides the core features for [ANTsR](http://stnava.github.io/ANTsR/).
 
-Version: 0.0
+## Installation from source
 
-License: 	Apache License (>=2.0)
+Currently the only way to install ANTsRCore is from source. The main dependency is the `ITKR` package which you can install from `stnava/ITKR` (or if that fails try a fork at `ncullen93/ITKR`). 
 
-Depends:	R (≥ 3.0), methods
+Then, to install ANTsRCore you can follow these steps:
 
-Imports:	Rcpp, tools
-
-LinkingTo:	Rcpp, ITKR
-
-Author:	Brian B. Avants, Benjamin M. Kandel, Jeff T. Duda, Philip A. Cook, Nicholas J. Tustison
-
-Maintainer:	[Brian B. Avants](http://stnava.github.io/)
-
-URL:	[homepage](https://github.com/stnava/ANTsRCore)
-
-BugReports: [github issues](http://github.com/stnava/ANTsRCore/issues)
-
-NeedsCompilation:	yes
-
-Travis checks:	[ANTsRCore results](https://travis-ci.org/stnava/ANTsRCore)
-
-Documentation: [https://antsx.github.io/ANTsRCore/](https://antsx.github.io/ANTsRCore/).
+- clone this repo
+- in RStudio, run `devtools::install()`. Alternatively, from the command-line you can navigate to the top-level package directory and then run `R CMD INSTALL .` 
 
 
-Install the binary, after downloading, via command line:
+## Developer notes
 
-```
-R CMD INSTALL ANTsRCore_*.tgz
-```
-
-**Suggested packages** [https://github.com/stnava/ANTsRDocker/blob/master/install.R](https://github.com/stnava/ANTsRDocker/blob/master/install.R)
+Using devtools to install and document the package is useful but requires rebuilding the package from scratch every time it's run. 
 
 
-## to tag
+## Usage
 
-```
-git tag -d latest
-git push origin :refs/tags/latest
-git tag latest
-git push  --tags origin
-```
+Functions from this package should never be exposed directly to any users. Instead, this package should always be wrapped by user-facing functions. All library functions can be found in the `R/RcppExports.R` file which is automatically generated during the build.
 
-## 0.0.0
+## License
 
-First attempt release.
+Apache License (>=2.0)
 
-## other
+## Authors
 
-if you see an error like: `error: src refspec refs/heads/master matches more than one` then try
+Brian B. Avants, Benjamin M. Kandel, Jeff T. Duda, Philip A. Cook, Nicholas J. Tustison
 
-```
-git push origin master:master
-```
+### Maintainer
+
+[Brian B. Avants](http://stnava.github.io/)
+
+## Contributing
+
+If you have a question or need help solving a problem, please create an issue on GitHub. If you want to contribute code or have feature request, creating an issue on GitHub is also the best place to start.
