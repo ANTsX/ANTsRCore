@@ -4,7 +4,8 @@
 #include "ants.h"
 #include "antsr.h"
 
-RcppExport SEXP LabelClustersUniquely( SEXP r_args )
+// [[Rcpp::export]]
+SEXP LabelClustersUniquely( SEXP r_args )
 try
 {
   std::vector< std::string > args = Rcpp::as< std::vector< std::string > >( r_args ) ;

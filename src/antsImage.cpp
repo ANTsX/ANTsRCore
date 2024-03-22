@@ -37,7 +37,8 @@ SEXP antsImage( std::string pixeltype, unsigned int components )
   return image_r;
 }
 
-RcppExport SEXP antsImage( SEXP r_pixeltype , SEXP r_dimension, SEXP r_components )
+// [[Rcpp::export]]
+SEXP antsImage( SEXP r_pixeltype , SEXP r_dimension, SEXP r_components )
 {
 try
 {
@@ -234,7 +235,8 @@ typename ImageType::Pointer antsImage_Arith(
 }
 
 
-RcppExport SEXP antsImageArith( SEXP r_in_image1 ,
+// [[Rcpp::export]]
+SEXP antsImageArith( SEXP r_in_image1 ,
   SEXP r_in_image2,  SEXP r_op  )
 try
 {
@@ -347,7 +349,8 @@ Rcpp::IntegerVector antsImage_isna( SEXP r_antsimage )
   return Rcpp::wrap( 0 );
 }
 
-RcppExport SEXP antsImage_isna( SEXP r_antsimage )
+// [[Rcpp::export]]
+SEXP antsImage_isna( SEXP r_antsimage )
 {
 try
 {
@@ -398,7 +401,7 @@ return Rcpp::wrap(NA_REAL); // not reached
 }
 
 /*
-RcppExport SEXP antsImage_rm( SEXP r_antsimage ) {
+SEXP antsImage_rm( SEXP r_antsimage ) {
 try
   {
   if( r_antsimage == NULL )
@@ -583,8 +586,8 @@ Rcpp::IntegerVector antsImage_dim( typename ImageType::Pointer image )
   return dim_r ;
 }
 
-
-RcppExport SEXP antsImage_dim( SEXP r_antsimage )
+// [[Rcpp::export]]
+SEXP antsImage_dim( SEXP r_antsimage )
 {
 try
 {
@@ -780,7 +783,8 @@ SEXP antsImage_asVector( SEXP r_image, SEXP r_mask, SEXP r_antsregion )
   return Rcpp::wrap(NA_REAL); // not reached
 }
 
-RcppExport SEXP antsImage_asVector( SEXP r_antsimage , SEXP r_mask , SEXP r_antsregion )
+// [[Rcpp::export]]
+SEXP antsImage_asVector( SEXP r_antsimage , SEXP r_mask , SEXP r_antsregion )
 {
 try
 {
@@ -1238,7 +1242,8 @@ SEXP antsImage_GetNeighborhoodMatrix( typename itk::Image< PixelType , Dimension
                                Rcpp::Named("offsets") = offsets );
 }
 
-RcppExport SEXP antsImage_GetNeighborhoodMatrix( SEXP r_antsimage, SEXP r_maskimage, SEXP r_radius,
+// [[Rcpp::export]]
+SEXP antsImage_GetNeighborhoodMatrix( SEXP r_antsimage, SEXP r_maskimage, SEXP r_radius,
                                                  SEXP r_physical, SEXP r_boundary, SEXP r_spatial, SEXP r_gradient )
 try
 {
@@ -1491,7 +1496,8 @@ SEXP antsImage_GetNeighborhood( typename itk::Image< PixelType , Dimension >::Po
 
 }
 
-RcppExport SEXP antsImage_GetNeighborhood( SEXP r_antsimage, SEXP r_index,
+// [[Rcpp::export]]
+SEXP antsImage_GetNeighborhood( SEXP r_antsimage, SEXP r_index,
                                            SEXP r_kernel, SEXP r_radius,
                                            SEXP physical )
 {
@@ -1781,7 +1787,8 @@ SEXP antsImage_GetPixels( SEXP r_antsimage, SEXP r_indices )
   return Rcpp::wrap(NA_REAL); // this is never reached
 }
 
-RcppExport SEXP antsImage_GetPixels( SEXP r_antsimage , SEXP r_indices )
+// [[Rcpp::export]]
+SEXP antsImage_GetPixels( SEXP r_antsimage , SEXP r_indices )
 {
 try
 {
@@ -2052,7 +2059,8 @@ int antsImage_SetPixels( typename itk::Image< PixelType , Dimension >::Pointer i
   return 0;
 }
 
-RcppExport SEXP antsImage_SetPixels( SEXP r_antsimage , SEXP r_coordinates , SEXP r_value )
+// [[Rcpp::export]]
+SEXP antsImage_SetPixels( SEXP r_antsimage , SEXP r_coordinates , SEXP r_value )
 try
 {
   int returnFlag = 0;
@@ -2264,7 +2272,8 @@ SEXP antsImage_GetSpacing( SEXP  r_antsimage )
   return Rcpp::wrap( image->GetSpacing().GetVnlVector() );
 }
 
-RcppExport SEXP antsImage_GetSpacing( SEXP r_antsimage )
+// [[Rcpp::export]]
+SEXP antsImage_GetSpacing( SEXP r_antsimage )
 {
 try
 {
@@ -2339,7 +2348,8 @@ SEXP antsImage_SetSpacing( SEXP r_antsimage, SEXP r_spacing )
   return Rcpp::wrap(NULL);
 }
 
-RcppExport SEXP antsImage_SetSpacing( SEXP r_antsimage, SEXP r_spacing )
+// [[Rcpp::export]]
+SEXP antsImage_SetSpacing( SEXP r_antsimage, SEXP r_spacing )
 {
 try
 {
@@ -2406,7 +2416,8 @@ SEXP antsImage_GetOrigin( SEXP r_antsimage )
   return Rcpp::wrap( image->GetOrigin().GetVnlVector() );
 }
 
-RcppExport SEXP antsImage_GetOrigin( SEXP r_antsimage )
+// [[Rcpp::export]]
+SEXP antsImage_GetOrigin( SEXP r_antsimage )
 {
 try
 {
@@ -2479,7 +2490,8 @@ SEXP antsImage_SetOrigin( SEXP r_antsimage, SEXP r_origin )
   return Rcpp::wrap(NULL);
 }
 
-RcppExport SEXP antsImage_SetOrigin( SEXP r_antsimage, SEXP r_origin )
+// [[Rcpp::export]]
+SEXP antsImage_SetOrigin( SEXP r_antsimage, SEXP r_origin )
 {
 try
 {
@@ -2554,7 +2566,8 @@ SEXP antsImage_GetDirection( SEXP r_antsimage )
   return dir;
 }
 
-RcppExport SEXP antsImage_GetDirection( SEXP r_antsimage )
+// [[Rcpp::export]]
+SEXP antsImage_GetDirection( SEXP r_antsimage )
 {
 try
 {
@@ -2649,7 +2662,8 @@ SEXP antsImage_SetDirection( SEXP r_antsimage, SEXP r_direction )
 
 }
 
-RcppExport SEXP antsImage_SetDirection( SEXP r_antsimage, SEXP r_direction )
+// [[Rcpp::export]]
+SEXP antsImage_SetDirection( SEXP r_antsimage, SEXP r_direction )
 {
 try
 {
@@ -2752,7 +2766,8 @@ SEXP antsImage_TransformIndexToPhysicalPoint( SEXP r_antsimage, SEXP r_index )
   return points;
 }
 
-RcppExport SEXP antsImage_TransformIndexToPhysicalPoint( SEXP r_antsimage, SEXP r_index )
+// [[Rcpp::export]]
+SEXP antsImage_TransformIndexToPhysicalPoint( SEXP r_antsimage, SEXP r_index )
 {
 try
 {
@@ -2853,7 +2868,8 @@ SEXP antsImage_TransformPhysicalPointToIndex( SEXP r_antsimage, SEXP r_point )
   return indices;
 }
 
-RcppExport SEXP antsImage_TransformPhysicalPointToIndex( SEXP r_antsimage, SEXP r_point )
+// [[Rcpp::export]]
+SEXP antsImage_TransformPhysicalPointToIndex( SEXP r_antsimage, SEXP r_point )
 {
 try
 {
@@ -3020,7 +3036,8 @@ bool antsImage_SetRegion( typename itk::Image< PixelType , Dimension >::Pointer&
   return 0 ;
 }
 
-RcppExport SEXP antsImage_SetRegion( SEXP r_antsimage , SEXP r_mask , SEXP r_antsregion , SEXP r_value )
+// [[Rcpp::export]]
+SEXP antsImage_SetRegion( SEXP r_antsimage , SEXP r_mask , SEXP r_antsregion , SEXP r_value )
 try
 {
   if( r_antsimage == NULL || r_mask == NULL || r_antsregion == NULL || r_value == NULL )
@@ -3249,7 +3266,8 @@ bool antsImage_SetByImage( typename itk::Image< PixelType , Dimension >::Pointer
   return 0;
 }
 
-RcppExport SEXP antsImage_SetByImage( SEXP r_antsimage, SEXP r_mask, SEXP r_value )
+// [[Rcpp::export]]
+SEXP antsImage_SetByImage( SEXP r_antsimage, SEXP r_mask, SEXP r_value )
 try
 {
   if( r_antsimage == NULL || r_mask == NULL || r_value == NULL )
@@ -3518,7 +3536,8 @@ SEXP antsImage_asantsImage( Rcpp::NumericVector& vector, Rcpp::NumericVector& sp
   return Rcpp::wrap(image);
 }
 
-RcppExport SEXP antsImage_asantsImage( SEXP r_vector, SEXP r_pixeltype, SEXP r_spacing ,
+// [[Rcpp::export]]
+SEXP antsImage_asantsImage( SEXP r_vector, SEXP r_pixeltype, SEXP r_spacing ,
                                        SEXP r_origin, SEXP r_direction, SEXP r_components=Rcpp::wrap(false) )
 {
 try
@@ -3895,7 +3914,8 @@ SEXP antsImage_RelationalOperators( typename itk::Image< PixelType , Dimension >
     }
 }
 
-RcppExport SEXP antsImage_RelationalOperators( SEXP r_antsimage , SEXP r_value , SEXP r_antsregion , SEXP r_operator )
+// [[Rcpp::export]]
+SEXP antsImage_RelationalOperators( SEXP r_antsimage , SEXP r_value , SEXP r_antsregion , SEXP r_operator )
 try
 {
   if( r_antsimage == NULL || r_value == NULL || r_antsregion == NULL )

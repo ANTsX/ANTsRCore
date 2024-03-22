@@ -56,8 +56,8 @@ SEXP iMathGC( Rcpp::List args )
 }
 
 
-
-RcppExport SEXP iMathInterface( SEXP r_args )
+// [[Rcpp::export]]
+SEXP iMathInterface( SEXP r_args )
 {
 try
 {

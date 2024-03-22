@@ -5,7 +5,10 @@
 #include "ants.h"
 #include "antsr.h"
 
-RcppExport SEXP Atropos( SEXP r_args )
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+SEXP Atropos( SEXP r_args )
 try
 {
   std::vector< std::string > args = Rcpp::as< std::vector< std::string > >( r_args ) ;

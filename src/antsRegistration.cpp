@@ -5,7 +5,8 @@
 #include "ants.h"
 #include "antsr.h"
 
-RcppExport SEXP antsRegistration( SEXP r_args )
+// [[Rcpp::export]]
+SEXP antsRegistration( SEXP r_args )
 try
 {
   std::vector< std::string > args = Rcpp::as< std::vector< std::string > >( r_args ) ;

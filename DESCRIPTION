@@ -14,7 +14,7 @@ LazyLoad: yes
 LazyData: true
 Depends: methods, R (>= 2.10)
 LinkingTo: Rcpp, ITKR
-Imports: Rcpp, ITKR (>= 0.5.0), RcppEigen, tools, magrittr, stats, utils
+Imports: Rcpp (>= 1.0.12), ITKR (>= 0.5.0), RcppEigen, tools, magrittr, stats, utils
 Suggests: abind, colormap, covr, knitr, pixmap, rmarkdown, testthat, viridis
 SystemRequirements: cmake, git, clang, GNU make, v8
 NeedsCompilation: yes

@@ -32,7 +32,8 @@ namespace ants
 
 }
 
-RcppExport SEXP antsImageClone( SEXP r_in_image , SEXP r_out_pixeltype )
+// [[Rcpp::export]]
+SEXP antsImageClone( SEXP r_in_image , SEXP r_out_pixeltype )
 {
   if( r_in_image == NULL || r_out_pixeltype == NULL )
     {

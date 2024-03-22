@@ -82,7 +82,8 @@ SEXP iMathGrad( Rcpp::List args )
    return Rcpp::wrap( output );
  }
 
-RcppExport SEXP iMathInterface2( SEXP r_args )
+// [[Rcpp::export]]
+SEXP iMathInterface2( SEXP r_args )
 {
 try
 {

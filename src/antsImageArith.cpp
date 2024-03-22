@@ -477,7 +477,8 @@ SEXP antsImageArithImageNumeric( SEXP r_antsimage, SEXP r_numeric, SEXP r_operat
 }
 
 
-RcppExport SEXP antsImageArithImageNumeric( SEXP r_antsimage, SEXP r_numeric, SEXP r_operator ) {
+// [[Rcpp::export]]
+SEXP antsImageArithImageNumeric( SEXP r_antsimage, SEXP r_numeric, SEXP r_operator ) {
 try
   {
   if( r_antsimage == NULL || r_numeric == NULL || r_operator == NULL )
@@ -782,7 +783,8 @@ SEXP antsImageArithNumericImage( SEXP r_numeric, SEXP r_antsimage, SEXP r_operat
   return Rcpp::wrap(NA_REAL);
 }
 
-RcppExport SEXP antsImageArithNumericImage( SEXP r_numeric, SEXP r_antsimage, SEXP r_operator ) {
+// [[Rcpp::export]]
+SEXP antsImageArithNumericImage( SEXP r_numeric, SEXP r_antsimage, SEXP r_operator ) {
 try
   {
   if( r_antsimage == NULL || r_numeric == NULL || r_operator == NULL )
@@ -1067,7 +1069,8 @@ SEXP antsImageArithImageImage( SEXP r_antsimage1, SEXP r_antsimage2, SEXP r_oper
   return Rcpp::wrap(NA_REAL);
 }
 
-RcppExport SEXP antsImageArithImageImage( SEXP r_antsimage1, SEXP r_antsimage2, SEXP r_operator ) {
+// [[Rcpp::export]]
+SEXP antsImageArithImageImage( SEXP r_antsimage1, SEXP r_antsimage2, SEXP r_operator ) {
 try
   {
   if( r_antsimage1 == NULL || r_antsimage2 == NULL || r_operator == NULL )

@@ -53,7 +53,8 @@ SEXP smoothImageHelper(
   return( r_outimg );
 }
 
-RcppExport SEXP smoothImage( SEXP r_inimg,
+// [[Rcpp::export]]
+SEXP smoothImage( SEXP r_inimg,
     SEXP r_outimg,
     SEXP r_sigma,
     SEXP sigmaInPhysicalCoordinates,

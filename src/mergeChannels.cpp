@@ -47,8 +47,8 @@ SEXP mergeChannels( Rcpp::List imageList )
   return Rcpp::wrap( vectorImage );
 }
 
-
-RcppExport SEXP mergeChannels( SEXP r_imageList )
+// [[Rcpp::export]]
+SEXP mergeChannels( SEXP r_imageList )
 {
 try
 {

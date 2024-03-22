@@ -22,8 +22,8 @@ SEXP antsImageRead( std::string filename, std::string pixeltype, unsigned int co
 }
 
 
-// [[myRcpp::export]]
-RcppExport SEXP antsImageRead( SEXP r_filename , SEXP r_pixeltype , SEXP r_dimension, SEXP r_components )
+// [[Rcpp::export]]
+SEXP antsImageRead( SEXP r_filename , SEXP r_pixeltype , SEXP r_dimension, SEXP r_components )
 {
 try
 {

@@ -129,7 +129,8 @@ Rcpp::DataFrame labelStatsHelper(
   return (labelStats);
 }
 
-RcppExport SEXP labelStats(SEXP r_image, SEXP r_labelImage)
+// [[Rcpp::export]]
+SEXP labelStats(SEXP r_image, SEXP r_labelImage)
 {
   if( r_image == NULL || r_labelImage == NULL  )
     {
