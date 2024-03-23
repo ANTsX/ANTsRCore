@@ -91,7 +91,6 @@ if [[ ! -d ../data/ ]] ; then
 fi
 echo "Dependency;GitTag" > ../data/antsVersions.csv
 echo "ANTs;${antstag}" >> ../data/antsVersions.csv
-echo "ANTsRCore;${antsrtag}" >> ../data/antsVersions.csv
 echo "ANTsURL;${antsgit}" >> ../data/antsVersions.csv
 echo "ITK;${ITKTAG}" >> ../data/antsVersions.csv
 cd ants

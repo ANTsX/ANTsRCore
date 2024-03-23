@@ -1,6 +1,34 @@
 *.tgz
 ..Rcheck/
 
+docs
+/src/*.o
+/src/*.o-*
+/src/*.d
+/src/*.so
+*.dll
+.RData
+.Rproj.user
+.Rhistory
+inst/doc
+.httr-oauth
+vignettes/*.R
+.DS_Store
+/clion-test.R
+/BROWSE
+/GPATH
+/GRTAGS
+/GTAGS
+/TAGS
+/.dir-locals.el
+/issues
+/.drake
+bench-libs
+doc
+Meta
+
+*.tar.gz
+*.Rcheck/
 # ignore all the backup files created by editors
 *~
 *.so
