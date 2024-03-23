@@ -18,7 +18,7 @@ Imports: Rcpp (>= 1.0.12), ITKR (>= 0.5.0), RcppEigen, tools, magrittr, stats, u
 Suggests: abind, covr, knitr, rmarkdown, testthat
 SystemRequirements: cmake, git, clang, GNU make, v8
 NeedsCompilation: yes
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 VignetteBuilder: knitr
 Encoding: UTF-8
 Remotes: stnava/ITKR

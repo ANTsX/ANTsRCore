@@ -196,7 +196,7 @@ SEXP patchAnalysisHelper(
   bool setcanfram = TRUE;
   if ( canFram->GetLargestPossibleRegion().GetSize()[ 0 ] == 1 )
     setcanfram = FALSE;
-  if ( verbose > 0 ) std::cout << " setcanfram " << setcanfram << std::endl;
+  if ( verbose > 0 ) Rcpp::Rcout << " setcanfram " << setcanfram << std::endl;
   typedef float TComp;
   typedef itk::RIPMMARCImageFilter< ImageType, ImageType, TComp > filterType;
   typename filterType::Pointer filter = filterType::New();
@@ -214,7 +214,7 @@ SEXP patchAnalysisHelper(
     const TComp* _xdata = &xdat[0];
     typename filterType::vnlMatrixType vnlX( _xdata , X.cols(), X.rows()  );
     vnlX = vnlX.transpose();
-    if ( verbose > 0 ) std::cout << " Let us initialize with " << vnlX.rows()
+    if ( verbose > 0 ) Rcpp::Rcout << " Let us initialize with " << vnlX.rows()
       <<  " by "  << vnlX.cols() << std::endl;
     filter->SetSignificantPatchEigenvectors( vnlX  );
     filter->SetLearnPatchBasis( false );
@@ -224,7 +224,7 @@ SEXP patchAnalysisHelper(
     }
   filter->SetProjectOnEigenPatches( false );
   filter->SetVerbose( verbose );
-  if ( verbose > 0 ) std::cout << filter << std::endl;
+  if ( verbose > 0 ) Rcpp::Rcout << filter << std::endl;
   filter->Update( );
   outimg = filter->GetCanonicalFrame(); // what should the output be?
   r_outimg = Rcpp::wrap( outimg );

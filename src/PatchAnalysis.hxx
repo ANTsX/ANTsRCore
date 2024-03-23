@@ -33,8 +33,8 @@ typename ImageType::Pointer ConvertVectorToSpatialImage( vnl_vector< typename Im
       }
       else
       {
-	std::cout << "Size of mask does not match size of vector to be written!" << std::endl;
-	std::cout << "Exiting." << std::endl;
+	Rcpp::Rcout << "Size of mask does not match size of vector to be written!" << std::endl;
+	Rcpp::Rcout << "Exiting." << std::endl;
 	std::exception();
       }
       VectorAsSpatialImage->SetPixel(MaskIterator.GetIndex(), Value);
@@ -137,7 +137,7 @@ void TPatchAnalysis< ImageType, dimension >::ReadInputImage()
     }
     catch( itk::ExceptionObject& )
     {
-    	std::cout << "Could not read input image." << std::endl;
+    	Rcpp::Rcout << "Could not read input image." << std::endl;
     	exit( EXIT_FAILURE );
     }
     inputImage = inputImageReader->GetOutput();
@@ -157,7 +157,7 @@ void TPatchAnalysis< ImageType, dimension >::ReadMaskImage()
     }
     catch( itk::ExceptionObject& )
     {
-    	std::cout << "Could not read mask image." << std::endl;
+    	Rcpp::Rcout << "Could not read mask image." << std::endl;
     	exit( EXIT_FAILURE );
     }
     maskImage = maskImageReader->GetOutput();
@@ -176,7 +176,7 @@ void TPatchAnalysis< ImageType, dimension >::GetSamplePatchLocations()
 			inputImage->GetLargestPossibleRegion().GetSize();
 	if( args.verbose > 0 )
 	{
-		std::cout << "Attempting to find seed points. Looking for " << args.numberOfSamplePatches <<
+		Rcpp::Rcout << "Attempting to find seed points. Looking for " << args.numberOfSamplePatches <<
 				" points out of " << inputSize << " possible points." << std::endl;
 	}
 
@@ -196,7 +196,7 @@ void TPatchAnalysis< ImageType, dimension >::GetSamplePatchLocations()
 	}
 	if( args.verbose > 0)
 	{
-		std::cout << "Found " << patchSeedIterator <<
+		Rcpp::Rcout << "Found " << patchSeedIterator <<
 				" points in " << patchSeedAttemptIterator <<
 				" attempts." << std::endl;
 	}
@@ -241,8 +241,8 @@ void TPatchAnalysis< ImageType, dimension >::ExtractSamplePatches()
 			this->weights.push_back( 1.0 );
 		}
 	}
-	std::cout << "Iterator.Size() is " << Iterator.Size() << std::endl;
-	std::cout << "IndicesWithinSphere.size() is " << indicesWithinSphere.size() << std::endl;
+	Rcpp::Rcout << "Iterator.Size() is " << Iterator.Size() << std::endl;
+	Rcpp::Rcout << "IndicesWithinSphere.size() is " << indicesWithinSphere.size() << std::endl;
 
 	  // populate matrix with patch values from points in image
 	this->vectorizedSamplePatchMatrix.set_size(
@@ -295,7 +295,7 @@ void TPatchAnalysis< ImageType, dimension >::LearnEigenPatches( void )
 		int numberOfSignificantEigenvectors = i;
 		if( args.verbose > 0 )
 		{
-			std::cout << "It took " << numberOfSignificantEigenvectors << " eigenvectors to reach " <<
+			Rcpp::Rcout << "It took " << numberOfSignificantEigenvectors << " eigenvectors to reach " <<
 					args.targetVarianceExplained * 100 << "% variance explained." << std::endl;
 		}
 	} else {
@@ -346,13 +346,13 @@ void TPatchAnalysis< ImageType, dimension >::ExtractAllPatches()
 		}
 	}
 	numberOfVoxelsWithinMask = maskImagePointIter;
-	if( args.verbose > 0 ) std::cout << "Number of points within mask is " << numberOfVoxelsWithinMask << std::endl;
+	if( args.verbose > 0 ) Rcpp::Rcout << "Number of points within mask is " << numberOfVoxelsWithinMask << std::endl;
 
 	patchesForAllPointsWithinMask.set_size(
 			indicesWithinSphere.size(),  numberOfVoxelsWithinMask);
 	if( args.verbose > 0 )
 	{
-		std::cout << "PatchesForAllPointsWithinMask is " << patchesForAllPointsWithinMask.rows() << "x" <<
+		Rcpp::Rcout << "PatchesForAllPointsWithinMask is " << patchesForAllPointsWithinMask.rows() << "x" <<
 				patchesForAllPointsWithinMask.columns() << "." << std::endl;
 	}
 	// extract patches
@@ -378,7 +378,7 @@ void TPatchAnalysis< ImageType, dimension >::ExtractAllPatches()
 					this->patchesForAllPointsWithinMask.get_column(i).mean());
 		}
 	}
-	if( args.verbose > 0 ) std::cout << "Recorded patches for all points." << std::endl;
+	if( args.verbose > 0 ) Rcpp::Rcout << "Recorded patches for all points." << std::endl;
 }
 
 template< class ImageType, const int dimension >
@@ -431,7 +431,7 @@ void TPatchAnalysis< ImageType, dimension >::ReorientSamplePatches()
 	fixedGradientFilter->Update();
 	typename GradientImageType::Pointer fixedGradientImage = fixedGradientFilter->GetOutput();
 
-	std::cout << "vectorizedSamplePatchMatrix is " << this->vectorizedSamplePatchMatrix.rows() <<
+	Rcpp::Rcout << "vectorizedSamplePatchMatrix is " << this->vectorizedSamplePatchMatrix.rows() <<
 			"x" << this->vectorizedSamplePatchMatrix.columns() << std::endl;
 	for( long int ii = 0; ii < this->vectorizedSamplePatchMatrix.rows(); ii++)
 	{
@@ -551,7 +551,7 @@ void TPatchAnalysis< ImageType, dimension >::ProjectOnEigenPatches()
 	// (number of indices within patch x 1).
 	// output, eigenvectorCoefficients, is then number of eigenvectors
 	// x number of patches ('x' solutions for all patches).
-	if (args.verbose > 0 ) std::cout << "Computing regression." << std::endl;
+	if (args.verbose > 0 ) Rcpp::Rcout << "Computing regression." << std::endl;
 	eigenvectorCoefficients.set_size( significantPatchEigenvectors.columns(), numberOfVoxelsWithinMask );
 	eigenvectorCoefficients.fill( 0 );
 	vnl_svd< typename ImageType::PixelType > RegressionSVD(significantPatchEigenvectors);
@@ -578,7 +578,7 @@ void TPatchAnalysis< ImageType, dimension >::ProjectOnEigenPatches()
 	}
 	if( args.verbose > 0 )
 	{
-		std::cout << "Average percent error is " << percentError.mean() * 100 << "%, with max of " <<
+		Rcpp::Rcout << "Average percent error is " << percentError.mean() * 100 << "%, with max of " <<
 				percentError.max_value() * 100 << "%." <<  std::endl;
 	}
 }
@@ -885,16 +885,16 @@ vnl_vector< TRealType > ReorientPatchToReferenceFrame(
       CenteredVectorizedImagePatch2 ) / ( StDevOfImage1 * StDevOfImage2 );
 
   bool OK = true;
-/*  std::cout << "VectorizedImagePatch1 is (before rotation) " << VectorizedImagePatch1 << std::endl;
-  std::cout << "VectorizedImagePatch2 is (before rotation) " << VectorizedImagePatch2 << std::endl;*/
-/*  std::cout << "GradientMatrix1 is " << GradientMatrix1 << std::endl;
-  std::cout << "GradientMatrix2 is " << GradientMatrix2 << std::endl; */
+/*  Rcpp::Rcout << "VectorizedImagePatch1 is (before rotation) " << VectorizedImagePatch1 << std::endl;
+  Rcpp::Rcout << "VectorizedImagePatch2 is (before rotation) " << VectorizedImagePatch2 << std::endl;*/
+/*  Rcpp::Rcout << "GradientMatrix1 is " << GradientMatrix1 << std::endl;
+  Rcpp::Rcout << "GradientMatrix2 is " << GradientMatrix2 << std::endl; */
   vnl_matrix< RealType > CovarianceMatrixOfImage1 = GradientMatrix1.transpose() * GradientMatrix1;
   vnl_matrix< RealType > CovarianceMatrixOfImage2 = GradientMatrix2.transpose() * GradientMatrix2;
   vnl_symmetric_eigensystem< RealType > EigOfImage1( CovarianceMatrixOfImage1 );
   vnl_symmetric_eigensystem< RealType > EigOfImage2( CovarianceMatrixOfImage2 );
-/*  std::cout << "CovarianceMatrixOfImage1 is " << CovarianceMatrixOfImage1 << std::endl;
-  std::cout << "CovarianceMatrixOfImage2 is " << CovarianceMatrixOfImage2 << std::endl;*/
+/*  Rcpp::Rcout << "CovarianceMatrixOfImage1 is " << CovarianceMatrixOfImage1 << std::endl;
+  Rcpp::Rcout << "CovarianceMatrixOfImage2 is " << CovarianceMatrixOfImage2 << std::endl;*/
   int NumberOfEigenvectors = EigOfImage1.D.cols();
   // FIXME: needs bug checking to make sure this is right
   // not sure how many eigenvectors there are or how they're indexed
