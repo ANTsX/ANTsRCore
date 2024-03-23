@@ -24,7 +24,6 @@ A clear and concise description of what you expected to happen.
 
 Please include output from `R` of:
 ```r
-ANTsRCore::antsVersions
 sessioninfo::session_info("ANTsRCore")
 ````
 
