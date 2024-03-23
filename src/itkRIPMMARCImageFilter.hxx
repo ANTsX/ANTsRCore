@@ -166,16 +166,12 @@ vnl_vector< TComputation > RIPMMARCImageFilter<TInputImage, TOutputImage, TCompu
 //      CenteredVectorizedImagePatch2 ) / ( StDevOfImage1 * StDevOfImage2 ); // FIXME why is this here?
 
   bool OK = true;
-/*  std::cout << "VectorizedImagePatch1 is (before rotation) " << VectorizedImagePatch1 << std::endl;
-  std::cout << "VectorizedImagePatch2 is (before rotation) " << VectorizedImagePatch2 << std::endl;*/
-/*  std::cout << "GradientMatrix1 is " << GradientMatrix1 << std::endl;
-  std::cout << "GradientMatrix2 is " << GradientMatrix2 << std::endl; */
+
   vnl_matrix< ComputationType > CovarianceMatrixOfImage1 = GradientMatrix1.transpose() * GradientMatrix1;
   vnl_matrix< ComputationType > CovarianceMatrixOfImage2 = GradientMatrix2.transpose() * GradientMatrix2;
   vnl_symmetric_eigensystem< ComputationType > EigOfImage1( CovarianceMatrixOfImage1 );
   vnl_symmetric_eigensystem< ComputationType > EigOfImage2( CovarianceMatrixOfImage2 );
-/*  std::cout << "CovarianceMatrixOfImage1 is " << CovarianceMatrixOfImage1 << std::endl;
-  std::cout << "CovarianceMatrixOfImage2 is " << CovarianceMatrixOfImage2 << std::endl;*/
+
   int NumberOfEigenvectors = EigOfImage1.D.cols();
   // FIXME: needs bug checking to make sure this is right
   // not sure how many eigenvectors there are or how they're indexed
@@ -318,8 +314,8 @@ typename TInputImage::Pointer RIPMMARCImageFilter<TInputImage, TOutputImage, TCo
         }
       else
         {
-      	std::cout << "Size of mask does not match size of vector to be written!" << std::endl;
-      	std::cout << "Exiting." << std::endl;
+      	Rcpp::Rcout << "Size of mask does not match size of vector to be written!" << std::endl;
+      	Rcpp::Rcout << "Exiting." << std::endl;
       	std::exception();
         }
       VectorAsSpatialImage->SetPixel(MaskIterator.GetIndex(), Value);
@@ -364,7 +360,7 @@ void RIPMMARCImageFilter<TInputImage, TOutputImage, TComputation>
   const MaskImageType* mask = this->GetMaskImage();
 	if( this->m_Verbose )
 	  {
-		std::cout << "Attempting to find seed points. Looking for " << this->m_NumberOfSamplePatches <<
+		Rcpp::Rcout << "Attempting to find seed points. Looking for " << this->m_NumberOfSamplePatches <<
 				" points out of " << inputSize << " possible points." << std::endl;
 	  }
 
@@ -414,7 +410,7 @@ void RIPMMARCImageFilter<TInputImage, TOutputImage, TComputation>
 	  }
 	if( this->m_Verbose )
 	  {
-		std::cout << "Found " << patchSeedIterator <<
+		Rcpp::Rcout << "Found " << patchSeedIterator <<
 				" points in " << patchSeedAttemptIterator <<
 				" attempts." << std::endl;
 	  }
@@ -461,8 +457,8 @@ void RIPMMARCImageFilter<TInputImage, TOutputImage, TComputation>
 		}
 	}
   if ( this->m_Verbose ) {
-  	std::cout << "Iterator.Size() is " << Iterator.Size() << std::endl;
-	  std::cout << "IndicesWithinSphere.size() is " << this->m_IndicesWithinSphere.size() << std::endl;
+  	Rcpp::Rcout << "Iterator.Size() is " << Iterator.Size() << std::endl;
+	  Rcpp::Rcout << "IndicesWithinSphere.size() is " << this->m_IndicesWithinSphere.size() << std::endl;
     }
 	// populate matrix with patch values from points in image
 	this->m_vectorizedSamplePatchMatrix.set_size(
@@ -511,13 +507,13 @@ void RIPMMARCImageFilter<TInputImage, TOutputImage, TComputation>
 		}
 	}
 	this->m_numberOfVoxelsWithinMask = maskImagePointIter;
-	if ( this->m_Verbose ) std::cout << "Number of points within mask is " << this->m_numberOfVoxelsWithinMask << std::endl;
+	if ( this->m_Verbose ) Rcpp::Rcout << "Number of points within mask is " << this->m_numberOfVoxelsWithinMask << std::endl;
 
 	this->m_PatchesForAllPointsWithinMask.set_size(
 			this->m_IndicesWithinSphere.size(),  this->m_numberOfVoxelsWithinMask);
 	if( this->m_Verbose )
 	{
-		std::cout << "PatchesForAllPointsWithinMask is " << this->m_PatchesForAllPointsWithinMask.rows() << "x" <<
+		Rcpp::Rcout << "PatchesForAllPointsWithinMask is " << this->m_PatchesForAllPointsWithinMask.rows() << "x" <<
 				this->m_PatchesForAllPointsWithinMask.columns() << "." << std::endl;
 	}
 	// extract patches
@@ -544,7 +540,7 @@ void RIPMMARCImageFilter<TInputImage, TOutputImage, TComputation>
 					this->m_PatchesForAllPointsWithinMask.get_column(i).mean());
 		}
 	}
-	if( this->m_Verbose ) std::cout << "Recorded patches for all points." << std::endl;
+	if( this->m_Verbose ) Rcpp::Rcout << "Recorded patches for all points." << std::endl;
 }
 
 template <typename TInputImage, typename TOutputImage, class TComputation>
@@ -563,7 +559,7 @@ void RIPMMARCImageFilter<TInputImage, TOutputImage, TComputation>
       this->m_TargetVarianceExplained = svd.rank() - 1;
 
   if ( this->m_Verbose )
-    std::cout << "Learn eigen patches with TargetVarianceExplained " <<
+    Rcpp::Rcout << "Learn eigen patches with TargetVarianceExplained " <<
       this->m_TargetVarianceExplained << std::endl;
 
   RealType partialSumOfEigenvalues = 0.0;
@@ -581,7 +577,7 @@ void RIPMMARCImageFilter<TInputImage, TOutputImage, TComputation>
 		unsigned int numberOfSignificantEigenvectors = i;
 		if  ( this->m_Verbose )
 		  {
-			std::cout << "It took " << numberOfSignificantEigenvectors << " eigenvectors to reach " <<
+			Rcpp::Rcout << "It took " << numberOfSignificantEigenvectors << " eigenvectors to reach " <<
 					this->m_TargetVarianceExplained * 100 << "% variance explained." << std::endl;
 		  }
 	} else {
@@ -597,7 +593,7 @@ void RIPMMARCImageFilter<TInputImage, TOutputImage, TComputation>
 		  }
 		if  ( this->m_Verbose )
 		  {
-			std::cout << "With " << numberOfSignificantEigenvectors << " eigenvectors, we have " <<
+			Rcpp::Rcout << "With " << numberOfSignificantEigenvectors << " eigenvectors, we have " <<
 					percentVarianceExplained * 100 << "% variance explained." << std::endl;
 		  }
 	}
@@ -638,7 +634,7 @@ void RIPMMARCImageFilter<TInputImage, TOutputImage, TComputation>
   typename GradientImageType::Pointer fixedGradientImage = fixedGradientFilter->GetOutput();
 
   if ( this->m_Verbose )
-    std::cout << "vectorizedSamplePatchMatrix is " << this->m_vectorizedSamplePatchMatrix.rows() <<
+    Rcpp::Rcout << "vectorizedSamplePatchMatrix is " << this->m_vectorizedSamplePatchMatrix.rows() <<
       "x" << this->m_vectorizedSamplePatchMatrix.columns() << std::endl;
   for( long int ii = 0; ii < this->m_vectorizedSamplePatchMatrix.rows(); ii++)
     {
@@ -728,7 +724,7 @@ void RIPMMARCImageFilter<TInputImage, TOutputImage, TComputation>
   // (number of indices within patch x 1).
   // output, eigenvectorCoefficients, is then number of eigenvectors
   // x number of patches ('x' solutions for all patches).
-  if ( this->m_Verbose ) std::cout << "Computing regression." << std::endl;
+  if ( this->m_Verbose ) Rcpp::Rcout << "Computing regression." << std::endl;
   this->m_EigenvectorCoefficients.set_size( this->m_SignificantPatchEigenvectors.columns(),
     this->m_numberOfVoxelsWithinMask );
   this->m_EigenvectorCoefficients.fill( 0 );
@@ -756,7 +752,7 @@ void RIPMMARCImageFilter<TInputImage, TOutputImage, TComputation>
     }
   if( this->m_Verbose )
     {
-    std::cout << "Average percent error is " << percentError.mean() * 100 << "%, with max of " <<
+    Rcpp::Rcout << "Average percent error is " << percentError.mean() * 100 << "%, with max of " <<
         percentError.max_value() * 100 << "%." <<  std::endl;
     }
 }

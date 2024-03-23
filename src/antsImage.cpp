@@ -3538,7 +3538,8 @@ SEXP antsImage_asantsImage( Rcpp::NumericVector& vector, Rcpp::NumericVector& sp
 
 // [[Rcpp::export]]
 SEXP antsImage_asantsImage( SEXP r_vector, SEXP r_pixeltype, SEXP r_spacing ,
-                                       SEXP r_origin, SEXP r_direction, SEXP r_components=Rcpp::wrap(false) )
+                                       SEXP r_origin, SEXP r_direction, 
+                                       SEXP r_components )
 {
 try
 {

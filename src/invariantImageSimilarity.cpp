@@ -524,7 +524,6 @@ SEXP invariantSimilarityHelper(
     return Rcpp::wrap( outMat );
     }
     */
-    std::cout << " NOT WORKING RIGHT NOW " << std::endl;
     Rcpp::NumericMatrix outMat( 1, 1 );
     outMat( 0, 0 ) = 0;
     return Rcpp::wrap( outMat );

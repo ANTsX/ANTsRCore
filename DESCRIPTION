@@ -14,11 +14,11 @@ LazyLoad: yes
 LazyData: true
 Depends: methods, R (>= 2.10)
 LinkingTo: Rcpp, ITKR
-Imports: Rcpp (>= 1.0.12), ITKR (>= 0.5.0), RcppEigen, tools, magrittr, stats, utils
-Suggests: abind, covr, knitr, rmarkdown, testthat
+Imports: Rcpp (>= 1.0.12), ITKR (>= 0.5.0), RcppEigen
+Suggests: covr, knitr, rmarkdown, testthat
 SystemRequirements: cmake, git, clang, GNU make, v8
 NeedsCompilation: yes
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 VignetteBuilder: knitr
 Encoding: UTF-8
 Remotes: stnava/ITKR
