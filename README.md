@@ -7,7 +7,7 @@
 
 <!-- badges: end -->
 
-The ANTsRCore package wraps the C++ ANTs package in R. This package provides the core features for [ANTsR](http://stnava.github.io/ANTsR/).
+The ANTsRCore package provides Rcpp bindings for the C++ biomedical image processing library [ANTs](https://github.com/ANTsX/ANTs). This package should not be used directly, as it is meant to provide the core functionality for the user-facing [ANTsR](http://stnava.github.io/ANTsR/) package.
 
 <br />
 
