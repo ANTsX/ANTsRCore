@@ -89,6 +89,15 @@ void vectorIntegrationHelper(
   return;
 }
 
+//' ANTSIntegrateVectorField
+//'
+//' @param r_refimg value
+//' @param r_velocity value
+//' @param r_deformation value
+//' @param r_t0 value
+//' @param r_t1 value
+//' @param r_dt value
+//' @return ANTSIntegrateVectorField
 // [[Rcpp::export]]
 SEXP ANTSIntegrateVectorField(
   SEXP r_refimg,

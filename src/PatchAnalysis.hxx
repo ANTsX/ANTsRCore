@@ -8,6 +8,9 @@
 #include "itkNeighborhoodIterator.h"
 #include <stdio.h>
 
+#include <Rcpp.h>
+using namespace Rcpp;
+
 template< class ImageType >
 typename ImageType::Pointer ConvertVectorToSpatialImage( vnl_vector< typename ImageType::PixelType > &Vector,
       typename ImageType::Pointer Mask)
@@ -621,8 +624,8 @@ void TPatchAnalysis < ImageType, dimension >::WriteProjections()
 	}
 	catch(itk::ExceptionObject & err)
 	{
-		std::cerr << "Exception caught writing patch projections." << std::endl;
-		std::cerr << err << std::endl;
+		Rcpp::Rcerr << "Exception caught writing patch projections." << std::endl;
+		Rcpp::Rcerr << err << std::endl;
 	}
 
 }
@@ -666,8 +669,8 @@ void TPatchAnalysis < ImageType, dimension >::WritePatchMatrix()
 	}
 	catch(itk::ExceptionObject & err)
 	{
-		std::cerr << "Exception caught writing patches." << std::endl;
-		std::cerr << err << std::endl;
+		Rcpp::Rcerr << "Exception caught writing patches." << std::endl;
+		Rcpp::Rcerr << err << std::endl;
 	}
 
 }
@@ -710,8 +713,8 @@ void TPatchAnalysis < ImageType, dimension >::WriteEigenPatchMatrix()
 	}
 	catch(itk::ExceptionObject & err)
 	{
-		std::cerr << "Exception caught writing patch projections." << std::endl;
-		std::cerr << err << std::endl;
+		Rcpp::Rcerr << "Exception caught writing patch projections." << std::endl;
+		Rcpp::Rcerr << err << std::endl;
 	}
 }
 
@@ -728,8 +731,8 @@ void TPatchAnalysis< ImageType, dimension >::ReadEigenPatchMatrix()
 	}
 	catch( itk::ExceptionObject & err )
 	{
-		std::cerr << "Exception caught while reading eigenpatch matrix." << std::endl;
-		std::cerr << err << std::endl;
+		Rcpp::Rcerr << "Exception caught while reading eigenpatch matrix." << std::endl;
+		Rcpp::Rcerr << err << std::endl;
 	}
 	typename ImageType2D::Pointer eigenvecImage = ImageType2D::New();
 	eigenvecImage = eigenPatchMatrixReader->GetOutput();

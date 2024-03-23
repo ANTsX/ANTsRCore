@@ -67,7 +67,6 @@ SEXP blobDetectionHelper(
   BlobsListType fixedImageBlobs = blobFixedImageFilter->GetBlobs();
   if( fixedImageBlobs.empty() )
     {
-    std::cerr << "fixed image blobs list is empty." << std::endl;
     return nullptr;
     }
 
