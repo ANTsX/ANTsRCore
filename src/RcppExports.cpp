@@ -50,6 +50,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// composeDisplacementFields
+SEXP composeDisplacementFields(SEXP r_dimensionality, SEXP r_displacementField, SEXP r_warpingField);
+RcppExport SEXP _ANTsRCore_composeDisplacementFields(SEXP r_dimensionalitySEXP, SEXP r_displacementFieldSEXP, SEXP r_warpingFieldSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type r_dimensionality(r_dimensionalitySEXP);
+    Rcpp::traits::input_parameter< SEXP >::type r_displacementField(r_displacementFieldSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type r_warpingField(r_warpingFieldSEXP);
+    rcpp_result_gen = Rcpp::wrap(composeDisplacementFields(r_dimensionality, r_displacementField, r_warpingField));
+    return rcpp_result_gen;
+END_RCPP
+}
 // createJacobianDeterminantImageR
 SEXP createJacobianDeterminantImageR(SEXP r_domainImg, SEXP r_tx, SEXP r_dolog, SEXP r_dogeom);
 RcppExport SEXP _ANTsRCore_createJacobianDeterminantImageR(SEXP r_domainImgSEXP, SEXP r_txSEXP, SEXP r_dologSEXP, SEXP r_dogeomSEXP) {
@@ -1708,6 +1721,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTsRCore_ANTSIntegrateVectorField", (DL_FUNC) &_ANTsRCore_ANTSIntegrateVectorField, 6},
     {"_ANTsRCore_addNoiseToImageR", (DL_FUNC) &_ANTsRCore_addNoiseToImageR, 3},
     {"_ANTsRCore_Atropos", (DL_FUNC) &_ANTsRCore_Atropos, 1},
+    {"_ANTsRCore_composeDisplacementFields", (DL_FUNC) &_ANTsRCore_composeDisplacementFields, 3},
     {"_ANTsRCore_createJacobianDeterminantImageR", (DL_FUNC) &_ANTsRCore_createJacobianDeterminantImageR, 4},
     {"_ANTsRCore_DenoiseImage", (DL_FUNC) &_ANTsRCore_DenoiseImage, 1},
     {"_ANTsRCore_fitBsplineDisplacementField", (DL_FUNC) &_ANTsRCore_fitBsplineDisplacementField, 16},
