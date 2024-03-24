@@ -7,6 +7,7 @@
 
 #include "itkComposeDisplacementFieldsImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+
 #include "RcppANTsR.h"
 
 template<unsigned int Dimension>
