@@ -103,7 +103,7 @@ SEXP invertDisplacementFieldHelper(
 }
 
 // [[Rcpp::export]]
-SEXP invertDisplacementField(
+SEXP invertDisplacementFieldR(
   SEXP r_dimensionality,  
   SEXP r_displacementField,
   SEXP r_inverseFieldInitialEstimate,

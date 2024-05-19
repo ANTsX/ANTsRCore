@@ -349,7 +349,7 @@ SEXP fitBSplineVectorImageHelper(
 }
 
 // [[Rcpp::export]]
-SEXP fitBsplineObjectToScatteredData(
+SEXP fitBsplineObjectToScatteredDataR(
   SEXP r_scatteredData,
   SEXP r_parametricData,
   SEXP r_dataWeights,

@@ -305,7 +305,7 @@ SEXP fitBSplineVectorImageHelper(
 }
 
 // [[Rcpp::export]]
-SEXP fitBsplineDisplacementField(
+SEXP fitBsplineDisplacementFieldR(
   SEXP r_dimensionality,
   SEXP r_displacementField,
   SEXP r_displacementFieldWeightImage,

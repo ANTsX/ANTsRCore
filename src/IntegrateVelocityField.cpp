@@ -93,7 +93,7 @@ SEXP integrateVelocityFieldHelper(
 }
 
 // [[Rcpp::export]]
-SEXP integrateVelocityField(
+SEXP integrateVelocityFieldR(
   SEXP r_dimensionality,
   SEXP r_velocityField,
   SEXP r_lowerBound,
