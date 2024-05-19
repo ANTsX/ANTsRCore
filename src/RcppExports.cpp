@@ -75,9 +75,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// fitBsplineDisplacementField
-SEXP fitBsplineDisplacementField(SEXP r_dimensionality, SEXP r_displacementField, SEXP r_displacementFieldWeightImage, SEXP r_displacementOrigins, SEXP r_displacements, SEXP r_displacementWeights, SEXP r_origin, SEXP r_spacing, SEXP r_size, SEXP r_direction, SEXP r_numberOfFittingLevels, SEXP r_numberOfControlPoints, SEXP r_splineOrder, SEXP r_enforceStationaryBoundary, SEXP r_estimateInverse, SEXP r_rasterizePoints);
-RcppExport SEXP _ANTsRCore_fitBsplineDisplacementField(SEXP r_dimensionalitySEXP, SEXP r_displacementFieldSEXP, SEXP r_displacementFieldWeightImageSEXP, SEXP r_displacementOriginsSEXP, SEXP r_displacementsSEXP, SEXP r_displacementWeightsSEXP, SEXP r_originSEXP, SEXP r_spacingSEXP, SEXP r_sizeSEXP, SEXP r_directionSEXP, SEXP r_numberOfFittingLevelsSEXP, SEXP r_numberOfControlPointsSEXP, SEXP r_splineOrderSEXP, SEXP r_enforceStationaryBoundarySEXP, SEXP r_estimateInverseSEXP, SEXP r_rasterizePointsSEXP) {
+// fitBsplineDisplacementFieldR
+SEXP fitBsplineDisplacementFieldR(SEXP r_dimensionality, SEXP r_displacementField, SEXP r_displacementFieldWeightImage, SEXP r_displacementOrigins, SEXP r_displacements, SEXP r_displacementWeights, SEXP r_origin, SEXP r_spacing, SEXP r_size, SEXP r_direction, SEXP r_numberOfFittingLevels, SEXP r_numberOfControlPoints, SEXP r_splineOrder, SEXP r_enforceStationaryBoundary, SEXP r_estimateInverse, SEXP r_rasterizePoints);
+RcppExport SEXP _ANTsRCore_fitBsplineDisplacementFieldR(SEXP r_dimensionalitySEXP, SEXP r_displacementFieldSEXP, SEXP r_displacementFieldWeightImageSEXP, SEXP r_displacementOriginsSEXP, SEXP r_displacementsSEXP, SEXP r_displacementWeightsSEXP, SEXP r_originSEXP, SEXP r_spacingSEXP, SEXP r_sizeSEXP, SEXP r_directionSEXP, SEXP r_numberOfFittingLevelsSEXP, SEXP r_numberOfControlPointsSEXP, SEXP r_splineOrderSEXP, SEXP r_enforceStationaryBoundarySEXP, SEXP r_estimateInverseSEXP, SEXP r_rasterizePointsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -97,13 +97,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type r_enforceStationaryBoundary(r_enforceStationaryBoundarySEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_estimateInverse(r_estimateInverseSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_rasterizePoints(r_rasterizePointsSEXP);
-    rcpp_result_gen = Rcpp::wrap(fitBsplineDisplacementField(r_dimensionality, r_displacementField, r_displacementFieldWeightImage, r_displacementOrigins, r_displacements, r_displacementWeights, r_origin, r_spacing, r_size, r_direction, r_numberOfFittingLevels, r_numberOfControlPoints, r_splineOrder, r_enforceStationaryBoundary, r_estimateInverse, r_rasterizePoints));
+    rcpp_result_gen = Rcpp::wrap(fitBsplineDisplacementFieldR(r_dimensionality, r_displacementField, r_displacementFieldWeightImage, r_displacementOrigins, r_displacements, r_displacementWeights, r_origin, r_spacing, r_size, r_direction, r_numberOfFittingLevels, r_numberOfControlPoints, r_splineOrder, r_enforceStationaryBoundary, r_estimateInverse, r_rasterizePoints));
     return rcpp_result_gen;
 END_RCPP
 }
-// fitBsplineObjectToScatteredData
-SEXP fitBsplineObjectToScatteredData(SEXP r_scatteredData, SEXP r_parametricData, SEXP r_dataWeights, SEXP r_parametricDomainOrigin, SEXP r_parametricDomainSpacing, SEXP r_parametricDomainSize, SEXP r_isParametricDimensionClosed, SEXP r_numberOfFittingLevels, SEXP r_numberOfControlPoints, SEXP r_splineOrder);
-RcppExport SEXP _ANTsRCore_fitBsplineObjectToScatteredData(SEXP r_scatteredDataSEXP, SEXP r_parametricDataSEXP, SEXP r_dataWeightsSEXP, SEXP r_parametricDomainOriginSEXP, SEXP r_parametricDomainSpacingSEXP, SEXP r_parametricDomainSizeSEXP, SEXP r_isParametricDimensionClosedSEXP, SEXP r_numberOfFittingLevelsSEXP, SEXP r_numberOfControlPointsSEXP, SEXP r_splineOrderSEXP) {
+// fitBsplineObjectToScatteredDataR
+SEXP fitBsplineObjectToScatteredDataR(SEXP r_scatteredData, SEXP r_parametricData, SEXP r_dataWeights, SEXP r_parametricDomainOrigin, SEXP r_parametricDomainSpacing, SEXP r_parametricDomainSize, SEXP r_isParametricDimensionClosed, SEXP r_numberOfFittingLevels, SEXP r_numberOfControlPoints, SEXP r_splineOrder);
+RcppExport SEXP _ANTsRCore_fitBsplineObjectToScatteredDataR(SEXP r_scatteredDataSEXP, SEXP r_parametricDataSEXP, SEXP r_dataWeightsSEXP, SEXP r_parametricDomainOriginSEXP, SEXP r_parametricDomainSpacingSEXP, SEXP r_parametricDomainSizeSEXP, SEXP r_isParametricDimensionClosedSEXP, SEXP r_numberOfFittingLevelsSEXP, SEXP r_numberOfControlPointsSEXP, SEXP r_splineOrderSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -117,13 +117,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type r_numberOfFittingLevels(r_numberOfFittingLevelsSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_numberOfControlPoints(r_numberOfControlPointsSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_splineOrder(r_splineOrderSEXP);
-    rcpp_result_gen = Rcpp::wrap(fitBsplineObjectToScatteredData(r_scatteredData, r_parametricData, r_dataWeights, r_parametricDomainOrigin, r_parametricDomainSpacing, r_parametricDomainSize, r_isParametricDimensionClosed, r_numberOfFittingLevels, r_numberOfControlPoints, r_splineOrder));
+    rcpp_result_gen = Rcpp::wrap(fitBsplineObjectToScatteredDataR(r_scatteredData, r_parametricData, r_dataWeights, r_parametricDomainOrigin, r_parametricDomainSpacing, r_parametricDomainSize, r_isParametricDimensionClosed, r_numberOfFittingLevels, r_numberOfControlPoints, r_splineOrder));
     return rcpp_result_gen;
 END_RCPP
 }
-// fitThinPlateSplineDisplacementField
-SEXP fitThinPlateSplineDisplacementField(SEXP r_dimensionality, SEXP r_displacementOrigins, SEXP r_displacements, SEXP r_origin, SEXP r_spacing, SEXP r_size, SEXP r_direction);
-RcppExport SEXP _ANTsRCore_fitThinPlateSplineDisplacementField(SEXP r_dimensionalitySEXP, SEXP r_displacementOriginsSEXP, SEXP r_displacementsSEXP, SEXP r_originSEXP, SEXP r_spacingSEXP, SEXP r_sizeSEXP, SEXP r_directionSEXP) {
+// fitThinPlateSplineDisplacementFieldR
+SEXP fitThinPlateSplineDisplacementFieldR(SEXP r_dimensionality, SEXP r_displacementOrigins, SEXP r_displacements, SEXP r_origin, SEXP r_spacing, SEXP r_size, SEXP r_direction);
+RcppExport SEXP _ANTsRCore_fitThinPlateSplineDisplacementFieldR(SEXP r_dimensionalitySEXP, SEXP r_displacementOriginsSEXP, SEXP r_displacementsSEXP, SEXP r_originSEXP, SEXP r_spacingSEXP, SEXP r_sizeSEXP, SEXP r_directionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -134,7 +134,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type r_spacing(r_spacingSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_size(r_sizeSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_direction(r_directionSEXP);
-    rcpp_result_gen = Rcpp::wrap(fitThinPlateSplineDisplacementField(r_dimensionality, r_displacementOrigins, r_displacements, r_origin, r_spacing, r_size, r_direction));
+    rcpp_result_gen = Rcpp::wrap(fitThinPlateSplineDisplacementFieldR(r_dimensionality, r_displacementOrigins, r_displacements, r_origin, r_spacing, r_size, r_direction));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -165,9 +165,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// integrateVelocityField
-SEXP integrateVelocityField(SEXP r_dimensionality, SEXP r_velocityField, SEXP r_lowerBound, SEXP r_upperBound, SEXP r_numberOfIntegrationSteps);
-RcppExport SEXP _ANTsRCore_integrateVelocityField(SEXP r_dimensionalitySEXP, SEXP r_velocityFieldSEXP, SEXP r_lowerBoundSEXP, SEXP r_upperBoundSEXP, SEXP r_numberOfIntegrationStepsSEXP) {
+// integrateVelocityFieldR
+SEXP integrateVelocityFieldR(SEXP r_dimensionality, SEXP r_velocityField, SEXP r_lowerBound, SEXP r_upperBound, SEXP r_numberOfIntegrationSteps);
+RcppExport SEXP _ANTsRCore_integrateVelocityFieldR(SEXP r_dimensionalitySEXP, SEXP r_velocityFieldSEXP, SEXP r_lowerBoundSEXP, SEXP r_upperBoundSEXP, SEXP r_numberOfIntegrationStepsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -176,13 +176,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type r_lowerBound(r_lowerBoundSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_upperBound(r_upperBoundSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_numberOfIntegrationSteps(r_numberOfIntegrationStepsSEXP);
-    rcpp_result_gen = Rcpp::wrap(integrateVelocityField(r_dimensionality, r_velocityField, r_lowerBound, r_upperBound, r_numberOfIntegrationSteps));
+    rcpp_result_gen = Rcpp::wrap(integrateVelocityFieldR(r_dimensionality, r_velocityField, r_lowerBound, r_upperBound, r_numberOfIntegrationSteps));
     return rcpp_result_gen;
 END_RCPP
 }
-// invertDisplacementField
-SEXP invertDisplacementField(SEXP r_dimensionality, SEXP r_displacementField, SEXP r_inverseFieldInitialEstimate, SEXP r_maxNumberOfIterations, SEXP r_meanErrorToleranceThreshold, SEXP r_maxErrorToleranceThreshold, SEXP r_enforceBoundaryCondition);
-RcppExport SEXP _ANTsRCore_invertDisplacementField(SEXP r_dimensionalitySEXP, SEXP r_displacementFieldSEXP, SEXP r_inverseFieldInitialEstimateSEXP, SEXP r_maxNumberOfIterationsSEXP, SEXP r_meanErrorToleranceThresholdSEXP, SEXP r_maxErrorToleranceThresholdSEXP, SEXP r_enforceBoundaryConditionSEXP) {
+// invertDisplacementFieldR
+SEXP invertDisplacementFieldR(SEXP r_dimensionality, SEXP r_displacementField, SEXP r_inverseFieldInitialEstimate, SEXP r_maxNumberOfIterations, SEXP r_meanErrorToleranceThreshold, SEXP r_maxErrorToleranceThreshold, SEXP r_enforceBoundaryCondition);
+RcppExport SEXP _ANTsRCore_invertDisplacementFieldR(SEXP r_dimensionalitySEXP, SEXP r_displacementFieldSEXP, SEXP r_inverseFieldInitialEstimateSEXP, SEXP r_maxNumberOfIterationsSEXP, SEXP r_meanErrorToleranceThresholdSEXP, SEXP r_maxErrorToleranceThresholdSEXP, SEXP r_enforceBoundaryConditionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -193,7 +193,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type r_meanErrorToleranceThreshold(r_meanErrorToleranceThresholdSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_maxErrorToleranceThreshold(r_maxErrorToleranceThresholdSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_enforceBoundaryCondition(r_enforceBoundaryConditionSEXP);
-    rcpp_result_gen = Rcpp::wrap(invertDisplacementField(r_dimensionality, r_displacementField, r_inverseFieldInitialEstimate, r_maxNumberOfIterations, r_meanErrorToleranceThreshold, r_maxErrorToleranceThreshold, r_enforceBoundaryCondition));
+    rcpp_result_gen = Rcpp::wrap(invertDisplacementFieldR(r_dimensionality, r_displacementField, r_inverseFieldInitialEstimate, r_maxNumberOfIterations, r_meanErrorToleranceThreshold, r_maxErrorToleranceThreshold, r_enforceBoundaryCondition));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1391,16 +1391,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// imagesToMatrix
-SEXP imagesToMatrix(SEXP r_fns, SEXP r_mask, SEXP r_n);
-RcppExport SEXP _ANTsRCore_imagesToMatrix(SEXP r_fnsSEXP, SEXP r_maskSEXP, SEXP r_nSEXP) {
+// imagesToMatrixR
+SEXP imagesToMatrixR(SEXP r_fns, SEXP r_mask, SEXP r_n);
+RcppExport SEXP _ANTsRCore_imagesToMatrixR(SEXP r_fnsSEXP, SEXP r_maskSEXP, SEXP r_nSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type r_fns(r_fnsSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_mask(r_maskSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_n(r_nSEXP);
-    rcpp_result_gen = Rcpp::wrap(imagesToMatrix(r_fns, r_mask, r_n));
+    rcpp_result_gen = Rcpp::wrap(imagesToMatrixR(r_fns, r_mask, r_n));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1535,16 +1535,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// reflectionMatrix
-SEXP reflectionMatrix(SEXP r_image, SEXP r_axis, SEXP r_filename);
-RcppExport SEXP _ANTsRCore_reflectionMatrix(SEXP r_imageSEXP, SEXP r_axisSEXP, SEXP r_filenameSEXP) {
+// reflectionMatrixR
+SEXP reflectionMatrixR(SEXP r_image, SEXP r_axis, SEXP r_filename);
+RcppExport SEXP _ANTsRCore_reflectionMatrixR(SEXP r_imageSEXP, SEXP r_axisSEXP, SEXP r_filenameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type r_image(r_imageSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_axis(r_axisSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_filename(r_filenameSEXP);
-    rcpp_result_gen = Rcpp::wrap(reflectionMatrix(r_image, r_axis, r_filename));
+    rcpp_result_gen = Rcpp::wrap(reflectionMatrixR(r_image, r_axis, r_filename));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1710,13 +1710,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTsRCore_Atropos", (DL_FUNC) &_ANTsRCore_Atropos, 1},
     {"_ANTsRCore_createJacobianDeterminantImageR", (DL_FUNC) &_ANTsRCore_createJacobianDeterminantImageR, 4},
     {"_ANTsRCore_DenoiseImage", (DL_FUNC) &_ANTsRCore_DenoiseImage, 1},
-    {"_ANTsRCore_fitBsplineDisplacementField", (DL_FUNC) &_ANTsRCore_fitBsplineDisplacementField, 16},
-    {"_ANTsRCore_fitBsplineObjectToScatteredData", (DL_FUNC) &_ANTsRCore_fitBsplineObjectToScatteredData, 10},
-    {"_ANTsRCore_fitThinPlateSplineDisplacementField", (DL_FUNC) &_ANTsRCore_fitThinPlateSplineDisplacementField, 7},
+    {"_ANTsRCore_fitBsplineDisplacementFieldR", (DL_FUNC) &_ANTsRCore_fitBsplineDisplacementFieldR, 16},
+    {"_ANTsRCore_fitBsplineObjectToScatteredDataR", (DL_FUNC) &_ANTsRCore_fitBsplineObjectToScatteredDataR, 10},
+    {"_ANTsRCore_fitThinPlateSplineDisplacementFieldR", (DL_FUNC) &_ANTsRCore_fitThinPlateSplineDisplacementFieldR, 7},
     {"_ANTsRCore_HausdorffDistanceR", (DL_FUNC) &_ANTsRCore_HausdorffDistanceR, 2},
     {"_ANTsRCore_histogramMatchImageR", (DL_FUNC) &_ANTsRCore_histogramMatchImageR, 5},
-    {"_ANTsRCore_integrateVelocityField", (DL_FUNC) &_ANTsRCore_integrateVelocityField, 5},
-    {"_ANTsRCore_invertDisplacementField", (DL_FUNC) &_ANTsRCore_invertDisplacementField, 7},
+    {"_ANTsRCore_integrateVelocityFieldR", (DL_FUNC) &_ANTsRCore_integrateVelocityFieldR, 5},
+    {"_ANTsRCore_invertDisplacementFieldR", (DL_FUNC) &_ANTsRCore_invertDisplacementFieldR, 7},
     {"_ANTsRCore_KellyKapowski", (DL_FUNC) &_ANTsRCore_KellyKapowski, 1},
     {"_ANTsRCore_LabelClustersUniquely", (DL_FUNC) &_ANTsRCore_LabelClustersUniquely, 1},
     {"_ANTsRCore_LabelGeometryMeasures", (DL_FUNC) &_ANTsRCore_LabelGeometryMeasures, 1},
@@ -1814,7 +1814,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTsRCore_iMathInterface", (DL_FUNC) &_ANTsRCore_iMathInterface, 1},
     {"_ANTsRCore_iMathInterface1", (DL_FUNC) &_ANTsRCore_iMathInterface1, 1},
     {"_ANTsRCore_iMathInterface2", (DL_FUNC) &_ANTsRCore_iMathInterface2, 1},
-    {"_ANTsRCore_imagesToMatrix", (DL_FUNC) &_ANTsRCore_imagesToMatrix, 3},
+    {"_ANTsRCore_imagesToMatrixR", (DL_FUNC) &_ANTsRCore_imagesToMatrixR, 3},
     {"_ANTsRCore_invariantImageSimilarity", (DL_FUNC) &_ANTsRCore_invariantImageSimilarity, 12},
     {"_ANTsRCore_itkConvolveImage", (DL_FUNC) &_ANTsRCore_itkConvolveImage, 2},
     {"_ANTsRCore_labelStatsR", (DL_FUNC) &_ANTsRCore_labelStatsR, 2},
@@ -1824,7 +1824,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTsRCore_patchAnalysis", (DL_FUNC) &_ANTsRCore_patchAnalysis, 12},
     {"_ANTsRCore_rcpp_hello_world22", (DL_FUNC) &_ANTsRCore_rcpp_hello_world22, 0},
     {"_ANTsRCore_rcpp_hello_world33", (DL_FUNC) &_ANTsRCore_rcpp_hello_world33, 0},
-    {"_ANTsRCore_reflectionMatrix", (DL_FUNC) &_ANTsRCore_reflectionMatrix, 3},
+    {"_ANTsRCore_reflectionMatrixR", (DL_FUNC) &_ANTsRCore_reflectionMatrixR, 3},
     {"_ANTsRCore_reorientImageR", (DL_FUNC) &_ANTsRCore_reorientImageR, 6},
     {"_ANTsRCore_centerOfMass", (DL_FUNC) &_ANTsRCore_centerOfMass, 1},
     {"_ANTsRCore_sccanX", (DL_FUNC) &_ANTsRCore_sccanX, 1},

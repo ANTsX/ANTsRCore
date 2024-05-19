@@ -30,16 +30,16 @@ DenoiseImage <- function(r_args) {
     .Call(`_ANTsRCore_DenoiseImage`, r_args)
 }
 
-fitBsplineDisplacementField <- function(r_dimensionality, r_displacementField, r_displacementFieldWeightImage, r_displacementOrigins, r_displacements, r_displacementWeights, r_origin, r_spacing, r_size, r_direction, r_numberOfFittingLevels, r_numberOfControlPoints, r_splineOrder, r_enforceStationaryBoundary, r_estimateInverse, r_rasterizePoints) {
-    .Call(`_ANTsRCore_fitBsplineDisplacementField`, r_dimensionality, r_displacementField, r_displacementFieldWeightImage, r_displacementOrigins, r_displacements, r_displacementWeights, r_origin, r_spacing, r_size, r_direction, r_numberOfFittingLevels, r_numberOfControlPoints, r_splineOrder, r_enforceStationaryBoundary, r_estimateInverse, r_rasterizePoints)
+fitBsplineDisplacementFieldR <- function(r_dimensionality, r_displacementField, r_displacementFieldWeightImage, r_displacementOrigins, r_displacements, r_displacementWeights, r_origin, r_spacing, r_size, r_direction, r_numberOfFittingLevels, r_numberOfControlPoints, r_splineOrder, r_enforceStationaryBoundary, r_estimateInverse, r_rasterizePoints) {
+    .Call(`_ANTsRCore_fitBsplineDisplacementFieldR`, r_dimensionality, r_displacementField, r_displacementFieldWeightImage, r_displacementOrigins, r_displacements, r_displacementWeights, r_origin, r_spacing, r_size, r_direction, r_numberOfFittingLevels, r_numberOfControlPoints, r_splineOrder, r_enforceStationaryBoundary, r_estimateInverse, r_rasterizePoints)
 }
 
-fitBsplineObjectToScatteredData <- function(r_scatteredData, r_parametricData, r_dataWeights, r_parametricDomainOrigin, r_parametricDomainSpacing, r_parametricDomainSize, r_isParametricDimensionClosed, r_numberOfFittingLevels, r_numberOfControlPoints, r_splineOrder) {
-    .Call(`_ANTsRCore_fitBsplineObjectToScatteredData`, r_scatteredData, r_parametricData, r_dataWeights, r_parametricDomainOrigin, r_parametricDomainSpacing, r_parametricDomainSize, r_isParametricDimensionClosed, r_numberOfFittingLevels, r_numberOfControlPoints, r_splineOrder)
+fitBsplineObjectToScatteredDataR <- function(r_scatteredData, r_parametricData, r_dataWeights, r_parametricDomainOrigin, r_parametricDomainSpacing, r_parametricDomainSize, r_isParametricDimensionClosed, r_numberOfFittingLevels, r_numberOfControlPoints, r_splineOrder) {
+    .Call(`_ANTsRCore_fitBsplineObjectToScatteredDataR`, r_scatteredData, r_parametricData, r_dataWeights, r_parametricDomainOrigin, r_parametricDomainSpacing, r_parametricDomainSize, r_isParametricDimensionClosed, r_numberOfFittingLevels, r_numberOfControlPoints, r_splineOrder)
 }
 
-fitThinPlateSplineDisplacementField <- function(r_dimensionality, r_displacementOrigins, r_displacements, r_origin, r_spacing, r_size, r_direction) {
-    .Call(`_ANTsRCore_fitThinPlateSplineDisplacementField`, r_dimensionality, r_displacementOrigins, r_displacements, r_origin, r_spacing, r_size, r_direction)
+fitThinPlateSplineDisplacementFieldR <- function(r_dimensionality, r_displacementOrigins, r_displacements, r_origin, r_spacing, r_size, r_direction) {
+    .Call(`_ANTsRCore_fitThinPlateSplineDisplacementFieldR`, r_dimensionality, r_displacementOrigins, r_displacements, r_origin, r_spacing, r_size, r_direction)
 }
 
 HausdorffDistanceR <- function(r_inputImage1, r_inputImage2) {
@@ -50,12 +50,12 @@ histogramMatchImageR <- function(r_sourceImage, r_referenceImage, r_numberOfHist
     .Call(`_ANTsRCore_histogramMatchImageR`, r_sourceImage, r_referenceImage, r_numberOfHistogramBins, r_numberOfMatchPoints, r_useThresholdAtMeanIntensity)
 }
 
-integrateVelocityField <- function(r_dimensionality, r_velocityField, r_lowerBound, r_upperBound, r_numberOfIntegrationSteps) {
-    .Call(`_ANTsRCore_integrateVelocityField`, r_dimensionality, r_velocityField, r_lowerBound, r_upperBound, r_numberOfIntegrationSteps)
+integrateVelocityFieldR <- function(r_dimensionality, r_velocityField, r_lowerBound, r_upperBound, r_numberOfIntegrationSteps) {
+    .Call(`_ANTsRCore_integrateVelocityFieldR`, r_dimensionality, r_velocityField, r_lowerBound, r_upperBound, r_numberOfIntegrationSteps)
 }
 
-invertDisplacementField <- function(r_dimensionality, r_displacementField, r_inverseFieldInitialEstimate, r_maxNumberOfIterations, r_meanErrorToleranceThreshold, r_maxErrorToleranceThreshold, r_enforceBoundaryCondition) {
-    .Call(`_ANTsRCore_invertDisplacementField`, r_dimensionality, r_displacementField, r_inverseFieldInitialEstimate, r_maxNumberOfIterations, r_meanErrorToleranceThreshold, r_maxErrorToleranceThreshold, r_enforceBoundaryCondition)
+invertDisplacementFieldR <- function(r_dimensionality, r_displacementField, r_inverseFieldInitialEstimate, r_maxNumberOfIterations, r_meanErrorToleranceThreshold, r_maxErrorToleranceThreshold, r_enforceBoundaryCondition) {
+    .Call(`_ANTsRCore_invertDisplacementFieldR`, r_dimensionality, r_displacementField, r_inverseFieldInitialEstimate, r_maxNumberOfIterations, r_meanErrorToleranceThreshold, r_maxErrorToleranceThreshold, r_enforceBoundaryCondition)
 }
 
 KellyKapowski <- function(r_args) {
@@ -446,8 +446,8 @@ iMathInterface2 <- function(r_args) {
     .Call(`_ANTsRCore_iMathInterface2`, r_args)
 }
 
-imagesToMatrix <- function(r_fns, r_mask, r_n) {
-    .Call(`_ANTsRCore_imagesToMatrix`, r_fns, r_mask, r_n)
+imagesToMatrixR <- function(r_fns, r_mask, r_n) {
+    .Call(`_ANTsRCore_imagesToMatrixR`, r_fns, r_mask, r_n)
 }
 
 invariantImageSimilarity <- function(r_in_image1, r_in_image2, thetas, thetas2, thetas3, localSearchIterations, whichMetric, r_scale, r_doref, txfn, whichTransform, r_mask) {
@@ -486,8 +486,8 @@ rcpp_hello_world33 <- function() {
     .Call(`_ANTsRCore_rcpp_hello_world33`)
 }
 
-reflectionMatrix <- function(r_image, r_axis, r_filename) {
-    .Call(`_ANTsRCore_reflectionMatrix`, r_image, r_axis, r_filename)
+reflectionMatrixR <- function(r_image, r_axis, r_filename) {
+    .Call(`_ANTsRCore_reflectionMatrixR`, r_image, r_axis, r_filename)
 }
 
 reorientImageR <- function(r_in_image1, r_txfn, r_axis1, r_axis2, rrfl, rscl) {
