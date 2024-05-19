@@ -6,7 +6,7 @@
 #include "antsr.h"
 
 // [[Rcpp::export]]
-SEXP antsAffineInitializer( SEXP r_args )
+SEXP AntsAffineInitializer( SEXP r_args )
 try
 {
   std::vector< std::string > args = Rcpp::as< std::vector< std::string > >( r_args ) ;

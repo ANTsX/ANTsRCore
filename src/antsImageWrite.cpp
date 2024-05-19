@@ -68,7 +68,7 @@ namespace ants
 } // namespace ants
 
 // [[Rcpp::export]]
-SEXP antsImageWrite( SEXP r_img , SEXP r_filename, SEXP r_asTensor )
+SEXP AntsImageWrite( SEXP r_img , SEXP r_filename, SEXP r_asTensor )
 {
 try
 {

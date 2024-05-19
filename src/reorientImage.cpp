@@ -177,7 +177,7 @@ SEXP antsCoMHelper(
 
 
 // [[Rcpp::export]]
-SEXP reorientImage( SEXP r_in_image1, SEXP r_txfn,
+SEXP reorientImageR( SEXP r_in_image1, SEXP r_txfn,
   SEXP r_axis1, SEXP r_axis2, SEXP rrfl, SEXP rscl )
 {
   if( r_in_image1 == NULL  )

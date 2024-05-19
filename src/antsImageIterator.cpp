@@ -31,7 +31,7 @@ SEXP antsImageIterator( SEXP r_antsimage )
 
 
 // [[Rcpp::export]]
-SEXP antsImageIterator( SEXP r_antsimage )
+SEXP AntsImageIterator( SEXP r_antsimage )
 {
 try
 {

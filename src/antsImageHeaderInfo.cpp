@@ -6,7 +6,7 @@
 #include "itkImageFileReader.h"
 
 // [[Rcpp::export]]
-SEXP antsImageHeaderInfo( SEXP r_filename )
+SEXP AntsImageHeaderInfo( SEXP r_filename )
 try
 {
   std::string fname = Rcpp::as<std::string>(r_filename);

@@ -145,7 +145,7 @@ typename ImageType::Pointer decropImageHelper(
 }
 
 // [[Rcpp::export]]
-SEXP cropImage( SEXP r_in_image1 ,
+SEXP CropImage( SEXP r_in_image1 ,
   SEXP r_in_image2,  SEXP r_label, SEXP r_decrop,
   SEXP r_loind, SEXP r_upind  )
 {
@@ -334,7 +334,7 @@ return extracter->GetOutput();
 }
 
 // [[Rcpp::export]]
-SEXP extractSlice( SEXP r_in_image1,
+SEXP ExtractSlice( SEXP r_in_image1,
   SEXP r_slice, SEXP r_direction, SEXP r_collapseStrategy  )
 {
   if( r_in_image1 == NULL  )

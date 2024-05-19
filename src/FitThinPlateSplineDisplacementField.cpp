@@ -132,7 +132,7 @@ SEXP fitThinPlateSplineVectorImageHelper(
 }
 
 // [[Rcpp::export]]
-SEXP fitThinPlateSplineDisplacementField(
+SEXP fitThinPlateSplineDisplacementFieldR(
   SEXP r_dimensionality,
   SEXP r_displacementOrigins,
   SEXP r_displacements,

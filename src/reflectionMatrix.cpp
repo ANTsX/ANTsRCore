@@ -55,7 +55,7 @@ SEXP reflectionMatrix( SEXP r_image, unsigned int axis, std::string filename )
 
 
 // [[Rcpp::export]]
-SEXP reflectionMatrix( SEXP r_image, SEXP r_axis, SEXP r_filename )
+SEXP reflectionMatrixR( SEXP r_image, SEXP r_axis, SEXP r_filename )
 {
 try
 {
