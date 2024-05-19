@@ -54,7 +54,7 @@ SEXP splitChannels( SEXP r_antsimage )
 }
 
 // [[Rcpp::export]]
-SEXP splitChannels( SEXP r_antsimage )
+SEXP splitChannelsR( SEXP r_antsimage )
 {
 try
 {

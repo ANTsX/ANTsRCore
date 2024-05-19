@@ -94,16 +94,16 @@ ThresholdImage <- function(r_args) {
     .Call(`_ANTsRCore_ThresholdImage`, r_args)
 }
 
-antsAffineInitializer <- function(r_args) {
-    .Call(`_ANTsRCore_antsAffineInitializer`, r_args)
+AntsAffineInitializer <- function(r_args) {
+    .Call(`_ANTsRCore_AntsAffineInitializer`, r_args)
 }
 
-antsApplyTransforms <- function(r_args) {
-    .Call(`_ANTsRCore_antsApplyTransforms`, r_args)
+AntsApplyTransforms <- function(r_args) {
+    .Call(`_ANTsRCore_AntsApplyTransforms`, r_args)
 }
 
-antsApplyTransformsToPoints <- function(r_args) {
-    .Call(`_ANTsRCore_antsApplyTransformsToPoints`, r_args)
+AntsApplyTransformsToPoints <- function(r_args) {
+    .Call(`_ANTsRCore_AntsApplyTransformsToPoints`, r_args)
 }
 
 antsImage <- function(r_pixeltype, r_dimension, r_components) {
@@ -202,8 +202,8 @@ antsImageArithImageImage <- function(r_antsimage1, r_antsimage2, r_operator) {
     .Call(`_ANTsRCore_antsImageArithImageImage`, r_antsimage1, r_antsimage2, r_operator)
 }
 
-antsImageClone <- function(r_in_image, r_out_pixeltype) {
-    .Call(`_ANTsRCore_antsImageClone`, r_in_image, r_out_pixeltype)
+AntsImageClone <- function(r_in_image, r_out_pixeltype) {
+    .Call(`_ANTsRCore_AntsImageClone`, r_in_image, r_out_pixeltype)
 }
 
 antsImageComparisonImageNumeric <- function(r_antsimage, r_numeric, r_operator) {
@@ -214,12 +214,12 @@ antsImageComparisonImageImage <- function(r_antsimage1, r_antsimage2, r_operator
     .Call(`_ANTsRCore_antsImageComparisonImageImage`, r_antsimage1, r_antsimage2, r_operator)
 }
 
-antsImageHeaderInfo <- function(r_filename) {
-    .Call(`_ANTsRCore_antsImageHeaderInfo`, r_filename)
+AntsImageHeaderInfo <- function(r_filename) {
+    .Call(`_ANTsRCore_AntsImageHeaderInfo`, r_filename)
 }
 
-antsImageIterator <- function(r_antsimage) {
-    .Call(`_ANTsRCore_antsImageIterator`, r_antsimage)
+AntsImageIterator <- function(r_antsimage) {
+    .Call(`_ANTsRCore_AntsImageIterator`, r_antsimage)
 }
 
 antsImageIterator_Get <- function(r_antsimageiterator) {
@@ -282,16 +282,16 @@ antsImageMutualInformation <- function(r_in_image1, r_in_image2) {
     .Call(`_ANTsRCore_antsImageMutualInformation`, r_in_image1, r_in_image2)
 }
 
-antsImageRead <- function(r_filename, r_pixeltype, r_dimension, r_components) {
-    .Call(`_ANTsRCore_antsImageRead`, r_filename, r_pixeltype, r_dimension, r_components)
+AntsImageRead <- function(r_filename, r_pixeltype, r_dimension, r_components) {
+    .Call(`_ANTsRCore_AntsImageRead`, r_filename, r_pixeltype, r_dimension, r_components)
 }
 
-antsImageStats <- function(r_antsimage, r_mask, r_narm) {
-    .Call(`_ANTsRCore_antsImageStats`, r_antsimage, r_mask, r_narm)
+AntsImageStats <- function(r_antsimage, r_mask, r_narm) {
+    .Call(`_ANTsRCore_AntsImageStats`, r_antsimage, r_mask, r_narm)
 }
 
-antsImageWrite <- function(r_img, r_filename, r_asTensor) {
-    .Call(`_ANTsRCore_antsImageWrite`, r_img, r_filename, r_asTensor)
+AntsImageWrite <- function(r_img, r_filename, r_asTensor) {
+    .Call(`_ANTsRCore_AntsImageWrite`, r_img, r_filename, r_asTensor)
 }
 
 antsJointFusion <- function(r_args) {
@@ -310,16 +310,16 @@ antsMatrix_asantsMatrix <- function(r_list, r_elementtype) {
     .Call(`_ANTsRCore_antsMatrix_asantsMatrix`, r_list, r_elementtype)
 }
 
-antsMotionCorr <- function(r_args) {
-    .Call(`_ANTsRCore_antsMotionCorr`, r_args)
+AntsMotionCorr <- function(r_args) {
+    .Call(`_ANTsRCore_AntsMotionCorr`, r_args)
 }
 
 antsMotionCorrStats <- function(r_tsimg, r_mask, r_moco, r_stupidoffset) {
     .Call(`_ANTsRCore_antsMotionCorrStats`, r_tsimg, r_mask, r_moco, r_stupidoffset)
 }
 
-antsRegistration <- function(r_args) {
-    .Call(`_ANTsRCore_antsRegistration`, r_args)
+AntsRegistration <- function(r_args) {
+    .Call(`_ANTsRCore_AntsRegistration`, r_args)
 }
 
 antsrMetric <- function(r_pixeltype, r_dimension, r_type, r_isVector, r_fixed, r_moving) {
@@ -418,20 +418,20 @@ antsrTransform_Write <- function(r_transform, filename_) {
     .Call(`_ANTsRCore_antsrTransform_Write`, r_transform, filename_)
 }
 
-cropImage <- function(r_in_image1, r_in_image2, r_label, r_decrop, r_loind, r_upind) {
-    .Call(`_ANTsRCore_cropImage`, r_in_image1, r_in_image2, r_label, r_decrop, r_loind, r_upind)
+CropImage <- function(r_in_image1, r_in_image2, r_label, r_decrop, r_loind, r_upind) {
+    .Call(`_ANTsRCore_CropImage`, r_in_image1, r_in_image2, r_label, r_decrop, r_loind, r_upind)
 }
 
-extractSlice <- function(r_in_image1, r_slice, r_direction, r_collapseStrategy) {
-    .Call(`_ANTsRCore_extractSlice`, r_in_image1, r_slice, r_direction, r_collapseStrategy)
+ExtractSlice <- function(r_in_image1, r_slice, r_direction, r_collapseStrategy) {
+    .Call(`_ANTsRCore_ExtractSlice`, r_in_image1, r_slice, r_direction, r_collapseStrategy)
 }
 
 fastMarchingExtension <- function(r_speedImage, r_labelImage, r_valueImage) {
     .Call(`_ANTsRCore_fastMarchingExtension`, r_speedImage, r_labelImage, r_valueImage)
 }
 
-fsl2antsrTransform <- function(r_matrix, r_reference, r_moving, r_flag) {
-    .Call(`_ANTsRCore_fsl2antsrTransform`, r_matrix, r_reference, r_moving, r_flag)
+fsl2antsrTransformR <- function(r_matrix, r_reference, r_moving, r_flag) {
+    .Call(`_ANTsRCore_fsl2antsrTransformR`, r_matrix, r_reference, r_moving, r_flag)
 }
 
 iMathInterface <- function(r_args) {
@@ -458,16 +458,16 @@ itkConvolveImage <- function(r_in_image1, r_in_image2) {
     .Call(`_ANTsRCore_itkConvolveImage`, r_in_image1, r_in_image2)
 }
 
-labelStats <- function(r_image, r_labelImage) {
-    .Call(`_ANTsRCore_labelStats`, r_image, r_labelImage)
+labelStatsR <- function(r_image, r_labelImage) {
+    .Call(`_ANTsRCore_labelStatsR`, r_image, r_labelImage)
 }
 
-makeImage <- function(r_pixeltype, r_size, r_spacing, r_origin, r_direction, r_components) {
-    .Call(`_ANTsRCore_makeImage`, r_pixeltype, r_size, r_spacing, r_origin, r_direction, r_components)
+makeImageR <- function(r_pixeltype, r_size, r_spacing, r_origin, r_direction, r_components) {
+    .Call(`_ANTsRCore_makeImageR`, r_pixeltype, r_size, r_spacing, r_origin, r_direction, r_components)
 }
 
-mergeChannels <- function(r_imageList) {
-    .Call(`_ANTsRCore_mergeChannels`, r_imageList)
+mergeChannelsR <- function(r_imageList) {
+    .Call(`_ANTsRCore_mergeChannelsR`, r_imageList)
 }
 
 blobAnalysis <- function(r_inimg, r_outimg, r_numberOfBlobsToExtract, r_minScale, r_maxScale, r_stepsPerOctave) {
@@ -490,8 +490,8 @@ reflectionMatrix <- function(r_image, r_axis, r_filename) {
     .Call(`_ANTsRCore_reflectionMatrix`, r_image, r_axis, r_filename)
 }
 
-reorientImage <- function(r_in_image1, r_txfn, r_axis1, r_axis2, rrfl, rscl) {
-    .Call(`_ANTsRCore_reorientImage`, r_in_image1, r_txfn, r_axis1, r_axis2, rrfl, rscl)
+reorientImageR <- function(r_in_image1, r_txfn, r_axis1, r_axis2, rrfl, rscl) {
+    .Call(`_ANTsRCore_reorientImageR`, r_in_image1, r_txfn, r_axis1, r_axis2, rrfl, rscl)
 }
 
 centerOfMass <- function(r_in_image1) {
@@ -514,19 +514,19 @@ sccanCpp <- function(r_X, r_Y, r_maskx, r_masky, r_sparsenessx, r_sparsenessy, r
     .Call(`_ANTsRCore_sccanCpp`, r_X, r_Y, r_maskx, r_masky, r_sparsenessx, r_sparsenessy, r_nvecs, r_its, r_cthreshx, r_cthreshy, r_z, r_smooth, r_initializationListx, r_initializationListy, r_mycoption, r_ell1, r_verbose, r_priorWeight, r_maxBasedThresh)
 }
 
-smoothImage <- function(r_inimg, r_outimg, r_sigma, sigmaInPhysicalCoordinates, r_kernelwidth) {
-    .Call(`_ANTsRCore_smoothImage`, r_inimg, r_outimg, r_sigma, sigmaInPhysicalCoordinates, r_kernelwidth)
+smoothImageR <- function(r_inimg, r_outimg, r_sigma, sigmaInPhysicalCoordinates, r_kernelwidth) {
+    .Call(`_ANTsRCore_smoothImageR`, r_inimg, r_outimg, r_sigma, sigmaInPhysicalCoordinates, r_kernelwidth)
 }
 
-splitChannels <- function(r_antsimage) {
-    .Call(`_ANTsRCore_splitChannels`, r_antsimage)
+splitChannelsR <- function(r_antsimage) {
+    .Call(`_ANTsRCore_splitChannelsR`, r_antsimage)
 }
 
 timeSeriesSubtraction <- function(r_antsimage, method) {
     .Call(`_ANTsRCore_timeSeriesSubtraction`, r_antsimage, method)
 }
 
-weingartenImageCurvature <- function(r_antsimage, r_sigma, r_opt, r_labeled) {
-    .Call(`_ANTsRCore_weingartenImageCurvature`, r_antsimage, r_sigma, r_opt, r_labeled)
+weingartenImageCurvatureR <- function(r_antsimage, r_sigma, r_opt, r_labeled) {
+    .Call(`_ANTsRCore_weingartenImageCurvatureR`, r_antsimage, r_sigma, r_opt, r_labeled)
 }
 

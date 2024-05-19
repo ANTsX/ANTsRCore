@@ -152,7 +152,7 @@ SEXP fsl2antsrTransform( SEXP r_matrix, SEXP r_reference, SEXP r_moving, short f
 }
 
 // [[Rcpp::export]]
-SEXP fsl2antsrTransform( SEXP r_matrix, SEXP r_reference, SEXP r_moving, SEXP r_flag )
+SEXP fsl2antsrTransformR( SEXP r_matrix, SEXP r_reference, SEXP r_moving, SEXP r_flag )
 {
 try
 {

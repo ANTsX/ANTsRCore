@@ -59,7 +59,7 @@ SEXP imagek( SEXP r_antsimage, SEXP r_sigma, SEXP r_opt, SEXP r_labeled )
 
 
 // [[Rcpp::export]]
-SEXP weingartenImageCurvature( SEXP r_antsimage,
+SEXP weingartenImageCurvatureR( SEXP r_antsimage,
   SEXP r_sigma, SEXP r_opt, SEXP r_labeled )
 {
 try

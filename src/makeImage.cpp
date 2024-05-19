@@ -47,7 +47,7 @@ SEXP makeImage( Rcpp::NumericVector size, Rcpp::NumericVector spacing,
 }
 
 // [[Rcpp::export]]
-SEXP makeImage( SEXP r_pixeltype, SEXP r_size, SEXP r_spacing, SEXP r_origin, SEXP r_direction, SEXP r_components )
+SEXP makeImageR( SEXP r_pixeltype, SEXP r_size, SEXP r_spacing, SEXP r_origin, SEXP r_direction, SEXP r_components )
 {
 try
 {

@@ -1,5 +1,6 @@
 *.tgz
 ..Rcheck/
+.vscode/
 
 docs
 /src/*.o

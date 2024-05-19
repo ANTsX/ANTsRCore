@@ -48,7 +48,7 @@ SEXP mergeChannels( Rcpp::List imageList )
 }
 
 // [[Rcpp::export]]
-SEXP mergeChannels( SEXP r_imageList )
+SEXP mergeChannelsR( SEXP r_imageList )
 {
 try
 {

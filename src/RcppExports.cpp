@@ -306,36 +306,36 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// antsAffineInitializer
-SEXP antsAffineInitializer(SEXP r_args);
-RcppExport SEXP _ANTsRCore_antsAffineInitializer(SEXP r_argsSEXP) {
+// AntsAffineInitializer
+SEXP AntsAffineInitializer(SEXP r_args);
+RcppExport SEXP _ANTsRCore_AntsAffineInitializer(SEXP r_argsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type r_args(r_argsSEXP);
-    rcpp_result_gen = Rcpp::wrap(antsAffineInitializer(r_args));
+    rcpp_result_gen = Rcpp::wrap(AntsAffineInitializer(r_args));
     return rcpp_result_gen;
 END_RCPP
 }
-// antsApplyTransforms
-SEXP antsApplyTransforms(SEXP r_args);
-RcppExport SEXP _ANTsRCore_antsApplyTransforms(SEXP r_argsSEXP) {
+// AntsApplyTransforms
+SEXP AntsApplyTransforms(SEXP r_args);
+RcppExport SEXP _ANTsRCore_AntsApplyTransforms(SEXP r_argsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type r_args(r_argsSEXP);
-    rcpp_result_gen = Rcpp::wrap(antsApplyTransforms(r_args));
+    rcpp_result_gen = Rcpp::wrap(AntsApplyTransforms(r_args));
     return rcpp_result_gen;
 END_RCPP
 }
-// antsApplyTransformsToPoints
-SEXP antsApplyTransformsToPoints(SEXP r_args);
-RcppExport SEXP _ANTsRCore_antsApplyTransformsToPoints(SEXP r_argsSEXP) {
+// AntsApplyTransformsToPoints
+SEXP AntsApplyTransformsToPoints(SEXP r_args);
+RcppExport SEXP _ANTsRCore_AntsApplyTransformsToPoints(SEXP r_argsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type r_args(r_argsSEXP);
-    rcpp_result_gen = Rcpp::wrap(antsApplyTransformsToPoints(r_args));
+    rcpp_result_gen = Rcpp::wrap(AntsApplyTransformsToPoints(r_args));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -646,15 +646,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// antsImageClone
-SEXP antsImageClone(SEXP r_in_image, SEXP r_out_pixeltype);
-RcppExport SEXP _ANTsRCore_antsImageClone(SEXP r_in_imageSEXP, SEXP r_out_pixeltypeSEXP) {
+// AntsImageClone
+SEXP AntsImageClone(SEXP r_in_image, SEXP r_out_pixeltype);
+RcppExport SEXP _ANTsRCore_AntsImageClone(SEXP r_in_imageSEXP, SEXP r_out_pixeltypeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type r_in_image(r_in_imageSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_out_pixeltype(r_out_pixeltypeSEXP);
-    rcpp_result_gen = Rcpp::wrap(antsImageClone(r_in_image, r_out_pixeltype));
+    rcpp_result_gen = Rcpp::wrap(AntsImageClone(r_in_image, r_out_pixeltype));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -684,25 +684,25 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// antsImageHeaderInfo
-SEXP antsImageHeaderInfo(SEXP r_filename);
-RcppExport SEXP _ANTsRCore_antsImageHeaderInfo(SEXP r_filenameSEXP) {
+// AntsImageHeaderInfo
+SEXP AntsImageHeaderInfo(SEXP r_filename);
+RcppExport SEXP _ANTsRCore_AntsImageHeaderInfo(SEXP r_filenameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type r_filename(r_filenameSEXP);
-    rcpp_result_gen = Rcpp::wrap(antsImageHeaderInfo(r_filename));
+    rcpp_result_gen = Rcpp::wrap(AntsImageHeaderInfo(r_filename));
     return rcpp_result_gen;
 END_RCPP
 }
-// antsImageIterator
-SEXP antsImageIterator(SEXP r_antsimage);
-RcppExport SEXP _ANTsRCore_antsImageIterator(SEXP r_antsimageSEXP) {
+// AntsImageIterator
+SEXP AntsImageIterator(SEXP r_antsimage);
+RcppExport SEXP _ANTsRCore_AntsImageIterator(SEXP r_antsimageSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type r_antsimage(r_antsimageSEXP);
-    rcpp_result_gen = Rcpp::wrap(antsImageIterator(r_antsimage));
+    rcpp_result_gen = Rcpp::wrap(AntsImageIterator(r_antsimage));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -879,9 +879,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// antsImageRead
-SEXP antsImageRead(SEXP r_filename, SEXP r_pixeltype, SEXP r_dimension, SEXP r_components);
-RcppExport SEXP _ANTsRCore_antsImageRead(SEXP r_filenameSEXP, SEXP r_pixeltypeSEXP, SEXP r_dimensionSEXP, SEXP r_componentsSEXP) {
+// AntsImageRead
+SEXP AntsImageRead(SEXP r_filename, SEXP r_pixeltype, SEXP r_dimension, SEXP r_components);
+RcppExport SEXP _ANTsRCore_AntsImageRead(SEXP r_filenameSEXP, SEXP r_pixeltypeSEXP, SEXP r_dimensionSEXP, SEXP r_componentsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -889,33 +889,33 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type r_pixeltype(r_pixeltypeSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_dimension(r_dimensionSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_components(r_componentsSEXP);
-    rcpp_result_gen = Rcpp::wrap(antsImageRead(r_filename, r_pixeltype, r_dimension, r_components));
+    rcpp_result_gen = Rcpp::wrap(AntsImageRead(r_filename, r_pixeltype, r_dimension, r_components));
     return rcpp_result_gen;
 END_RCPP
 }
-// antsImageStats
-SEXP antsImageStats(SEXP r_antsimage, SEXP r_mask, SEXP r_narm);
-RcppExport SEXP _ANTsRCore_antsImageStats(SEXP r_antsimageSEXP, SEXP r_maskSEXP, SEXP r_narmSEXP) {
+// AntsImageStats
+SEXP AntsImageStats(SEXP r_antsimage, SEXP r_mask, SEXP r_narm);
+RcppExport SEXP _ANTsRCore_AntsImageStats(SEXP r_antsimageSEXP, SEXP r_maskSEXP, SEXP r_narmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type r_antsimage(r_antsimageSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_mask(r_maskSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_narm(r_narmSEXP);
-    rcpp_result_gen = Rcpp::wrap(antsImageStats(r_antsimage, r_mask, r_narm));
+    rcpp_result_gen = Rcpp::wrap(AntsImageStats(r_antsimage, r_mask, r_narm));
     return rcpp_result_gen;
 END_RCPP
 }
-// antsImageWrite
-SEXP antsImageWrite(SEXP r_img, SEXP r_filename, SEXP r_asTensor);
-RcppExport SEXP _ANTsRCore_antsImageWrite(SEXP r_imgSEXP, SEXP r_filenameSEXP, SEXP r_asTensorSEXP) {
+// AntsImageWrite
+SEXP AntsImageWrite(SEXP r_img, SEXP r_filename, SEXP r_asTensor);
+RcppExport SEXP _ANTsRCore_AntsImageWrite(SEXP r_imgSEXP, SEXP r_filenameSEXP, SEXP r_asTensorSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type r_img(r_imgSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_filename(r_filenameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_asTensor(r_asTensorSEXP);
-    rcpp_result_gen = Rcpp::wrap(antsImageWrite(r_img, r_filename, r_asTensor));
+    rcpp_result_gen = Rcpp::wrap(AntsImageWrite(r_img, r_filename, r_asTensor));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -964,14 +964,14 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// antsMotionCorr
-SEXP antsMotionCorr(SEXP r_args);
-RcppExport SEXP _ANTsRCore_antsMotionCorr(SEXP r_argsSEXP) {
+// AntsMotionCorr
+SEXP AntsMotionCorr(SEXP r_args);
+RcppExport SEXP _ANTsRCore_AntsMotionCorr(SEXP r_argsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type r_args(r_argsSEXP);
-    rcpp_result_gen = Rcpp::wrap(antsMotionCorr(r_args));
+    rcpp_result_gen = Rcpp::wrap(AntsMotionCorr(r_args));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -989,14 +989,14 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// antsRegistration
-SEXP antsRegistration(SEXP r_args);
-RcppExport SEXP _ANTsRCore_antsRegistration(SEXP r_argsSEXP) {
+// AntsRegistration
+SEXP AntsRegistration(SEXP r_args);
+RcppExport SEXP _ANTsRCore_AntsRegistration(SEXP r_argsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type r_args(r_argsSEXP);
-    rcpp_result_gen = Rcpp::wrap(antsRegistration(r_args));
+    rcpp_result_gen = Rcpp::wrap(AntsRegistration(r_args));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1301,9 +1301,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// cropImage
-SEXP cropImage(SEXP r_in_image1, SEXP r_in_image2, SEXP r_label, SEXP r_decrop, SEXP r_loind, SEXP r_upind);
-RcppExport SEXP _ANTsRCore_cropImage(SEXP r_in_image1SEXP, SEXP r_in_image2SEXP, SEXP r_labelSEXP, SEXP r_decropSEXP, SEXP r_loindSEXP, SEXP r_upindSEXP) {
+// CropImage
+SEXP CropImage(SEXP r_in_image1, SEXP r_in_image2, SEXP r_label, SEXP r_decrop, SEXP r_loind, SEXP r_upind);
+RcppExport SEXP _ANTsRCore_CropImage(SEXP r_in_image1SEXP, SEXP r_in_image2SEXP, SEXP r_labelSEXP, SEXP r_decropSEXP, SEXP r_loindSEXP, SEXP r_upindSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1313,13 +1313,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type r_decrop(r_decropSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_loind(r_loindSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_upind(r_upindSEXP);
-    rcpp_result_gen = Rcpp::wrap(cropImage(r_in_image1, r_in_image2, r_label, r_decrop, r_loind, r_upind));
+    rcpp_result_gen = Rcpp::wrap(CropImage(r_in_image1, r_in_image2, r_label, r_decrop, r_loind, r_upind));
     return rcpp_result_gen;
 END_RCPP
 }
-// extractSlice
-SEXP extractSlice(SEXP r_in_image1, SEXP r_slice, SEXP r_direction, SEXP r_collapseStrategy);
-RcppExport SEXP _ANTsRCore_extractSlice(SEXP r_in_image1SEXP, SEXP r_sliceSEXP, SEXP r_directionSEXP, SEXP r_collapseStrategySEXP) {
+// ExtractSlice
+SEXP ExtractSlice(SEXP r_in_image1, SEXP r_slice, SEXP r_direction, SEXP r_collapseStrategy);
+RcppExport SEXP _ANTsRCore_ExtractSlice(SEXP r_in_image1SEXP, SEXP r_sliceSEXP, SEXP r_directionSEXP, SEXP r_collapseStrategySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1327,7 +1327,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type r_slice(r_sliceSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_direction(r_directionSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_collapseStrategy(r_collapseStrategySEXP);
-    rcpp_result_gen = Rcpp::wrap(extractSlice(r_in_image1, r_slice, r_direction, r_collapseStrategy));
+    rcpp_result_gen = Rcpp::wrap(ExtractSlice(r_in_image1, r_slice, r_direction, r_collapseStrategy));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1344,9 +1344,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// fsl2antsrTransform
-SEXP fsl2antsrTransform(SEXP r_matrix, SEXP r_reference, SEXP r_moving, SEXP r_flag);
-RcppExport SEXP _ANTsRCore_fsl2antsrTransform(SEXP r_matrixSEXP, SEXP r_referenceSEXP, SEXP r_movingSEXP, SEXP r_flagSEXP) {
+// fsl2antsrTransformR
+SEXP fsl2antsrTransformR(SEXP r_matrix, SEXP r_reference, SEXP r_moving, SEXP r_flag);
+RcppExport SEXP _ANTsRCore_fsl2antsrTransformR(SEXP r_matrixSEXP, SEXP r_referenceSEXP, SEXP r_movingSEXP, SEXP r_flagSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1354,7 +1354,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type r_reference(r_referenceSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_moving(r_movingSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_flag(r_flagSEXP);
-    rcpp_result_gen = Rcpp::wrap(fsl2antsrTransform(r_matrix, r_reference, r_moving, r_flag));
+    rcpp_result_gen = Rcpp::wrap(fsl2antsrTransformR(r_matrix, r_reference, r_moving, r_flag));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1438,21 +1438,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// labelStats
-SEXP labelStats(SEXP r_image, SEXP r_labelImage);
-RcppExport SEXP _ANTsRCore_labelStats(SEXP r_imageSEXP, SEXP r_labelImageSEXP) {
+// labelStatsR
+SEXP labelStatsR(SEXP r_image, SEXP r_labelImage);
+RcppExport SEXP _ANTsRCore_labelStatsR(SEXP r_imageSEXP, SEXP r_labelImageSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type r_image(r_imageSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_labelImage(r_labelImageSEXP);
-    rcpp_result_gen = Rcpp::wrap(labelStats(r_image, r_labelImage));
+    rcpp_result_gen = Rcpp::wrap(labelStatsR(r_image, r_labelImage));
     return rcpp_result_gen;
 END_RCPP
 }
-// makeImage
-SEXP makeImage(SEXP r_pixeltype, SEXP r_size, SEXP r_spacing, SEXP r_origin, SEXP r_direction, SEXP r_components);
-RcppExport SEXP _ANTsRCore_makeImage(SEXP r_pixeltypeSEXP, SEXP r_sizeSEXP, SEXP r_spacingSEXP, SEXP r_originSEXP, SEXP r_directionSEXP, SEXP r_componentsSEXP) {
+// makeImageR
+SEXP makeImageR(SEXP r_pixeltype, SEXP r_size, SEXP r_spacing, SEXP r_origin, SEXP r_direction, SEXP r_components);
+RcppExport SEXP _ANTsRCore_makeImageR(SEXP r_pixeltypeSEXP, SEXP r_sizeSEXP, SEXP r_spacingSEXP, SEXP r_originSEXP, SEXP r_directionSEXP, SEXP r_componentsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1462,18 +1462,18 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type r_origin(r_originSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_direction(r_directionSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_components(r_componentsSEXP);
-    rcpp_result_gen = Rcpp::wrap(makeImage(r_pixeltype, r_size, r_spacing, r_origin, r_direction, r_components));
+    rcpp_result_gen = Rcpp::wrap(makeImageR(r_pixeltype, r_size, r_spacing, r_origin, r_direction, r_components));
     return rcpp_result_gen;
 END_RCPP
 }
-// mergeChannels
-SEXP mergeChannels(SEXP r_imageList);
-RcppExport SEXP _ANTsRCore_mergeChannels(SEXP r_imageListSEXP) {
+// mergeChannelsR
+SEXP mergeChannelsR(SEXP r_imageList);
+RcppExport SEXP _ANTsRCore_mergeChannelsR(SEXP r_imageListSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type r_imageList(r_imageListSEXP);
-    rcpp_result_gen = Rcpp::wrap(mergeChannels(r_imageList));
+    rcpp_result_gen = Rcpp::wrap(mergeChannelsR(r_imageList));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1548,9 +1548,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// reorientImage
-SEXP reorientImage(SEXP r_in_image1, SEXP r_txfn, SEXP r_axis1, SEXP r_axis2, SEXP rrfl, SEXP rscl);
-RcppExport SEXP _ANTsRCore_reorientImage(SEXP r_in_image1SEXP, SEXP r_txfnSEXP, SEXP r_axis1SEXP, SEXP r_axis2SEXP, SEXP rrflSEXP, SEXP rsclSEXP) {
+// reorientImageR
+SEXP reorientImageR(SEXP r_in_image1, SEXP r_txfn, SEXP r_axis1, SEXP r_axis2, SEXP rrfl, SEXP rscl);
+RcppExport SEXP _ANTsRCore_reorientImageR(SEXP r_in_image1SEXP, SEXP r_txfnSEXP, SEXP r_axis1SEXP, SEXP r_axis2SEXP, SEXP rrflSEXP, SEXP rsclSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1560,7 +1560,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type r_axis2(r_axis2SEXP);
     Rcpp::traits::input_parameter< SEXP >::type rrfl(rrflSEXP);
     Rcpp::traits::input_parameter< SEXP >::type rscl(rsclSEXP);
-    rcpp_result_gen = Rcpp::wrap(reorientImage(r_in_image1, r_txfn, r_axis1, r_axis2, rrfl, rscl));
+    rcpp_result_gen = Rcpp::wrap(reorientImageR(r_in_image1, r_txfn, r_axis1, r_axis2, rrfl, rscl));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1651,9 +1651,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// smoothImage
-SEXP smoothImage(SEXP r_inimg, SEXP r_outimg, SEXP r_sigma, SEXP sigmaInPhysicalCoordinates, SEXP r_kernelwidth);
-RcppExport SEXP _ANTsRCore_smoothImage(SEXP r_inimgSEXP, SEXP r_outimgSEXP, SEXP r_sigmaSEXP, SEXP sigmaInPhysicalCoordinatesSEXP, SEXP r_kernelwidthSEXP) {
+// smoothImageR
+SEXP smoothImageR(SEXP r_inimg, SEXP r_outimg, SEXP r_sigma, SEXP sigmaInPhysicalCoordinates, SEXP r_kernelwidth);
+RcppExport SEXP _ANTsRCore_smoothImageR(SEXP r_inimgSEXP, SEXP r_outimgSEXP, SEXP r_sigmaSEXP, SEXP sigmaInPhysicalCoordinatesSEXP, SEXP r_kernelwidthSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1662,18 +1662,18 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type r_sigma(r_sigmaSEXP);
     Rcpp::traits::input_parameter< SEXP >::type sigmaInPhysicalCoordinates(sigmaInPhysicalCoordinatesSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_kernelwidth(r_kernelwidthSEXP);
-    rcpp_result_gen = Rcpp::wrap(smoothImage(r_inimg, r_outimg, r_sigma, sigmaInPhysicalCoordinates, r_kernelwidth));
+    rcpp_result_gen = Rcpp::wrap(smoothImageR(r_inimg, r_outimg, r_sigma, sigmaInPhysicalCoordinates, r_kernelwidth));
     return rcpp_result_gen;
 END_RCPP
 }
-// splitChannels
-SEXP splitChannels(SEXP r_antsimage);
-RcppExport SEXP _ANTsRCore_splitChannels(SEXP r_antsimageSEXP) {
+// splitChannelsR
+SEXP splitChannelsR(SEXP r_antsimage);
+RcppExport SEXP _ANTsRCore_splitChannelsR(SEXP r_antsimageSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type r_antsimage(r_antsimageSEXP);
-    rcpp_result_gen = Rcpp::wrap(splitChannels(r_antsimage));
+    rcpp_result_gen = Rcpp::wrap(splitChannelsR(r_antsimage));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1689,9 +1689,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// weingartenImageCurvature
-SEXP weingartenImageCurvature(SEXP r_antsimage, SEXP r_sigma, SEXP r_opt, SEXP r_labeled);
-RcppExport SEXP _ANTsRCore_weingartenImageCurvature(SEXP r_antsimageSEXP, SEXP r_sigmaSEXP, SEXP r_optSEXP, SEXP r_labeledSEXP) {
+// weingartenImageCurvatureR
+SEXP weingartenImageCurvatureR(SEXP r_antsimage, SEXP r_sigma, SEXP r_opt, SEXP r_labeled);
+RcppExport SEXP _ANTsRCore_weingartenImageCurvatureR(SEXP r_antsimageSEXP, SEXP r_sigmaSEXP, SEXP r_optSEXP, SEXP r_labeledSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1699,7 +1699,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type r_sigma(r_sigmaSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_opt(r_optSEXP);
     Rcpp::traits::input_parameter< SEXP >::type r_labeled(r_labeledSEXP);
-    rcpp_result_gen = Rcpp::wrap(weingartenImageCurvature(r_antsimage, r_sigma, r_opt, r_labeled));
+    rcpp_result_gen = Rcpp::wrap(weingartenImageCurvatureR(r_antsimage, r_sigma, r_opt, r_labeled));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1726,9 +1726,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTsRCore_simulateBSplineDisplacementFieldR", (DL_FUNC) &_ANTsRCore_simulateBSplineDisplacementFieldR, 6},
     {"_ANTsRCore_simulateExponentialDisplacementFieldR", (DL_FUNC) &_ANTsRCore_simulateExponentialDisplacementFieldR, 5},
     {"_ANTsRCore_ThresholdImage", (DL_FUNC) &_ANTsRCore_ThresholdImage, 1},
-    {"_ANTsRCore_antsAffineInitializer", (DL_FUNC) &_ANTsRCore_antsAffineInitializer, 1},
-    {"_ANTsRCore_antsApplyTransforms", (DL_FUNC) &_ANTsRCore_antsApplyTransforms, 1},
-    {"_ANTsRCore_antsApplyTransformsToPoints", (DL_FUNC) &_ANTsRCore_antsApplyTransformsToPoints, 1},
+    {"_ANTsRCore_AntsAffineInitializer", (DL_FUNC) &_ANTsRCore_AntsAffineInitializer, 1},
+    {"_ANTsRCore_AntsApplyTransforms", (DL_FUNC) &_ANTsRCore_AntsApplyTransforms, 1},
+    {"_ANTsRCore_AntsApplyTransformsToPoints", (DL_FUNC) &_ANTsRCore_AntsApplyTransformsToPoints, 1},
     {"_ANTsRCore_antsImage", (DL_FUNC) &_ANTsRCore_antsImage, 3},
     {"_ANTsRCore_antsImageArith", (DL_FUNC) &_ANTsRCore_antsImageArith, 3},
     {"_ANTsRCore_antsImage_isna", (DL_FUNC) &_ANTsRCore_antsImage_isna, 1},
@@ -1753,11 +1753,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTsRCore_antsImageArithImageNumeric", (DL_FUNC) &_ANTsRCore_antsImageArithImageNumeric, 3},
     {"_ANTsRCore_antsImageArithNumericImage", (DL_FUNC) &_ANTsRCore_antsImageArithNumericImage, 3},
     {"_ANTsRCore_antsImageArithImageImage", (DL_FUNC) &_ANTsRCore_antsImageArithImageImage, 3},
-    {"_ANTsRCore_antsImageClone", (DL_FUNC) &_ANTsRCore_antsImageClone, 2},
+    {"_ANTsRCore_AntsImageClone", (DL_FUNC) &_ANTsRCore_AntsImageClone, 2},
     {"_ANTsRCore_antsImageComparisonImageNumeric", (DL_FUNC) &_ANTsRCore_antsImageComparisonImageNumeric, 3},
     {"_ANTsRCore_antsImageComparisonImageImage", (DL_FUNC) &_ANTsRCore_antsImageComparisonImageImage, 3},
-    {"_ANTsRCore_antsImageHeaderInfo", (DL_FUNC) &_ANTsRCore_antsImageHeaderInfo, 1},
-    {"_ANTsRCore_antsImageIterator", (DL_FUNC) &_ANTsRCore_antsImageIterator, 1},
+    {"_ANTsRCore_AntsImageHeaderInfo", (DL_FUNC) &_ANTsRCore_AntsImageHeaderInfo, 1},
+    {"_ANTsRCore_AntsImageIterator", (DL_FUNC) &_ANTsRCore_AntsImageIterator, 1},
     {"_ANTsRCore_antsImageIterator_Get", (DL_FUNC) &_ANTsRCore_antsImageIterator_Get, 1},
     {"_ANTsRCore_antsImageIterator_Set", (DL_FUNC) &_ANTsRCore_antsImageIterator_Set, 2},
     {"_ANTsRCore_antsImageIterator_Next", (DL_FUNC) &_ANTsRCore_antsImageIterator_Next, 1},
@@ -1773,16 +1773,16 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTsRCore_antsImageLogicImageImage", (DL_FUNC) &_ANTsRCore_antsImageLogicImageImage, 3},
     {"_ANTsRCore_antsImageMath", (DL_FUNC) &_ANTsRCore_antsImageMath, 2},
     {"_ANTsRCore_antsImageMutualInformation", (DL_FUNC) &_ANTsRCore_antsImageMutualInformation, 2},
-    {"_ANTsRCore_antsImageRead", (DL_FUNC) &_ANTsRCore_antsImageRead, 4},
-    {"_ANTsRCore_antsImageStats", (DL_FUNC) &_ANTsRCore_antsImageStats, 3},
-    {"_ANTsRCore_antsImageWrite", (DL_FUNC) &_ANTsRCore_antsImageWrite, 3},
+    {"_ANTsRCore_AntsImageRead", (DL_FUNC) &_ANTsRCore_AntsImageRead, 4},
+    {"_ANTsRCore_AntsImageStats", (DL_FUNC) &_ANTsRCore_AntsImageStats, 3},
+    {"_ANTsRCore_AntsImageWrite", (DL_FUNC) &_ANTsRCore_AntsImageWrite, 3},
     {"_ANTsRCore_antsJointFusion", (DL_FUNC) &_ANTsRCore_antsJointFusion, 1},
     {"_ANTsRCore_antsMatrix", (DL_FUNC) &_ANTsRCore_antsMatrix, 1},
     {"_ANTsRCore_antsMatrix_asList", (DL_FUNC) &_ANTsRCore_antsMatrix_asList, 1},
     {"_ANTsRCore_antsMatrix_asantsMatrix", (DL_FUNC) &_ANTsRCore_antsMatrix_asantsMatrix, 2},
-    {"_ANTsRCore_antsMotionCorr", (DL_FUNC) &_ANTsRCore_antsMotionCorr, 1},
+    {"_ANTsRCore_AntsMotionCorr", (DL_FUNC) &_ANTsRCore_AntsMotionCorr, 1},
     {"_ANTsRCore_antsMotionCorrStats", (DL_FUNC) &_ANTsRCore_antsMotionCorrStats, 4},
-    {"_ANTsRCore_antsRegistration", (DL_FUNC) &_ANTsRCore_antsRegistration, 1},
+    {"_ANTsRCore_AntsRegistration", (DL_FUNC) &_ANTsRCore_AntsRegistration, 1},
     {"_ANTsRCore_antsrMetric", (DL_FUNC) &_ANTsRCore_antsrMetric, 6},
     {"_ANTsRCore_antsrMetric_SetImage", (DL_FUNC) &_ANTsRCore_antsrMetric_SetImage, 4},
     {"_ANTsRCore_antsrMetric_SetTransform", (DL_FUNC) &_ANTsRCore_antsrMetric_SetTransform, 3},
@@ -1807,34 +1807,34 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTsRCore_antsrTransform_ToDisplacementField", (DL_FUNC) &_ANTsRCore_antsrTransform_ToDisplacementField, 2},
     {"_ANTsRCore_antsrTransform_Inverse", (DL_FUNC) &_ANTsRCore_antsrTransform_Inverse, 1},
     {"_ANTsRCore_antsrTransform_Write", (DL_FUNC) &_ANTsRCore_antsrTransform_Write, 2},
-    {"_ANTsRCore_cropImage", (DL_FUNC) &_ANTsRCore_cropImage, 6},
-    {"_ANTsRCore_extractSlice", (DL_FUNC) &_ANTsRCore_extractSlice, 4},
+    {"_ANTsRCore_CropImage", (DL_FUNC) &_ANTsRCore_CropImage, 6},
+    {"_ANTsRCore_ExtractSlice", (DL_FUNC) &_ANTsRCore_ExtractSlice, 4},
     {"_ANTsRCore_fastMarchingExtension", (DL_FUNC) &_ANTsRCore_fastMarchingExtension, 3},
-    {"_ANTsRCore_fsl2antsrTransform", (DL_FUNC) &_ANTsRCore_fsl2antsrTransform, 4},
+    {"_ANTsRCore_fsl2antsrTransformR", (DL_FUNC) &_ANTsRCore_fsl2antsrTransformR, 4},
     {"_ANTsRCore_iMathInterface", (DL_FUNC) &_ANTsRCore_iMathInterface, 1},
     {"_ANTsRCore_iMathInterface1", (DL_FUNC) &_ANTsRCore_iMathInterface1, 1},
     {"_ANTsRCore_iMathInterface2", (DL_FUNC) &_ANTsRCore_iMathInterface2, 1},
     {"_ANTsRCore_imagesToMatrix", (DL_FUNC) &_ANTsRCore_imagesToMatrix, 3},
     {"_ANTsRCore_invariantImageSimilarity", (DL_FUNC) &_ANTsRCore_invariantImageSimilarity, 12},
     {"_ANTsRCore_itkConvolveImage", (DL_FUNC) &_ANTsRCore_itkConvolveImage, 2},
-    {"_ANTsRCore_labelStats", (DL_FUNC) &_ANTsRCore_labelStats, 2},
-    {"_ANTsRCore_makeImage", (DL_FUNC) &_ANTsRCore_makeImage, 6},
-    {"_ANTsRCore_mergeChannels", (DL_FUNC) &_ANTsRCore_mergeChannels, 1},
+    {"_ANTsRCore_labelStatsR", (DL_FUNC) &_ANTsRCore_labelStatsR, 2},
+    {"_ANTsRCore_makeImageR", (DL_FUNC) &_ANTsRCore_makeImageR, 6},
+    {"_ANTsRCore_mergeChannelsR", (DL_FUNC) &_ANTsRCore_mergeChannelsR, 1},
     {"_ANTsRCore_blobAnalysis", (DL_FUNC) &_ANTsRCore_blobAnalysis, 6},
     {"_ANTsRCore_patchAnalysis", (DL_FUNC) &_ANTsRCore_patchAnalysis, 12},
     {"_ANTsRCore_rcpp_hello_world22", (DL_FUNC) &_ANTsRCore_rcpp_hello_world22, 0},
     {"_ANTsRCore_rcpp_hello_world33", (DL_FUNC) &_ANTsRCore_rcpp_hello_world33, 0},
     {"_ANTsRCore_reflectionMatrix", (DL_FUNC) &_ANTsRCore_reflectionMatrix, 3},
-    {"_ANTsRCore_reorientImage", (DL_FUNC) &_ANTsRCore_reorientImage, 6},
+    {"_ANTsRCore_reorientImageR", (DL_FUNC) &_ANTsRCore_reorientImageR, 6},
     {"_ANTsRCore_centerOfMass", (DL_FUNC) &_ANTsRCore_centerOfMass, 1},
     {"_ANTsRCore_sccanX", (DL_FUNC) &_ANTsRCore_sccanX, 1},
     {"_ANTsRCore_robustMatrixTransform", (DL_FUNC) &_ANTsRCore_robustMatrixTransform, 1},
     {"_ANTsRCore_eigenanatomyCpp", (DL_FUNC) &_ANTsRCore_eigenanatomyCpp, 15},
     {"_ANTsRCore_sccanCpp", (DL_FUNC) &_ANTsRCore_sccanCpp, 19},
-    {"_ANTsRCore_smoothImage", (DL_FUNC) &_ANTsRCore_smoothImage, 5},
-    {"_ANTsRCore_splitChannels", (DL_FUNC) &_ANTsRCore_splitChannels, 1},
+    {"_ANTsRCore_smoothImageR", (DL_FUNC) &_ANTsRCore_smoothImageR, 5},
+    {"_ANTsRCore_splitChannelsR", (DL_FUNC) &_ANTsRCore_splitChannelsR, 1},
     {"_ANTsRCore_timeSeriesSubtraction", (DL_FUNC) &_ANTsRCore_timeSeriesSubtraction, 2},
-    {"_ANTsRCore_weingartenImageCurvature", (DL_FUNC) &_ANTsRCore_weingartenImageCurvature, 4},
+    {"_ANTsRCore_weingartenImageCurvatureR", (DL_FUNC) &_ANTsRCore_weingartenImageCurvatureR, 4},
     {NULL, NULL, 0}
 };
 
