@@ -3,7 +3,6 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/ANTsX/ANTsRCore/actions/workflows/package-build.yml/badge.svg)](https://github.com/ANTsX/ANTsRCore/actions/workflows/package-build.yml)
-[![Coverage status](https://codecov.io/gh/muschellij2/ANTsRCore/branch/master/graph/badge.svg)](https://codecov.io/github/muschellij2/ANTsRCore?branch=master)
 
 <!-- badges: end -->
 
