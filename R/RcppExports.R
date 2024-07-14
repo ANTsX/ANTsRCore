@@ -46,6 +46,10 @@ HausdorffDistanceR <- function(r_inputImage1, r_inputImage2) {
     .Call(`_ANTsRCore_HausdorffDistanceR`, r_inputImage1, r_inputImage2)
 }
 
+hessianObjectnessR <- function(r_inputImage, r_objectDimension, r_isBrightObject, r_sigmaMin, r_sigmaMax, r_numberOfSigmaSteps, r_useSigmaLogarithmicSpacing, r_alpha, r_beta, r_gamma, r_setScaleObjectnessMeasure) {
+    .Call(`_ANTsRCore_hessianObjectnessR`, r_inputImage, r_objectDimension, r_isBrightObject, r_sigmaMin, r_sigmaMax, r_numberOfSigmaSteps, r_useSigmaLogarithmicSpacing, r_alpha, r_beta, r_gamma, r_setScaleObjectnessMeasure)
+}
+
 histogramMatchImageR <- function(r_sourceImage, r_referenceImage, r_numberOfHistogramBins, r_numberOfMatchPoints, r_useThresholdAtMeanIntensity) {
     .Call(`_ANTsRCore_histogramMatchImageR`, r_sourceImage, r_referenceImage, r_numberOfHistogramBins, r_numberOfMatchPoints, r_useThresholdAtMeanIntensity)
 }

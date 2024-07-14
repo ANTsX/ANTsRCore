@@ -150,6 +150,27 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// hessianObjectnessR
+SEXP hessianObjectnessR(SEXP r_inputImage, SEXP r_objectDimension, SEXP r_isBrightObject, SEXP r_sigmaMin, SEXP r_sigmaMax, SEXP r_numberOfSigmaSteps, SEXP r_useSigmaLogarithmicSpacing, SEXP r_alpha, SEXP r_beta, SEXP r_gamma, SEXP r_setScaleObjectnessMeasure);
+RcppExport SEXP _ANTsRCore_hessianObjectnessR(SEXP r_inputImageSEXP, SEXP r_objectDimensionSEXP, SEXP r_isBrightObjectSEXP, SEXP r_sigmaMinSEXP, SEXP r_sigmaMaxSEXP, SEXP r_numberOfSigmaStepsSEXP, SEXP r_useSigmaLogarithmicSpacingSEXP, SEXP r_alphaSEXP, SEXP r_betaSEXP, SEXP r_gammaSEXP, SEXP r_setScaleObjectnessMeasureSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type r_inputImage(r_inputImageSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type r_objectDimension(r_objectDimensionSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type r_isBrightObject(r_isBrightObjectSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type r_sigmaMin(r_sigmaMinSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type r_sigmaMax(r_sigmaMaxSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type r_numberOfSigmaSteps(r_numberOfSigmaStepsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type r_useSigmaLogarithmicSpacing(r_useSigmaLogarithmicSpacingSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type r_alpha(r_alphaSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type r_beta(r_betaSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type r_gamma(r_gammaSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type r_setScaleObjectnessMeasure(r_setScaleObjectnessMeasureSEXP);
+    rcpp_result_gen = Rcpp::wrap(hessianObjectnessR(r_inputImage, r_objectDimension, r_isBrightObject, r_sigmaMin, r_sigmaMax, r_numberOfSigmaSteps, r_useSigmaLogarithmicSpacing, r_alpha, r_beta, r_gamma, r_setScaleObjectnessMeasure));
+    return rcpp_result_gen;
+END_RCPP
+}
 // histogramMatchImageR
 SEXP histogramMatchImageR(SEXP r_sourceImage, SEXP r_referenceImage, SEXP r_numberOfHistogramBins, SEXP r_numberOfMatchPoints, SEXP r_useThresholdAtMeanIntensity);
 RcppExport SEXP _ANTsRCore_histogramMatchImageR(SEXP r_sourceImageSEXP, SEXP r_referenceImageSEXP, SEXP r_numberOfHistogramBinsSEXP, SEXP r_numberOfMatchPointsSEXP, SEXP r_useThresholdAtMeanIntensitySEXP) {
@@ -1714,6 +1735,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ANTsRCore_fitBsplineObjectToScatteredDataR", (DL_FUNC) &_ANTsRCore_fitBsplineObjectToScatteredDataR, 10},
     {"_ANTsRCore_fitThinPlateSplineDisplacementFieldR", (DL_FUNC) &_ANTsRCore_fitThinPlateSplineDisplacementFieldR, 7},
     {"_ANTsRCore_HausdorffDistanceR", (DL_FUNC) &_ANTsRCore_HausdorffDistanceR, 2},
+    {"_ANTsRCore_hessianObjectnessR", (DL_FUNC) &_ANTsRCore_hessianObjectnessR, 11},
     {"_ANTsRCore_histogramMatchImageR", (DL_FUNC) &_ANTsRCore_histogramMatchImageR, 5},
     {"_ANTsRCore_integrateVelocityFieldR", (DL_FUNC) &_ANTsRCore_integrateVelocityFieldR, 5},
     {"_ANTsRCore_invertDisplacementFieldR", (DL_FUNC) &_ANTsRCore_invertDisplacementFieldR, 7},
