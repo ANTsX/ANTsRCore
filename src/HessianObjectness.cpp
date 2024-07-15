@@ -131,7 +131,7 @@ try
       inputImage, s4_outputImage, objectDimension, isBrightObject, sigmaMin, 
       sigmaMax, numberOfSigmaSteps, useSigmaLogarithmicSpacing, alpha, 
       beta, gamma, setScaleObjectnessMeasure );
-    return( outputImage );  
+    return( outputImage );
     }
   else
     {
