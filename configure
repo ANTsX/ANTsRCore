@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CXX_STD=CXX14
+CXX_STD=CXX17
 
 ITKRCMAKE=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkIncludes(); cat(a)'`
 ITKRLIB=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkLibs(); cat(a)'`
@@ -49,7 +49,7 @@ echo "PKG_CPPFLAGS= ${PKG_CPPFLAGS} -I\${ITK} -I\${PWD} -I\${myantssource}/Examp
   -I\${myantssource}/Utilities -I\${myantssource}/Examples/ -I../inst/include/ \
   -I\${myantssource}/Tensor/ " >> Makevars
 
-echo "CXX_STD = CXX14" >> Makevars
+echo "CXX_STD = CXX17" >> Makevars
 
 # echo "myantslib=\${R_LIBS_USER}/libs/lib" >> Makevars
 echo "myantslib=\${PWD}/antb/ANTS-build/Examples/" >> Makevars
@@ -82,6 +82,7 @@ ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 # get / set up ANTs code
 antsgit=https://github.com/ANTsX/ANTs.git
 antstag=d87f266dffdbcef00407d260eab20f4738a98825 # with itk v5.3rc04 2023 nov 25
+antstag=1892feff83b792b563500f379fff7733da5465a6
 antsrtag=`git log --pretty=format:'%H' -n 1`
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants
