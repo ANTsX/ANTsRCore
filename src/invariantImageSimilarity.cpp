@@ -143,7 +143,6 @@ SEXP invariantSimilarityHelper(
   SEXP r_doreflection, SEXP r_txfn,
   typename itk::Image< float , ImageDimension >::Pointer imageMask = nullptr  )
 {
-  /*
   unsigned int mibins = 20;
   unsigned int localSearchIterations =
     Rcpp::as< unsigned int >( r_lsits ) ;
@@ -523,10 +522,6 @@ SEXP invariantSimilarityHelper(
     outMat( 0, 0 ) = 0;
     return Rcpp::wrap( outMat );
     }
-    */
-    Rcpp::NumericMatrix outMat( 1, 1 );
-    outMat( 0, 0 ) = 0;
-    return Rcpp::wrap( outMat );
 }
 
 // [[Rcpp::export]]
