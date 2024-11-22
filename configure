@@ -5,14 +5,14 @@ CXX_STD=CXX17
 ITKRCMAKE=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkIncludes(); cat(a)'`
 ITKRLIB=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkLibs(); cat(a)'`
 compflags=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
-if [[ `uname` -eq Darwin ]] ; then
+if [[ `uname` == 'Darwin' ]] ; then
     compflags=" ${compflags} -isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -stdlib=libc++ "
 fi
 ITKDIR=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkDir(); cat(a)'`
 ITKTAG=`${R_HOME}/bin/Rscript -e 'env = asNamespace("ITKR"); if ("itkTag" %in% names(env)) cat(ITKR::itkTag()) else cat("")'`
 
 
-if [[ `uname` -eq Darwin ]] ; then
+if [[ `uname` == 'Darwin' ]] ; then
   CMAKE_BUILD_TYPE=Release
 fi
 if [[ $TRAVIS -eq true ]] ; then
@@ -48,7 +48,12 @@ else # just try gcc directly
   fi
 fi
 echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
-echo "PKG_CPPFLAGS= ${PKG_CPPFLAGS} -I"/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1" -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
+
+if [[ `uname` == 'Darwin' ]] ; then
+  PKG_CPPFLAGS="${PKG_CPPFLAGS} -I"/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1""
+fi
+
+echo "PKG_CPPFLAGS=${PKG_CPPFLAGS} -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
   -I\${myantssource}/Utilities -I\${myantssource}/Examples/ -I../inst/include/ \
   -I\${myantssource}/Tensor/ " >> Makevars
 
