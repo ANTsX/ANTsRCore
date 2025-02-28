@@ -51,7 +51,7 @@ fi
 echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
 
 if [[ `uname` == 'Darwin' ]] ; then
-  PKG_CPPFLAGS="${PKG_CPPFLAGS} -I"${osx_sysroot}/usr/include""
+  PKG_CPPFLAGS="${PKG_CPPFLAGS} -isysroot${osx_sysroot}"
 fi
 
 echo "PKG_CPPFLAGS=${PKG_CPPFLAGS} -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
@@ -69,8 +69,7 @@ echo "libants=\`find \${myantslib} -name \"lib*.a\"\`" >> Makevars
 # echo "libitk=\`find \\\`\$(R_HOME)/bin/Rscript -e 'ITKR:::itkLibs()'\\\` -name \"lib*.a\"\` " >> Makevars
 echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\"\`" >> Makevars
 
-echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk} \
-    \${libants} \${libitk} \${libants} \${libitk} \${libants} \${libitk}" >> Makevars
+echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk}" >> Makevars
 
 echo ".PHONY: all libs cleaner" >> Makevars
 
