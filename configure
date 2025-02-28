@@ -3,7 +3,7 @@
 CXX_STD=CXX17
 
 ITKRCMAKE=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkIncludes(); cat(a)'`
-ITKRLIB=$(${R_HOME}/bin/Rscript -e 'cat(system.file(package="ITKR"))')/libs
+ITKRLIB=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkLibs(); cat(a)'`
 compflags=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
 osx_sysroot=""
 if [[ `uname` == 'Darwin' ]] ; then
@@ -67,16 +67,12 @@ echo "myantslib=\${PWD}/antb/ANTS-build/Examples/" >> Makevars
 echo "libants=\`find \${myantslib} -name \"lib*.a\"\`" >> Makevars
 
 # echo "libitk=\`find \\\`\$(R_HOME)/bin/Rscript -e 'ITKR:::itkLibs()'\\\` -name \"lib*.a\"\` " >> Makevars
-# Avoid linker errors by getting list of libs from cmake
-compilerID="GNU"
+echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\"\`" >> Makevars
 
-if [[ `uname` == 'Darwin' ]] ; then
-  compilerID="AppleClang"
-fi
-
-echo "libitk=\$(CMAKE_PREFIX_PATH=${ITKRLIB} cmake --find-package -DNAME=ITK -DCOMPILER_ID=${compilerID} -DLANGUAGE=CXX -DMODE=LINK)" >> Makevars
-
-echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk}" >> Makevars
+# Duplicate libants and libitk to avoid issues with the order of the libraries. This isn't a good solution but
+# cmake's suggested ordering didn't work either
+echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk} \
+    \${libants} \${libitk} \${libants} \${libitk} \${libants} \${libitk}" >> Makevars
 
 echo ".PHONY: all libs cleaner" >> Makevars
 
