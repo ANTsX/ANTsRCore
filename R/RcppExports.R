@@ -22,6 +22,10 @@ Atropos <- function(r_args) {
     .Call(`_ANTsRCore_Atropos`, r_args)
 }
 
+composeDisplacementFields <- function(r_dimensionality, r_displacementField, r_warpingField) {
+    .Call(`_ANTsRCore_composeDisplacementFields`, r_dimensionality, r_displacementField, r_warpingField)
+}
+
 createJacobianDeterminantImageR <- function(r_domainImg, r_tx, r_dolog, r_dogeom) {
     .Call(`_ANTsRCore_createJacobianDeterminantImageR`, r_domainImg, r_tx, r_dolog, r_dogeom)
 }
