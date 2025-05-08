@@ -51,7 +51,7 @@ fi
 echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
 
 if [[ `uname` == 'Darwin' ]] ; then
-  PKG_CPPFLAGS="${PKG_CPPFLAGS} -isysroot ${sdkpath}"
+  PKG_CPPFLAGS="${PKG_CPPFLAGS} -isysroot ${osx_sysroot}"
 fi
 
 echo "PKG_CPPFLAGS=${PKG_CPPFLAGS} -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
