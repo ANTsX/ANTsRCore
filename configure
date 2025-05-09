@@ -5,8 +5,9 @@ CXX_STD=CXX17
 ITKRCMAKE=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkIncludes(); cat(a)'`
 ITKRLIB=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkLibs(); cat(a)'`
 compflags=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
+osx_sysroot="" # for Macs, add this to cmake below
 if [[ `uname` == 'Darwin' ]] ; then
-    compflags=" ${compflags} -isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -stdlib=libc++ "
+  osx_sysroot=$(xcrun --sdk macosx --show-sdk-path)
 fi
 ITKDIR=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkDir(); cat(a)'`
 ITKTAG=`${R_HOME}/bin/Rscript -e 'env = asNamespace("ITKR"); if ("itkTag" %in% names(env)) cat(ITKR::itkTag()) else cat("")'`
@@ -50,7 +51,7 @@ fi
 echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
 
 if [[ `uname` == 'Darwin' ]] ; then
-  PKG_CPPFLAGS="${PKG_CPPFLAGS} -I"/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1""
+  PKG_CPPFLAGS="${PKG_CPPFLAGS} -isysroot ${osx_sysroot}"
 fi
 
 echo "PKG_CPPFLAGS=${PKG_CPPFLAGS} -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
@@ -121,6 +122,7 @@ cd ./antb
 cmake -DITK_DIR:PATH=${ITKDIR} \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} -DNDEBUG "\
     -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} -DNDEBUG "\
+    -DCMAKE_OSX_SYSROOT="${osx_sysroot}" \
     -DBUILD_SHARED_LIBS=OFF \
     -DANTS_INSTALL_LIBS_ONLY=ON \
     -DBUILD_ALL_ANTS_APPS=OFF \
