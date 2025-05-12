@@ -9,6 +9,7 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+  workflow_dispatch:
 
 name: R-CMD-check
 
@@ -19,7 +20,7 @@ jobs:
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
-      fail-fast: true
+      fail-fast: false # don't stop all jobs if one platform build fails
       matrix:
         config:
           - { os: ubuntu-latest, r: "release" }
