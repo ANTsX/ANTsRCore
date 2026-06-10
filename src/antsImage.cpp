@@ -2345,7 +2345,7 @@ SEXP antsImage_SetSpacing( SEXP r_antsimage, SEXP r_spacing )
   }
 
   image->SetSpacing(itkSpacing);
-  return Rcpp::wrap(NULL);
+  return R_NilValue;
 }
 
 // [[Rcpp::export]]
@@ -2383,7 +2383,7 @@ try
     Rcpp::stop( "Invalid image dimension");
     }
 
-  return Rcpp::wrap(NULL);
+  return R_NilValue;
 
 }
 catch( itk::ExceptionObject & err )
@@ -2487,7 +2487,7 @@ SEXP antsImage_SetOrigin( SEXP r_antsimage, SEXP r_origin )
     }
 
   image->SetOrigin(itkOrigin);
-  return Rcpp::wrap(NULL);
+  return R_NilValue;
 }
 
 // [[Rcpp::export]]
@@ -2658,7 +2658,7 @@ SEXP antsImage_SetDirection( SEXP r_antsimage, SEXP r_direction )
     }
 
   image->SetDirection( itkDirection );
-  return Rcpp::wrap(NULL);
+  return R_NilValue;
 
 }
 
