@@ -45,9 +45,9 @@ TransformMatrixType GetVoxelSpaceToRASPhysicalSpaceMatrix(typename ImageType::Po
   // Create the larger matrix
   TransformMatrixType mat;
   vnl_vector<double> vcol(ImageType::ImageDimension+1, 1.0);
-  vcol.update(v_ras_offset);
+  vcol.update(v_ras_offset.as_ref());
   mat.SetIdentity();
-  mat.GetVnlMatrix().update(m_ras_matrix);
+  mat.GetVnlMatrix().update(m_ras_matrix.as_ref());
   mat.GetVnlMatrix().set_column(ImageType::ImageDimension, vcol);
 
   return mat;

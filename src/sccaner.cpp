@@ -1,11 +1,14 @@
 #include <exception>
 #include <vector>
 #include <string>
+#include "antsrRCheckStreams.h"
 #include <RcppANTsR.h>
 #include "itkImage.h"
 #include "itkVectorImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "antsSCCANObject.h"
+#undef cout
+#undef cerr
 using namespace Rcpp;
 
 // [[Rcpp::export]]

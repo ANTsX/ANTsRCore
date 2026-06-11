@@ -2,11 +2,14 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include "antsrRCheckStreams.h"
 #include <ants.h>
 #include "antsUtilities.h"
 #include "ReadWriteData.h"
 #include "itkSimulatedExponentialDisplacementFieldSource.h"
 #include "RcppANTsR.h"
+#undef cout
+#undef cerr
 
 
 template<class PrecisionType, unsigned int Dimension>

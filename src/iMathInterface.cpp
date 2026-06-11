@@ -1,5 +1,8 @@
+#include "antsrRCheckStreams.h"
 #include <RcppANTsR.h>
 #include <iMathFunctions.h>
+#undef cout
+#undef cerr
 
 template <class ImageType>
 SEXP iMathCanny( Rcpp::List args )

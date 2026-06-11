@@ -19,7 +19,7 @@ typename ImageType::Pointer cropImageHelper(
 {
   enum { Dimension = ImageType::ImageDimension };
   typename ImageType::RegionType region;
-  if( image.IsNotNull() & labimage.IsNotNull() )
+  if( image.IsNotNull() && labimage.IsNotNull() )
     {
     typedef itk::Image<unsigned short, Dimension>      ShortImageType;
     typedef itk::CastImageFilter<ImageType, ShortImageType> CasterType;
@@ -120,7 +120,7 @@ typename ImageType::Pointer decropImageHelper(
 {
   enum { Dimension = ImageType::ImageDimension };
   typename ImageType::RegionType region;
-  if( cimage.IsNotNull() & fimage.IsNotNull() )
+  if( cimage.IsNotNull() && fimage.IsNotNull() )
     {
     typedef itk::PasteImageFilter <ImageType, ImageType >
       PasteImageFilterType;
@@ -129,8 +129,9 @@ typename ImageType::Pointer decropImageHelper(
     // The SetSourceRegion method prescribes the section of the second
     // image to paste into the first.
     typename ImageType::IndexType destinationIndex;
-    fimage->TransformPhysicalPointToIndex(
-      cimage->GetOrigin(), destinationIndex );
+    static_cast<void>(
+      fimage->TransformPhysicalPointToIndex(
+        cimage->GetOrigin(), destinationIndex ) );
 //      cimage->GetLargestPossibleRegion().GetIndex();
     typename PasteImageFilterType::Pointer pasteFilter
       = PasteImageFilterType::New ();

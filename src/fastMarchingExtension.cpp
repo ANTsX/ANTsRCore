@@ -1,6 +1,7 @@
 #include <exception>
 #include <vector>
 #include <string>
+#include "antsrRCheckStreams.h"
 #include <RcppANTsR.h>
 #include "itkImage.h"
 #include "itkVectorImage.h"
@@ -10,6 +11,8 @@
 #include "itkFastMarchingExtensionImageFilterBase.h"
 #include "itkFastMarchingExtensionImageFilter.h"
 #include "itkFastMarchingThresholdStoppingCriterion.h"
+#undef cout
+#undef cerr
 
 template< class ImageType >
 SEXP fastMarchingExtension( SEXP r_speedImage, SEXP r_labelImage, SEXP r_valueImage )

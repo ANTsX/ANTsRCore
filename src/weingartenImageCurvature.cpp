@@ -2,9 +2,12 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include "antsrRCheckStreams.h"
 #include <RcppANTsR.h>
 #include "itkImage.h"
 #include "ants.h"
+#undef cout
+#undef cerr
 
 
 template< class ImageType >

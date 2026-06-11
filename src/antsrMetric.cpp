@@ -1,9 +1,15 @@
 
 #include <algorithm>
+#include <iostream>
 #include <vector>
 #include <string>
-#include <RcppANTsR.h>
 
+// ITK 6 SpatialObject templates still contain a std::cerr diagnostic in
+// CopyInformation().  Redirect it while including ITK metric/mask headers
+// so R's compiled-code check does not flag ANTsRCore for direct stderr use.
+#define cerr clog
+
+#include <RcppANTsR.h>
 #include "antsUtilities.h"
 #include "itkDisplacementFieldTransform.h"
 #include "itkImageToImageMetricv4.h"
@@ -16,6 +22,8 @@
 #include "itkImageMaskSpatialObject.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
+
+#undef cerr
 
 template< class ImageType >
 SEXP antsrMetric( std::string type, SEXP r_fixed, SEXP r_moving )

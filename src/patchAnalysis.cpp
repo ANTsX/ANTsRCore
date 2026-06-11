@@ -1,6 +1,7 @@
 #include <exception>
 #include <algorithm>
 #include <vector>
+#include "antsrRCheckStreams.h"
 #include "RcppANTsR.h"
 #include <ants.h>
 #include <iostream>
@@ -31,6 +32,8 @@
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkRIPMMARCImageFilter.h"
 #include "itkMultiScaleLaplacianBlobDetectorImageFilter2.h"
+#undef cout
+#undef cerr
 
 template< class ImageType >
 SEXP blobDetectionHelper(
@@ -209,7 +212,7 @@ SEXP patchAnalysisHelper(
   filter->SetPatchRadius( patchRadius );
   filter->SetNumberOfSamplePatches( patchSamples );
   filter->SetTargetVarianceExplained( patchVar );
-  if ( X.rows() > 1 & X.cols() > 1 ) {
+  if ( X.rows() > 1 && X.cols() > 1 ) {
     std::vector<TComp> xdat =
         Rcpp::as< std::vector<TComp> >( X );
     const TComp* _xdata = &xdat[0];

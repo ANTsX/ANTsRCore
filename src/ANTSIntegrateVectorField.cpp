@@ -1,34 +1,13 @@
 #include <exception>
 #include <algorithm>
+#include <cmath>
 #include <vector>
 #include "RcppANTsR.h"
 
-#include "antsUtilities.h"
 #include "antsAllocImage.h"
-#include <algorithm>
-
-#include "itkVectorIndexSelectionCastImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include "vnl/algo/vnl_determinant.h"
-#include "itkANTSImageRegistrationOptimizer.h"
 #include "itkTimeVaryingVelocityFieldIntegrationImageFilter.h"
-#include "itkWarpImageFilter.h"
-#include "itkTimeVaryingVelocityFieldTransform.h"
-
+#include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-
-#include "itkRescaleIntensityImageFilter.h"
-#include "vnl/algo/vnl_determinant.h"
-#include "itkDiscreteGaussianImageFilter.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
-#include "itkGradientRecursiveGaussianImageFilter.h"
-#include "itkVectorCurvatureAnisotropicDiffusionImageFilter.h"
-#include "itkLaplacianRecursiveGaussianImageFilter.h"
-#include "itkGradientRecursiveGaussianImageFilter.h"
-#include "itkImageFileWriter.h"
-
-#include "ReadWriteData.h"
-
 
 template< class ImageType >
 void vectorIntegrationHelper(
@@ -51,10 +30,12 @@ void vectorIntegrationHelper(
 
   using DisplacementFieldType = itk::Image<VectorType, Dimension>;
   using TimeVaryingVelocityFieldType = itk::Image<VectorType, Dimension>;
-  using tvt = TimeVaryingVelocityFieldType;
-  typename tvt::Pointer timeVaryingVelocity;
-
-  ReadImage<tvt>(timeVaryingVelocity, r_velocity.c_str() );
+  using ReaderType = itk::ImageFileReader<TimeVaryingVelocityFieldType>;
+  typename ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName( r_velocity.c_str() );
+  reader->Update();
+  typename TimeVaryingVelocityFieldType::Pointer timeVaryingVelocity =
+    reader->GetOutput();
 
   VectorType zero;
   zero.Fill(0);

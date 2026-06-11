@@ -15,7 +15,7 @@ double antsImageMIHelper(
   typename itk::Image< float , Dimension >::Pointer image2 )
 {
   typedef itk::Image< float , Dimension > ImageType;
-  if( image1.IsNotNull() & image2.IsNotNull() )
+  if( image1.IsNotNull() && image2.IsNotNull() )
   {
     double mi = 1;
     typedef itk::MattesMutualInformationImageToImageMetricv4
