@@ -180,7 +180,7 @@ if [ -z "${git_exe}" ]; then
     fi
     "${rscript}" -e "${str}"
 else
-    git checkout master
+    git checkout main
     git pull
     git checkout $antstag
 fi

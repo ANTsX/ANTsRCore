@@ -100,7 +100,7 @@ fi
 #fi
 cd ants
 if [[ -d .git ]]; then
-    git checkout master
+    git checkout main
     git pull
     git checkout $antstag
 fi
