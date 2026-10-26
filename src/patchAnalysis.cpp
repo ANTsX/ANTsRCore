@@ -108,7 +108,7 @@ try
   std::string pixeltype = Rcpp::as< std::string >( antsImage.slot( "pixeltype" ));
   unsigned int dimension = Rcpp::as< int >( antsImage.slot( "dimension" ) );
 
-  if ( (pixeltype == "float") & ( dimension == 2 ) )
+  if ( (pixeltype == "float") && ( dimension == 2 ) )
     {
     typedef float PixelType;
     const unsigned int dim = 2;
@@ -123,7 +123,7 @@ try
         r_stepsPerOctave )
       );
     }
-  else if ( (pixeltype == "float") & ( dimension == 3 ) )
+  else if ( (pixeltype == "float") && ( dimension == 3 ) )
     {
     typedef float PixelType;
     const unsigned int dim = 3;
@@ -209,7 +209,7 @@ SEXP patchAnalysisHelper(
   filter->SetPatchRadius( patchRadius );
   filter->SetNumberOfSamplePatches( patchSamples );
   filter->SetTargetVarianceExplained( patchVar );
-  if ( X.rows() > 1 & X.cols() > 1 ) {
+  if ( X.rows() > 1 && X.cols() > 1 ) {
     std::vector<TComp> xdat =
         Rcpp::as< std::vector<TComp> >( X );
     const TComp* _xdata = &xdat[0];
