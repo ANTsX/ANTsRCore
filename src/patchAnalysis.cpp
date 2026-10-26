@@ -111,7 +111,7 @@ try
   std::string pixeltype = Rcpp::as< std::string >( antsImage.slot( "pixeltype" ));
   unsigned int dimension = Rcpp::as< int >( antsImage.slot( "dimension" ) );
 
-  if ( (pixeltype == "float") & ( dimension == 2 ) )
+  if ( (pixeltype == "float") && ( dimension == 2 ) )
     {
     typedef float PixelType;
     const unsigned int dim = 2;
@@ -126,7 +126,7 @@ try
         r_stepsPerOctave )
       );
     }
-  else if ( (pixeltype == "float") & ( dimension == 3 ) )
+  else if ( (pixeltype == "float") && ( dimension == 3 ) )
     {
     typedef float PixelType;
     const unsigned int dim = 3;
