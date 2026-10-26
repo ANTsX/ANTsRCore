@@ -23,7 +23,10 @@ jobs:
       fail-fast: false # don't stop all jobs if one platform build fails
       matrix:
         config:
+          # ubuntu-latest (26.04, GCC 15) fails building ITKR from source until
+          # ANTsX/ITKR picks up ITK 4f275769e3; ubuntu-24.04 (GCC 13) builds.
           - { os: ubuntu-latest, r: "release" }
+          - { os: ubuntu-24.04, r: "release" }
           - { os: macos-latest, r: "release" }
           - { os: windows-latest, r: 'release'}
 
@@ -46,7 +49,7 @@ jobs:
         shell: Rscript {0}
         run: |
           asset <- Sys.getenv("ITKR_RELEASE_ASSET")
-          url <- sprintf("https://github.com/muschellij2/ITKR/releases/latest/download/%s", asset)
+          url <- sprintf("https://github.com/ANTsX/ITKR/releases/latest/download/%s", asset)
           dest <- file.path(tempdir(), "ITKR_0.6.0.2.zip")
           unpack <- file.path(tempdir(), "ITKR")
 
