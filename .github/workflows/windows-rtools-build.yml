@@ -38,7 +38,7 @@ jobs:
         shell: Rscript {0}
         run: |
           asset <- Sys.getenv("ITKR_RELEASE_ASSET")
-          url <- sprintf("https://github.com/muschellij2/ITKR/releases/latest/download/%s", asset)
+          url <- sprintf("https://github.com/ANTsX/ITKR/releases/latest/download/%s", asset)
           dest <- file.path(tempdir(), "ITKR_0.6.0.2.zip")
           unpack <- file.path(tempdir(), "ITKR")
 
