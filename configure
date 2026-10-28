@@ -18,7 +18,8 @@ if [[ `uname` == 'Darwin' ]] ; then
   shlib_flags="${link_flags} -Wl,-x -Wl,-exported_symbol,_R_init_ANTsRCore"
 else
   link_flags="-Wl,--gc-sections"
-  shlib_flags="${link_flags} -Wl,--version-script=ANTsRCore.map -Wl,-x"
+  # R on Linux compiles with -g; the debug info is most of the .so
+  shlib_flags="${link_flags} -Wl,--version-script=ANTsRCore.map -Wl,-x -Wl,--strip-debug"
 fi
 
 # The ANTs static libraries are only needed to link ANTsRCore.so, so by default
