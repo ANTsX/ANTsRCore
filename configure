@@ -8,6 +8,8 @@ compflags=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
 osx_sysroot="" # for Macs, add this to cmake below
 if [[ `uname` == 'Darwin' ]] ; then
   osx_sysroot=$(xcrun --sdk macosx --show-sdk-path)
+  darwin_strip_flags="-ffunction-sections -fdata-sections"
+  darwin_link_flags="-Wl,-dead_strip"
 fi
 ITKDIR=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkDir(); cat(a)'`
 ITKTAG=`${R_HOME}/bin/Rscript -e 'env = asNamespace("ITKR"); if ("itkTag" %in% names(env)) cat(ITKR::itkTag()) else cat("")'`
@@ -52,11 +54,15 @@ echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
 
 if [[ `uname` == 'Darwin' ]] ; then
   PKG_CPPFLAGS="${PKG_CPPFLAGS} -isysroot ${osx_sysroot}"
+  PKG_CXXFLAGS="${PKG_CXXFLAGS} ${darwin_strip_flags}"
+  PKG_LIBS="${PKG_LIBS} ${darwin_link_flags}"
 fi
 
 echo "PKG_CPPFLAGS=${PKG_CPPFLAGS} -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
   -I\${myantssource}/Utilities -I\${myantssource}/Examples/ -I../inst/include/ \
   -I\${myantssource}/Tensor/ " >> Makevars
+
+echo "PKG_CXXFLAGS=${PKG_CXXFLAGS}" >> Makevars
 
 echo "CXX_STD = CXX17" >> Makevars
 
@@ -92,6 +98,12 @@ ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
 antsgit=https://github.com/ANTsX/ANTs.git
 antstag=516d24180390dd3bb18c6a507bc1651b5a183b85 # 2025-05-09 PPD in aat
 antsrtag=`git log --pretty=format:'%H' -n 1`
+# ants/.git is removed at the end of configure, so an existing checkout can't
+# be updated in place; re-clone when it wasn't made from the current antstag.
+if [[ -s ants/CMakeLists.txt && "`cat ants/.antstag 2>/dev/null`" != "${antstag}" ]] ; then
+    echo "ants/ is not at ${antstag}; removing ants/ and antb/ to re-clone"
+    rm -rf ants antb
+fi
 if [[ ! -s ants/CMakeLists.txt  ]] ; then
     git clone $antsbranch $antsgit ants
 fi
@@ -103,7 +115,9 @@ if [[ -d .git ]]; then
     git checkout master
     git pull
     git checkout $antstag
+    echo "${antstag}" > .antstag
 fi
+
 cd ../
 if [[ ! -s antb ]] ; then
   mkdir antb
@@ -121,8 +135,11 @@ rm -f ants/CITATION.bib
 cd ./antb
 
 cmake -DITK_DIR:PATH=${ITKDIR} \
-    -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} -DNDEBUG "\
-    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} -DNDEBUG "\
+    -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} ${darwin_strip_flags} -DNDEBUG "\
+    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} ${darwin_strip_flags} -DNDEBUG "\
+    -DCMAKE_EXE_LINKER_FLAGS="${CMAKE_EXE_LINKER_FLAGS} ${darwin_link_flags}" \
+    -DCMAKE_SHARED_LINKER_FLAGS="${CMAKE_SHARED_LINKER_FLAGS} ${darwin_link_flags}" \
+    -DCMAKE_MODULE_LINKER_FLAGS="${CMAKE_MODULE_LINKER_FLAGS} ${darwin_link_flags}" \
     -DCMAKE_OSX_SYSROOT="${osx_sysroot}" \
     -DBUILD_SHARED_LIBS=OFF \
     -DANTS_INSTALL_LIBS_ONLY=ON \

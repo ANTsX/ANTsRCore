@@ -23,8 +23,8 @@ jobs:
       fail-fast: false # don't stop all jobs if one platform build fails
       matrix:
         config:
-          # ubuntu-latest (26.04, GCC 15) fails building ITKR from source until
-          # ANTsX/ITKR picks up ITK 4f275769e3; ubuntu-24.04 (GCC 13) builds.
+          # ubuntu-latest is GCC 15 (needs ITKR >= 0.6.1); ubuntu-24.04 keeps
+          # GCC 13 covered.
           - { os: ubuntu-latest, r: "release" }
           - { os: ubuntu-24.04, r: "release" }
           - { os: macos-latest, r: "release" }
