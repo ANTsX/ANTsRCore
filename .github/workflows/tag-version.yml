@@ -1,7 +1,7 @@
 name: Tag version bump
 
 # When DESCRIPTION's Version changes on master, tag the commit v<Version>
-# (unless that tag exists) and build and publish the Windows binaries.
+# (unless that tag exists) and build and publish the Windows and macOS binaries.
 on:
   push:
     branches: [main, master]
@@ -44,6 +44,6 @@ jobs:
     if: needs.tag.outputs.tag != ''
     permissions:
       contents: write
-    uses: ./.github/workflows/windows-binary-release.yml
+    uses: ./.github/workflows/release-binaries.yml
     with:
       tag: ${{ needs.tag.outputs.tag }}

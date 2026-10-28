@@ -1,0 +1,198 @@
+name: Release binaries
+
+on:
+  push:
+    tags:
+      - "v*"
+  # called by tag-version.yml, whose GITHUB_TOKEN tag push can't trigger this
+  workflow_call:
+    inputs:
+      tag:
+        description: Release tag to build and publish
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    name: Windows binary (${{ matrix.r-version }})
+    runs-on: windows-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        r-version:
+          - oldrel-1
+          - release
+          - devel
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ITKR_RELEASE_ASSET: ITKR-${{ matrix.r-version }}.zip
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.r-version }}
+          use-public-rspm: true
+
+      - name: Install ITKR binary
+        shell: Rscript {0}
+        run: |
+          asset <- Sys.getenv("ITKR_RELEASE_ASSET")
+          url <- sprintf("https://github.com/ANTsX/ITKR/releases/latest/download/%s", asset)
+          dest <- file.path(tempdir(), "ITKR_0.6.0.2.zip")
+          unpack <- file.path(tempdir(), "ITKR")
+
+          unlink(unpack, recursive = TRUE, force = TRUE)
+          dir.create(unpack, recursive = TRUE, showWarnings = FALSE)
+
+          download.file(url, dest, mode = "wb", quiet = TRUE)
+          unzip(dest, exdir = unpack)
+
+          desc <- list.files(unpack, pattern = "^DESCRIPTION$", recursive = TRUE, full.names = TRUE)[1]
+          if (is.na(desc) || !nzchar(desc)) {
+            stop(sprintf("Could not find DESCRIPTION inside %s", asset))
+          }
+
+          get_description_deps <- function(path = "DESCRIPTION",
+                                           fields = c("Depends", "Imports", "LinkingTo"),
+                                           include_r = FALSE) {
+            dcf <- read.dcf(path)
+            deps <- tools:::.split_dependencies(dcf[1, fields[fields %in% colnames(dcf)]])
+            pkgs <- names(deps)
+            if (!include_r) {
+              pkgs <- setdiff(pkgs, "R")
+            }
+            unique(pkgs)
+          }
+
+          install.packages(get_description_deps(desc))
+
+          pkgdir <- dirname(desc)
+          ver <- read.dcf(desc, "Version")[, 1]
+          tdir <- getwd()
+          itkr_source <- file.path(tdir, paste0("ITKR_", ver, ".zip"))
+          setwd(dirname(pkgdir))
+          zip(itkr_source, files = list.files("ITKR/", recursive = TRUE, full.names = TRUE))
+          setwd(tdir)
+          install.packages(itkr_source, repos = NULL, type = "win.binary")
+
+          if (!requireNamespace("ITKR", quietly = TRUE)) {
+            stop("ITKR binary is not installed, refusing to edit DESCRIPTION")
+          }
+
+          lines <- readLines("DESCRIPTION", warn = FALSE)
+          rem <- grepl("^Remotes:\\s*", lines)
+          itkr_source <- normalizePath(itkr_source, winslash = "/")
+          lines[rem] <- sub("ANTsX/ITKR", paste0("ITKR=local::", itkr_source), lines[rem])
+          writeLines(lines, "DESCRIPTION")
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+
+      - name: Build binary package
+        shell: cmd
+        run: R CMD INSTALL --build .
+
+      # every R version builds ANTsRCore_<version>.<ext>; tag each with the
+      # R version so the release assets don't overwrite each other
+      - name: Name binary for its R version
+        shell: bash
+        run: |
+          rver=$(Rscript -e 'cat(R.version$major, sub("[.].*", "", R.version$minor), sep = ".")')
+          for f in ANTsRCore_*.zip; do
+            mv "$f" "${f%.zip}_${{ matrix.r-version }}-R${rver}.zip"
+          done
+
+      - name: Upload binary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-binary-${{ matrix.r-version }}
+          path: ANTsRCore_*.zip
+          if-no-files-found: error
+
+  build-macos:
+    name: macOS binary (${{ matrix.r-version }})
+    runs-on: macos-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        r-version:
+          - oldrel-1
+          - release
+          - devel
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.r-version }}
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+
+      - name: Build binary package
+        shell: bash
+        run: R CMD INSTALL --build .
+
+      # every R version builds ANTsRCore_<version>.<ext>; tag each with the
+      # R version so the release assets don't overwrite each other
+      - name: Name binary for its R version
+        shell: bash
+        run: |
+          rver=$(Rscript -e 'cat(R.version$major, sub("[.].*", "", R.version$minor), sep = ".")')
+          for f in ANTsRCore_*.tgz; do
+            mv "$f" "${f%.tgz}_${{ matrix.r-version }}-R${rver}.tgz"
+          done
+
+      - name: Upload binary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-binary-${{ matrix.r-version }}
+          path: ANTsRCore_*.tgz
+          if-no-files-found: error
+
+  release:
+    name: Create GitHub release
+    runs-on: ubuntu-latest
+    needs:
+      - build-windows
+      - build-macos
+    # publish whatever built, so a devel failure doesn't block oldrel-1/release
+    if: ${{ !cancelled() }}
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          merge-multiple: true
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag || github.ref_name }}
+          files: release-assets/*
+          fail_on_unmatched_files: true
