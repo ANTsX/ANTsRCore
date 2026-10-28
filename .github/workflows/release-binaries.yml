@@ -4,6 +4,13 @@ on:
   push:
     tags:
       - "v*"
+  # called by tag-version.yml, whose GITHUB_TOKEN tag push can't trigger this
+  workflow_call:
+    inputs:
+      tag:
+        description: Release tag to build and publish
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -19,6 +26,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.tag || github.ref }}
 
       - uses: r-lib/actions/setup-r@v2
         with:
@@ -102,6 +111,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.tag || github.ref }}
 
       - uses: r-lib/actions/setup-r@v2
         with:
@@ -144,4 +155,5 @@ jobs:
       - name: Upload release assets
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ inputs.tag || github.ref_name }}
           files: release-assets/*
