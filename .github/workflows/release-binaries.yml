@@ -17,12 +17,20 @@ permissions:
 
 jobs:
   build-windows:
-    name: Windows binary
+    name: Windows binary (${{ matrix.r-version }})
     runs-on: windows-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        r-version:
+          - oldrel-1
+          - release
+          - devel
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      ITKR_RELEASE_ASSET: ITKR-release.zip
+      ITKR_RELEASE_ASSET: ITKR-${{ matrix.r-version }}.zip
 
     steps:
       - uses: actions/checkout@v6
@@ -31,7 +39,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r@v2
         with:
-          r-version: release
+          r-version: ${{ matrix.r-version }}
           use-public-rspm: true
 
       - name: Install ITKR binary
@@ -95,16 +103,34 @@ jobs:
         shell: cmd
         run: R CMD INSTALL --build .
 
+      # every R version builds ANTsRCore_<version>.<ext>; tag each with the
+      # R version so the release assets don't overwrite each other
+      - name: Name binary for its R version
+        shell: bash
+        run: |
+          rver=$(Rscript -e 'cat(R.version$major, sub("[.].*", "", R.version$minor), sep = ".")')
+          for f in ANTsRCore_*.zip; do
+            mv "$f" "${f%.zip}_${{ matrix.r-version }}-R${rver}.zip"
+          done
+
       - name: Upload binary artifact
         uses: actions/upload-artifact@v4
         with:
-          name: windows-binary
+          name: windows-binary-${{ matrix.r-version }}
           path: ANTsRCore_*.zip
           if-no-files-found: error
 
   build-macos:
-    name: macOS binary
+    name: macOS binary (${{ matrix.r-version }})
     runs-on: macos-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        r-version:
+          - oldrel-1
+          - release
+          - devel
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -116,7 +142,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r@v2
         with:
-          r-version: release
+          r-version: ${{ matrix.r-version }}
           use-public-rspm: true
 
       - uses: r-lib/actions/setup-r-dependencies@v2
@@ -128,10 +154,20 @@ jobs:
         shell: bash
         run: R CMD INSTALL --build .
 
+      # every R version builds ANTsRCore_<version>.<ext>; tag each with the
+      # R version so the release assets don't overwrite each other
+      - name: Name binary for its R version
+        shell: bash
+        run: |
+          rver=$(Rscript -e 'cat(R.version$major, sub("[.].*", "", R.version$minor), sep = ".")')
+          for f in ANTsRCore_*.tgz; do
+            mv "$f" "${f%.tgz}_${{ matrix.r-version }}-R${rver}.tgz"
+          done
+
       - name: Upload binary artifact
         uses: actions/upload-artifact@v4
         with:
-          name: macos-binary
+          name: macos-binary-${{ matrix.r-version }}
           path: ANTsRCore_*.tgz
           if-no-files-found: error
 
@@ -141,6 +177,8 @@ jobs:
     needs:
       - build-windows
       - build-macos
+    # publish whatever built, so a devel failure doesn't block oldrel-1/release
+    if: ${{ !cancelled() }}
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -157,3 +195,4 @@ jobs:
         with:
           tag_name: ${{ inputs.tag || github.ref_name }}
           files: release-assets/*
+          fail_on_unmatched_files: true
