@@ -653,7 +653,7 @@ itk::Image<unsigned char,2>::Pointer as( SEXP itkImageR )
     typedef itk::Image<float,Dim> PassedImageType;
     return( castSEXP<PassedImageType,ImageType>( itkImageR ) );
   }
-  else if ( Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) == "unsigned ing" ) {
+  else if ( Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) == "unsigned int" ) {
     typedef itk::Image<unsigned int,Dim> PassedImageType;
     return( castSEXP<PassedImageType,ImageType>( itkImageR ) );
   }
@@ -689,7 +689,7 @@ itk::Image<unsigned char,3>::Pointer as( SEXP itkImageR )
     typedef itk::Image<float,Dim> PassedImageType;
     return( castSEXP<PassedImageType,ImageType>( itkImageR ) );
   }
-  else if ( Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) == "unsigned ing" ) {
+  else if ( Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) == "unsigned int" ) {
     typedef itk::Image<unsigned int,Dim> PassedImageType;
     return( castSEXP<PassedImageType,ImageType>( itkImageR ) );
   }
@@ -726,7 +726,7 @@ itk::Image<unsigned char,4>::Pointer as( SEXP itkImageR )
     typedef itk::Image<float,Dim> PassedImageType;
     return( castSEXP<PassedImageType,ImageType>( itkImageR ) );
   }
-  else if ( Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) == "unsigned ing" ) {
+  else if ( Rcpp::as<std::string>(itkImageObject.slot("pixeltype")) == "unsigned int" ) {
     typedef itk::Image<unsigned int,Dim> PassedImageType;
     return( castSEXP<PassedImageType,ImageType>( itkImageR ) );
   }
