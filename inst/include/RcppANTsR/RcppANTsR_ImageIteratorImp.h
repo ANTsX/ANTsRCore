@@ -167,7 +167,7 @@ SEXP wrap( const itk::ImageRegionIteratorWithIndex< itk::Image<unsigned int,3> >
   Rcpp::XPtr< IteratorType > xptr( rawPointer, true ) ;
 
   Rcpp::S4 itkImageIterator( std::string( "antsImageIterator" ) );
-  itkImageIterator.slot( "pixeltype" ) = "unsinged int";
+  itkImageIterator.slot( "pixeltype" ) = "unsigned int";
   itkImageIterator.slot( "dimension" ) = 3;
   itkImageIterator.slot( "components" ) = 1;
   itkImageIterator.slot( "pointer" ) = xptr;
@@ -221,7 +221,7 @@ SEXP wrap( const itk::ImageRegionIteratorWithIndex< itk::Image<unsigned char,3> 
   Rcpp::XPtr< IteratorType > xptr( rawPointer, true ) ;
 
   Rcpp::S4 itkImageIterator( std::string( "antsImageIterator" ) );
-  itkImageIterator.slot( "pixeltype" ) = "unsinged char";
+  itkImageIterator.slot( "pixeltype" ) = "unsigned char";
   itkImageIterator.slot( "dimension" ) = 3;
   itkImageIterator.slot( "components" ) = 1;
   itkImageIterator.slot( "pointer" ) = xptr;
@@ -257,7 +257,7 @@ itk::ImageRegionIteratorWithIndex< itk::Image<double,2> > as( SEXP itkImageItera
   Rcpp::S4 itkImageIterator( itkImageIteratorR );
 
   if (!itkImageIterator.is( "antsImageIterator") ||
-      (Rcpp::as<std::string>(itkImageIterator.slot("pixeltype")) != "float") ||
+      (Rcpp::as<std::string>(itkImageIterator.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageIterator.slot("dimension")) != Dim) ||
       (Rcpp::as<int>(itkImageIterator.slot("components")) != 1) )
     {
@@ -278,7 +278,7 @@ itk::ImageRegionIteratorWithIndex< itk::Image<double,3> > as( SEXP itkImageItera
   Rcpp::S4 itkImageIterator( itkImageIteratorR );
 
   if (!itkImageIterator.is( "antsImageIterator") ||
-      (Rcpp::as<std::string>(itkImageIterator.slot("pixeltype")) != "float") ||
+      (Rcpp::as<std::string>(itkImageIterator.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageIterator.slot("dimension")) != Dim) ||
       (Rcpp::as<int>(itkImageIterator.slot("components")) != 1) )
     {
@@ -299,7 +299,7 @@ itk::ImageRegionIteratorWithIndex< itk::Image<double,4> > as( SEXP itkImageItera
   Rcpp::S4 itkImageIterator( itkImageIteratorR );
 
   if (!itkImageIterator.is( "antsImageIterator") ||
-      (Rcpp::as<std::string>(itkImageIterator.slot("pixeltype")) != "float") ||
+      (Rcpp::as<std::string>(itkImageIterator.slot("pixeltype")) != "double") ||
       (Rcpp::as<int>(itkImageIterator.slot("dimension")) != Dim) ||
       (Rcpp::as<int>(itkImageIterator.slot("components")) != 1) )
     {

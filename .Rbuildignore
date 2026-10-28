@@ -33,3 +33,4 @@ zzz_Comparison2\.R
 ^tic\.R$
 ^\.positai$
 ^\.claude$
+^\.githooks$

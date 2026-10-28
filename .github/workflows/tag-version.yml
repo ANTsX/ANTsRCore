@@ -1,0 +1,49 @@
+name: Tag version bump
+
+# When DESCRIPTION's Version changes on master, tag the commit v<Version>
+# (unless that tag exists) and build and publish the Windows binaries.
+on:
+  push:
+    branches: [main, master]
+    paths: [DESCRIPTION]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Tag v<Version> if it doesn't exist
+        id: tag
+        run: |
+          pkg=$(sed -n 's/^Package:[[:space:]]*//p' DESCRIPTION | tr -d '\r')
+          version=$(sed -n 's/^Version:[[:space:]]*//p' DESCRIPTION | tr -d '\r')
+          tag="v$version"
+          # the post-commit hook may already have pushed it with the commit
+          if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null; then
+            echo "$tag already exists; nothing to release"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "$tag" -m "$pkg $version"
+          git push origin "$tag"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+  # a tag pushed with GITHUB_TOKEN doesn't trigger other workflows, so call
+  # the release directly
+  release:
+    needs: tag
+    if: needs.tag.outputs.tag != ''
+    permissions:
+      contents: write
+    uses: ./.github/workflows/windows-binary-release.yml
+    with:
+      tag: ${{ needs.tag.outputs.tag }}
