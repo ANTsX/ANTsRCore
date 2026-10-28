@@ -1,0 +1,27 @@
+#!/bin/sh
+# Tag a commit v<Version> when it changes the Version field in DESCRIPTION.
+# Pushing the tag (git push --follow-tags) triggers the Windows binary release.
+# Enable once per clone with: git config core.hooksPath .githooks
+
+version() {
+  git show "$1:DESCRIPTION" 2>/dev/null | sed -n 's/^Version:[[:space:]]*//p' | tr -d '\r'
+}
+
+git rev-parse -q --verify HEAD~1 >/dev/null || exit 0
+
+new=$(version HEAD)
+old=$(version HEAD~1)
+[ -n "$new" ] && [ "$new" != "$old" ] || exit 0
+# only bumps: R versions use . or - separators, so compare them as dotted
+highest=$(printf '%s\n%s\n' "$old" "$new" | tr '-' '.' | sort -t. -k1,1n -k2,2n -k3,3n -k4,4n | tail -n 1)
+[ "$highest" = "$(echo "$new" | tr '-' '.')" ] || exit 0
+
+tag="v$new"
+if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
+  echo "post-commit: tag $tag already exists, leaving it alone" >&2
+  exit 0
+fi
+
+pkg=$(git show HEAD:DESCRIPTION | sed -n 's/^Package:[[:space:]]*//p' | tr -d '\r')
+git tag -a "$tag" -m "$pkg $new" &&
+  echo "post-commit: tagged $tag; push it with: git push --follow-tags"
