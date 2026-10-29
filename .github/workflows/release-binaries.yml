@@ -11,6 +11,13 @@ on:
         description: Release tag to build and publish
         required: true
         type: string
+  # rebuild binaries for an existing tag
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to build and publish
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -160,15 +167,28 @@ jobs:
         shell: bash
         run: |
           rver=$(Rscript -e 'cat(R.version$major, sub("[.].*", "", R.version$minor), sep = ".")')
-          for f in ANTsRCore_*.tgz; do
-            mv "$f" "${f%.tgz}_${{ matrix.r-version }}-R${rver}.tgz"
+          # R >= 4.7 builds .tar.xz on macOS instead of .tgz
+          shopt -s nullglob
+          files=(ANTsRCore_*.tgz ANTsRCore_*.tar.xz)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "no binary package found" >&2
+            exit 1
+          fi
+          for f in "${files[@]}"; do
+            case "$f" in
+              *.tar.xz) ext=tar.xz ;;
+              *) ext=tgz ;;
+            esac
+            mv "$f" "${f%.$ext}_${{ matrix.r-version }}-R${rver}.$ext"
           done
 
       - name: Upload binary artifact
         uses: actions/upload-artifact@v4
         with:
           name: macos-binary-${{ matrix.r-version }}
-          path: ANTsRCore_*.tgz
+          path: |
+            ANTsRCore_*.tgz
+            ANTsRCore_*.tar.xz
           if-no-files-found: error
 
   release:
