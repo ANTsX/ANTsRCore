@@ -38,6 +38,13 @@ CMAKE_BUILD_TYPE=Release
 cd ./src
 PWD=`"${rscript}" -e 'cat(normalizePath(".", winslash="/", mustWork=FALSE))'`
 MAKEBIN=`"${rscript}" -e "x=Sys.which('mingw32-make'); if (length(x) && nzchar(x)) cat(normalizePath(x, winslash='/', mustWork=FALSE)) else { y=Sys.which('make'); if (length(y) && nzchar(y)) cat(normalizePath(y, winslash='/', mustWork=FALSE)) else cat('make') }"`
+# Build ANTs with 2 jobs (CRAN's limit) unless MAKEFLAGS asks for more,
+# e.g. MAKEFLAGS=-j8 R CMD INSTALL ANTsRCore
+make_jobs=`echo " ${MAKEFLAGS}" | sed -n -e 's/.*--jobs[= ]*\([0-9][0-9]*\).*/\1/p' -e 's/.* -*[a-zA-Z]*j *\([0-9][0-9]*\).*/\1/p' | head -n 1`
+if [ -z "${make_jobs}" ] || [ "${make_jobs}" -lt 1 ]; then
+  make_jobs=2
+fi
+echo "building ANTs with ${make_jobs} jobs"
 linkwrap="${PWD}/linkwrap.cmd"
 gppwrap="${PWD}/g++.cmd"
 linker_exe=`"${rscript}" -e 'x <- Sys.which("g++"); if (length(x) && nzchar(x)) { x <- normalizePath(x, winslash="/", mustWork=FALSE); x <- sub("[[:space:]].*$", "", x); cat(x) } else cat("g++")'`
@@ -137,10 +144,10 @@ echo 'libs:' >> Makevars.win
 echo '	mkdir -p libs' >> Makevars.win
 echo '	ls -la antb' >> Makevars.win
 echo '	ls -la .' >> Makevars.win
-echo '	$(MAKEBIN) -C antb -j 4 VERBOSE=1' >> Makevars.win
+echo "	\$(MAKEBIN) -C antb -j ${make_jobs} VERBOSE=1" >> Makevars.win
 echo '	ls -la antb/ANTS-build' >> Makevars.win
 echo '	test -f antb/ANTS-build/Makefile' >> Makevars.win
-echo '	$(MAKEBIN) -C antb/ANTS-build install VERBOSE=1' >> Makevars.win
+echo "	\$(MAKEBIN) -C antb/ANTS-build -j ${make_jobs} install VERBOSE=1" >> Makevars.win
 echo "	rm -rf ${R_PACKAGE_DIR}/libs/bin" >> Makevars.win
 echo '	cd ../../' >> Makevars.win
 
