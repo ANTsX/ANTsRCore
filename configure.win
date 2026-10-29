@@ -128,6 +128,8 @@ libants="${libants} -ll_KellyKapowski -ll_LabelClustersUniquely -ll_LabelGeometr
 libants="${libants} -ll_N3BiasFieldCorrection -ll_N4BiasFieldCorrection -ll_ResampleImage "
 libants="${libants} -ll_sccan -ll_SurfaceBasedSmoothing -ll_ThresholdImage "
 
+# Exports come from ANTsRCore-win.def, which only lists R_init_ANTsRCore;
+# R already links the DLL with -s, so it carries no symbol table.
 echo "PKG_LIBS=${PKG_LIBS} -Wl,--exclude-all-symbols -Wl,--exclude-libs,ALL -Wl,--start-group ${libitk} ${libants} -Wl,--end-group ${ADD_PKG_LIBS}" >> Makevars.win
 echo ".PHONY: all libs" >> Makevars.win
 echo "all: \$(SHLIB)" >> Makevars.win
@@ -140,7 +142,13 @@ echo '	ls -la .' >> Makevars.win
 echo '	$(MAKEBIN) -C antb -j 4 VERBOSE=1' >> Makevars.win
 echo '	ls -la antb/ANTS-build' >> Makevars.win
 echo '	test -f antb/ANTS-build/Makefile' >> Makevars.win
-echo '	$(MAKEBIN) -C antb/ANTS-build install VERBOSE=1' >> Makevars.win
+echo '	$(MAKEBIN) -C antb/ANTS-build VERBOSE=1' >> Makevars.win
+# The ANTs static libraries are linked from the build tree; only install them
+# into libs/lib (~140MB) when ANTSRCORE_INSTALL_LIBS=true, for packages that
+# link against ANTsRCore (e.g. DANTsR).
+if [ "${ANTSRCORE_INSTALL_LIBS}" = "true" ]; then
+  echo '	$(MAKEBIN) -C antb/ANTS-build install VERBOSE=1' >> Makevars.win
+fi
 echo "	rm -rf ${R_PACKAGE_DIR}/libs/bin" >> Makevars.win
 echo '	cd ../../' >> Makevars.win
 
