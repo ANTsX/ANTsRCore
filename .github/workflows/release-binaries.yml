@@ -160,6 +160,38 @@ jobs:
           r-version: ${{ matrix.r-version }}
           use-public-rspm: true
 
+      # without the binary, setup-r-dependencies builds ITKR (all of ITK) from source
+      - name: Install ITKR binary
+        shell: Rscript {0}
+        run: |
+          asset <- sprintf("ITKR-macos-%s-%s.tgz", Sys.info()[["machine"]], "${{ matrix.r-version }}")
+          url <- sprintf("https://github.com/ANTsX/ITKR/releases/latest/download/%s", asset)
+          dest <- file.path(tempdir(), asset)
+
+          ok <- tryCatch(download.file(url, dest, mode = "wb", quiet = TRUE) == 0,
+                         error = function(e) FALSE)
+          if (!ok) {
+            message(sprintf("%s is not in the latest ITKR release; building ITKR from source", asset))
+            quit(save = "no")
+          }
+
+          unpack <- file.path(tempdir(), "ITKR-desc")
+          untar(dest, files = "ITKR/DESCRIPTION", exdir = unpack)
+          ver <- read.dcf(file.path(unpack, "ITKR", "DESCRIPTION"), "Version")[, 1]
+          itkr_binary <- file.path(Sys.getenv("RUNNER_TEMP"), paste0("ITKR_", ver, ".tgz"))
+          file.copy(dest, itkr_binary, overwrite = TRUE)
+
+          install.packages("Rcpp")
+          install.packages(itkr_binary, repos = NULL, type = "binary")
+          if (!requireNamespace("ITKR", quietly = TRUE)) {
+            stop("ITKR binary is not installed, refusing to edit DESCRIPTION")
+          }
+
+          lines <- readLines("DESCRIPTION", warn = FALSE)
+          rem <- grepl("^Remotes:\\s*", lines)
+          lines[rem] <- sub("ANTsX/ITKR", paste0("ITKR=local::", itkr_binary), lines[rem])
+          writeLines(lines, "DESCRIPTION")
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck
