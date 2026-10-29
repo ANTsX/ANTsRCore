@@ -6,10 +6,30 @@ ITKRCMAKE=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkIncludes(); cat(a)'`
 ITKRLIB=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkLibs(); cat(a)'`
 compflags=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
 osx_sysroot="" # for Macs, add this to cmake below
+# Put each function/data item in its own section so the linker can drop
+# unused template instantiations, and only export R_init_ANTsRCore from the
+# shared object: R finds the .Call routines through registration, so the
+# ~100k exported template symbols and the local symbol table are dead weight
+# (about half of ANTsRCore.so).
+strip_flags="-ffunction-sections -fdata-sections"
 if [[ `uname` == 'Darwin' ]] ; then
   osx_sysroot=$(xcrun --sdk macosx --show-sdk-path)
-  darwin_strip_flags="-ffunction-sections -fdata-sections"
-  darwin_link_flags="-Wl,-dead_strip"
+  link_flags="-Wl,-dead_strip"
+  shlib_flags="${link_flags} -Wl,-x -Wl,-exported_symbol,_R_init_ANTsRCore"
+else
+  link_flags="-Wl,--gc-sections"
+  # R on Linux compiles with -g; the debug info is most of the .so
+  shlib_flags="${link_flags} -Wl,--version-script=ANTsRCore.map -Wl,-x -Wl,--strip-debug"
+fi
+
+# The ANTs static libraries are only needed to link ANTsRCore.so, so by default
+# they are linked from the build tree and not installed (~140MB). Set
+# ANTSRCORE_INSTALL_LIBS=true to install them into libs/lib for packages that
+# link against ANTsRCore (e.g. DANTsR).
+if [[ "${ANTSRCORE_INSTALL_LIBS}" == "true" ]] ; then
+  ants_install="\$(MAKE) install"
+else
+  ants_install="true"
 fi
 # Build ANTs with 2 jobs (CRAN's limit) unless MAKEFLAGS asks for more,
 # e.g. MAKEFLAGS=-j8 R CMD INSTALL ANTsRCore
@@ -61,9 +81,9 @@ echo $OSTYPE $needVCL_CAN_STATIC_CONST_INIT_FLOAT
 
 if [[ `uname` == 'Darwin' ]] ; then
   PKG_CPPFLAGS="${PKG_CPPFLAGS} -isysroot ${osx_sysroot}"
-  PKG_CXXFLAGS="${PKG_CXXFLAGS} ${darwin_strip_flags}"
-  PKG_LIBS="${PKG_LIBS} ${darwin_link_flags}"
 fi
+PKG_CXXFLAGS="${PKG_CXXFLAGS} ${strip_flags}"
+PKG_LIBS="${PKG_LIBS} ${shlib_flags}"
 
 echo "PKG_CPPFLAGS=${PKG_CPPFLAGS} -I\${ITK} -I\${PWD} -I\${myantssource}/Examples/include/ \
   -I\${myantssource}/Utilities -I\${myantssource}/Examples/ -I../inst/include/ \
@@ -93,7 +113,7 @@ echo "all: \$(SHLIB)" >> Makevars
 
 echo "\$(SHLIB): libs " >> Makevars
 
-echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j ${make_jobs} &&  cd \${PWD}/antb/ANTS-build && \$(MAKE) -j ${make_jobs} all install && rm -rf ${R_PACKAGE_DIR}/libs/bin && cd \${PWD}" >> Makevars
+echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j ${make_jobs} &&  cd \${PWD}/antb/ANTS-build && \$(MAKE) -j ${make_jobs} all && ${ants_install} && rm -rf ${R_PACKAGE_DIR}/libs/bin && cd \${PWD}" >> Makevars
 
 echo "cleaner: ; cd libs/bin && rm -f antsRegistration antsApplyTransforms antsMotionCorr \
 antsAffineInitializer antsApplyTransformsToPoints LabelGeometryMeasures \
@@ -142,11 +162,11 @@ rm -f ants/CITATION.bib
 cd ./antb
 
 cmake -DITK_DIR:PATH=${ITKDIR} \
-    -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} ${darwin_strip_flags} -DNDEBUG "\
-    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} ${darwin_strip_flags} -DNDEBUG "\
-    -DCMAKE_EXE_LINKER_FLAGS="${CMAKE_EXE_LINKER_FLAGS} ${darwin_link_flags}" \
-    -DCMAKE_SHARED_LINKER_FLAGS="${CMAKE_SHARED_LINKER_FLAGS} ${darwin_link_flags}" \
-    -DCMAKE_MODULE_LINKER_FLAGS="${CMAKE_MODULE_LINKER_FLAGS} ${darwin_link_flags}" \
+    -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} ${strip_flags} -DNDEBUG "\
+    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} ${strip_flags} -DNDEBUG "\
+    -DCMAKE_EXE_LINKER_FLAGS="${CMAKE_EXE_LINKER_FLAGS} ${link_flags}" \
+    -DCMAKE_SHARED_LINKER_FLAGS="${CMAKE_SHARED_LINKER_FLAGS} ${link_flags}" \
+    -DCMAKE_MODULE_LINKER_FLAGS="${CMAKE_MODULE_LINKER_FLAGS} ${link_flags}" \
     -DCMAKE_OSX_SYSROOT="${osx_sysroot}" \
     -DBUILD_SHARED_LIBS=OFF \
     -DANTS_INSTALL_LIBS_ONLY=ON \
