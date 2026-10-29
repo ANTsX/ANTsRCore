@@ -128,8 +128,8 @@ jobs:
           if-no-files-found: error
 
   build-macos:
-    name: macOS binary (${{ matrix.r-version }})
-    runs-on: macos-latest
+    name: macOS ${{ matrix.arch }} binary (${{ matrix.r-version }})
+    runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: false
@@ -138,6 +138,14 @@ jobs:
           - oldrel-1
           - release
           - devel
+        os:
+          - macos-latest
+          - macos-15-intel
+        include:
+          - os: macos-latest
+            arch: arm64
+          - os: macos-15-intel
+            arch: x86_64
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -161,12 +169,18 @@ jobs:
         shell: bash
         run: R CMD INSTALL --build .
 
-      # every R version builds ANTsRCore_<version>.<ext>; tag each with the
-      # R version so the release assets don't overwrite each other
-      - name: Name binary for its R version
+      # every R version and arch builds ANTsRCore_<version>.<ext>; tag each
+      # with the arch and R version so the release assets don't overwrite
+      # each other, e.g. ANTsRCore_0.8.4_macos-x86_64_release-R4.6.tgz
+      - name: Name binary for its arch and R version
         shell: bash
         run: |
           rver=$(Rscript -e 'cat(R.version$major, sub("[.].*", "", R.version$minor), sep = ".")')
+          arch=$(uname -m)
+          if [ "$arch" != "${{ matrix.arch }}" ]; then
+            echo "expected ${{ matrix.arch }} runner, got $arch" >&2
+            exit 1
+          fi
           # R >= 4.7 builds .tar.xz on macOS instead of .tgz
           shopt -s nullglob
           files=(ANTsRCore_*.tgz ANTsRCore_*.tar.xz)
@@ -179,13 +193,17 @@ jobs:
               *.tar.xz) ext=tar.xz ;;
               *) ext=tgz ;;
             esac
-            mv "$f" "${f%.$ext}_${{ matrix.r-version }}-R${rver}.$ext"
+            # R >= 4.7 already appends _R_macos-<arch>; drop it so every
+            # R version uses the same name pattern
+            base=${f%.$ext}
+            base=${base%_R_macos-*}
+            mv "$f" "${base}_macos-${arch}_${{ matrix.r-version }}-R${rver}.$ext"
           done
 
       - name: Upload binary artifact
         uses: actions/upload-artifact@v4
         with:
-          name: macos-binary-${{ matrix.r-version }}
+          name: macos-binary-${{ matrix.arch }}-${{ matrix.r-version }}
           path: |
             ANTsRCore_*.tgz
             ANTsRCore_*.tar.xz
