@@ -31,6 +31,13 @@ if [[ "${ANTSRCORE_INSTALL_LIBS}" == "true" ]] ; then
 else
   ants_install="true"
 fi
+# Build ANTs with 2 jobs (CRAN's limit) unless MAKEFLAGS asks for more,
+# e.g. MAKEFLAGS=-j8 R CMD INSTALL ANTsRCore
+make_jobs=`echo " ${MAKEFLAGS}" | sed -n -e 's/.*--jobs[= ]*\([0-9][0-9]*\).*/\1/p' -e 's/.* -*[a-zA-Z]*j *\([0-9][0-9]*\).*/\1/p' | head -n 1`
+if [ -z "${make_jobs}" ] || [ "${make_jobs}" -lt 1 ]; then
+  make_jobs=2
+fi
+echo "building ANTs with ${make_jobs} jobs"
 ITKDIR=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkDir(); cat(a)'`
 ITKTAG=`${R_HOME}/bin/Rscript -e 'env = asNamespace("ITKR"); if ("itkTag" %in% names(env)) cat(ITKR::itkTag()) else cat("")'`
 
@@ -106,7 +113,7 @@ echo "all: \$(SHLIB)" >> Makevars
 
 echo "\$(SHLIB): libs " >> Makevars
 
-echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j 2 &&  cd \${PWD}/antb/ANTS-build && \$(MAKE) all && ${ants_install} && rm -rf ${R_PACKAGE_DIR}/libs/bin && cd \${PWD}" >> Makevars
+echo "libs: ; cd \${PWD}/antb && \$(MAKE) -j ${make_jobs} &&  cd \${PWD}/antb/ANTS-build && \$(MAKE) -j ${make_jobs} all && ${ants_install} && rm -rf ${R_PACKAGE_DIR}/libs/bin && cd \${PWD}" >> Makevars
 
 echo "cleaner: ; cd libs/bin && rm -f antsRegistration antsApplyTransforms antsMotionCorr \
 antsAffineInitializer antsApplyTransformsToPoints LabelGeometryMeasures \
