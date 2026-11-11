@@ -9,8 +9,9 @@ compflags=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
 # ITKConfig.cmake sets ITK_REQUIRED_CXX_FLAGS to include -msse2; em++ only
 # accepts SSE flags together with -msimd128 (it then maps SSE to Wasm SIMD).
 r_cxx=`${R_HOME}/bin/R CMD config CXX 2>/dev/null`
+is_wasm=false
 case "${r_cxx} ${CXX}" in
-  *em++*) compflags="${compflags} -msimd128" ;;
+  *em++*) is_wasm=true; compflags="${compflags} -msimd128" ;;
 esac
 osx_sysroot="" # for Macs, add this to cmake below
 # Put each function/data item in its own section so the linker can drop
@@ -23,6 +24,10 @@ if [[ `uname` == 'Darwin' ]] ; then
   osx_sysroot=$(xcrun --sdk macosx --show-sdk-path)
   link_flags="-Wl,-dead_strip"
   shlib_flags="${link_flags} -Wl,-x -Wl,-exported_symbol,_R_init_ANTsRCore"
+elif [[ "${is_wasm}" == true ]] ; then
+  # wasm-ld rejects GNU ld's -x and --version-script ("unknown argument: -x")
+  link_flags="-Wl,--gc-sections"
+  shlib_flags="${link_flags} -Wl,--strip-debug"
 else
   link_flags="-Wl,--gc-sections"
   # R on Linux compiles with -g; the debug info is most of the .so
