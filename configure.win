@@ -25,7 +25,12 @@ CXX=`"${rexe}" CMD config CXX`
 JTHREADS=1
 
 # Windows-specific linker flags that the package needs on Rtools.
-ADD_PKG_LIBS="-lws2_32 -lpsapi -lrpcrt4 -lgdi32 -mwindows -msse4.1 -mssse3"
+ADD_PKG_LIBS="-lws2_32 -lpsapi -lrpcrt4 -lgdi32 -mwindows"
+# SSE flags are x86-only; clang for aarch64-w64-mingw32 rejects them.
+r_arch=`"${rscript}" -e 'cat(R.version$arch)'`
+case "${r_arch}" in
+  x86_64|i386|i686) ADD_PKG_LIBS="${ADD_PKG_LIBS} -msse4.1 -mssse3" ;;
+esac
 TRY_LINKER_FLAGS="${ADD_PKG_LIBS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc -Wl,--exclude-libs,ALL -Wa,-mbig-obj"
 ITKRCMAKE=`"${rscript}" -e 'a<-ITKR:::itkIncludes(); cat(a)'`
 ITKRLIB=`"${rscript}" -e 'a<-ITKR:::itkLibs(); cat(a)'`

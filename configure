@@ -5,6 +5,13 @@ CXX_STD=CXX17
 ITKRCMAKE=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkIncludes(); cat(a)'`
 ITKRLIB=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkLibs(); cat(a)'`
 compflags=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
+# Under emscripten (webR), ITKR may come from an x86_64 binary whose
+# ITKConfig.cmake sets ITK_REQUIRED_CXX_FLAGS to include -msse2; em++ only
+# accepts SSE flags together with -msimd128 (it then maps SSE to Wasm SIMD).
+r_cxx=`${R_HOME}/bin/R CMD config CXX 2>/dev/null`
+case "${r_cxx} ${CXX}" in
+  *em++*) compflags="${compflags} -msimd128" ;;
+esac
 osx_sysroot="" # for Macs, add this to cmake below
 # Put each function/data item in its own section so the linker can drop
 # unused template instantiations, and only export R_init_ANTsRCore from the
