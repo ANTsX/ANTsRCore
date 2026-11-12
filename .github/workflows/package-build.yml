@@ -120,3 +120,47 @@ jobs:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
           error-on: '"error"'
+
+      # On a Windows build failure, keep the ANTs (antb) CMake build tree and
+      # the linker/Makevars files. R CMD check builds in a temporary copy of
+      # the package, so search for them instead of using fixed paths.
+      - name: Collect antb build files on failure
+        if: failure() && runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $staging = Join-Path $env:RUNNER_TEMP 'antb-debug'
+          New-Item -ItemType Directory -Force -Path $staging | Out-Null
+          $roots = @($env:GITHUB_WORKSPACE, $env:RUNNER_TEMP, 'D:\a') |
+            Where-Object { Test-Path $_ } | Sort-Object -Unique
+
+          $files = @('Makevars.win', 'Makevars', 'linkwrap.cmd', 'g++.cmd',
+                     'ANTS-cfgcmd.txt', 'tmp.def', '*-link-tmp.def',
+                     '*-gpp-tmp.def', '00install.out')
+          $found = foreach ($root in $roots) {
+            Get-ChildItem -Path $root -Recurse -File -Include $files -ErrorAction SilentlyContinue |
+              Where-Object { $_.FullName -notlike "$staging*" }
+          }
+          foreach ($f in ($found | Sort-Object FullName -Unique)) {
+            $name = ($f.FullName -replace '^[A-Za-z]:\\', '') -replace '[\\/:]', '_'
+            Copy-Item -Path $f.FullName -Destination (Join-Path $staging $name) -Force
+          }
+
+          $antb = foreach ($root in $roots) {
+            Get-ChildItem -Path $root -Recurse -File -Filter CMakeCache.txt -ErrorAction SilentlyContinue |
+              Where-Object { $_.FullName -match '\\antb\\CMakeCache\.txt$' } |
+              ForEach-Object { Split-Path $_.FullName -Parent }
+          }
+          $antb = $antb | Sort-Object -Unique
+          if (-not $antb) { Write-Warning "No antb build directories found to collect." }
+          foreach ($dir in $antb) {
+            $suffix = [Guid]::NewGuid().ToString('N').Substring(0, 8)
+            Copy-Item -Path $dir -Destination (Join-Path $staging "antb-$suffix") -Recurse -Force
+          }
+
+      - name: Upload antb build files
+        if: failure() && runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: antb-build-files-windows
+          path: ${{ runner.temp }}/antb-debug
+          if-no-files-found: warn
