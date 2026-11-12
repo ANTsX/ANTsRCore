@@ -22,19 +22,28 @@ fi
 CXX_STD=CXX17
 CC=`"${rexe}" CMD config CC`
 CXX=`"${rexe}" CMD config CXX`
-JTHREADS=1
 
 # Windows-specific linker flags that the package needs on Rtools.
 ADD_PKG_LIBS="-lws2_32 -lpsapi -lrpcrt4 -lgdi32 -mwindows"
 # SSE flags are x86-only; clang for aarch64-w64-mingw32 rejects them.
 r_arch=`"${rscript}" -e 'cat(R.version$arch)'`
+is_x86=false
 case "${r_arch}" in
-  x86_64|i386|i686) ADD_PKG_LIBS="${ADD_PKG_LIBS} -msse4.1 -mssse3" ;;
+  x86_64|i386|i686) is_x86=true ;;
 esac
+if [ "${is_x86}" = true ]; then
+  ADD_PKG_LIBS="${ADD_PKG_LIBS} -msse4.1 -mssse3"
+fi
 TRY_LINKER_FLAGS="${ADD_PKG_LIBS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc -Wl,--exclude-libs,ALL -Wa,-mbig-obj"
 ITKRCMAKE=`"${rscript}" -e 'a<-ITKR:::itkIncludes(); cat(a)'`
 ITKRLIB=`"${rscript}" -e 'a<-ITKR:::itkLibs(); cat(a)'`
 compflags=`"${rscript}" -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
+# ITKR::itkCompileFlags() adds -msse4.1 -mssse3 on every Windows build, and
+# these go into CMAKE_C_FLAGS/CMAKE_CXX_FLAGS: on arm64 CMake's compiler
+# check then fails. Drop them there (ADD_PKG_LIBS above was not enough).
+if [ "${is_x86}" != true ]; then
+  compflags=`echo " ${compflags} " | sed -e 's/ -msse4\.1 / /g' -e 's/ -mssse3 / /g'`
+fi
 ITKDIR=`"${rscript}" -e 'a<-ITKR:::itkDir(); if (length(a) && nzchar(a)) cat(normalizePath(a, winslash="/", mustWork=FALSE)) else cat("")'`
 ITKTAG=`"${rscript}" -e 'env = asNamespace("ITKR"); if ("itkTag" %in% names(env)) cat(ITKR::itkTag()) else cat("")'`
 
@@ -46,6 +55,12 @@ MAKEBIN=`"${rscript}" -e "x=Sys.which('mingw32-make'); if (length(x) && nzchar(x
 # Build ANTs with 2 jobs (CRAN's limit) unless MAKEFLAGS asks for more,
 # e.g. MAKEFLAGS=-j8 R CMD INSTALL ANTsRCore
 make_jobs=`echo " ${MAKEFLAGS}" | sed -n -e 's/.*--jobs[= ]*\([0-9][0-9]*\).*/\1/p' -e 's/.* -*[a-zA-Z]*j *\([0-9][0-9]*\).*/\1/p' | head -n 1`
+# On r-universe (MY_UNIVERSE is set) use all cores: with 2 jobs the Windows
+# build finished compiling but ran past r-universe's 60 minute limit while
+# linking ANTsRCore.dll.
+if [ -z "${make_jobs}" ] && [ -n "${MY_UNIVERSE}" ] && [ -n "${NUMBER_OF_PROCESSORS}" ]; then
+  make_jobs="${NUMBER_OF_PROCESSORS}"
+fi
 if [ -z "${make_jobs}" ] || [ "${make_jobs}" -lt 1 ]; then
   make_jobs=2
 fi
@@ -204,6 +219,11 @@ else
     git pull
     git checkout $antstag
 fi
+
+# The 2D instantiation reads size[3] of a 3D size (-Warray-bounds; out of
+# bounds when a time index is extracted). Fixed upstream after antstag.
+sed -i.bak -e 's/size\[3\]/size[Dimension]/g' Examples/antsApplyTransforms.cxx &&
+  rm -f Examples/antsApplyTransforms.cxx.bak
 
 # Windows workaround for a warning in the ANTs CMake helpers.
 if [ -a "./CMake/ITKSetStandardCompilerFlags.cmake" ]; then
