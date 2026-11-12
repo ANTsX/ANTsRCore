@@ -220,6 +220,11 @@ else
     git checkout $antstag
 fi
 
+# The 2D instantiation reads size[3] of a 3D size (-Warray-bounds; out of
+# bounds when a time index is extracted). Fixed upstream after antstag.
+sed -i.bak -e 's/size\[3\]/size[Dimension]/g' Examples/antsApplyTransforms.cxx &&
+  rm -f Examples/antsApplyTransforms.cxx.bak
+
 # Windows workaround for a warning in the ANTs CMake helpers.
 if [ -a "./CMake/ITKSetStandardCompilerFlags.cmake" ]; then
     echo "working on ITKSetStandardCompilerFlags.cmake"

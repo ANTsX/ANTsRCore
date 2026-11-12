@@ -34,3 +34,4 @@ zzz_Comparison2\.R
 ^\.positai$
 ^\.claude$
 ^\.githooks$
+src/itkr-wasm/

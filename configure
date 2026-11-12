@@ -51,6 +51,32 @@ if [ -z "${make_jobs}" ] || [ "${make_jobs}" -lt 1 ]; then
 fi
 echo "building ANTs with ${make_jobs} jobs"
 ITKDIR=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkDir(); cat(a)'`
+# webR: rwasm::build() runs configure with the host (x86_64 Linux) R, so the
+# ITKR found above is the native build and its static libs are ELF objects
+# that wasm-ld cannot link ("neither Wasm object file nor LLVM bitcode").
+# Use the libraries of the wasm ITKR binary of the same version instead.
+# Set ITKR_WASM_DIR to an unpacked wasm ITKR package to skip the download.
+if [[ "${is_wasm}" == true ]] ; then
+  if [[ -z "${ITKR_WASM_DIR}" ]] ; then
+    itkr_repo="${MY_UNIVERSE:-https://antsx.r-universe.dev}"
+    itkr_ver=`${R_HOME}/bin/Rscript -e 'cat(format(packageVersion("ITKR")))'`
+    r_minor=`${R_HOME}/bin/Rscript -e 'cat(R.version$major, sub("[.].*", "", R.version$minor), sep = ".")'`
+    itkr_url="${itkr_repo}/bin/emscripten/contrib/${r_minor}/ITKR_${itkr_ver}.tgz"
+    echo "webR: using wasm ITKR from ${itkr_url}"
+    rm -rf src/itkr-wasm && mkdir -p src/itkr-wasm
+    ${R_HOME}/bin/Rscript -e "download.file('${itkr_url}', 'src/itkr-wasm/ITKR.tgz', mode = 'wb', quiet = TRUE)" &&
+      tar -xzf src/itkr-wasm/ITKR.tgz -C src/itkr-wasm &&
+      rm -f src/itkr-wasm/ITKR.tgz
+    ITKR_WASM_DIR="${PWD}/src/itkr-wasm/ITKR"
+  fi
+  if [[ ! -s "${ITKR_WASM_DIR}/libs/lib/cmake/ITK-6.0/ITKConfig.cmake" ]] ; then
+    echo "ERROR: no wasm build of ITKR found at ${ITKR_WASM_DIR}"
+    exit 1
+  fi
+  ITKRCMAKE="${ITKR_WASM_DIR}/libs/include/ITK-6.0/"
+  ITKRLIB="${ITKR_WASM_DIR}/libs/lib/"
+  ITKDIR="${ITKR_WASM_DIR}/libs/lib/cmake/ITK-6.0/"
+fi
 ITKTAG=`${R_HOME}/bin/Rscript -e 'env = asNamespace("ITKR"); if ("itkTag" %in% names(env)) cat(ITKR::itkTag()) else cat("")'`
 
 
@@ -156,6 +182,10 @@ if [[ -d .git ]]; then
     git checkout $antstag
     echo "${antstag}" > .antstag
 fi
+# The 2D instantiation reads size[3] of a 3D size (-Warray-bounds; out of
+# bounds when a time index is extracted). Fixed upstream after antstag.
+sed -i.bak -e 's/size\[3\]/size[Dimension]/g' Examples/antsApplyTransforms.cxx &&
+  rm -f Examples/antsApplyTransforms.cxx.bak
 
 cd ../
 if [[ ! -s antb ]] ; then
