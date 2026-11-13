@@ -140,8 +140,18 @@ echo "libants=\`find \${myantslib} -name \"lib*.a\"\`" >> Makevars
 # echo "libitk=\`find \\\`\$(R_HOME)/bin/Rscript -e 'ITKR:::itkLibs()'\\\` -name \"lib*.a\"\` " >> Makevars
 echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\"\`" >> Makevars
 
-echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk} \
+if [[ "${is_wasm}" == true ]] ; then
+  # emcc links a SIDE_MODULE with every archive member pulled in, so the
+  # repeated library list below defines each symbol several times
+  # ("wasm-ld: error: duplicate symbol"). wasm-ld also resolves symbols across
+  # archives without the repeats. List each archive once, without ITK's
+  # test/VTK libraries (as configure.win does).
+  echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\" | grep -Ev '/lib(ITKTestKernel|itktestlib|ITKVNLInstantiation|ITKVTK)-'\`" >> Makevars
+  echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk}" >> Makevars
+else
+  echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk} \
     \${libants} \${libitk} \${libants} \${libitk} \${libants} \${libitk}" >> Makevars
+fi
 
 echo ".PHONY: all libs cleaner" >> Makevars
 
@@ -201,11 +211,15 @@ cp -r ants/ImageSegmentation/* ../inst/include/
 cp -r ants/Temporary/* ../inst/include
 rm -f ants/CITATION.bib
 
+# Route ANTs' std::cout/std::cerr, rand() and sprintf() to R-safe versions
+# (R CMD check "compiled code" WARNING); see antsr_redirect.h.
+antsr_redirect="-include `pwd`/antsr_redirect.h"
+
 cd ./antb
 
 cmake -DITK_DIR:PATH=${ITKDIR} \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} ${strip_flags} -DNDEBUG "\
-    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} ${strip_flags} -DNDEBUG "\
+    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} ${strip_flags} ${antsr_redirect} -DNDEBUG "\
     -DCMAKE_EXE_LINKER_FLAGS="${CMAKE_EXE_LINKER_FLAGS} ${link_flags}" \
     -DCMAKE_SHARED_LINKER_FLAGS="${CMAKE_SHARED_LINKER_FLAGS} ${link_flags}" \
     -DCMAKE_MODULE_LINKER_FLAGS="${CMAKE_MODULE_LINKER_FLAGS} ${link_flags}" \
