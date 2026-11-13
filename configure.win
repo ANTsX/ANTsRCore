@@ -34,7 +34,13 @@ esac
 if [ "${is_x86}" = true ]; then
   ADD_PKG_LIBS="${ADD_PKG_LIBS} -msse4.1 -mssse3"
 fi
-TRY_LINKER_FLAGS="${ADD_PKG_LIBS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc -Wl,--exclude-libs,ALL -Wa,-mbig-obj"
+# --exclude-libs is GNU ld only; the arm64 Rtools links with lld, which
+# rejects it (CMake's compiler check then fails).
+EXCLUDE_LIBS=""
+if [ "${is_x86}" = true ]; then
+  EXCLUDE_LIBS="-Wl,--exclude-libs,ALL"
+fi
+TRY_LINKER_FLAGS="${ADD_PKG_LIBS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc ${EXCLUDE_LIBS} -Wa,-mbig-obj"
 ITKRCMAKE=`"${rscript}" -e 'a<-ITKR:::itkIncludes(); cat(a)'`
 ITKRLIB=`"${rscript}" -e 'a<-ITKR:::itkLibs(); cat(a)'`
 compflags=`"${rscript}" -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
@@ -157,7 +163,7 @@ libants="${libants} -ll_sccan -ll_SurfaceBasedSmoothing -ll_ThresholdImage "
 
 # Exports come from ANTsRCore-win.def, which only lists R_init_ANTsRCore;
 # R already links the DLL with -s, so it carries no symbol table.
-echo "PKG_LIBS=${PKG_LIBS} -Wl,--exclude-all-symbols -Wl,--exclude-libs,ALL -Wl,--start-group ${libitk} ${libants} -Wl,--end-group ${ADD_PKG_LIBS}" >> Makevars.win
+echo "PKG_LIBS=${PKG_LIBS} -Wl,--exclude-all-symbols ${EXCLUDE_LIBS} -Wl,--start-group ${libitk} ${libants} -Wl,--end-group ${ADD_PKG_LIBS}" >> Makevars.win
 echo ".PHONY: all libs" >> Makevars.win
 echo "all: \$(SHLIB)" >> Makevars.win
 echo "\$(SHLIB): libs" >> Makevars.win
