@@ -29,7 +29,9 @@ void vectorIntegrationHelper(
   typename ImageType::Pointer input = Rcpp::as<ImagePointerType>( r_refimg );
 
   using DisplacementFieldType = itk::Image<VectorType, Dimension>;
-  using TimeVaryingVelocityFieldType = itk::Image<VectorType, Dimension>;
+  // Space + time: the integrator reads the time coordinate at index
+  // Dimension, so a Dimension-D field indexes past the end of its points.
+  using TimeVaryingVelocityFieldType = itk::Image<VectorType, Dimension + 1>;
   using ReaderType = itk::ImageFileReader<TimeVaryingVelocityFieldType>;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( r_velocity.c_str() );
