@@ -148,9 +148,14 @@ if [[ "${is_wasm}" == true ]] ; then
   # test/VTK libraries (as configure.win does).
   echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\" | grep -Ev '/lib(ITKTestKernel|itktestlib|ITKVNLInstantiation|ITKVTK)-'\`" >> Makevars
   echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk}" >> Makevars
+elif [[ `uname` == 'Darwin' ]] ; then
+  # ld64 searches all archives repeatedly until no undefined symbols remain,
+  # so the ANTs <-> ITK cross references resolve from a single list.
+  echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk}" >> Makevars
 else
-  echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk} \
-    \${libants} \${libitk} \${libants} \${libitk} \${libants} \${libitk}" >> Makevars
+  # GNU ld scans each archive once in order; the group makes it rescan the
+  # ANTs and ITK archives until their cross references are resolved.
+  echo "PKG_LIBS=${PKG_LIBS} -Wl,--start-group \${libants} \${libitk} -Wl,--end-group" >> Makevars
 fi
 
 echo ".PHONY: all libs cleaner" >> Makevars
