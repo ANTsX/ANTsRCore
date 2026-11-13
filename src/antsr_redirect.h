@@ -4,8 +4,12 @@
 // Rather than patching each file, rename them here to replacements that write
 // to the R console, keep a private random number state and bound the write.
 //
-// Everything is an inline (C++17) definition, so no extra object file is
-// needed, also for packages that link the installed ANTs libraries.
+// Everything is an inline (C++17) definition and the header references
+// nothing from R: CMake also compiles and links its compiler checks with this
+// header, outside R. Output goes through antsr_console_write, which
+// antsr_redirect.cpp (part of ANTsRCore.so) points at Rprintf/REprintf when
+// the package is loaded; until then (or in a program without it) output is
+// dropped. Packages that link the installed ANTs libraries can set it too.
 #ifndef ANTSR_REDIRECT_H
 #define ANTSR_REDIRECT_H
 
@@ -16,17 +20,9 @@
 #include <cstdlib>
 #include <iostream>
 #include <streambuf>
-#include <thread>
 
-extern "C" {
-void Rprintf(const char *, ...);
-void REprintf(const char *, ...);
-}
-
-// Writes to the R console. R's API may only be called from R's main thread,
-// so output from ITK worker threads is dropped. The shared object is loaded
-// on the main thread, which is when this id is initialized.
-inline const std::thread::id antsr_main_thread = std::this_thread::get_id();
+// Constant-initialized, so it is set before any dynamic initialization runs.
+inline void (*antsr_console_write)(const char * s, int n, bool err) = nullptr;
 
 class antsr_console_buf : public std::streambuf
 {
@@ -50,13 +46,8 @@ protected:
   std::streamsize
   xsputn(const char * s, std::streamsize n) override
   {
-    if (n > 0 && std::this_thread::get_id() == antsr_main_thread)
-    {
-      if (m_err)
-        REprintf("%.*s", static_cast<int>(n), s);
-      else
-        Rprintf("%.*s", static_cast<int>(n), s);
-    }
+    if (n > 0 && antsr_console_write)
+      antsr_console_write(s, static_cast<int>(n), m_err);
     return n;
   }
 
