@@ -28,6 +28,11 @@ elif [[ "${is_wasm}" == true ]] ; then
   # wasm-ld rejects GNU ld's -x and --version-script ("unknown argument: -x")
   link_flags="-Wl,--gc-sections"
   shlib_flags="${link_flags} -Wl,--strip-debug"
+  # R's wasm link line has -Oz, which makes emcc run wasm-opt on the ~108 MB
+  # side module; wasm-opt then fails with "parse exception: popping from
+  # empty stack". The objects are already compiled with -Oz, so relink at a
+  # lower level (the last -O wins). Override with ANTSRCORE_WASM_LINK_OPT.
+  shlib_flags="${shlib_flags} ${ANTSRCORE_WASM_LINK_OPT:--O1}"
 else
   link_flags="-Wl,--gc-sections"
   # R on Linux compiles with -g; the debug info is most of the .so
