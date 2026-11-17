@@ -85,7 +85,9 @@ jobs:
           pkgdir <- dirname(desc)
           ver <- read.dcf(desc, "Version")[, 1]
           tdir <- getwd()
-          itkr_source <- file.path(tdir, paste0("ITKR_", ver, ".zip"))
+          # keep the rebuilt ITKR zip out of the package source tree
+          zdir <- Sys.getenv("RUNNER_TEMP", tempdir())
+          itkr_source <- file.path(zdir, paste0("ITKR_", ver, ".zip"))
           setwd(dirname(pkgdir))
           zip(itkr_source, files = list.files("ITKR/", recursive = TRUE, full.names = TRUE))
           setwd(tdir)
