@@ -35,3 +35,4 @@ zzz_Comparison2\.R
 ^\.claude$
 ^\.githooks$
 src/itkr-wasm/
+^ITKR_.*\.zip$

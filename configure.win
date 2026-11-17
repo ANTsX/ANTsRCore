@@ -7,26 +7,33 @@
 rscript="${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe"
 rexe="${R_HOME}/bin${R_ARCH_BIN}/R.exe"
 
-git_exe=`"${rscript}" -e "cat(Sys.which('git'))"`
+# Rscript.exe/R.exe write text-mode output on Windows, so every captured
+# value ends in "\r" (bash only strips the "\n"). A stray CR then lands in
+# Makevars.win and in the CMake arguments (ITK_DIR, library paths, flags).
+# Run every captured tool through these wrappers to drop it.
+rs() { "${rscript}" "$@" | tr -d '\r'; }
+rx() { "${rexe}" "$@" | tr -d '\r'; }
+
+git_exe=`rs -e "cat(Sys.which('git'))"`
 if [ -z "${git_exe}" ]; then
     "${rscript}" -e 'if (!requireNamespace("git2r")) install.packages("git2r")'
     str="repo = git2r::init();"
     str="${str} if (length(git2r::commits(repo)) > 0) {"
     str="${str} x=git2r::sha(git2r::last_commit(repo)) } else {x = ''};"
     str="${str} cat(x)"
-    antsrtag=`"${rscript}" -e "${str}"`
+    antsrtag=`rs -e "${str}"`
 else
     antsrtag=`git log --pretty=format:'%H' -n 1`
 fi
 
 CXX_STD=CXX17
-CC=`"${rexe}" CMD config CC`
-CXX=`"${rexe}" CMD config CXX`
+CC=`rx CMD config CC`
+CXX=`rx CMD config CXX`
 
 # Windows-specific linker flags that the package needs on Rtools.
 ADD_PKG_LIBS="-lws2_32 -lpsapi -lrpcrt4 -lgdi32 -mwindows"
 # SSE flags are x86-only; clang for aarch64-w64-mingw32 rejects them.
-r_arch=`"${rscript}" -e 'cat(R.version$arch)'`
+r_arch=`rs -e 'cat(R.version$arch)'`
 is_x86=false
 case "${r_arch}" in
   x86_64|i386|i686) is_x86=true ;;
@@ -41,9 +48,9 @@ if [ "${is_x86}" = true ]; then
   EXCLUDE_LIBS="-Wl,--exclude-libs,ALL"
 fi
 TRY_LINKER_FLAGS="${ADD_PKG_LIBS} -Wl,--allow-multiple-definition -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc ${EXCLUDE_LIBS} -Wa,-mbig-obj"
-ITKRCMAKE=`"${rscript}" -e 'a<-ITKR:::itkIncludes(); cat(a)'`
-ITKRLIB=`"${rscript}" -e 'a<-ITKR:::itkLibs(); cat(a)'`
-compflags=`"${rscript}" -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
+ITKRCMAKE=`rs -e 'a<-ITKR:::itkIncludes(); cat(a)'`
+ITKRLIB=`rs -e 'a<-ITKR:::itkLibs(); cat(a)'`
+compflags=`rs -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
 # ITKR::itkCompileFlags() adds -msse4.1 -mssse3 on every Windows build, and
 # these go into CMAKE_C_FLAGS/CMAKE_CXX_FLAGS: on arm64 CMake's compiler
 # check then fails. Drop them there (ADD_PKG_LIBS above was not enough).
@@ -55,14 +62,14 @@ fi
 # R CMD check reports; gcc ignores them. ADD_PKG_LIBS already passes them
 # to every link, so drop them from the compile flags.
 compflags=`echo " ${compflags} " | sed -e 's/ -l[^ ]*/ /g' -e 's/ -mwindows / /g'`
-ITKDIR=`"${rscript}" -e 'a<-ITKR:::itkDir(); if (length(a) && nzchar(a)) cat(normalizePath(a, winslash="/", mustWork=FALSE)) else cat("")'`
-ITKTAG=`"${rscript}" -e 'env = asNamespace("ITKR"); if ("itkTag" %in% names(env)) cat(ITKR::itkTag()) else cat("")'`
+ITKDIR=`rs -e 'a<-ITKR:::itkDir(); if (length(a) && nzchar(a)) cat(normalizePath(a, winslash="/", mustWork=FALSE)) else cat("")'`
+ITKTAG=`rs -e 'env = asNamespace("ITKR"); if ("itkTag" %in% names(env)) cat(ITKR::itkTag()) else cat("")'`
 
 CMAKE_BUILD_TYPE=Release
 
 cd ./src
-PWD=`"${rscript}" -e 'cat(normalizePath(".", winslash="/", mustWork=FALSE))'`
-MAKEBIN=`"${rscript}" -e "x=Sys.which('mingw32-make'); if (length(x) && nzchar(x)) cat(normalizePath(x, winslash='/', mustWork=FALSE)) else { y=Sys.which('make'); if (length(y) && nzchar(y)) cat(normalizePath(y, winslash='/', mustWork=FALSE)) else cat('make') }"`
+PWD=`rs -e 'cat(normalizePath(".", winslash="/", mustWork=FALSE))'`
+MAKEBIN=`rs -e "x=Sys.which('mingw32-make'); if (length(x) && nzchar(x)) cat(normalizePath(x, winslash='/', mustWork=FALSE)) else { y=Sys.which('make'); if (length(y) && nzchar(y)) cat(normalizePath(y, winslash='/', mustWork=FALSE)) else cat('make') }"`
 # Build ANTs with 2 jobs (CRAN's limit) unless MAKEFLAGS asks for more,
 # e.g. MAKEFLAGS=-j8 R CMD INSTALL ANTsRCore
 make_jobs=`echo " ${MAKEFLAGS}" | sed -n -e 's/.*--jobs[= ]*\([0-9][0-9]*\).*/\1/p' -e 's/.* -*[a-zA-Z]*j *\([0-9][0-9]*\).*/\1/p' | head -n 1`
@@ -78,7 +85,7 @@ fi
 echo "building ANTs with ${make_jobs} jobs"
 linkwrap="${PWD}/linkwrap.cmd"
 gppwrap="${PWD}/g++.cmd"
-linker_exe=`"${rscript}" -e 'x <- Sys.which("g++"); if (length(x) && nzchar(x)) { x <- normalizePath(x, winslash="/", mustWork=FALSE); x <- sub("[[:space:]].*$", "", x); cat(x) } else cat("g++")'`
+linker_exe=`rs -e 'x <- Sys.which("g++"); if (length(x) && nzchar(x)) { x <- normalizePath(x, winslash="/", mustWork=FALSE); x <- sub("[[:space:]].*$", "", x); cat(x) } else cat("g++")'`
 linker_bin="${linker_exe%/g++.exe}/g++.exe"
 cat > "${linkwrap}" <<EOF
 @echo on
@@ -154,7 +161,7 @@ echo "antsexdir=\${PWD}/antb/ANTS-build/Examples/" >> Makevars.win
 str="x = list.files(pattern = 'lib.*.a', path='"
 str="${str}${ITKRLIB}'"
 str="${str}); x = sub('[.]a$', '', x); x = sub('^lib', '', x); x = x[!grepl('^(ITKTestKernel|itktestlib|ITKVNLInstantiation|ITKVTK)(-|$)', x)]; cat(paste0('-l', x), sep = ' ')"
-libitk=`"${rscript}" -e "${str}"`
+libitk=`rs -e "${str}"`
 libitk="-L${ITKRLIB} ${libitk}"
 
 # ANTs Windows library names are not discovered with find(), so keep the
@@ -190,11 +197,8 @@ fi
 echo "	rm -rf ${R_PACKAGE_DIR}/libs/bin" >> Makevars.win
 echo '	cd ../../' >> Makevars.win
 
-echo "cleaner: ; cd ../libs/bin && rm -f antsRegistration antsApplyTransforms antsMotionCorr \
-antsAffineInitializer antsApplyTransformsToPoints LabelGeometryMeasures \
-antsMotionCorrStats ResampleImage Atropos KellyKapowski DenoiseImage \
-N3BiasFieldCorrection N4BiasFieldCorrection sccan antsJointFusion \
-ThresholdImage LabelClustersUniquely SurfaceBasedSmoothing" >> Makevars
+# (the old "cleaner" rule was appended to Makevars, which R ignores when
+# Makevars.win exists, so it never ran; libs/bin is removed in the libs: recipe)
 
 # get / set up ANTs code
 # Keep the same upstream ANTs pin as configure; only the Windows fetch/build
@@ -209,7 +213,8 @@ if [ -z "${git_exe}" ]; then
     str="${str}\", local_path = \"./ants\")"
     "${rscript}" -e "${str}"
 else
-    git clone "$antsgit" ants
+    # keep LF endings in the ANTs checkout even if the runner has autocrlf=true
+    git -c core.autocrlf=false -c core.eol=lf clone "$antsgit" ants
 fi
 
 # mkdir -p ../data
@@ -260,6 +265,12 @@ if [ -a "./CMake/CCache.cmake" ]; then
     "${rscript}" -e "${str}"
 fi
 
+# R's writeLines() writes CRLF on Windows; put LF back in the files edited
+# above so CMake/make and the compiler see consistent endings.
+for f in ./CMake/ITKSetStandardCompilerFlags.cmake ./CMake/CCache.cmake; do
+    [ -f "$f" ] && sed -i 's/\r$//' "$f"
+done
+
 cd ../
 mkdir -p antb
 cp ../inst/include/antscore.h ./ants/Examples/include/ants.h
@@ -296,22 +307,31 @@ for (f in files) {
   if (file.exists(f)) fix_macros(f)
 }
 '
+# writeLines() above wrote CRLF; restore LF
+for f in ../inst/include/antsCommandLineOption.h \
+         ../inst/include/antsCommandLineParser.h \
+         ../inst/include/itkLabeledPointSetFileReader.h \
+         ../inst/include/itkLabeledPointSetFileWriter.h \
+         ../inst/include/itkImageIntensityAndGradientToPointSetFilter.h \
+         ../inst/include/itkLogTensorImageFilter.h; do
+    [ -f "$f" ] && sed -i 's/\r$//' "$f"
+done
 
 
-cmake_real=`"${rscript}" -e "x=Sys.which('cmake'); if (length(x) && nzchar(x)) cat(normalizePath(x, winslash='/', mustWork=FALSE)) else cat('')"`
+cmake_real=`rs -e "x=Sys.which('cmake'); if (length(x) && nzchar(x)) cat(normalizePath(x, winslash='/', mustWork=FALSE)) else cat('')"`
 if [ -z "${cmake_real}" ]; then
-    res=`"${rscript}" -e "cat(('cmaker' %in% installed.packages())*1)"`
+    res=`rs -e "cat(('cmaker' %in% installed.packages())*1)"`
     if [ $res -eq 0 ]; then
         git clone https://github.com/stnava/cmaker
         R CMD INSTALL cmaker
         rm -rf cmaker
     fi
-    cmake_real=`"${rscript}" -e "x=cmaker::cmake(); if (length(x) && nzchar(x)) cat(normalizePath(x, winslash='/', mustWork=FALSE)) else cat('')"`
+    cmake_real=`rs -e "x=cmaker::cmake(); if (length(x) && nzchar(x)) cat(normalizePath(x, winslash='/', mustWork=FALSE)) else cat('')"`
 fi
 
 cd ./antb
 
-antbdir=`"${rscript}" -e 'cat(normalizePath(".", winslash="/", mustWork=FALSE))'`
+antbdir=`rs -e 'cat(normalizePath(".", winslash="/", mustWork=FALSE))'`
 cmakewrap="${antbdir}/cmake.cmd"
 cpackwrap="${antbdir}/cpack.cmd"
 ctestwrap="${antbdir}/ctest.cmd"
@@ -369,6 +389,13 @@ if [ ! -f Makefile ]; then
     exit 1
 fi
 
+# CRLF in a generated Makefile or CMake file breaks make ("missing separator",
+# paths ending in \r). Normalise everything CMake just wrote, plus the cache.
+find . \( -name Makefile -o -name '*.make' -o -name '*.cmake' -o -name '*.txt' \
+          -o -name '*.mk' \) -type f -exec sed -i 's/\r$//' {} + 2>/dev/null
+
 cd ../
+# also drop CRs from the Makevars/wrapper files written by this script
+sed -i 's/\r$//' Makevars.win
 # needed for warning
 rm -rf ants/.git
