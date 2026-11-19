@@ -16,7 +16,6 @@ void antsReoHelper(
   typename itk::Image< float , ImageDimension >::Pointer image1,
   SEXP r_txfn, SEXP r_axis , SEXP r_axis2, SEXP r_reflect, SEXP r_scale )
 {
-  /*
   typedef double RealType;
   Rcpp::NumericVector axis( r_axis );
   Rcpp::NumericVector axis2( r_axis2 );
@@ -138,8 +137,6 @@ void antsReoHelper(
   {
     return;
   }
-  */
-  return;
 }
 
 
