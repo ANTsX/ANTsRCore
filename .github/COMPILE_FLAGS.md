@@ -16,8 +16,9 @@ Read by both configure scripts and passed to CMake (`CMAKE_C_FLAGS` /
 *compile* flags (clang warns "linker input unused"; they are still passed at
 link time through `ADD_PKG_LIBS`).
 
-Note: the ITKR companion PR makes `itkCompileFlags()` compile-only (no
-`-l*`/`-mwindows`) and adds `-msse4.1 -mssse3` only on x86. webR/wasm uses the
+Note: the ITKR companion PR
+([ANTsX/ITKR#85](https://github.com/ANTsX/ITKR/pull/85), not yet merged)
+makes `itkCompileFlags()` compile-only (no `-l*`/`-mwindows`) and adds `-msse4.1 -mssse3` only on x86. webR/wasm uses the
 unix path (`-fPIC -O2`, emcmake). ITKR's own `configure.win` gates the Windows
 flags behind `ITKR_ENABLE_WINDOWS_*` (default off), so ITK is built with
 `-O2 -DNDEBUG` only.
@@ -43,6 +44,5 @@ flags behind `ITKR_ENABLE_WINDOWS_*` (default off), so ITK is built with
 ANTsR contributes **no** flags of its own. It is a client of ANTsRCore: its
 `src/Makevars` is untracked (gitignored) and only adds
 `-I<ANTsRCore>/include`, `-I<ITKR>/libs/include/ITK-*` and links
-`ANTsRCore/libs/lib/lib*.a` and `ITKR/libs/lib/lib*.a`. The checked-in-looking
-copy on disk (CXX11, ITK-5.2) is stale. Anything affecting the compiled ANTs/ITK
-code (optimisation, SSE, visibility, big-obj) is set here in ANTsRCore or in ITKR.
+`ANTsRCore/libs/lib/lib*.a` and `ITKR/libs/lib/lib*.a`. Anything affecting
+the compiled ANTs/ITK code (optimisation, SSE, visibility, big-obj) is set here in ANTsRCore or in ITKR.
