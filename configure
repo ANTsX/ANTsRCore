@@ -5,6 +5,14 @@ CXX_STD=CXX17
 ITKRCMAKE=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkIncludes(); cat(a)'`
 ITKRLIB=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkLibs(); cat(a)'`
 compflags=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkCompileFlags(); cat(a)'`
+# Under emscripten (webR), ITKR may come from an x86_64 binary whose
+# ITKConfig.cmake sets ITK_REQUIRED_CXX_FLAGS to include -msse2; em++ only
+# accepts SSE flags together with -msimd128 (it then maps SSE to Wasm SIMD).
+r_cxx=`${R_HOME}/bin/R CMD config CXX 2>/dev/null`
+is_wasm=false
+case "${r_cxx} ${CXX}" in
+  *em++*) is_wasm=true; compflags="${compflags} -msimd128" ;;
+esac
 osx_sysroot="" # for Macs, add this to cmake below
 # Put each function/data item in its own section so the linker can drop
 # unused template instantiations, and only export R_init_ANTsRCore from the
@@ -16,6 +24,15 @@ if [[ `uname` == 'Darwin' ]] ; then
   osx_sysroot=$(xcrun --sdk macosx --show-sdk-path)
   link_flags="-Wl,-dead_strip"
   shlib_flags="${link_flags} -Wl,-x -Wl,-exported_symbol,_R_init_ANTsRCore"
+elif [[ "${is_wasm}" == true ]] ; then
+  # wasm-ld rejects GNU ld's -x and --version-script ("unknown argument: -x")
+  link_flags="-Wl,--gc-sections"
+  shlib_flags="${link_flags} -Wl,--strip-debug"
+  # R's wasm link line has -Oz, which makes emcc run wasm-opt on the ~108 MB
+  # side module; wasm-opt then fails with "parse exception: popping from
+  # empty stack". The objects are already compiled with -Oz, so relink at a
+  # lower level (the last -O wins). Override with ANTSRCORE_WASM_LINK_OPT.
+  shlib_flags="${shlib_flags} ${ANTSRCORE_WASM_LINK_OPT:--O1}"
 else
   link_flags="-Wl,--gc-sections"
   # R on Linux compiles with -g; the debug info is most of the .so
@@ -39,6 +56,32 @@ if [ -z "${make_jobs}" ] || [ "${make_jobs}" -lt 1 ]; then
 fi
 echo "building ANTs with ${make_jobs} jobs"
 ITKDIR=`${R_HOME}/bin/Rscript -e 'a<-ITKR:::itkDir(); cat(a)'`
+# webR: rwasm::build() runs configure with the host (x86_64 Linux) R, so the
+# ITKR found above is the native build and its static libs are ELF objects
+# that wasm-ld cannot link ("neither Wasm object file nor LLVM bitcode").
+# Use the libraries of the wasm ITKR binary of the same version instead.
+# Set ITKR_WASM_DIR to an unpacked wasm ITKR package to skip the download.
+if [[ "${is_wasm}" == true ]] ; then
+  if [[ -z "${ITKR_WASM_DIR}" ]] ; then
+    itkr_repo="${MY_UNIVERSE:-https://antsx.r-universe.dev}"
+    itkr_ver=`${R_HOME}/bin/Rscript -e 'cat(format(packageVersion("ITKR")))'`
+    r_minor=`${R_HOME}/bin/Rscript -e 'cat(R.version$major, sub("[.].*", "", R.version$minor), sep = ".")'`
+    itkr_url="${itkr_repo}/bin/emscripten/contrib/${r_minor}/ITKR_${itkr_ver}.tgz"
+    echo "webR: using wasm ITKR from ${itkr_url}"
+    rm -rf src/itkr-wasm && mkdir -p src/itkr-wasm
+    ${R_HOME}/bin/Rscript -e "download.file('${itkr_url}', 'src/itkr-wasm/ITKR.tgz', mode = 'wb', quiet = TRUE)" &&
+      tar -xzf src/itkr-wasm/ITKR.tgz -C src/itkr-wasm &&
+      rm -f src/itkr-wasm/ITKR.tgz
+    ITKR_WASM_DIR="${PWD}/src/itkr-wasm/ITKR"
+  fi
+  if [[ ! -s "${ITKR_WASM_DIR}/libs/lib/cmake/ITK-6.0/ITKConfig.cmake" ]] ; then
+    echo "ERROR: no wasm build of ITKR found at ${ITKR_WASM_DIR}"
+    exit 1
+  fi
+  ITKRCMAKE="${ITKR_WASM_DIR}/libs/include/ITK-6.0/"
+  ITKRLIB="${ITKR_WASM_DIR}/libs/lib/"
+  ITKDIR="${ITKR_WASM_DIR}/libs/lib/cmake/ITK-6.0/"
+fi
 ITKTAG=`${R_HOME}/bin/Rscript -e 'env = asNamespace("ITKR"); if ("itkTag" %in% names(env)) cat(ITKR::itkTag()) else cat("")'`
 
 
@@ -102,8 +145,23 @@ echo "libants=\`find \${myantslib} -name \"lib*.a\"\`" >> Makevars
 # echo "libitk=\`find \\\`\$(R_HOME)/bin/Rscript -e 'ITKR:::itkLibs()'\\\` -name \"lib*.a\"\` " >> Makevars
 echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\"\`" >> Makevars
 
-echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk} \${libants} \${libitk} \
-    \${libants} \${libitk} \${libants} \${libitk} \${libants} \${libitk}" >> Makevars
+if [[ "${is_wasm}" == true ]] ; then
+  # emcc links a SIDE_MODULE with every archive member pulled in, so the
+  # repeated library list below defines each symbol several times
+  # ("wasm-ld: error: duplicate symbol"). wasm-ld also resolves symbols across
+  # archives without the repeats. List each archive once, without ITK's
+  # test/VTK libraries (as configure.win does).
+  echo "libitk=\`find ${ITKRLIB} -name \"lib*.a\" | grep -Ev '/lib(ITKTestKernel|itktestlib|ITKVNLInstantiation|ITKVTK)-'\`" >> Makevars
+  echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk}" >> Makevars
+elif [[ `uname` == 'Darwin' ]] ; then
+  # ld64 searches all archives repeatedly until no undefined symbols remain,
+  # so the ANTs <-> ITK cross references resolve from a single list.
+  echo "PKG_LIBS=${PKG_LIBS} \${libants} \${libitk}" >> Makevars
+else
+  # GNU ld scans each archive once in order; the group makes it rescan the
+  # ANTs and ITK archives until their cross references are resolved.
+  echo "PKG_LIBS=${PKG_LIBS} -Wl,--start-group \${libants} \${libitk} -Wl,--end-group" >> Makevars
+fi
 
 echo ".PHONY: all libs cleaner" >> Makevars
 
@@ -144,6 +202,10 @@ if [[ -d .git ]]; then
     git checkout $antstag
     echo "${antstag}" > .antstag
 fi
+# The 2D instantiation reads size[3] of a 3D size (-Warray-bounds; out of
+# bounds when a time index is extracted). Fixed upstream after antstag.
+sed -i.bak -e 's/size\[3\]/size[Dimension]/g' Examples/antsApplyTransforms.cxx &&
+  rm -f Examples/antsApplyTransforms.cxx.bak
 
 cd ../
 if [[ ! -s antb ]] ; then
@@ -159,11 +221,15 @@ cp -r ants/ImageSegmentation/* ../inst/include/
 cp -r ants/Temporary/* ../inst/include
 rm -f ants/CITATION.bib
 
+# Route ANTs' std::cout/std::cerr, rand() and sprintf() to R-safe versions
+# (R CMD check "compiled code" WARNING); see antsr_redirect.h.
+antsr_redirect="-include `pwd`/antsr_redirect.h"
+
 cd ./antb
 
 cmake -DITK_DIR:PATH=${ITKDIR} \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} ${compflags} ${strip_flags} -DNDEBUG "\
-    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} ${strip_flags} -DNDEBUG "\
+    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} ${compflags} ${strip_flags} ${antsr_redirect} -DNDEBUG "\
     -DCMAKE_EXE_LINKER_FLAGS="${CMAKE_EXE_LINKER_FLAGS} ${link_flags}" \
     -DCMAKE_SHARED_LINKER_FLAGS="${CMAKE_SHARED_LINKER_FLAGS} ${link_flags}" \
     -DCMAKE_MODULE_LINKER_FLAGS="${CMAKE_MODULE_LINKER_FLAGS} ${link_flags}" \

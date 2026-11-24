@@ -426,3 +426,5 @@ inst/include/TestSuite/*
 test_stuff.R
 ~/.boxr-oauth
 .positai
+src/itkr-wasm/
+ITKR_*.zip

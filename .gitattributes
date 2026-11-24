@@ -1,0 +1,9 @@
+# Scripts run by bash/sh on every platform must keep LF endings, even when a
+# Windows runner checks out with core.autocrlf=true (CR breaks the shebang).
+configure     text eol=lf
+configure.win text eol=lf
+cleanup       text eol=lf
+cleanup.win   text eol=lf
+*.sh          text eol=lf
+*.map         text eol=lf
+*.def         text eol=lf
