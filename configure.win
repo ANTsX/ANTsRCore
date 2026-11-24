@@ -350,6 +350,11 @@ EOF
 
 cmaker="${cmakewrap}"
 
+# Route ANTs' std::cout/std::cerr, rand() and sprintf() to R-safe versions,
+# as configure does (R CMD check "compiled code" NOTE); see antsr_redirect.h.
+# Use antbdir, not PWD: bash resets PWD to its MSYS form on every cd.
+antsr_redirect="-include ${antbdir}/../antsr_redirect.h"
+
 echo ${cmaker}
 
 "${cmaker}" \
@@ -357,7 +362,7 @@ echo ${cmaker}
     -DITK_DIR:PATH="${ITKDIR}" \
     -DCMAKE_SH:BOOL=OFF \
     -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -Wa,-mbig-obj ${CMAKE_EXE_LINKER_FLAGS} ${compflags} -DNDEBUG -D_FILE_OFFSET_BITS=64" \
-    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -Wa,-mbig-obj ${compflags} -DNDEBUG" \
+    -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -Wa,-mbig-obj ${compflags} ${antsr_redirect} -DNDEBUG" \
     -DCMAKE_EXE_LINKER_FLAGS="${TRY_LINKER_FLAGS}" \
     -DBUILD_SHARED_LIBS=OFF \
     -DANTS_INSTALL_LIBS_ONLY=ON \
