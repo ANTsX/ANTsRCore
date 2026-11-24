@@ -390,9 +390,13 @@ if [ ! -f Makefile ]; then
 fi
 
 # CRLF in a generated Makefile or CMake file breaks make ("missing separator",
-# paths ending in \r). Normalise everything CMake just wrote, plus the cache.
+# paths ending in \r). Normalise what CMake just wrote, plus the cache, but
+# only files that actually contain a CR: sed -i rewrites (and re-timestamps)
+# every file it is given, and a newer CMakeCache.txt or *.cmake can make
+# make re-run CMake's "check build system" step.
 find . \( -name Makefile -o -name '*.make' -o -name '*.cmake' -o -name '*.txt' \
-          -o -name '*.mk' \) -type f -exec sed -i 's/\r$//' {} + 2>/dev/null
+          -o -name '*.mk' \) -type f -exec grep -l $'\r' {} + 2>/dev/null |
+  while IFS= read -r f; do sed -i 's/\r$//' "$f"; done
 
 cd ../
 # also drop CRs from the Makevars/wrapper files written by this script
