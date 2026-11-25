@@ -13,7 +13,30 @@ The ANTsRCore package provides Rcpp bindings for the C++ biomedical image proces
 
 The package can be installed the pre-compiled binaries (fast) or from source.
 
-### Pre-compiled binaries
+### From r-universe (recommended)
+
+Pre-built binaries for Windows, macOS, and Linux are built on [r-universe](https://antsx.r-universe.dev/builds). Install ANTsRCore and its dependencies (including ITKR) by adding the ANTsX universe to the repositories used by `install.packages()`:
+
+```R
+install.packages(
+  "ANTsRCore",
+  repos = c("https://antsx.r-universe.dev", "https://cloud.r-project.org")
+)
+```
+
+Including the CRAN repository alongside the universe lets dependencies that are on CRAN (e.g. Rcpp) resolve normally. To make the universe available for every install in a session, add it to your repository options (e.g. in your `.Rprofile`):
+
+```R
+options(repos = c(
+  antsx = "https://antsx.r-universe.dev",
+  CRAN = "https://cloud.r-project.org"
+))
+install.packages("ANTsRCore")
+```
+
+You can check the build status of each package and platform on the [ANTsX r-universe builds page](https://antsx.r-universe.dev/builds).
+
+### Pre-compiled binaries from GitHub releases
 
 The fastest way to install ANTsRCore is from pre-compiled binaries made available on the [Releases Page](https://github.com/ANTsX/ANTsRCore/releases). Download the relevant version and install it from the command line:
 
